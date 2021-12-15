@@ -1,0 +1,228 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\pedidos;
+use App\Models\items_pedidos;
+use App\Models\pago_pedidos;
+use App\Models\clientes;
+use App\Models\movimientos_caja;
+
+
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\PedidosController;
+use Response;
+
+class PagoPedidosController extends Controller
+{   
+    
+    public function entregarVuelto(Request $req)
+    {
+        $id_pedido = $req->id_pedido;
+        $monto = floatval($req->monto);
+
+
+        if(movimientos_caja::updateOrCreate(
+            [
+                "id_pedido" => $id_pedido,
+                "categoria" => 1,
+            ],
+            [
+                "descripcion" => "VUELTO Ped.".$id_pedido,
+                "tipo" => 1,
+                "categoria" => "1",
+                "id_pedido" => $id_pedido,
+                "monto" => $monto,
+            ]
+
+        )){
+            return Response::json(["msj"=>"Éxito a entregar","estado"=>true]);
+
+        }
+
+        
+    }
+    public function setPagoPedido(Request $req)
+    {   
+        $ped = (new PedidosController)->getPedido($req);
+        $total_real = $ped->clean_total;
+        $total_ins = floatval($req->debito)+floatval($req->efectivo)+floatval($req->transferencia)+floatval($req->credito);
+
+        //Excepciones
+        if ($req->credito!=0&&$ped->id_cliente==1) {
+            return Response::json(["msj"=>"Error: En caso de crédito, debe registrar los datos del cliente","estado"=>false]);
+        }
+        if ($req->vuelto!=0&&$ped->id_cliente==1) {
+            // code...
+            return Response::json(["msj"=>"Error: En caso de vuelto, debe registrar los datos del cliente","estado"=>false]);
+        }
+
+        if ($total_real==$total_ins) {
+               // 1 Transferencia
+               // 2 Debito 
+               // 3 Efectivo 
+               // 4 Credito  
+               // 5 Otros
+               // 6 vuelto
+            try {
+                $cuenta = 1;
+                $checkIfAbono = items_pedidos::where("id_producto",NULL)->where("id_pedido",$req->id)->get()->count();
+                if ($checkIfAbono && !$req->credito) {
+                    //Es Abono
+                    $cuenta = 0;
+                }else{
+                    //No es abono
+                }
+                pago_pedidos::updateOrCreate(["id_pedido"=>$req->id,"tipo"=>1],["cuenta"=>$cuenta,"monto"=>floatval($req->transferencia)]);
+                pago_pedidos::updateOrCreate(["id_pedido"=>$req->id,"tipo"=>2],["cuenta"=>$cuenta,"monto"=>floatval($req->debito)]);
+                pago_pedidos::updateOrCreate(["id_pedido"=>$req->id,"tipo"=>3],["cuenta"=>$cuenta,"monto"=>floatval($req->efectivo)]);
+                pago_pedidos::updateOrCreate(["id_pedido"=>$req->id,"tipo"=>4],["cuenta"=>$cuenta,"monto"=>floatval($req->credito)]);
+                //5 es Otros
+                pago_pedidos::updateOrCreate(["id_pedido"=>$req->id,"tipo"=>6],["cuenta"=>$cuenta,"monto"=>floatval($req->vuelto)]);
+
+                $pedido = pedidos::find($req->id);
+                $pedido->estado = 1;
+                $pedido->save();
+
+                return Response::json(["msj"=>"Éxito","estado"=>true]);
+            } catch (\Exception $e) {
+                
+                return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+            }
+
+        }else{
+            return Response::json(["msj"=>"Error. Montos no coinciden. Real: ".$total_real." | Ins: ".$total_ins,"estado"=>false]);
+            
+        }
+    }
+    public function getDeudor(Request $req)
+    {
+        $onlyVueltos = $req->onlyVueltos;
+        $pedidos = pedidos::with(["pagos"=>function($q) use ($onlyVueltos){
+            if ($onlyVueltos) {
+                $q->where("tipo",6)->where("monto","<>",0);
+            }
+            $q->orderBy("tipo","desc");
+        }])
+        ->where(function($q) use ($onlyVueltos){
+            if ($onlyVueltos) {
+                $q->whereIn("id",pago_pedidos::where("tipo",6)->where("monto","<>",0)->select("id_pedido"));
+            }else{
+                $q->whereIn("id",pago_pedidos::orWhere(function($q){
+                    $q->orWhere("tipo",4); //Credito
+                    $q->orWhere("cuenta",0); //Abono
+                })->where("monto","<>",0)->select("id_pedido"));
+
+            }
+        })
+        ->where("id_cliente",$req->id)
+        ->orderBy("created_at","desc")
+        ->get()
+        ->map(function($q){
+            
+            $q->saldoDebe = $q->pagos->where("tipo",4)->sum("monto");
+            $q->saldoAbono = $q->pagos->where("cuenta",0)->sum("monto");
+
+
+            $q->entregado = movimientos_caja::where("id_pedido",$q->id)->get();
+
+                   
+
+            return $q;
+        });
+        $pedido_total[0] = $pedidos->sum("saldoAbono");
+        $pedido_total[1] = $pedidos->sum("saldoDebe");
+
+        // $diferencia = 0;
+
+        // if ($pedido_total[1] && $pedido_total[0]) {
+        // $diferencia = ;
+        // }
+        $pedido_total["diferencia"] = $pedido_total[0] - $pedido_total[1];
+        return [
+            "pedido" => $pedidos,
+            "pedido_total" => $pedido_total,
+        ]; 
+
+    }
+
+    public function getDeudores(Request $req)
+    {
+        $busqueda = $req->qDeudores;
+        return clientes::with(["pedidos"=>function($q){
+            $q->with(["pagos"]);
+            $q->orderBy("created_at","desc");
+        }])
+        ->where("id","<>",1)->where(function($q) use ($busqueda){
+            $q->orWhere("identificacion","LIKE",$busqueda."%")
+            ->orWhere("nombre","LIKE",$busqueda."%");
+        })
+        ->limit($busqueda==""?20:75)
+        ->get()
+        ->map(function($q){
+
+            $q->saldo = $q->pedidos->map(function($q){
+                return $q->pagos->where("cuenta",0)->sum("monto")-$q->pagos->where("tipo",4)->sum("monto");
+            })->sum();
+
+            $q->totalVuelto = $q->pedidos->map(function($q){
+
+                $check_vuelto_entregado = movimientos_caja::where("id_pedido",$q->id)->first();
+                $sum_entregado = 0;
+                if ($check_vuelto_entregado) {
+                    
+                    $sum_entregado = $check_vuelto_entregado->monto;
+                }
+
+                return $q->pagos->where("tipo",6)->sum("monto")-$sum_entregado;
+            })->sum();
+            
+                
+
+
+
+            return $q;
+        })->sortBy("saldo")->values()->all();
+
+    }
+
+    public function setPagoCredito(Request $req)
+    {
+        if (session()->has("id_usuario")) {
+            $id_cliente = $req->id_cliente;
+            $pedido = new pedidos;
+
+            $pedido->estado = 1;
+            $pedido->id_cliente = $id_cliente;
+            $pedido->id_vendedor = session("id_usuario");
+
+            if ($pedido->save()) {
+                $cliente = clientes::find($id_cliente);
+
+                $producto_pago_desc = "PAGO ".$cliente->nombre;
+                
+
+                $items_pedidos = new items_pedidos;
+                $items_pedidos->id_producto = null;
+                $items_pedidos->abono = $producto_pago_desc;
+                $items_pedidos->id_pedido = $pedido->id;
+                $items_pedidos->cantidad = 1;
+                $items_pedidos->descuento = 0;
+                $items_pedidos->monto = $req->monto_pago_deudor;
+                $items_pedidos->save();
+                
+                $pago_pedidos = new pago_pedidos;
+                $pago_pedidos->tipo = $req->tipo_pago_deudor;
+                $pago_pedidos->monto = $req->monto_pago_deudor;
+                $pago_pedidos->id_pedido = $pedido->id;
+                $pago_pedidos->cuenta = 0;
+                $pago_pedidos->save();
+
+                return Response::json(["msj"=>"Pago registrado con éxito","estado"=>true]);
+                
+
+            }
+        }
+    }
+}
