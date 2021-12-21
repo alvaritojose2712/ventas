@@ -3,7 +3,7 @@ import '../../css/modal.css'
 import { useHotkeys } from 'react-hotkeys-hook';
 
 
-import {useState,useEffect, useRef} from 'react';
+import {useState,useEffect, useRef,StrictMode} from 'react';
 import ReactDOM, {render} from 'react-dom';
 import db from '../database/database';
 
@@ -561,6 +561,21 @@ function Facturar() {
   useEffect(()=>{
     getProveedores()
   },[qBuscarProveedor])
+
+  useEffect(()=>{
+    if (view=="inventario") {
+      if (subViewInventario=="fallas") {
+        getFallas()
+      }else if (subViewInventario=="inventario") {
+        getProductos()
+      }else if (subViewInventario=="proveedores") {
+        getProveedores()
+      }
+    }
+  },[subViewInventario])
+
+
+
   
   
   
@@ -1733,8 +1748,47 @@ const addCarritoFast = () => {
   
 } 
 
-  
-  
+  const [qFallas,setqFallas] = useState("")
+  const [orderCatFallas,setorderCatFallas] = useState("proveedor")
+  const [orderSubCatFallas,setorderSubCatFallas] = useState("todos")
+  const [ascdescFallas,setascdescFallas] = useState("")
+  const [fallas,setfallas] = useState([])
+
+  useEffect(()=>{
+    getFallas()
+  },[
+    qFallas,
+    orderCatFallas,
+    orderSubCatFallas,
+    ascdescFallas
+  ])
+
+ 
+const getFallas = () => {
+  setLoading(true)
+  db.getFallas({qFallas,orderCatFallas,orderSubCatFallas,ascdescFallas}).then(res=>{
+    setfallas(res.data)
+    setLoading(false)
+  })
+}
+const setFalla = e => {
+  let id_producto = e.currentTarget.attributes["data-id"].value 
+  db.setFalla({id:null,id_producto}).then(res=>{
+    notificar(res)
+    setSelectItem(null)
+
+  })
+}
+const delFalla = e => {
+  if (confirm("¿Desea Eliminar?")) {
+    let id = e.currentTarget.attributes["data-id"].value 
+    db.delFalla({id}).then(res=>{
+      notificar(res)
+      getFallas()
+    })
+  }
+}
+
 
   
 
@@ -1744,7 +1798,7 @@ const addCarritoFast = () => {
   
 
   return (
-    <>
+    <StrictMode>
       {msj!=""?<Notificacion msj={msj} notificar={notificar}/>:null}
       <Cargando active={loading}/>
       {!loginActive?<Login loginRes={loginRes}/>:
@@ -1773,6 +1827,7 @@ const addCarritoFast = () => {
                   numero_factura={numero_factura}
                   setNumero_factura={setNumero_factura}
                   pedidoList={pedidoList}
+                  setFalla={setFalla}
                   inputCantidadCarritoref={inputCantidadCarritoref}
                   addCarritoRequest={addCarritoRequest}/>:null:null}
 
@@ -2007,6 +2062,17 @@ const addCarritoFast = () => {
             InvorderBy={InvorderBy}
             setInvorderBy={setInvorderBy}
             delItemFact={delItemFact}
+
+            qFallas={qFallas}
+            setqFallas={setqFallas}
+            orderCatFallas={orderCatFallas}
+            setorderCatFallas={setorderCatFallas}
+            orderSubCatFallas={orderSubCatFallas}
+            setorderSubCatFallas={setorderSubCatFallas}
+            ascdescFallas={ascdescFallas}
+            setascdescFallas={setascdescFallas}
+            fallas={fallas}
+            delFalla={delFalla}
           />:null}
           {view=="pagar"?<Pagar 
             pedidoData={pedidoData} 
@@ -2129,7 +2195,7 @@ const addCarritoFast = () => {
           :null}
         </>
       }
-    </>
+    </StrictMode>
   );
 }
 render(<Facturar/>,document.getElementById('app'));

@@ -71,9 +71,6 @@
 						<th>
 							P/U
 						</th>
-						<th>
-							Descuento
-						</th>
 						<th class="text-right">
 							Monto
 						</th>
@@ -87,30 +84,25 @@
 								{{$val->producto->descripcion}}
 							</td>
 							<td>
-								{{$val->cantidad}}
+								{{$val->ct}}
 							</td>
 							<td>
 								{{$val->producto->precio}}
 							</td>
-							<td>
-								{{$val->total_des}} ({{$val->descuento}}%)
-							</td>
+							
 							<td class="text-right">
-								{{$val->monto-$val->total_des}}
+								{{$val->ct*$val->producto->precio}}
 							</td>
 						</tr>
 					@endforeach
 
 					<tr>
-						<td class="text-right" colspan="5">Sub-total</td>
+						<td class="text-right" colspan="4">Sub-total</td>
 						<th class="text-right" colspan="">{{$subtotal}}</th>
 					</tr>
+					
 					<tr>
-						<td class="text-right" colspan="5">Descuento</td>
-						<th class="text-right" colspan="">{{$total_des}}</th>
-					</tr>
-					<tr>
-						<td class="text-right" colspan="5">Total:</td>
+						<td class="text-right" colspan="4">Total:</td>
 						<th class="text-right" colspan="">{{$total}}</th>
 					</tr>
 				</tbody>

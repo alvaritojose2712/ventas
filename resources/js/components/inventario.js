@@ -111,6 +111,17 @@ function Inventario({
   setInvorderBy,
 
   delItemFact,
+
+  qFallas,
+  setqFallas,
+  orderCatFallas,
+  setorderCatFallas,
+  orderSubCatFallas,
+  setorderSubCatFallas,
+  ascdescFallas,
+  setascdescFallas,
+  fallas,
+  delFalla
   
 }) {
 
@@ -290,7 +301,16 @@ function Inventario({
       />:null}
 
       {subViewInventario=="fallas"?<Fallas 
-
+        qFallas={qFallas}
+        setqFallas={setqFallas}
+        orderCatFallas={orderCatFallas}
+        setorderCatFallas={setorderCatFallas}
+        orderSubCatFallas={orderSubCatFallas}
+        setorderSubCatFallas={setorderSubCatFallas}
+        ascdescFallas={ascdescFallas}
+        setascdescFallas={setascdescFallas}
+        fallas={fallas}
+        delFalla={delFalla}
       />:null}
 
     </>

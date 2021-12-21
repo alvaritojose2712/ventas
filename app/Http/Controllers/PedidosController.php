@@ -43,6 +43,10 @@ class PedidosController extends Controller
                 $cliente = $val->cliente;
             }
             foreach ($val["items"] as $item) {
+                if (!$item->id_producto) {
+                    return "No puede seleccioar un pago: #".$item->id_pedido;
+
+                }
                 $ct = 0;
                 if (isset($items[$item->id_producto])) {
                     $ct = $items[$item->id_producto]->ct+$item->cantidad;
@@ -200,10 +204,10 @@ class PedidosController extends Controller
         try {
             $id = $req->id;
             if ($id) {
-                $items = items_pedidos::where("id_pedido",$id)->get();
+               $items = items_pedidos::where("id_pedido",$id)->get();
 
                 foreach ($items as $key => $value) {
-                    (new InventarioController)->hacer_pedido($value->id,null,99,"del");
+                   (new InventarioController)->hacer_pedido($value->id,null,99,"del");
                 }
                 pedidos::find($id)->delete();
             }

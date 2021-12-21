@@ -81,6 +81,11 @@ const db = {
   getClienteCrud: data=>axios.get(host+"/getClienteCrud",{params:data}),
   delCliente: data=>axios.get(host+"/delCliente",{params:data}),
 
+  getFallas: data=>axios.get(host+"/getFallas",{params:data}),
+  setFalla: data=>axios.get(host+"/setFalla",{params:data}),
+  delFalla: data=>axios.get(host+"/delFalla",{params:data}),
+  
+  
 
   // getProveedores: ()=>axios.get(host+"/getProveedores.php"),
   // getusuarios: ()=>axios.get(host+"/getusuarios.php"),

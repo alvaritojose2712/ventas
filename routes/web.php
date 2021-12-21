@@ -68,7 +68,7 @@ Route::get('/facturar', [HomeController::class,"index"]);
 
 	Route::get('/today', [PedidosController::class,"today"]);
 
-	Route::post('/guardarCierre', [PedidosController::class,"guardarCierre"]);
+	Route::get('/guardarCierre', [PedidosController::class,"guardarCierre"]);
 	
 	Route::get('/verCierre', [PedidosController::class,"verCierre"]);
 
@@ -111,6 +111,11 @@ Route::get('/facturar', [HomeController::class,"index"]);
 	Route::get('/getClienteCrud', [ClientesController::class,"getpersona"]);
 	Route::get('/delCliente', [ClientesController::class,"delCliente"]);
 	Route::get('/sumpedidos', [PedidosController::class,"sumpedidos"]);
+
+	Route::get('/getFallas', [InventarioController::class,"getFallas"]);
+	Route::get('/setFalla', [InventarioController::class,"setFalla"]);
+	Route::get('/delFalla', [InventarioController::class,"delFalla"]);
+
 
 
 

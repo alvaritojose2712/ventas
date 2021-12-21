@@ -4539,14 +4539,92 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
-function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
 
 function Fallas(_ref) {
-  _objectDestructuringEmpty(_ref);
-
+  var qFallas = _ref.qFallas,
+      setqFallas = _ref.setqFallas,
+      orderCatFallas = _ref.orderCatFallas,
+      setorderCatFallas = _ref.setorderCatFallas,
+      orderSubCatFallas = _ref.orderSubCatFallas,
+      setorderSubCatFallas = _ref.setorderSubCatFallas,
+      ascdescFallas = _ref.ascdescFallas,
+      setascdescFallas = _ref.setascdescFallas,
+      fallas = _ref.fallas,
+      delFalla = _ref.delFalla;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
-      children: "Fallas"
+    className: "container",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      className: "col",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "d-flex justify-content-between align-items-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+          children: "Fallas"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          className: "btn-group",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+            className: "btn " + (orderCatFallas == "proveedor" ? "btn-dark" : "btn-outline-success"),
+            onClick: function onClick() {
+              return setorderCatFallas("proveedor");
+            },
+            children: "Por Proveedor"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+            className: "btn " + (orderCatFallas == "categoria" ? "btn-dark" : "btn-outline-success"),
+            onClick: function onClick() {
+              return setorderCatFallas("categoria");
+            },
+            children: "Por Categor\xEDa"
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+        className: "container mt-4",
+        children: fallas && Object.entries(fallas) ? Object.entries(fallas).map(function (e, i) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            className: "m-3",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+              children: e[0]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
+              className: "table m-3",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "ID"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "Descripci\xF3n"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "Proveedor"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "Ct."
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "Fecha"
+                  })]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
+                children: e[1].map(function (ee) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                      children: ee.id
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                      children: ee.producto.descripcion
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                      children: ee.producto.proveedor.descripcion
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                      children: ee.producto.cantidad
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                      children: ee.created_at
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                        className: "fa fa-times text-danger",
+                        "data-id": ee.id,
+                        onClick: delFalla
+                      })
+                    })]
+                  }, ee.id);
+                })
+              })]
+            })]
+          }, i);
+        }) : null
+      })]
     })
   });
 }
@@ -4787,7 +4865,17 @@ function Inventario(_ref) {
       setInvorderColumn = _ref.setInvorderColumn,
       InvorderBy = _ref.InvorderBy,
       setInvorderBy = _ref.setInvorderBy,
-      delItemFact = _ref.delItemFact;
+      delItemFact = _ref.delItemFact,
+      qFallas = _ref.qFallas,
+      setqFallas = _ref.setqFallas,
+      orderCatFallas = _ref.orderCatFallas,
+      setorderCatFallas = _ref.setorderCatFallas,
+      orderSubCatFallas = _ref.orderSubCatFallas,
+      setorderSubCatFallas = _ref.setorderSubCatFallas,
+      ascdescFallas = _ref.ascdescFallas,
+      setascdescFallas = _ref.setascdescFallas,
+      fallas = _ref.fallas,
+      delFalla = _ref.delFalla;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "container",
@@ -4965,7 +5053,18 @@ function Inventario(_ref) {
       setinpInvid_deposito: setinpInvid_deposito,
       depositosList: depositosList,
       marcasList: marcasList
-    }) : null, subViewInventario == "fallas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_fallas__WEBPACK_IMPORTED_MODULE_3__["default"], {}) : null]
+    }) : null, subViewInventario == "fallas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_fallas__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      qFallas: qFallas,
+      setqFallas: setqFallas,
+      orderCatFallas: orderCatFallas,
+      setorderCatFallas: setorderCatFallas,
+      orderSubCatFallas: orderSubCatFallas,
+      setorderSubCatFallas: setorderSubCatFallas,
+      ascdescFallas: ascdescFallas,
+      setascdescFallas: setascdescFallas,
+      fallas: fallas,
+      delFalla: delFalla
+    }) : null]
   });
 }
 
@@ -5652,7 +5751,8 @@ function ModalAddCarrito(_ref) {
       cantidad = _ref.cantidad,
       numero_factura = _ref.numero_factura,
       setCantidad = _ref.setCantidad,
-      setNumero_factura = _ref.setNumero_factura;
+      setNumero_factura = _ref.setNumero_factura,
+      setFalla = _ref.setFalla;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
       className: "modal-custom",
@@ -5664,7 +5764,7 @@ function ModalAddCarrito(_ref) {
           children: "\u2716"
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-        className: "modal-content modal-cantidad",
+        className: "modal-content-sm modal-cantidad",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "d-flex justify-content-between",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -5682,15 +5782,24 @@ function ModalAddCarrito(_ref) {
             return e.preventDefault();
           },
           className: "d-flex justify-content-center flex-column p-3",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-            type: "number",
-            ref: inputCantidadCarritoref,
-            className: "cantidad numero mb-3",
-            placeholder: "Cantidad",
-            onChange: function onChange(e) {
-              return setCantidad(e.target.value);
-            },
-            value: cantidad
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            className: "input-group m-3",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+              type: "number",
+              ref: inputCantidadCarritoref,
+              className: "form-control",
+              placeholder: "Cantidad",
+              onChange: function onChange(e) {
+                return setCantidad(e.target.value);
+              },
+              value: cantidad
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+              className: "input-group-append",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                className: "input-group-text",
+                children: ["Total. ", cantidad * producto.precio ? cantidad * producto.precio : null]
+              })
+            })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "input-group mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -5729,6 +5838,12 @@ function ModalAddCarrito(_ref) {
               onClick: addCarritoRequest,
               "data-type": "agregar_procesar",
               children: "Agregar y procesar (enter)"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+              className: "btn btn-outline-secondary",
+              type: "button",
+              onClick: setFalla,
+              "data-id": producto.id,
+              children: "Falla"
             })]
           })]
         })]
@@ -7216,6 +7331,21 @@ var db = {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delCliente", {
       params: data
     });
+  },
+  getFallas: function getFallas(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getFallas", {
+      params: data
+    });
+  },
+  setFalla: function setFalla(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setFalla", {
+      params: data
+    });
+  },
+  delFalla: function delFalla(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delFalla", {
+      params: data
+    });
   } // getProveedores: ()=>axios.get(host+"/getProveedores.php"),
   // getusuarios: ()=>axios.get(host+"/getusuarios.php"),
   // setPedidos: (data)=>{
@@ -7280,7 +7410,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".bg-dark{\r\n  background-color: #f2f2f2;\r\n  color:white;\r\n}\r\n/*.mov-caja{\r\n  position: fixed;\r\n  top: 30%;\r\n  right: 0%;\r\n}\r\n.mov-caja input{\r\n  border:none;\r\n  background: none;\r\n  outline: none;\r\n}*/\r\n.overlay{\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tposition: fixed;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tbackground: black;\r\n\topacity: .4;\r\n\tz-index: 999;\r\n}\r\n\r\n.modal-custom{\r\n\tz-index: 1000;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n\tposition: fixed !important;\r\n\tflex-direction: column;\r\n\tdisplay: flex;\r\n\r\n\r\n}\r\n.modal-content{\r\n  width: 90%;\r\n  height: 90%;\r\n\tborder-radius: 10px;\r\n\tbackground-color: white;\r\n\tpadding: 20px;\r\n\toverflow-y: auto;\r\n\tz-index: 1001;\r\n\r\n}\r\n.modal-content-lg{\r\n  border-radius: 10px;\r\n  background-color: white;\r\n  padding: 20px;\r\n  overflow-y: auto;\r\n  z-index: 1001;\r\n\r\n}\r\n.closeModal{\r\n\tmargin: 10px;\r\n\tcursor: pointer;\r\n}\r\n.container-cantidad{\r\n\tpadding: 20px;\r\n\tdisplay: flex;\r\n\talign-items: normal;\r\n\tjustify-content: space-between;\r\n\tflex-direction: column;\r\n\theight: 90%;\r\n\r\n}\r\n.cantidad{\r\n\tborder:none;\r\n\toutline: none;\r\n\tfont-size: 2em;\r\n\ttext-align: center;\r\n\tmargin-top:10px;\r\n\tz-index: 99999\r\n}\r\n.cantidad-agg{\r\n  background-color: rgba(242,109,10); \r\n  border: none;\r\n  color: white;\r\n  padding: 15px 32px;\r\n  text-align: center;\r\n  text-decoration: none;\r\n  display: inline-block;\r\n  font-size: 16px;\r\n  margin: 10px;\r\n}\r\n\r\n.cantidad-agg-send{\r\n  background-color: #3cff33; \r\n  border: none;\r\n  color: white;\r\n  padding: 15px 40px;\r\n  text-align: center;\r\n  text-decoration: none;\r\n  display: inline-block;\r\n  font-size: 18px;\r\n  margin: 10px;\r\n  flex-grow: 1\r\n}\r\n.btn-adds{\r\n  display: flex;\r\n  flex-direction: row;\r\n\r\n}\r\n.header-modal-cantidad{\r\n\tdisplay: flex;\r\n\tflex-direction: row;\r\n\tjustify-content: space-between;\r\n}\r\n\r\n\r\n\r\n/* Table */\r\n.tabla_datos {\r\n\tborder-collapse: collapse;\r\n\tfont-size: 12px;\r\n\ttext-align: center;\r\n}\r\n\r\n.tabla_datos th, \r\n.tabla_datos td {\r\n\tborder: 1px solid #e1edff;\r\n\tpadding: 7px 10px;\r\n}\r\n.tabla_datos caption {\r\n\tmargin: 7px;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".bg-dark{\r\n  background-color: #f2f2f2;\r\n  color:white;\r\n}\r\n/*.mov-caja{\r\n  position: fixed;\r\n  top: 30%;\r\n  right: 0%;\r\n}\r\n.mov-caja input{\r\n  border:none;\r\n  background: none;\r\n  outline: none;\r\n}*/\r\n.overlay{\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tposition: fixed;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tbackground: black;\r\n\topacity: .4;\r\n\tz-index: 999;\r\n}\r\n\r\n.modal-custom{\r\n\tz-index: 1000;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n\tposition: fixed !important;\r\n\tflex-direction: column;\r\n\tdisplay: flex;\r\n\r\n\r\n}\r\n.modal-content{\r\n  width: 90%;\r\n  height: 90%;\r\n\tborder-radius: 10px;\r\n\tbackground-color: white;\r\n\tpadding: 20px;\r\n\toverflow-y: auto;\r\n\tz-index: 1001;\r\n\r\n}\r\n\r\n.modal-content-sm{\r\n  width: 50%;\r\n  height: auto;\r\n\tborder-radius: 10px;\r\n\tbackground-color: white;\r\n\tpadding: 20px;\r\n\toverflow-y: auto;\r\n\tz-index: 1001;\r\n\r\n}\r\n.modal-content-lg{\r\n  border-radius: 10px;\r\n  background-color: white;\r\n  padding: 20px;\r\n  overflow-y: auto;\r\n  z-index: 1001;\r\n\r\n}\r\n.closeModal{\r\n\tmargin: 10px;\r\n\tcursor: pointer;\r\n}\r\n.container-cantidad{\r\n\tpadding: 20px;\r\n\tdisplay: flex;\r\n\talign-items: normal;\r\n\tjustify-content: space-between;\r\n\tflex-direction: column;\r\n\theight: 90%;\r\n\r\n}\r\n.cantidad{\r\n\tborder:none;\r\n\toutline: none;\r\n\tfont-size: 2em;\r\n\ttext-align: center;\r\n\tmargin-top:10px;\r\n\tz-index: 99999\r\n}\r\n.cantidad-agg{\r\n  background-color: rgba(242,109,10); \r\n  border: none;\r\n  color: white;\r\n  padding: 15px 32px;\r\n  text-align: center;\r\n  text-decoration: none;\r\n  display: inline-block;\r\n  font-size: 16px;\r\n  margin: 10px;\r\n}\r\n\r\n.cantidad-agg-send{\r\n  background-color: #3cff33; \r\n  border: none;\r\n  color: white;\r\n  padding: 15px 40px;\r\n  text-align: center;\r\n  text-decoration: none;\r\n  display: inline-block;\r\n  font-size: 18px;\r\n  margin: 10px;\r\n  flex-grow: 1\r\n}\r\n.btn-adds{\r\n  display: flex;\r\n  flex-direction: row;\r\n\r\n}\r\n.header-modal-cantidad{\r\n\tdisplay: flex;\r\n\tflex-direction: row;\r\n\tjustify-content: space-between;\r\n}\r\n\r\n\r\n\r\n/* Table */\r\n.tabla_datos {\r\n\tborder-collapse: collapse;\r\n\tfont-size: 12px;\r\n\ttext-align: center;\r\n}\r\n\r\n.tabla_datos th, \r\n.tabla_datos td {\r\n\tborder: 1px solid #e1edff;\r\n\tpadding: 7px 10px;\r\n}\r\n.tabla_datos caption {\r\n\tmargin: 7px;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -40741,6 +40871,17 @@ function Facturar() {
     getProveedores();
   }, [qBuscarProveedor]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    if (view == "inventario") {
+      if (subViewInventario == "fallas") {
+        getFallas();
+      } else if (subViewInventario == "inventario") {
+        getProductos();
+      } else if (subViewInventario == "proveedores") {
+        getProveedores();
+      }
+    }
+  }, [subViewInventario]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     var isMounted = true;
     _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].verificarLogin().then(function (res) {
       if (isMounted) {
@@ -42018,7 +42159,72 @@ function Facturar() {
     }
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.Fragment, {
+  var _useState261 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState262 = _slicedToArray(_useState261, 2),
+      qFallas = _useState262[0],
+      setqFallas = _useState262[1];
+
+  var _useState263 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("proveedor"),
+      _useState264 = _slicedToArray(_useState263, 2),
+      orderCatFallas = _useState264[0],
+      setorderCatFallas = _useState264[1];
+
+  var _useState265 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("todos"),
+      _useState266 = _slicedToArray(_useState265, 2),
+      orderSubCatFallas = _useState266[0],
+      setorderSubCatFallas = _useState266[1];
+
+  var _useState267 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState268 = _slicedToArray(_useState267, 2),
+      ascdescFallas = _useState268[0],
+      setascdescFallas = _useState268[1];
+
+  var _useState269 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+      _useState270 = _slicedToArray(_useState269, 2),
+      fallas = _useState270[0],
+      setfallas = _useState270[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    getFallas();
+  }, [qFallas, orderCatFallas, orderSubCatFallas, ascdescFallas]);
+
+  var getFallas = function getFallas() {
+    setLoading(true);
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getFallas({
+      qFallas: qFallas,
+      orderCatFallas: orderCatFallas,
+      orderSubCatFallas: orderSubCatFallas,
+      ascdescFallas: ascdescFallas
+    }).then(function (res) {
+      setfallas(res.data);
+      setLoading(false);
+    });
+  };
+
+  var setFalla = function setFalla(e) {
+    var id_producto = e.currentTarget.attributes["data-id"].value;
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].setFalla({
+      id: null,
+      id_producto: id_producto
+    }).then(function (res) {
+      notificar(res);
+      setSelectItem(null);
+    });
+  };
+
+  var delFalla = function delFalla(e) {
+    if (confirm("¿Desea Eliminar?")) {
+      var id = e.currentTarget.attributes["data-id"].value;
+      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].delFalla({
+        id: id
+      }).then(function (res) {
+        notificar(res);
+        getFallas();
+      });
+    }
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)(react__WEBPACK_IMPORTED_MODULE_2__.StrictMode, {
     children: [msj != "" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_components_notificacion__WEBPACK_IMPORTED_MODULE_11__["default"], {
       msj: msj,
       notificar: notificar
@@ -42052,6 +42258,7 @@ function Facturar() {
               numero_factura: numero_factura,
               setNumero_factura: setNumero_factura,
               pedidoList: pedidoList,
+              setFalla: setFalla,
               inputCantidadCarritoref: inputCantidadCarritoref,
               addCarritoRequest: addCarritoRequest
             }) : null : null, showModalMovimientos && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_components_ModalMovimientos__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -42258,7 +42465,17 @@ function Facturar() {
         setInvorderColumn: setInvorderColumn,
         InvorderBy: InvorderBy,
         setInvorderBy: setInvorderBy,
-        delItemFact: delItemFact
+        delItemFact: delItemFact,
+        qFallas: qFallas,
+        setqFallas: setqFallas,
+        orderCatFallas: orderCatFallas,
+        setorderCatFallas: setorderCatFallas,
+        orderSubCatFallas: orderSubCatFallas,
+        setorderSubCatFallas: setorderSubCatFallas,
+        ascdescFallas: ascdescFallas,
+        setascdescFallas: setascdescFallas,
+        fallas: fallas,
+        delFalla: delFalla
       }) : null, view == "pagar" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_components_pagar__WEBPACK_IMPORTED_MODULE_9__["default"], {
         pedidoData: pedidoData,
         getPedido: getPedido,
