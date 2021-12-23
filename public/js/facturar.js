@@ -3079,7 +3079,7 @@ function Cargarproducto(_ref) {
                   type: "text",
                   value: inpInvbarras,
                   onChange: function onChange(e) {
-                    return setinpInvbarras(number(e.target.value));
+                    return setinpInvbarras(e.target.value);
                   },
                   placeholder: "Barras."
                 })]
@@ -4729,7 +4729,7 @@ function Header(_ref) {
             onClick: function onClick() {
               return setViewCaja(!viewCaja);
             },
-            children: "Caja y Gastos"
+            children: "Caja/Gastos"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
             className: (showModalMovimientos ? "btn btn-arabito" : null) + " p-3 pointer",
             onClick: function onClick() {
@@ -5977,7 +5977,72 @@ function Pagar(_ref) {
       inputaddCarritoFast = _ref.inputaddCarritoFast,
       setinputaddCarritoFast = _ref.setinputaddCarritoFast,
       refinputaddcarritofast = _ref.refinputaddcarritofast,
-      viewReportPedido = _ref.viewReportPedido;
+      viewReportPedido = _ref.viewReportPedido,
+      autoCorrector = _ref.autoCorrector,
+      setautoCorrector = _ref.setautoCorrector,
+      getDebito = _ref.getDebito,
+      getCredito = _ref.getCredito,
+      getTransferencia = _ref.getTransferencia,
+      getEfectivo = _ref.getEfectivo;
+
+  var syncPago = function syncPago(val, type) {
+    val = number(val);
+
+    if (type == "Debito") {
+      setDebito(val);
+    } else if (type == "Efectivo") {
+      setEfectivo(val);
+    } else if (type == "Transferencia") {
+      setTransferencia(val);
+    } else if (type == "Credito") {
+      setCredito(val);
+    }
+
+    var divisor = 0;
+    var inputs = [{
+      key: "Debito",
+      val: debito,
+      set: function set(val) {
+        return setDebito(val);
+      }
+    }, {
+      key: "Efectivo",
+      val: efectivo,
+      set: function set(val) {
+        return setEfectivo(val);
+      }
+    }, {
+      key: "Transferencia",
+      val: transferencia,
+      set: function set(val) {
+        return setTransferencia(val);
+      }
+    }, {
+      key: "Credito",
+      val: credito,
+      set: function set(val) {
+        return setCredito(val);
+      }
+    }];
+    inputs.map(function (e) {
+      if (e.key != type) {
+        if (e.val) {
+          divisor++;
+        }
+      }
+    });
+
+    if (autoCorrector) {
+      inputs.map(function (e) {
+        if (e.key != type) {
+          if (e.val) {
+            e.set(((pedidoData.clean_total - val) / divisor).toFixed(2));
+          }
+        }
+      });
+    }
+  };
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     refinputaddcarritofast.current.value = ""; // refinputaddcarritofast.current.focus()
   }, []);
@@ -6143,118 +6208,152 @@ function Pagar(_ref) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h6", {
                 children: created_at
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "d-flex flex-row mt-2 mb-2 justify-content-center",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: (debito != "" ? "card-success-pago" : "t-5") + " card m-1",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                  className: "card-body",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-title",
-                    children: "D\xE9b."
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-text pago-numero",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                      type: "text",
-                      value: debito,
-                      onChange: function onChange(e) {
-                        return setDebito(number(e.target.value));
-                      },
-                      placeholder: "D"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "mt-2 mb-2 container-fluid",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                className: "row",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "col p-0",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    className: (debito != "" ? "card-arabito" : "t-5") + " card",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "card-body",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-title pointer",
+                        onClick: getDebito,
+                        children: "D\xE9b."
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-text pago-numero",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                          type: "text",
+                          value: debito,
+                          onChange: function onChange(e) {
+                            return syncPago(e.target.value, "Debito");
+                          },
+                          placeholder: "D"
+                        })
+                      })]
                     })
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: (efectivo != "" ? "card-success-pago" : "t-5") + " card m-1",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                  className: "card-body",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-title",
-                    children: "Efec."
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-text pago-numero",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                      type: "text",
-                      value: efectivo,
-                      onChange: function onChange(e) {
-                        return setEfectivo(number(e.target.value));
-                      },
-                      placeholder: "E"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "col p-0",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    className: (efectivo != "" ? "card-arabito" : "t-5") + " card",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "card-body",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-title pointer",
+                        onClick: getEfectivo,
+                        children: "Efec."
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-text pago-numero",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                          type: "text",
+                          value: efectivo,
+                          onChange: function onChange(e) {
+                            return syncPago(e.target.value, "Efectivo");
+                          },
+                          placeholder: "E"
+                        })
+                      })]
                     })
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: (transferencia != "" ? "card-success-pago" : "t-5") + " card m-1",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                  className: "card-body",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-title",
-                    children: "Tran."
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-text pago-numero",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                      type: "text",
-                      value: transferencia,
-                      onChange: function onChange(e) {
-                        return setTransferencia(number(e.target.value));
-                      },
-                      placeholder: "T"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "col p-0",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    className: (transferencia != "" ? "card-arabito" : "t-5") + " card",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "card-body",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-title pointer",
+                        onClick: getTransferencia,
+                        children: "Tran."
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-text pago-numero",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                          type: "text",
+                          value: transferencia,
+                          onChange: function onChange(e) {
+                            return syncPago(e.target.value, "Transferencia");
+                          },
+                          placeholder: "T"
+                        })
+                      })]
                     })
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: (credito != "" ? "card-success-pago" : "t-5") + " card m-1",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                  className: "card-body",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-title",
-                    children: "Cr\xE9d."
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-text pago-numero",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                      type: "text",
-                      value: credito,
-                      onChange: function onChange(e) {
-                        return setCredito(number(e.target.value));
-                      },
-                      placeholder: "C"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "col p-0",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    className: (credito != "" ? "card-arabito" : "t-5") + " card",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "card-body",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-title pointer",
+                        onClick: getCredito,
+                        children: "Cr\xE9d."
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-text pago-numero",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                          type: "text",
+                          value: credito,
+                          onChange: function onChange(e) {
+                            return syncPago(e.target.value, "Credito");
+                          },
+                          placeholder: "C"
+                        })
+                      })]
                     })
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: (vuelto != "" ? "card-arabito" : "t-5") + " card m-1 pointer",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                  className: "card-body",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-title",
-                    children: "Vuel."
-                  }), editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-text pago-numero",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                      type: "text",
-                      value: vuelto,
-                      onChange: function onChange(e) {
-                        return setVuelto(number(e.target.value));
-                      },
-                      placeholder: "V"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                  className: "col p-0",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                    className: (vuelto != "" ? "card-danger-pago" : "t-5") + " card pointer",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                      className: "card-body",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-title",
+                        children: "Vuel."
+                      }), editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-text pago-numero",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                          type: "text",
+                          value: vuelto,
+                          onChange: function onChange(e) {
+                            return setVuelto(number(e.target.value));
+                          },
+                          placeholder: "V"
+                        })
+                      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+                        className: "card-text pago-numero",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                          type: "text",
+                          defaultValue: vuelto,
+                          disabled: true
+                        })
+                      })]
                     })
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                    className: "card-text pago-numero",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                      type: "text",
-                      defaultValue: vuelto,
-                      disabled: true
-                    })
-                  })]
-                })
-              })]
+                  })
+                })]
+              })
             }), !editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
               onClick: entregarVuelto,
               className: "d-flex flex-row mt-1 mb-2 justify-content-end pointer",
               children: ["Vuelto entregado = ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("b", {
                 children: vuelto_entregado
               })]
-            }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            }) : null, autoCorrector ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              className: "btn btn-outline-success btn-sm pull-right",
+              onClick: function onClick() {
+                return setautoCorrector(false);
+              },
+              children: "Auto On"
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+              className: "btn btn-outline-danger btn-sm pull-right",
+              onClick: function onClick() {
+                return setautoCorrector(true);
+              },
+              children: "Off Auto"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "mt-1 mb-1",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("table", {
                 className: "table table-sm",
@@ -6332,16 +6431,11 @@ function Pagar(_ref) {
                   children: ["F3 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fa fa-print"
                   })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("a", {
-                  className: "",
-                  target: "_blank",
-                  href: "#",
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+                  className: "btn btn-circle text-white btn-arabito btn-xl me-4",
                   onClick: viewReportPedido,
-                  children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                    className: "btn btn-circle text-white btn-arabito btn-xl me-4",
-                    children: ["F4 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-                      className: "fa fa-eye"
-                    })]
+                  children: ["F4 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                    className: "fa fa-eye"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
                   className: "btn btn-circle text-white btn-danger btn-sm",
@@ -7128,23 +7222,20 @@ __webpack_require__.r(__webpack_exports__);
 var host = ""; // const host = "http://localhost/arabitoapp"
 
 var db = {
+  getMoneda: function getMoneda() {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getMoneda");
+  },
   getinventario: function getinventario(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getinventario", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getinventario", data);
   },
   setCarrito: function setCarrito(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setCarrito", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setCarrito", data);
   },
   getPedido: function getPedido(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getPedido", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getPedido", data);
   },
   getPedidosList: function getPedidosList() {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getPedidosList");
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getPedidosList");
   },
   verificarLogin: function verificarLogin() {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/verificarLogin");
@@ -7152,220 +7243,136 @@ var db = {
   guardarCierre: function guardarCierre(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/guardarCierre", data);
   },
-  getMoneda: function getMoneda() {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getMoneda");
-  },
   setMoneda: function setMoneda(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setMoneda", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setMoneda", data);
   },
   delItemPedido: function delItemPedido(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delItemPedido", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delItemPedido", data);
   },
   setDescuentoUnitario: function setDescuentoUnitario(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setDescuentoUnitario", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setDescuentoUnitario", data);
   },
   setDescuentoTotal: function setDescuentoTotal(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setDescuentoTotal", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setDescuentoTotal", data);
   },
   setCantidad: function setCantidad(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setCantidad", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setCantidad", data);
   },
   getpersona: function getpersona(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getpersona", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getpersona", data);
   },
   setpersonacarrito: function setpersonacarrito(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setpersonacarrito", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setpersonacarrito", data);
   },
   setPagoPedido: function setPagoPedido(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setPagoPedido", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setPagoPedido", data);
   },
   delpedido: function delpedido(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delpedido", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delpedido", data);
   },
   getPedidos: function getPedidos(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getPedidos", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getPedidos", data);
   },
   cerrar: function cerrar(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/cerrar", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/cerrar", data);
   },
   today: function today(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/today", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/today", data);
   },
   setPagoCredito: function setPagoCredito(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setPagoCredito", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setPagoCredito", data);
   },
   getDeudores: function getDeudores(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getDeudores", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getDeudores", data);
   },
   getDeudor: function getDeudor(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getDeudor", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getDeudor", data);
   },
   entregarVuelto: function entregarVuelto(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/entregarVuelto", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/entregarVuelto", data);
   },
   getMovimientosCaja: function getMovimientosCaja(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getMovimientosCaja", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getMovimientosCaja", data);
   },
   setMovimientoCaja: function setMovimientoCaja(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setMovimientoCaja", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setMovimientoCaja", data);
   },
   delMovCaja: function delMovCaja(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delMovCaja", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delMovCaja", data);
   },
   getMovimientos: function getMovimientos(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getMovimientos", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getMovimientos", data);
   },
   getBuscarDevolucion: function getBuscarDevolucion(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getBuscarDevolucion", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getBuscarDevolucion", data);
   },
   setDevolucion: function setDevolucion(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setDevolucion", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setDevolucion", data);
   },
   delMov: function delMov(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delMov", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delMov", data);
   },
   setProveedor: function setProveedor(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setProveedor", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setProveedor", data);
   },
   guardarNuevoProducto: function guardarNuevoProducto(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/guardarNuevoProducto", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/guardarNuevoProducto", data);
   },
   getProveedores: function getProveedores(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getProveedores", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getProveedores", data);
   },
   delProveedor: function delProveedor(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delProveedor", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delProveedor", data);
   },
   delProducto: function delProducto(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delProducto", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delProducto", data);
   },
   getMarcas: function getMarcas(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getMarcas", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getMarcas", data);
   },
   getDepositos: function getDepositos(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getDepositos", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getDepositos", data);
   },
   getFacturas: function getFacturas(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getFacturas", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getFacturas", data);
   },
   setFactura: function setFactura(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setFactura", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setFactura", data);
   },
   delFactura: function delFactura(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delFactura", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delFactura", data);
   },
   delItemFact: function delItemFact(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delItemFact", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delItemFact", data);
   },
   setClienteCrud: function setClienteCrud(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setClienteCrud", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setClienteCrud", data);
   },
   getClienteCrud: function getClienteCrud(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getClienteCrud", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getClienteCrud", data);
   },
   delCliente: function delCliente(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delCliente", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delCliente", data);
   },
   getFallas: function getFallas(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getFallas", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getFallas", data);
   },
   setFalla: function setFalla(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setFalla", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setFalla", data);
   },
   delFalla: function delFalla(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delFalla", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/delFalla", data);
   },
   imprimirTicked: function imprimirTicked(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/imprimirTicked", {
-      params: data
-    });
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/imprimirTicked", data);
   },
   sendCierre: function sendCierre(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/verCierre", {
-      params: data
-    });
-  } // getProveedores: ()=>axios.get(host+"/getProveedores.php"),
-  // getusuarios: ()=>axios.get(host+"/getusuarios.php"),
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/verCierre", data);
+  },
+  setCentralData: function setCentralData(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setCentralData", data);
+  } // getProveedores: ()=>axios.post(host+"/getProveedores.php"),
+  // getusuarios: ()=>axios.post(host+"/getusuarios.php"),
   // setPedidos: (data)=>{
   //   return axios.post(host+"/setpedidos.php", data,)
   // },
@@ -40668,6 +40675,11 @@ function Facturar() {
       fallas = _useState270[0],
       setfallas = _useState270[1];
 
+  var _useState271 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(true),
+      _useState272 = _slicedToArray(_useState271, 2),
+      autoCorrector = _useState272[0],
+      setautoCorrector = _useState272[1];
+
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('f1', function () {
     if (view == "pedidos") {
       setView("seleccionar");
@@ -40718,19 +40730,21 @@ function Facturar() {
     filter: false
   }, [view]);
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('esc', function () {
-    if (view == "seleccionar" && selectItem !== null) {
-      setSelectItem(null);
-    } else if (view == "seleccionar" && selectItem === null) {
-      inputbusquedaProductosref.current.value = "";
-      inputbusquedaProductosref.current.focus();
-    } else if (view == "pagar") {
-      setToggleAddPersona(false);
-      toggleModalProductos(false);
-      refinputaddcarritofast.current.focus();
-    } else if (view == "inventario") {
-      inputBuscarInventario.current.value = "";
-      inputBuscarInventario.current.focus();
-    }
+    try {
+      if (view == "seleccionar" && selectItem !== null) {
+        setSelectItem(null);
+      } else if (view == "seleccionar" && selectItem === null) {
+        inputbusquedaProductosref.current.value = "";
+        inputbusquedaProductosref.current.focus();
+      } else if (view == "pagar") {
+        setToggleAddPersona(false);
+        toggleModalProductos(false);
+        refinputaddcarritofast.current.focus();
+      } else if (view == "inventario") {
+        inputBuscarInventario.current.value = "";
+        inputBuscarInventario.current.focus();
+      }
+    } catch (err) {}
   }, {
     enableOnTags: ["INPUT", "SELECT"],
     filter: false
@@ -40745,10 +40759,7 @@ function Facturar() {
   }, [view, selectItem]);
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('d', function () {
     if (view == "pagar") {
-      setDebito(pedidoData.clean_total);
-      setCredito("");
-      setTransferencia("");
-      setEfectivo("");
+      getDebito();
     }
   }, {
     enableOnTags: ["INPUT", "SELECT"],
@@ -40756,10 +40767,7 @@ function Facturar() {
   }, [view]);
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('c', function () {
     if (view == "pagar") {
-      setCredito(pedidoData.clean_total);
-      setEfectivo("");
-      setTransferencia("");
-      setDebito("");
+      getCredito();
     }
   }, {
     enableOnTags: ["INPUT", "SELECT"],
@@ -40767,10 +40775,7 @@ function Facturar() {
   }, [view]);
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('t', function () {
     if (view == "pagar") {
-      setTransferencia(pedidoData.clean_total);
-      setEfectivo("");
-      setCredito("");
-      setDebito("");
+      getTransferencia();
     }
   }, {
     enableOnTags: ["INPUT", "SELECT"],
@@ -40778,10 +40783,7 @@ function Facturar() {
   }, [view]);
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('e', function () {
     if (view == "pagar") {
-      setEfectivo(pedidoData.clean_total);
-      setTransferencia("");
-      setCredito("");
-      setDebito("");
+      getEfectivo();
     }
   }, {
     enableOnTags: ["INPUT", "SELECT"],
@@ -40796,8 +40798,7 @@ function Facturar() {
           setCounterListProductos(index);
           tbodyproductosref.current.rows[index].focus();
         }
-      } catch (err) {
-        console.log(err);
+      } catch (err) {//console.log(err)
       }
     } else if (view == "pagar") {
       if (ModaladdproductocarritoToggle) {
@@ -40824,12 +40825,14 @@ function Facturar() {
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('up', function () {
     if (view == "seleccionar") {
       if (counterListProductos > 0) {
-        var index = counterListProductos - 1;
+        try {
+          var index = counterListProductos - 1;
 
-        if (tbodyproductosref.current.rows[index]) {
-          tbodyproductosref.current.rows[index].focus();
-          setCounterListProductos(index);
-        }
+          if (tbodyproductosref.current.rows[index]) {
+            tbodyproductosref.current.rows[index].focus();
+            setCounterListProductos(index);
+          }
+        } catch (err) {}
       }
     } else if (view == "pagar") {
       if (ModaladdproductocarritoToggle) {
@@ -40860,9 +40863,11 @@ function Facturar() {
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('enter', function () {
     if (selectItem === null && view == "seleccionar") {
       try {
-        var tr = tbodyproductosref.current.rows[counterListProductos];
-        var index = tr.attributes["data-index"].value;
-        addCarrito(index);
+        if (tbodyproductosref.current) {
+          var tr = tbodyproductosref.current.rows[counterListProductos];
+          var index = tr.attributes["data-index"].value;
+          addCarrito(index);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -41072,6 +41077,34 @@ function Facturar() {
         setLoading(false);
       });
     }
+  };
+
+  var getDebito = function getDebito() {
+    setDebito(pedidoData.clean_total);
+    setEfectivo("");
+    setTransferencia("");
+    setCredito("");
+  };
+
+  var getCredito = function getCredito() {
+    setCredito(pedidoData.clean_total);
+    setEfectivo("");
+    setDebito("");
+    setTransferencia("");
+  };
+
+  var getTransferencia = function getTransferencia() {
+    setTransferencia(pedidoData.clean_total);
+    setEfectivo("");
+    setDebito("");
+    setCredito("");
+  };
+
+  var getEfectivo = function getEfectivo() {
+    setEfectivo(pedidoData.clean_total);
+    setDebito("");
+    setTransferencia("");
+    setCredito("");
   };
 
   var getToday = function getToday() {
@@ -42599,7 +42632,13 @@ function Facturar() {
         inputaddCarritoFast: inputaddCarritoFast,
         setinputaddCarritoFast: setinputaddCarritoFast,
         addCarritoFast: addCarritoFast,
-        refinputaddcarritofast: refinputaddcarritofast
+        refinputaddcarritofast: refinputaddcarritofast,
+        autoCorrector: autoCorrector,
+        setautoCorrector: setautoCorrector,
+        getDebito: getDebito,
+        getCredito: getCredito,
+        getTransferencia: getTransferencia,
+        getEfectivo: getEfectivo
       }) : null, view == "credito" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_components_credito__WEBPACK_IMPORTED_MODULE_14__["default"], {
         onchangecaja: onchangecaja,
         qDeudores: qDeudores,

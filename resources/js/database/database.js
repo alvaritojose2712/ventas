@@ -10,89 +10,92 @@ const host = ""
 // const host = "http://localhost/arabitoapp"
 
 const db = {
-  getinventario: data=>axios.get(host+"/getinventario",{params:data}),
-  setCarrito: data=>axios.get(host+"/setCarrito",{params:data}),
-  getPedido: data=>axios.get(host+"/getPedido",{params:data}),
-  getPedidosList: ()=>axios.get(host+"/getPedidosList"),
+  // setCentralData: data=>axios.get(host+"/setCentralData",{params:data}),
+  getMoneda: ()=>axios.post(host+"/getMoneda"),
+  getinventario: data=>axios.post(host+"/getinventario",data),
+  setCarrito: data=>axios.post(host+"/setCarrito",data),
+  getPedido: data=>axios.post(host+"/getPedido",data),
+  getPedidosList: ()=>axios.post(host+"/getPedidosList"),
   verificarLogin: ()=>axios.post(host+"/verificarLogin"),
   guardarCierre: data=>axios.post(host+"/guardarCierre",data),
 
-  getMoneda: ()=>axios.get(host+"/getMoneda"),
-  setMoneda: data=>axios.get(host+"/setMoneda",{params:data}),
-  delItemPedido: data=>axios.get(host+"/delItemPedido",{params:data}),
+  setMoneda: data=>axios.post(host+"/setMoneda",data),
+  delItemPedido: data=>axios.post(host+"/delItemPedido",data),
 
-  setDescuentoUnitario: data=>axios.get(host+"/setDescuentoUnitario",{params:data}),
-  setDescuentoTotal: data=>axios.get(host+"/setDescuentoTotal",{params:data}),
+  setDescuentoUnitario: data=>axios.post(host+"/setDescuentoUnitario",data),
+  setDescuentoTotal: data=>axios.post(host+"/setDescuentoTotal",data),
 
-  setCantidad: data=>axios.get(host+"/setCantidad",{params:data}),
+  setCantidad: data=>axios.post(host+"/setCantidad",data),
   
-  getpersona: data=>axios.get(host+"/getpersona",{params:data}),
-  setpersonacarrito: data=>axios.get(host+"/setpersonacarrito",{params:data}),
+  getpersona: data=>axios.post(host+"/getpersona",data),
+  setpersonacarrito: data=>axios.post(host+"/setpersonacarrito",data),
 
-  setPagoPedido: data=>axios.get(host+"/setPagoPedido",{params:data}),
+  setPagoPedido: data=>axios.post(host+"/setPagoPedido",data),
   
-  delpedido: data=>axios.get(host+"/delpedido",{params:data}),
+  delpedido: data=>axios.post(host+"/delpedido",data),
 
-  getPedidos: data=>axios.get(host+"/getPedidos",{params:data}),
+  getPedidos: data=>axios.post(host+"/getPedidos",data),
 
-  cerrar: data=>axios.get(host+"/cerrar",{params:data}),
+  cerrar: data=>axios.post(host+"/cerrar",data),
 
-  today: data=>axios.get(host+"/today",{params:data}),
-
-  
-  setPagoCredito: data=>axios.get(host+"/setPagoCredito",{params:data}),
-
-  getDeudores: data=>axios.get(host+"/getDeudores",{params:data}),
-  getDeudor: data=>axios.get(host+"/getDeudor",{params:data}),
-  
-  entregarVuelto: data=>axios.get(host+"/entregarVuelto",{params:data}),
-
-  getMovimientosCaja: data=>axios.get(host+"/getMovimientosCaja",{params:data}),
-
-  setMovimientoCaja: data=>axios.get(host+"/setMovimientoCaja",{params:data}),
-  
-  delMovCaja: data=>axios.get(host+"/delMovCaja",{params:data}),
-
-  getMovimientos: data=>axios.get(host+"/getMovimientos",{params:data}),
-  
-  getBuscarDevolucion: data=>axios.get(host+"/getBuscarDevolucion",{params:data}),
-
-  setDevolucion: data=>axios.get(host+"/setDevolucion",{params:data}),
-  delMov: data=>axios.get(host+"/delMov",{params:data}),
+  today: data=>axios.post(host+"/today",data),
 
   
-  setProveedor: data=>axios.get(host+"/setProveedor",{params:data}),
-  guardarNuevoProducto: data=>axios.get(host+"/guardarNuevoProducto",{params:data}),
-  getProveedores: data=>axios.get(host+"/getProveedores",{params:data}),
-  
-  delProveedor: data=>axios.get(host+"/delProveedor",{params:data}),
-  delProducto: data=>axios.get(host+"/delProducto",{params:data}),
-  
-  getMarcas: data=>axios.get(host+"/getMarcas",{params:data}),
-  getDepositos: data=>axios.get(host+"/getDepositos",{params:data}),
-  
-  getFacturas: data=>axios.get(host+"/getFacturas",{params:data}),
-  setFactura: data=>axios.get(host+"/setFactura",{params:data}),
-  delFactura: data=>axios.get(host+"/delFactura",{params:data}),
+  setPagoCredito: data=>axios.post(host+"/setPagoCredito",data),
 
-  delItemFact: data=>axios.get(host+"/delItemFact",{params:data}),
+  getDeudores: data=>axios.post(host+"/getDeudores",data),
+  getDeudor: data=>axios.post(host+"/getDeudor",data),
+  
+  entregarVuelto: data=>axios.post(host+"/entregarVuelto",data),
 
-  setClienteCrud: data=>axios.get(host+"/setClienteCrud",{params:data}),
-  getClienteCrud: data=>axios.get(host+"/getClienteCrud",{params:data}),
-  delCliente: data=>axios.get(host+"/delCliente",{params:data}),
+  getMovimientosCaja: data=>axios.post(host+"/getMovimientosCaja",data),
 
-  getFallas: data=>axios.get(host+"/getFallas",{params:data}),
-  setFalla: data=>axios.get(host+"/setFalla",{params:data}),
-  delFalla: data=>axios.get(host+"/delFalla",{params:data}),
-  imprimirTicked: data=>axios.get(host+"/imprimirTicked",{params:data}),
-  sendCierre: data=>axios.get(host+"/verCierre",{params:data}),
+  setMovimientoCaja: data=>axios.post(host+"/setMovimientoCaja",data),
+  
+  delMovCaja: data=>axios.post(host+"/delMovCaja",data),
+
+  getMovimientos: data=>axios.post(host+"/getMovimientos",data),
+  
+  getBuscarDevolucion: data=>axios.post(host+"/getBuscarDevolucion",data),
+
+  setDevolucion: data=>axios.post(host+"/setDevolucion",data),
+  delMov: data=>axios.post(host+"/delMov",data),
 
   
+  setProveedor: data=>axios.post(host+"/setProveedor",data),
+  guardarNuevoProducto: data=>axios.post(host+"/guardarNuevoProducto",data),
+  getProveedores: data=>axios.post(host+"/getProveedores",data),
+  
+  delProveedor: data=>axios.post(host+"/delProveedor",data),
+  delProducto: data=>axios.post(host+"/delProducto",data),
+  
+  getMarcas: data=>axios.post(host+"/getMarcas",data),
+  getDepositos: data=>axios.post(host+"/getDepositos",data),
+  
+  getFacturas: data=>axios.post(host+"/getFacturas",data),
+  setFactura: data=>axios.post(host+"/setFactura",data),
+  delFactura: data=>axios.post(host+"/delFactura",data),
+
+  delItemFact: data=>axios.post(host+"/delItemFact",data),
+
+  setClienteCrud: data=>axios.post(host+"/setClienteCrud",data),
+  getClienteCrud: data=>axios.post(host+"/getClienteCrud",data),
+  delCliente: data=>axios.post(host+"/delCliente",data),
+
+  getFallas: data=>axios.post(host+"/getFallas",data),
+  setFalla: data=>axios.post(host+"/setFalla",data),
+  delFalla: data=>axios.post(host+"/delFalla",data),
+  imprimirTicked: data=>axios.post(host+"/imprimirTicked",data),
+  sendCierre: data=>axios.post(host+"/verCierre",data),
+
+
+
+  
   
   
 
-  // getProveedores: ()=>axios.get(host+"/getProveedores.php"),
-  // getusuarios: ()=>axios.get(host+"/getusuarios.php"),
+  // getProveedores: ()=>axios.post(host+"/getProveedores.php"),
+  // getusuarios: ()=>axios.post(host+"/getusuarios.php"),
   // setPedidos: (data)=>{
   //   return axios.post(host+"/setpedidos.php", data,)
   // },

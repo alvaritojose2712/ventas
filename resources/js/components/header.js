@@ -28,7 +28,7 @@ function Header({dolar,peso,view,setView,setMoneda,getPedidos,setViewCaja,viewCa
         <div className="d-flex justify-content-end w-25">
           {view=="seleccionar"?
             <>
-              <span className={(viewCaja?"btn btn-arabito":null)+(" p-3 pointer")} onClick={()=>setViewCaja(!viewCaja)}>Caja y Gastos</span>
+              <span className={(viewCaja?"btn btn-arabito":null)+(" p-3 pointer")} onClick={()=>setViewCaja(!viewCaja)}>Caja/Gastos</span>
               <span className={(showModalMovimientos?"btn btn-arabito":null)+(" p-3 pointer")} onClick={()=>setShowModalMovimientos(!showModalMovimientos)}>Movimientos</span>
             </>:null
           }

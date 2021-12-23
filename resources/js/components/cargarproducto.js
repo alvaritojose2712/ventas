@@ -144,7 +144,7 @@ function Cargarproducto({
                 <div className="col text-center">Bar. <input className="m-3 h2" 
                 type="text" 
                 value={inpInvbarras} 
-                onChange={e=>setinpInvbarras(number(e.target.value))} 
+                onChange={e=>setinpInvbarras(e.target.value)} 
                 placeholder="Barras."/></div>
               </div>
               <div className="row">

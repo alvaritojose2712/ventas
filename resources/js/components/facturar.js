@@ -256,6 +256,10 @@ function Facturar() {
   const [ascdescFallas,setascdescFallas] = useState("")
   const [fallas,setfallas] = useState([])
 
+  const [autoCorrector,setautoCorrector] = useState(true)
+
+
+
 
   useHotkeys('f1', () => {
     if(view=="pedidos"){
@@ -313,18 +317,22 @@ function Facturar() {
   },[view]);
 
   useHotkeys('esc', () => {
-    if (view=="seleccionar"&&selectItem!==null) {
-      setSelectItem(null)  
-    }else if(view=="seleccionar"&&selectItem===null){
-      inputbusquedaProductosref.current.value = ""
-      inputbusquedaProductosref.current.focus()
-    }else if(view=="pagar"){
-      setToggleAddPersona(false)
-      toggleModalProductos(false)
-      refinputaddcarritofast.current.focus()
-    }else if(view=="inventario"){
-      inputBuscarInventario.current.value = ""
-      inputBuscarInventario.current.focus()
+    try{
+      if (view=="seleccionar"&&selectItem!==null) {
+        setSelectItem(null)  
+      }else if(view=="seleccionar"&&selectItem===null){
+        inputbusquedaProductosref.current.value = ""
+        inputbusquedaProductosref.current.focus()
+      }else if(view=="pagar"){
+        setToggleAddPersona(false)
+        toggleModalProductos(false)
+        refinputaddcarritofast.current.focus()
+      }else if(view=="inventario"){
+        inputBuscarInventario.current.value = ""
+        inputBuscarInventario.current.focus()
+        
+      }
+    }catch(err){
       
     }
   },{
@@ -345,10 +353,7 @@ function Facturar() {
 
   useHotkeys('d', () => {
     if (view=="pagar") {
-      setDebito(pedidoData.clean_total) 
-      setCredito("")
-      setTransferencia("")
-      setEfectivo("") 
+      getDebito() 
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
@@ -357,10 +362,7 @@ function Facturar() {
 
   useHotkeys('c', () => {
     if (view=="pagar") {
-      setCredito(pedidoData.clean_total)  
-      setEfectivo("") 
-      setTransferencia("")
-      setDebito("") 
+      getCredito()  
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
@@ -369,10 +371,7 @@ function Facturar() {
 
   useHotkeys('t', () => {
     if (view=="pagar") {
-      setTransferencia(pedidoData.clean_total) 
-      setEfectivo("") 
-      setCredito("")
-      setDebito("") 
+      getTransferencia() 
 
 
     }
@@ -383,10 +382,7 @@ function Facturar() {
 
   useHotkeys('e', () => {
     if (view=="pagar") {
-      setEfectivo(pedidoData.clean_total) 
-      setTransferencia("")
-      setCredito("")
-      setDebito("") 
+      getEfectivo() 
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
@@ -403,7 +399,7 @@ function Facturar() {
           }
           
         }catch(err){
-          console.log(err)
+          //console.log(err)
         }
     }else if(view=="pagar"){
       if (ModaladdproductocarritoToggle) {
@@ -435,11 +431,14 @@ function Facturar() {
   useHotkeys('up', () => {
     if(view=="seleccionar"){
       if (counterListProductos>0) {
-        let index = counterListProductos-1
-        if (tbodyproductosref.current.rows[index]) {
-          tbodyproductosref.current.rows[index].focus()
-          setCounterListProductos(index)
-        }
+        try{
+
+          let index = counterListProductos-1
+          if (tbodyproductosref.current.rows[index]) {
+            tbodyproductosref.current.rows[index].focus()
+            setCounterListProductos(index)
+          }
+        }catch(err){}
       }
     }else if(view=="pagar"){
       if (ModaladdproductocarritoToggle) {
@@ -475,9 +474,11 @@ function Facturar() {
   useHotkeys('enter', () => {
     if(selectItem===null&&view=="seleccionar"){
       try{
-        let tr = tbodyproductosref.current.rows[counterListProductos]
-        let index = tr.attributes["data-index"].value
-        addCarrito(index)
+        if (tbodyproductosref.current) {
+          let tr = tbodyproductosref.current.rows[counterListProductos]
+          let index = tr.attributes["data-index"].value
+          addCarrito(index)
+        }
 
       }catch(err){
         console.log(err)
@@ -710,6 +711,30 @@ function Facturar() {
       }
   }
 
+  const getDebito = () =>{
+    setDebito(pedidoData.clean_total)
+    setEfectivo("")
+    setTransferencia("")
+    setCredito("")
+  }
+  const getCredito = () =>{
+    setCredito(pedidoData.clean_total)
+    setEfectivo("")
+    setDebito("")
+    setTransferencia("")
+  }
+  const getTransferencia = () =>{
+    setTransferencia(pedidoData.clean_total)
+    setEfectivo("")
+    setDebito("")
+    setCredito("")
+  }
+  const getEfectivo = () =>{
+    setEfectivo(pedidoData.clean_total)
+    setDebito("")
+    setTransferencia("")
+    setCredito("")
+  }
   
 
   const getToday = () =>{
@@ -2159,6 +2184,14 @@ const viewReportPedido = () =>{
             setinputaddCarritoFast={setinputaddCarritoFast}
             addCarritoFast={addCarritoFast}
             refinputaddcarritofast={refinputaddcarritofast}
+
+            autoCorrector={autoCorrector}
+            setautoCorrector={setautoCorrector}
+
+            getDebito={getDebito}
+            getCredito={getCredito}
+            getTransferencia={getTransferencia}
+            getEfectivo={getEfectivo}
             />
           :null}
           {view=="credito"?<Credito

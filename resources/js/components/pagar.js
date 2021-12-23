@@ -73,8 +73,59 @@ inputaddCarritoFast,
 setinputaddCarritoFast,
 refinputaddcarritofast,
 
-viewReportPedido
+viewReportPedido,
+autoCorrector,
+setautoCorrector,
+
+getDebito,
+getCredito,
+getTransferencia,
+getEfectivo,
 }) {
+
+  
+  const syncPago = (val,type)=>{
+    val = number(val)
+    if (type=="Debito") {
+
+      setDebito(val)
+    }
+    else if (type=="Efectivo") {
+      setEfectivo(val) 
+    }
+    else if (type=="Transferencia") {
+      setTransferencia(val)
+    }
+    else if (type=="Credito") {
+      setCredito(val)
+    }
+
+
+    let divisor=0;
+
+    let inputs = [
+      {key:"Debito", val:debito, set:(val)=>setDebito(val)},
+      {key:"Efectivo", val:efectivo, set:(val)=>setEfectivo(val)},
+      {key:"Transferencia", val:transferencia, set:(val)=>setTransferencia(val)},
+      {key:"Credito", val:credito, set:(val)=>setCredito(val)},
+    ]
+
+    inputs.map(e => {
+      if (e.key!=type) {
+        if (e.val) {divisor++}
+      }
+    })
+
+    if (autoCorrector) {
+      inputs.map(e => {
+        if (e.key!=type) {
+          if (e.val) {
+            e.set(((pedidoData.clean_total-val)/divisor).toFixed(2))
+          }
+        }
+      })
+    }
+  }
   useEffect(()=>{
     refinputaddcarritofast.current.value = ""
     // refinputaddcarritofast.current.focus()
@@ -194,55 +245,82 @@ viewReportPedido
                 <h3>Pedido #{id}</h3>
                 <h6>{created_at}</h6>
               </div>
-              <div className="d-flex flex-row mt-2 mb-2 justify-content-center">
-                <div className={(debito!=""?"card-success-pago":"t-5")+(" card m-1")}>
-                  <div className="card-body">
-                    <div className="card-title">Déb.</div>
-                    <div className="card-text pago-numero"><input type="text" value={debito} onChange={(e)=>setDebito(number(e.target.value))} placeholder="D"/></div>
+              <div className="mt-2 mb-2 container-fluid">
+                
+                <div className="row">
+                  
+                  <div className="col p-0">
                     
-                  </div>
-                </div>
-                <div className={(efectivo!=""?"card-success-pago":"t-5")+(" card m-1")}>
-                  <div className="card-body">
-                    <div className="card-title">Efec.</div>
-                    <div className="card-text pago-numero"><input type="text" value={efectivo} onChange={(e)=>setEfectivo(number(e.target.value))} placeholder="E"/></div>
-                    
-                  </div>
-                </div>
-                <div className={(transferencia!=""?"card-success-pago":"t-5")+(" card m-1")}>
-                  <div className="card-body">
-                    <div className="card-title">Tran.</div>
-                    <div className="card-text pago-numero"><input type="text" value={transferencia} onChange={(e)=>setTransferencia(number(e.target.value))} placeholder="T"/></div>
-                    
-                  </div>
-                </div>
-                <div className={(credito!=""?"card-success-pago":"t-5")+(" card m-1")}>
-                  <div className="card-body">
-                    <div className="card-title">Créd.</div>
-                    <div className="card-text pago-numero"><input type="text" value={credito} onChange={(e)=>setCredito(number(e.target.value))} placeholder="C"/></div>
-                    
-                  </div>
-                </div>
-                <div className={(vuelto!=""?"card-arabito":"t-5")+(" card m-1 pointer")}>
-                  <div className="card-body">
-                    <div className="card-title">Vuel.</div>
-                    {
-                      editable?
-                      <div className="card-text pago-numero">
-                        <input type="text" value={vuelto} onChange={(e)=>setVuelto(number(e.target.value))} placeholder="V"/>
+                    <div className={(debito!=""?"card-arabito":"t-5")+(" card")}>
+                      <div className="card-body">
+                        <div className="card-title pointer" onClick={getDebito}>Déb.</div>
+                        <div className="card-text pago-numero"><input type="text" value={debito} onChange={(e)=>syncPago(e.target.value,"Debito")} placeholder="D"/></div>
+                        
                       </div>
-                      :
-                      <div className="card-text pago-numero">                
-                        <input type="text" defaultValue={vuelto} disabled={true}/>
+                    </div>
+                  </div>
+                  <div className="col p-0">
+                    
+                    <div className={(efectivo!=""?"card-arabito":"t-5")+(" card")}>
+                      <div className="card-body">
+                        <div className="card-title pointer" onClick={getEfectivo}>Efec.</div>
+                        <div className="card-text pago-numero"><input type="text" value={efectivo} onChange={(e)=>syncPago(e.target.value,"Efectivo")} placeholder="E"/></div>
+                        
                       </div>
-                    }
+                    </div>
+                  </div>
+
+                  <div className="col p-0">
+                    
+                    <div className={(transferencia!=""?"card-arabito":"t-5")+(" card")}>
+                      <div className="card-body">
+                        <div className="card-title pointer" onClick={getTransferencia}>Tran.</div>
+                        <div className="card-text pago-numero"><input type="text" value={transferencia} onChange={(e)=>syncPago(e.target.value,"Transferencia")} placeholder="T"/></div>
+                        
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col p-0">
+                    
+                    <div className={(credito!=""?"card-arabito":"t-5")+(" card")}>
+                      <div className="card-body">
+                        <div className="card-title pointer" onClick={getCredito}>Créd.</div>
+                        <div className="card-text pago-numero"><input type="text" value={credito} onChange={(e)=>syncPago(e.target.value,"Credito")} placeholder="C"/></div>
+                        
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col p-0">
+                    
+                    <div className={(vuelto!=""?"card-danger-pago":"t-5")+(" card pointer")}>
+                      <div className="card-body">
+                        <div className="card-title">Vuel.</div>
+                        {
+                          editable?
+                          <div className="card-text pago-numero">
+                            <input type="text" value={vuelto} onChange={(e)=>setVuelto(number(e.target.value))} placeholder="V"/>
+                          </div>
+                          :
+                          <div className="card-text pago-numero">                
+                            <input type="text" defaultValue={vuelto} disabled={true}/>
+                          </div>
+                        }
+                      </div>
+                    </div>
                   </div>
                 </div>
+
               </div>
               {!editable?
                 <div onClick={entregarVuelto} className="d-flex flex-row mt-1 mb-2 justify-content-end pointer">
                   Vuelto entregado = <b>{vuelto_entregado}</b>
                 </div>:null
+              }
+              {autoCorrector?
+                <button className="btn btn-outline-success btn-sm pull-right" onClick={()=>setautoCorrector(false)}>Auto On</button>:
+                <button className="btn btn-outline-danger btn-sm pull-right" onClick={()=>setautoCorrector(true)}>Off Auto</button>
               }
 
               <div className="mt-1 mb-1">
@@ -281,7 +359,7 @@ viewReportPedido
                   <button className="btn btn-circle text-white btn-success btn-xl me-5" onClick={facturar_pedido}>ENTER <i className="fa fa-paper-plane"></i></button>
                   <button className="btn btn-circle text-white btn-primary btn-xl me-4" onClick={()=>setToggleAddPersona(true)}>F2 <i className="fa fa-user"></i></button>
                   <button className="btn btn-circle text-white btn-arabito btn-xl me-1" onClick={toggleImprimirTicket}>F3 <i className="fa fa-print"></i></button>
-                  <a className="" target="_blank" href="#" onClick={viewReportPedido}> <button className="btn btn-circle text-white btn-arabito btn-xl me-4">F4 <i className="fa fa-eye"></i></button></a>
+                  <button className="btn btn-circle text-white btn-arabito btn-xl me-4" onClick={viewReportPedido}>F4 <i className="fa fa-eye"></i></button>
                   <button className="btn btn-circle text-white btn-danger btn-sm" onClick={del_pedido}>F5 <i className="fa fa-times"></i></button>
                 </div>
               </div>

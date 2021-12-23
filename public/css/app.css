@@ -166,9 +166,9 @@ i{
   border-width: 0;
   width: 100%;
   border: none;
-  font-style: bold;
+  /*font-style: bold;
   font-weight: bold;
-  font-size: x-large;
+  font-size: x-large;*/
 }
 .w-30{
   width: 30% !important;
