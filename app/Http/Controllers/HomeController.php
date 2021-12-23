@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\home;
 use App\Models\usuarios;
+use App\Models\sucursal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Response;
@@ -17,7 +18,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view("facturar.index");
+        $su = sucursal::all()->first();
+        if ($su) {
+            return view("facturar.index");
+        }else{
+
+            return view("sucursal.crear",["sucursal"=>$su]);
+        }
+
     }
 
     /**

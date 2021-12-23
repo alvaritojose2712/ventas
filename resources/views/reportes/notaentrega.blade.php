@@ -25,20 +25,18 @@
 				<tbody>
 					<tr class="text-center">
 						<td colspan="2">
-							<h6>OMAR EL HENAOUI SALAH</h6>
-							<h5>COMERCIALIZADORA Y DISTRIBUIDORA</h5>
-							<h5>EL ARABITO 222, F.P.</h5>
+							<h5>{{$sucursal->nombre_registro}}</h5>
 						</td>
 						<td colspan="4">
-							<b>RIF. V-21628222-8</b>
+							<b>RIF. {{$sucursal->rif}}</b>
 							<hr>
 							<span>
-								Domicilio Fiscal: {{ env('DIRECCION_REGISTRO') }}
+								Domicilio Fiscal: {{$sucursal->direccion_registro}}
 							</span>
 						</td>
 					</tr>
 					<tr>
-						<th colspan="2" class=""><h5>SUCURSAL</h5> {{env("SUCURSAL_DIRECCION")}}</th>
+						<th colspan="2" class=""><h5>SUCURSAL</h5> {{$sucursal->sucursal}}</th>
 						<th colspan="4" class="text-right"><h5>Fecha y hora de emisión</h5> {{$pedido->created_at}}</th>
 					</tr>
 					<tr>
@@ -46,16 +44,24 @@
 						<th colspan="4" class="text-right text-danger"><h5>N° {{sprintf("%08d", $pedido->id)}}</h5></th>
 					</tr>
 					<tr>
-						<th colspan="" class="text-right">Nombre y Apellido o Razón Social del Comprador</th>
+						<th colspan="" class="text-right">Nombre y Apellido o Razón Social</th>
 						<td colspan="" class="text-left">{{ $pedido->cliente->nombre }}</td>
-						<th colspan="" class="text-right">N° de RIF./CED N° o Pasaporte N°</th>
+						<th colspan="" class="text-right">N° RIF/C.I./Pasaporte</th>
 						<td colspan="3" class="text-left">{{ $pedido->cliente->identificacion }}</td>
 					</tr>
 					<tr>
 						<th colspan="" class="text-right">Domicilio Fiscal</th>
 						<td colspan="" class="text-left">{{ $pedido->cliente->direccion }}</td>
 						<th colspan="" class="text-right">Método de Pago</th>
-						<td colspan="3" class="text-left"></td>
+						<td colspan="3" class="text-left">
+							@foreach($pedido->pagos as $ee)
+								@if($ee->tipo==1&&$ee->monto!=0)<span className="w-50 btn-sm btn-info btn">Trans. {{$ee->monto}}</span> @endif
+	                            @if($ee->tipo==2&&$ee->monto!=0)<span className="w-50 btn-sm btn-secondary btn">Deb. {{$ee->monto}}</span> @endif
+	                            @if($ee->tipo==3&&$ee->monto!=0)<span className="w-50 btn-sm btn-success btn">Efec. {{$ee->monto}}</span> @endif
+	                            @if($ee->tipo==6&&$ee->monto!=0)<span className="w-50 btn-sm btn-danger btn">Vuel. {{$ee->monto}}</span> @endif
+	                            @if($ee->tipo==4&&$ee->monto!=0)<span className="w-50 btn-sm btn-warning btn">Cred. {{$ee->monto}}</span> @endif
+							@endforeach
+						</td>
 					</tr>
 
 					<tr class="tr-secondary">

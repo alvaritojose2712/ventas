@@ -250,39 +250,11 @@ function Facturar() {
 
   const [sumPedidosArr,setsumPedidosArr] = useState([])
 
-
-
-  
-  useEffect(()=>{
-    addCarritoFast()
-  },[
-    inputaddCarritoFast
-  ])
-
-  useEffect(()=>{
-    getClienteCrud()
-  },[
-    qBuscarCliente
-  ])
-
-  useEffect(()=>{
-    focusCtMain()
-  },[
-    selectItem
-  ])
-
-  
-
-  useEffect(()=>{
-    getFacturas()
-  },[
-  factqBuscar,
-  factqBuscarDate,
-  factOrderBy,
-  factOrderDescAsc
-  ])
-
-
+  const [qFallas,setqFallas] = useState("")
+  const [orderCatFallas,setorderCatFallas] = useState("proveedor")
+  const [orderSubCatFallas,setorderSubCatFallas] = useState("todos")
+  const [ascdescFallas,setascdescFallas] = useState("")
+  const [fallas,setfallas] = useState([])
 
 
   useHotkeys('f1', () => {
@@ -323,6 +295,23 @@ function Facturar() {
     enableOnTags:["INPUT", "SELECT"],
   },[view]);
 
+  useHotkeys('f4', () => {
+    if(view=="pagar"){
+      viewReportPedido()
+    }
+  },{
+    enableOnTags:["INPUT", "SELECT"],
+  },[view]);
+  
+  useHotkeys('f3', () => {
+    if (view=="pagar") {
+      toggleImprimirTicket() 
+    }
+  },{
+    enableOnTags:["INPUT", "SELECT"],
+    filter:false,
+  },[view]);
+
   useHotkeys('esc', () => {
     if (view=="seleccionar"&&selectItem!==null) {
       setSelectItem(null)  
@@ -332,6 +321,7 @@ function Facturar() {
     }else if(view=="pagar"){
       setToggleAddPersona(false)
       toggleModalProductos(false)
+      refinputaddcarritofast.current.focus()
     }else if(view=="inventario"){
       inputBuscarInventario.current.value = ""
       inputBuscarInventario.current.focus()
@@ -341,6 +331,17 @@ function Facturar() {
     enableOnTags:["INPUT", "SELECT"],
     filter:false,
   },[view,selectItem]);
+
+  useHotkeys('space', () => {
+    if (view=="seleccionar"&&selectItem!==null) {
+      setNumero_factura("nuevo")  
+    }
+  },{
+    enableOnTags:["INPUT", "SELECT"],
+    filter:false,
+  },[view,selectItem]);
+
+  
 
   useHotkeys('d', () => {
     if (view=="pagar") {
@@ -391,8 +392,6 @@ function Facturar() {
     enableOnTags:["INPUT", "SELECT"],
     filter:false,
   },[view]);
-
-
   useHotkeys('down', () => {
     if(view=="seleccionar"){
         try{
@@ -473,8 +472,6 @@ function Facturar() {
     enableOnTags:["INPUT", "SELECT"],
 
   },[view,counterListProductos,countListInter,countListPersoInter]);
-
- 
   useHotkeys('enter', () => {
     if(selectItem===null&&view=="seleccionar"){
       try{
@@ -518,7 +515,40 @@ function Facturar() {
   },[view,counterListProductos,selectItem]);
 
 
-  
+  useEffect(()=>{
+    // let isMounted = true;  
+    getMoneda() // ya invoca getProductos()
+    getPedidosList()
+    getToday()
+
+    // return () => { isMounted = false }
+  },[])
+
+  useEffect(()=>{
+    getFallas()
+  },[
+    qFallas,
+    orderCatFallas,
+    orderSubCatFallas,
+    ascdescFallas
+  ])
+  useEffect(()=>{
+    addCarritoFast()
+  },[inputaddCarritoFast])
+  useEffect(()=>{
+    getClienteCrud()
+  },[qBuscarCliente])
+  useEffect(()=>{
+    focusCtMain()
+  },[selectItem])
+  useEffect(()=>{
+    getFacturas()
+  },[
+  factqBuscar,
+  factqBuscarDate,
+  factOrderBy,
+  factOrderDescAsc
+  ])
   useEffect(() => {
     if (view=="pedidos") {
       getPedidos()
@@ -531,13 +561,10 @@ function Facturar() {
       getDeudor()
     }
   },[selectDeudor])
-
   useEffect(()=>{
     getBuscarDevolucion()
   },[buscarDevolucion])
-
   useEffect(()=>{
-
     buscarInventario()
   },[
     Invnum,
@@ -548,20 +575,16 @@ function Facturar() {
   useEffect(()=>{
     getMovimientosCaja()
   },[viewCaja,movCajaFecha])
-
   useEffect(()=>{
     getMovimientos()
   },[showModalMovimientos,fechaMovimientos])
-
   useEffect(()=>{
     buscarInventario()
-
   },[qBuscarInventario])
 
   useEffect(()=>{
     getProveedores()
   },[qBuscarProveedor])
-
   useEffect(()=>{
     if (view=="inventario") {
       if (subViewInventario=="fallas") {
@@ -572,38 +595,12 @@ function Facturar() {
         getProveedores()
       }
     }
-  },[subViewInventario])
-
-
-
-  
-  
-  
-  
-  useEffect(()=>{
-    let isMounted = true;  
-
-    db.verificarLogin().then(res=>{
-      if (isMounted) {
-        getMoneda() // ya invoca getProductos()
-
-        getPedidosList()
-        // getPedidos()
-        getToday()
-        
-
-        setLoginActive(res.data.estado)
-      }
-    })
-
-    return () => { isMounted = false }
-  },[])
+  },[subViewInventario])  
 
   useEffect(() => {
     if (view=="credito") {
       getDeudores()
       getDeudor()
-
     }
   }, [view,qDeudores]);
 
@@ -832,10 +829,12 @@ function Facturar() {
     }
     return false 
   }
-  const notificar = (msj) => {
-    setTimeout(()=>{
-      setMsj("")
-    },3000)
+  const notificar = (msj,fixed=true) => {
+    if (fixed) {
+      setTimeout(()=>{
+        setMsj("")
+      },3000)
+    }
     if (msj=="") {
       setMsj("")
     }else{
@@ -881,7 +880,25 @@ function Facturar() {
     if (callback) {callback()}
   }
   const toggleImprimirTicket = () => {
-    console.log("toggleImprimirTicket")
+    if (pedidoData) {
+      let identificacion = window.prompt("Identificación",pedidoData.cliente.identificacion)
+
+      if (identificacion) {
+        let nombres = window.prompt("Nombre y Apellido",pedidoData.cliente.nombre)
+        if (nombres) {
+
+          db.imprimirTicked({
+            id: pedidoData.id,
+            identificacion,
+            nombres
+          }).then(res=>{
+            notificar(res)
+          })
+          console.log("toggleImprimirTicket")
+        }
+      }
+      
+    }
   }
   const onChangePedidos = e =>{
     const type = e.currentTarget.attributes["data-type"].value
@@ -1249,17 +1266,22 @@ function Facturar() {
       notaCierre,
     }).then(res=>{
       
+      setLoading(false)
+      notificar(res,false)
+      
       if (res.data.estado) {
-        if (type="ver") {
-          window.open("verCierre?fecha="+fechaCierre,"targed=blank")
-        }else if (type="enviar") {
-          // window.open("Cierre.php?fecha=","targed=blank")
-        }      
+        if (type=="ver") {
+          window.open("verCierre?type="+type+"&fecha="+fechaCierre,"targed=blank")
+        }else{
+          setLoading(true)
+          db.sendCierre({type,fecha:fechaCierre}).then(res=>{
+            notificar(res,false)
+            setLoading(false)
+          })
+        }
 
       }     
 
-      setLoading(false)
-      notificar(res)
     })
   }
 
@@ -1747,22 +1769,6 @@ const addCarritoFast = () => {
   }
   
 } 
-
-  const [qFallas,setqFallas] = useState("")
-  const [orderCatFallas,setorderCatFallas] = useState("proveedor")
-  const [orderSubCatFallas,setorderSubCatFallas] = useState("todos")
-  const [ascdescFallas,setascdescFallas] = useState("")
-  const [fallas,setfallas] = useState([])
-
-  useEffect(()=>{
-    getFallas()
-  },[
-    qFallas,
-    orderCatFallas,
-    orderSubCatFallas,
-    ascdescFallas
-  ])
-
  
 const getFallas = () => {
   setLoading(true)
@@ -1787,6 +1793,10 @@ const delFalla = e => {
       getFallas()
     })
   }
+}
+
+const viewReportPedido = () =>{
+  window.open("/notaentregapedido?id="+pedidoData.id,"_blank")
 }
 
 
@@ -1828,6 +1838,7 @@ const delFalla = e => {
                   setNumero_factura={setNumero_factura}
                   pedidoList={pedidoList}
                   setFalla={setFalla}
+                  number={number}
                   inputCantidadCarritoref={inputCantidadCarritoref}
                   addCarritoRequest={addCarritoRequest}/>:null:null}
 
@@ -2089,6 +2100,8 @@ const delFalla = e => {
             credito={credito}
             inputmodaladdpersonacarritoref={inputmodaladdpersonacarritoref}
             inputaddcarritointernoref={inputaddcarritointernoref}
+
+            viewReportPedido={viewReportPedido}
 
             delItemPedido={delItemPedido}
             setDescuento={setDescuento}

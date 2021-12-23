@@ -71,14 +71,16 @@ clienteInpdireccion,
 setclienteInpdireccion,
 inputaddCarritoFast,
 setinputaddCarritoFast,
-refinputaddcarritofast
+refinputaddcarritofast,
+
+viewReportPedido
 }) {
   useEffect(()=>{
     refinputaddcarritofast.current.value = ""
     // refinputaddcarritofast.current.focus()
   },[])
   try{
-    const {id,created_at,vendedor,cliente,items,total_des,subtotal,total,total_porciento,cop,bs,editable,vuelto_entregado} = pedidoData
+    const {id,created_at,vendedor,cliente,items,total_des,subtotal,total,total_porciento,cop,bs,editable,vuelto_entregado,estado} = pedidoData
     return (
       <>
         <div className="container-fluid">
@@ -168,7 +170,7 @@ refinputaddcarritofast
                   <tr>
                     <td>
                       <input type="text" className="form-control form-control-sm" ref={refinputaddcarritofast} value={inputaddCarritoFast} 
-                      placeholder="Agregar..." onChange={e=>setinputaddCarritoFast(e.target.value)}/>
+                      placeholder="Agregar...(esc)" onChange={e=>setinputaddCarritoFast(e.target.value)}/>
                     </td>
                     <td></td>
                     <td></td>
@@ -188,7 +190,7 @@ refinputaddcarritofast
           
             
             <div className="col-5">
-              <div className="text-center p-1 bg-arabito">
+              <div className={(estado?"bg-success":"bg-arabito")+(" text-center p-1")}>
                 <h3>Pedido #{id}</h3>
                 <h6>{created_at}</h6>
               </div>
@@ -278,8 +280,8 @@ refinputaddcarritofast
                 <div className="">
                   <button className="btn btn-circle text-white btn-success btn-xl me-5" onClick={facturar_pedido}>ENTER <i className="fa fa-paper-plane"></i></button>
                   <button className="btn btn-circle text-white btn-primary btn-xl me-4" onClick={()=>setToggleAddPersona(true)}>F2 <i className="fa fa-user"></i></button>
-                  <button className="btn btn-circle text-white btn-arabito btn-xl me-1">F3 <i className="fa fa-print"></i></button>
-                  <a className="" target="_blank" href={"/notaentregapedido?id="+id}> <button className="btn btn-circle text-white btn-arabito btn-xl me-4">F4 <i className="fa fa-eye"></i></button></a>
+                  <button className="btn btn-circle text-white btn-arabito btn-xl me-1" onClick={toggleImprimirTicket}>F3 <i className="fa fa-print"></i></button>
+                  <a className="" target="_blank" href="#" onClick={viewReportPedido}> <button className="btn btn-circle text-white btn-arabito btn-xl me-4">F4 <i className="fa fa-eye"></i></button></a>
                   <button className="btn btn-circle text-white btn-danger btn-sm" onClick={del_pedido}>F5 <i className="fa fa-times"></i></button>
                 </div>
               </div>

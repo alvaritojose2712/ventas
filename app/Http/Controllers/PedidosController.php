@@ -11,9 +11,13 @@ use App\Models\pago_pedidos;
 use App\Models\clientes;
 
 use App\Models\movimientos_caja;
+use App\Models\sucursal;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\enviarCierre;
 
 use Response;
 
@@ -267,6 +271,7 @@ class PedidosController extends Controller
             $pedido->total_des = number_format($total_des_ped,2,".",",");
             $pedido->subtotal = number_format($subtotal_ped,2,".",",");
             $pedido->total = number_format(round( $total_ped),2,".",",");
+            $pedido->iva = round( $total_ped)*.16;
 
             $pedido->clean_total_des = $total_des_ped;
             $pedido->clean_subtotal = $subtotal_ped;
@@ -318,6 +323,9 @@ class PedidosController extends Controller
             $vendedor = session("id_usuario");
 
             $check = pedidos::where("estado",0)->where("id_vendedor",$vendedor)->orderBy("id","desc")->first();
+            if (!$check) {
+                $check = pedidos::where("estado",1)->where("id_vendedor",$vendedor)->orderBy("id","desc")->first();
+            }
             
             if (!$check) {
                 return [];
@@ -332,7 +340,9 @@ class PedidosController extends Controller
     
     public function notaentregapedido(Request $req)
     {
-        return view("reportes.notaentrega",["pedido"=>$this->getPedido($req)]);
+        $sucursal = sucursal::all()->first();
+
+        return view("reportes.notaentrega",["sucursal"=>$sucursal,"pedido"=>$this->getPedido($req)]);
     }
 
     public function setpersonacarrito(Request $req)
@@ -521,6 +531,7 @@ class PedidosController extends Controller
     }
     public function verCierre(Request $req)
     {   
+        $type = $req->type;
         $cierre = cierres::where("fecha",$req->fecha)->first();
         if (!$cierre) {
             return "No hay cierre guardado para esta fecha";
@@ -554,26 +565,34 @@ class PedidosController extends Controller
         ->get()
         ->map(function($q){
 
-            $q->monto_sin = 0;
-            if ($q->descuento!=0) {
+            // $q->monto_sin = 0;
+            // if ($q->descuento!=0) {
                 $q->monto_sin = ($q->monto)-(($q->descuento/100)*$q->monto);
                 // code...
-            }
+            // }
 
             return $q;
         })->sum("monto_sin");
 
-        $ganancia = $desc_total-$precio_base;
+        $credi_total = pago_pedidos::whereIn("id_pedido",pedidos::where("created_at","LIKE",$req->fecha."%")->where("tipo",4)->select("id"))
+        ->get()
+        ->sum("monto");
+
+        $desc_total -= $credi_total;
+        $precio -= $credi_total;
+        
+        $ganancia = ($desc_total-$precio_base);
+
         if ($precio_base==0) {
-            $porcentaje = 0; 
-            // code...
+            $porcentaje = 100; 
         }else{
             $porcentaje = round( (($ganancia*100) / $precio_base),2 ); 
 
         }
 
         // return $vueltos_des;
-        return view("reportes.cierre",[
+        $sucursal = sucursal::all()->first();
+        $arr_send = [
             "cierre" => $cierre,
             "total_inventario" =>$total_inventario,
             "vueltos_totales" =>$vueltos_totales,
@@ -581,11 +600,36 @@ class PedidosController extends Controller
 
             "precio"=> $precio,
             "precio_base"=> $precio_base,
-            "ganancia"=> $ganancia,
+            "ganancia"=> round($ganancia,2),
             "porcentaje"=> $porcentaje,
-            "desc_total"=> $desc_total,
-            "facturado" =>$this->cerrarFun($req->fecha,0,0)
-        ]);
+            "desc_total"=> round($desc_total,2),
+            "facturado" =>$this->cerrarFun($req->fecha,0,0),
+            "sucursal"=>$sucursal
+        ];
+
+        if ($type=="ver") {
+            return view("reportes.cierre",$arr_send);
+        }else{
+
+            $from1 = $sucursal->correo;
+            $from = "Arabito ";
+            $subject = $sucursal->sucursal." ".$req->fecha;
+            $sends = [
+                "alvaroospino79@gmail.com"
+                // "alvaritojose2712@gmail.com",
+            ];
+            try {
+                Mail::to($sends)->send(new enviarCierre($arr_send,$from1,$from,$subject));    
+                
+                return Response::json(["msj"=>"Cierre enviado con Éxito","estado"=>true]);
+            
+            } catch (\Exception $e) {
+
+                return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+                
+            }
+
+        }
     }
 
     

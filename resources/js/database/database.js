@@ -15,6 +15,7 @@ const db = {
   getPedido: data=>axios.get(host+"/getPedido",{params:data}),
   getPedidosList: ()=>axios.get(host+"/getPedidosList"),
   verificarLogin: ()=>axios.post(host+"/verificarLogin"),
+  guardarCierre: data=>axios.post(host+"/guardarCierre",data),
 
   getMoneda: ()=>axios.get(host+"/getMoneda"),
   setMoneda: data=>axios.get(host+"/setMoneda",{params:data}),
@@ -38,7 +39,6 @@ const db = {
 
   today: data=>axios.get(host+"/today",{params:data}),
 
-  guardarCierre: data=>axios.post(host+"/guardarCierre",data),
   
   setPagoCredito: data=>axios.get(host+"/setPagoCredito",{params:data}),
 
@@ -84,6 +84,10 @@ const db = {
   getFallas: data=>axios.get(host+"/getFallas",{params:data}),
   setFalla: data=>axios.get(host+"/setFalla",{params:data}),
   delFalla: data=>axios.get(host+"/delFalla",{params:data}),
+  imprimirTicked: data=>axios.get(host+"/imprimirTicked",{params:data}),
+  sendCierre: data=>axios.get(host+"/verCierre",{params:data}),
+
+  
   
   
 

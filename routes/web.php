@@ -17,6 +17,11 @@ use App\Http\Controllers\MarcasController;
 use App\Http\Controllers\DepositosController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\ItemsFacturaController;
+use App\Http\Controllers\SucursalController;
+use App\Http\Controllers\tickera;
+
+
+
 
 
 /*
@@ -32,10 +37,13 @@ use App\Http\Controllers\ItemsFacturaController;
 
 
 
+Route::get('/sucursal', [SucursalController::class,"index"]);
+Route::get('/setSucursal', [SucursalController::class,"setSucursal"])->name("setSucursal");
+
+Route::get('/', [HomeController::class,"index"]);
 Route::post('/login', [HomeController::class,"login"]);
 Route::get('/logout', [HomeController::class,"logout"]);
 Route::post('/verificarLogin', [HomeController::class,"verificarLogin"]);
-Route::get('/facturar', [HomeController::class,"index"]);
 
 // if (session()->has("id_usuario")) {
 	// code...
@@ -68,7 +76,7 @@ Route::get('/facturar', [HomeController::class,"index"]);
 
 	Route::get('/today', [PedidosController::class,"today"]);
 
-	Route::get('/guardarCierre', [PedidosController::class,"guardarCierre"]);
+	Route::post('/guardarCierre', [PedidosController::class,"guardarCierre"]);
 	
 	Route::get('/verCierre', [PedidosController::class,"verCierre"]);
 
@@ -115,6 +123,9 @@ Route::get('/facturar', [HomeController::class,"index"]);
 	Route::get('/getFallas', [InventarioController::class,"getFallas"]);
 	Route::get('/setFalla', [InventarioController::class,"setFalla"]);
 	Route::get('/delFalla', [InventarioController::class,"delFalla"]);
+
+	Route::get('/imprimirTicked', [tickera::class,"imprimir"]);
+
 
 
 

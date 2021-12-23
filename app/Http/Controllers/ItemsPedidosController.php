@@ -9,11 +9,7 @@ class ItemsPedidosController extends Controller
 {
     
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function delItemPedido(Request $req)
     {   
         return (new InventarioController)->hacer_pedido($req->index,null,99,"del");

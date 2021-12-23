@@ -1,6 +1,6 @@
 
 
-function ModalAddCarrito({inputCantidadCarritoref,producto,pedidoList,setSelectItem,addCarritoRequest,cantidad,numero_factura,setCantidad,setNumero_factura,setFalla}) {
+function ModalAddCarrito({number,inputCantidadCarritoref,producto,pedidoList,setSelectItem,addCarritoRequest,cantidad,numero_factura,setCantidad,setNumero_factura,setFalla}) {
 
   return (
     <>
@@ -17,7 +17,7 @@ function ModalAddCarrito({inputCantidadCarritoref,producto,pedidoList,setSelectI
          </div>
           <form onSubmit={e=>e.preventDefault()} className="d-flex justify-content-center flex-column p-3">
             <div className="input-group m-3">
-              <input type="number" ref={inputCantidadCarritoref} className="form-control" placeholder="Cantidad" onChange={(e)=>setCantidad(e.target.value)} value={cantidad}/>
+              <input type="number" ref={inputCantidadCarritoref} className="form-control" placeholder="Cantidad" onChange={(e)=>setCantidad(number(e.target.value))} value={number(cantidad)}/>
 
               <div className="input-group-append">
                 <span className="input-group-text">Total. {cantidad*producto.precio?cantidad*producto.precio:null}</span>
@@ -25,7 +25,10 @@ function ModalAddCarrito({inputCantidadCarritoref,producto,pedidoList,setSelectI
             </div>
             <div className="input-group mb-3">
               <div className="input-group-prepend">
-                <span className="input-group-text">Pedido #</span>
+                <span className="input-group-text">
+                  Pedido #
+                  <small className="text-muted">(space)</small>
+                </span>
               </div>
               <select className="form-control" onChange={(e)=>setNumero_factura(e.target.value)} value={numero_factura}>
                 {pedidoList.map((e,i)=>

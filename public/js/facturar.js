@@ -5743,7 +5743,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ModalAddCarrito(_ref) {
-  var inputCantidadCarritoref = _ref.inputCantidadCarritoref,
+  var number = _ref.number,
+      inputCantidadCarritoref = _ref.inputCantidadCarritoref,
       producto = _ref.producto,
       pedidoList = _ref.pedidoList,
       setSelectItem = _ref.setSelectItem,
@@ -5790,9 +5791,9 @@ function ModalAddCarrito(_ref) {
               className: "form-control",
               placeholder: "Cantidad",
               onChange: function onChange(e) {
-                return setCantidad(e.target.value);
+                return setCantidad(number(e.target.value));
               },
-              value: cantidad
+              value: number(cantidad)
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "input-group-append",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
@@ -5804,9 +5805,12 @@ function ModalAddCarrito(_ref) {
             className: "input-group mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "input-group-prepend",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                 className: "input-group-text",
-                children: "Pedido #"
+                children: ["Pedido #", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("small", {
+                  className: "text-muted",
+                  children: "(space)"
+                })]
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
               className: "form-control",
@@ -5972,7 +5976,8 @@ function Pagar(_ref) {
       setclienteInpdireccion = _ref.setclienteInpdireccion,
       inputaddCarritoFast = _ref.inputaddCarritoFast,
       setinputaddCarritoFast = _ref.setinputaddCarritoFast,
-      refinputaddcarritofast = _ref.refinputaddcarritofast;
+      refinputaddcarritofast = _ref.refinputaddcarritofast,
+      viewReportPedido = _ref.viewReportPedido;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     refinputaddcarritofast.current.value = ""; // refinputaddcarritofast.current.focus()
   }, []);
@@ -5992,7 +5997,8 @@ function Pagar(_ref) {
         cop = pedidoData.cop,
         bs = pedidoData.bs,
         editable = pedidoData.editable,
-        vuelto_entregado = pedidoData.vuelto_entregado;
+        vuelto_entregado = pedidoData.vuelto_entregado,
+        estado = pedidoData.estado;
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "container-fluid",
@@ -6105,7 +6111,7 @@ function Pagar(_ref) {
                       className: "form-control form-control-sm",
                       ref: refinputaddcarritofast,
                       value: inputaddCarritoFast,
-                      placeholder: "Agregar...",
+                      placeholder: "Agregar...(esc)",
                       onChange: function onChange(e) {
                         return setinputaddCarritoFast(e.target.value);
                       }
@@ -6131,7 +6137,7 @@ function Pagar(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "col-5",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "text-center p-1 bg-arabito",
+              className: (estado ? "bg-success" : "bg-arabito") + " text-center p-1",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h3", {
                 children: ["Pedido #", id]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h6", {
@@ -6322,13 +6328,15 @@ function Pagar(_ref) {
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
                   className: "btn btn-circle text-white btn-arabito btn-xl me-1",
+                  onClick: toggleImprimirTicket,
                   children: ["F3 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fa fa-print"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("a", {
                   className: "",
                   target: "_blank",
-                  href: "/notaentregapedido?id=" + id,
+                  href: "#",
+                  onClick: viewReportPedido,
                   children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
                     className: "btn btn-circle text-white btn-arabito btn-xl me-4",
                     children: ["F4 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
@@ -7141,6 +7149,9 @@ var db = {
   verificarLogin: function verificarLogin() {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/verificarLogin");
   },
+  guardarCierre: function guardarCierre(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/guardarCierre", data);
+  },
   getMoneda: function getMoneda() {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/getMoneda");
   },
@@ -7203,9 +7214,6 @@ var db = {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/today", {
       params: data
     });
-  },
-  guardarCierre: function guardarCierre(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/guardarCierre", data);
   },
   setPagoCredito: function setPagoCredito(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/setPagoCredito", {
@@ -7344,6 +7352,16 @@ var db = {
   },
   delFalla: function delFalla(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/delFalla", {
+      params: data
+    });
+  },
+  imprimirTicked: function imprimirTicked(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/imprimirTicked", {
+      params: data
+    });
+  },
+  sendCierre: function sendCierre(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "/verCierre", {
       params: data
     });
   } // getProveedores: ()=>axios.get(host+"/getProveedores.php"),
@@ -40625,18 +40643,31 @@ function Facturar() {
       sumPedidosArr = _useState260[0],
       setsumPedidosArr = _useState260[1];
 
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
-    addCarritoFast();
-  }, [inputaddCarritoFast]);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
-    getClienteCrud();
-  }, [qBuscarCliente]);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
-    focusCtMain();
-  }, [selectItem]);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
-    getFacturas();
-  }, [factqBuscar, factqBuscarDate, factOrderBy, factOrderDescAsc]);
+  var _useState261 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState262 = _slicedToArray(_useState261, 2),
+      qFallas = _useState262[0],
+      setqFallas = _useState262[1];
+
+  var _useState263 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("proveedor"),
+      _useState264 = _slicedToArray(_useState263, 2),
+      orderCatFallas = _useState264[0],
+      setorderCatFallas = _useState264[1];
+
+  var _useState265 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("todos"),
+      _useState266 = _slicedToArray(_useState265, 2),
+      orderSubCatFallas = _useState266[0],
+      setorderSubCatFallas = _useState266[1];
+
+  var _useState267 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState268 = _slicedToArray(_useState267, 2),
+      ascdescFallas = _useState268[0],
+      setascdescFallas = _useState268[1];
+
+  var _useState269 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+      _useState270 = _slicedToArray(_useState269, 2),
+      fallas = _useState270[0],
+      setfallas = _useState270[1];
+
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('f1', function () {
     if (view == "pedidos") {
       setView("seleccionar");
@@ -40671,6 +40702,21 @@ function Facturar() {
   }, {
     enableOnTags: ["INPUT", "SELECT"]
   }, [view]);
+  (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('f4', function () {
+    if (view == "pagar") {
+      viewReportPedido();
+    }
+  }, {
+    enableOnTags: ["INPUT", "SELECT"]
+  }, [view]);
+  (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('f3', function () {
+    if (view == "pagar") {
+      toggleImprimirTicket();
+    }
+  }, {
+    enableOnTags: ["INPUT", "SELECT"],
+    filter: false
+  }, [view]);
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('esc', function () {
     if (view == "seleccionar" && selectItem !== null) {
       setSelectItem(null);
@@ -40680,9 +40726,18 @@ function Facturar() {
     } else if (view == "pagar") {
       setToggleAddPersona(false);
       toggleModalProductos(false);
+      refinputaddcarritofast.current.focus();
     } else if (view == "inventario") {
       inputBuscarInventario.current.value = "";
       inputBuscarInventario.current.focus();
+    }
+  }, {
+    enableOnTags: ["INPUT", "SELECT"],
+    filter: false
+  }, [view, selectItem]);
+  (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('space', function () {
+    if (view == "seleccionar" && selectItem !== null) {
+      setNumero_factura("nuevo");
     }
   }, {
     enableOnTags: ["INPUT", "SELECT"],
@@ -40841,6 +40896,28 @@ function Facturar() {
     enableOnTags: ["INPUT", "SELECT"]
   }, [view, counterListProductos, selectItem]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    // let isMounted = true;  
+    getMoneda(); // ya invoca getProductos()
+
+    getPedidosList();
+    getToday(); // return () => { isMounted = false }
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    getFallas();
+  }, [qFallas, orderCatFallas, orderSubCatFallas, ascdescFallas]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    addCarritoFast();
+  }, [inputaddCarritoFast]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    getClienteCrud();
+  }, [qBuscarCliente]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    focusCtMain();
+  }, [selectItem]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    getFacturas();
+  }, [factqBuscar, factqBuscarDate, factOrderBy, factOrderDescAsc]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     if (view == "pedidos") {
       getPedidos();
     }
@@ -40881,22 +40958,6 @@ function Facturar() {
       }
     }
   }, [subViewInventario]);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
-    var isMounted = true;
-    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].verificarLogin().then(function (res) {
-      if (isMounted) {
-        getMoneda(); // ya invoca getProductos()
-
-        getPedidosList(); // getPedidos()
-
-        getToday();
-        setLoginActive(res.data.estado);
-      }
-    });
-    return function () {
-      isMounted = false;
-    };
-  }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     if (view == "credito") {
       getDeudores();
@@ -41131,9 +41192,13 @@ function Facturar() {
   };
 
   var notificar = function notificar(msj) {
-    setTimeout(function () {
-      setMsj("");
-    }, 3000);
+    var fixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+    if (fixed) {
+      setTimeout(function () {
+        setMsj("");
+      }, 3000);
+    }
 
     if (msj == "") {
       setMsj("");
@@ -41191,7 +41256,24 @@ function Facturar() {
   };
 
   var toggleImprimirTicket = function toggleImprimirTicket() {
-    console.log("toggleImprimirTicket");
+    if (pedidoData) {
+      var identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion);
+
+      if (identificacion) {
+        var nombres = window.prompt("Nombre y Apellido", pedidoData.cliente.nombre);
+
+        if (nombres) {
+          _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].imprimirTicked({
+            id: pedidoData.id,
+            identificacion: identificacion,
+            nombres: nombres
+          }).then(function (res) {
+            notificar(res);
+          });
+          console.log("toggleImprimirTicket");
+        }
+      }
+    }
   };
 
   var onChangePedidos = function onChangePedidos(e) {
@@ -41650,15 +41732,23 @@ function Facturar() {
       caja_inicial: cierre["caja_inicial"],
       notaCierre: notaCierre
     }).then(function (res) {
+      setLoading(false);
+      notificar(res, false);
+
       if (res.data.estado) {
-        if (type = "ver") {
-          window.open("verCierre?fecha=" + fechaCierre, "targed=blank");
-        } else if (type = "enviar") {// window.open("Cierre.php?fecha=","targed=blank")
+        if (type == "ver") {
+          window.open("verCierre?type=" + type + "&fecha=" + fechaCierre, "targed=blank");
+        } else {
+          setLoading(true);
+          _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].sendCierre({
+            type: type,
+            fecha: fechaCierre
+          }).then(function (res) {
+            notificar(res, false);
+            setLoading(false);
+          });
         }
       }
-
-      setLoading(false);
-      notificar(res);
     });
   };
 
@@ -42159,35 +42249,6 @@ function Facturar() {
     }
   };
 
-  var _useState261 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
-      _useState262 = _slicedToArray(_useState261, 2),
-      qFallas = _useState262[0],
-      setqFallas = _useState262[1];
-
-  var _useState263 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("proveedor"),
-      _useState264 = _slicedToArray(_useState263, 2),
-      orderCatFallas = _useState264[0],
-      setorderCatFallas = _useState264[1];
-
-  var _useState265 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("todos"),
-      _useState266 = _slicedToArray(_useState265, 2),
-      orderSubCatFallas = _useState266[0],
-      setorderSubCatFallas = _useState266[1];
-
-  var _useState267 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
-      _useState268 = _slicedToArray(_useState267, 2),
-      ascdescFallas = _useState268[0],
-      setascdescFallas = _useState268[1];
-
-  var _useState269 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
-      _useState270 = _slicedToArray(_useState269, 2),
-      fallas = _useState270[0],
-      setfallas = _useState270[1];
-
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
-    getFallas();
-  }, [qFallas, orderCatFallas, orderSubCatFallas, ascdescFallas]);
-
   var getFallas = function getFallas() {
     setLoading(true);
     _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getFallas({
@@ -42222,6 +42283,10 @@ function Facturar() {
         getFallas();
       });
     }
+  };
+
+  var viewReportPedido = function viewReportPedido() {
+    window.open("/notaentregapedido?id=" + pedidoData.id, "_blank");
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsxs)(react__WEBPACK_IMPORTED_MODULE_2__.StrictMode, {
@@ -42259,6 +42324,7 @@ function Facturar() {
               setNumero_factura: setNumero_factura,
               pedidoList: pedidoList,
               setFalla: setFalla,
+              number: number,
               inputCantidadCarritoref: inputCantidadCarritoref,
               addCarritoRequest: addCarritoRequest
             }) : null : null, showModalMovimientos && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_18__.jsx)(_components_ModalMovimientos__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -42491,6 +42557,7 @@ function Facturar() {
         credito: credito,
         inputmodaladdpersonacarritoref: inputmodaladdpersonacarritoref,
         inputaddcarritointernoref: inputaddcarritointernoref,
+        viewReportPedido: viewReportPedido,
         delItemPedido: delItemPedido,
         setDescuento: setDescuento,
         setDescuentoUnitario: setDescuentoUnitario,
