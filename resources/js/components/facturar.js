@@ -319,7 +319,8 @@ function Facturar() {
   useHotkeys('esc', () => {
     try{
       if (view=="seleccionar"&&selectItem!==null) {
-        setSelectItem(null)  
+        setSelectItem(null) 
+        setViewCaja(false) 
       }else if(view=="seleccionar"&&selectItem===null){
         inputbusquedaProductosref.current.value = ""
         inputbusquedaProductosref.current.focus()
@@ -876,8 +877,9 @@ function Facturar() {
     }
   }
   const loginRes = res => {
-    setLoginActive(res.estado)
-    if (res.estado) {
+    notificar(res)
+    if (res.data) {
+      setLoginActive(res.data.estado)
       getProductos()
       getPedidosList()
     }
@@ -1938,6 +1940,8 @@ const viewReportPedido = () =>{
                   movCajatipo={movCajatipo}
 
                   movCajaFecha={movCajaFecha}
+                  viewCaja={viewCaja}
+                  setViewCaja={setViewCaja}
                   setMovCajaFecha={setMovCajaFecha}
                 />
               :null}

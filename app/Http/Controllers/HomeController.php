@@ -92,7 +92,7 @@ class HomeController extends Controller
             
             return Response::json( ["estado"=>true,"msj"=>"¡Inicio exitoso! Bienvenido/a, ".$d->nombre] );
         } catch (\Exception $e) {
-            return Response::json( ["estado"=>false,"error"=>$e->getMessage()] );
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
         }
         
         

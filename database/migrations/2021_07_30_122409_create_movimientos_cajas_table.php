@@ -30,9 +30,11 @@ class CreateMovimientosCajasTable extends Migration
             $table->integer("id_pedido")->nullable();
 
             $table->float("monto",10,2);
+            $table->boolean("push")->default(0);
             $table->timestamps();
 
             $table->unique(["id_pedido","categoria"]);
+
         });
     }
 

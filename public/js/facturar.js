@@ -2652,163 +2652,181 @@ function Cajagastos(_ref) {
       delMovCaja = _ref.delMovCaja,
       movCajatipo = _ref.movCajatipo,
       movCajaFecha = _ref.movCajaFecha,
-      setMovCajaFecha = _ref.setMovCajaFecha;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-    className: "col",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
-      children: "Movimientos de caja y Gastos"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("form", {
-      onSubmit: setMovimientoCaja,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
-        className: "table table-sm",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
-          children: movCajatipo !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                  type: "date",
-                  value: movCajaFecha,
-                  onChange: function onChange(e) {
-                    return setMovCajaFecha(e.target.value);
-                  }
-                })
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                  type: "text",
-                  required: true,
-                  placeholder: "Desc.",
-                  value: movCajadescripcion,
-                  onChange: function onChange(e) {
-                    return setMovCajadescripcion(e.target.value);
-                  },
-                  className: "form-control"
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                  type: "text",
-                  required: true,
-                  placeholder: "Monto.",
-                  value: movCajamonto,
-                  onChange: function onChange(e) {
-                    return setMovCajamonto(number(e.target.value));
-                  },
-                  className: "form-control"
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                colSpan: "2",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
-                  onChange: function onChange(e) {
-                    return setMovCajacategoria(e.target.value);
-                  },
-                  value: movCajacategoria,
-                  className: "form-control",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "3",
-                    children: "Funcionamiento"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "4",
-                    children: "Pago a proveedores"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "2",
-                    children: "N\xF3mina"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "5",
-                    children: "Otros"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "6",
-                    children: "Devoluci\xF3n"
-                  })]
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                  className: "btn",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                    className: "fa fa-send"
+      setMovCajaFecha = _ref.setMovCajaFecha,
+      viewCaja = _ref.viewCaja,
+      setViewCaja = _ref.setViewCaja;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      className: "modal-custom",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+        className: "text-danger",
+        onClick: function onClick() {
+          return setViewCaja(false);
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+          className: "closeModal",
+          children: "\u2716"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "modal-content",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+          children: "Movimientos de caja y Gastos"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("form", {
+          onSubmit: setMovimientoCaja,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
+            className: "table table-sm",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
+              children: movCajatipo !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                      type: "date",
+                      value: movCajaFecha,
+                      onChange: function onChange(e) {
+                        return setMovCajaFecha(e.target.value);
+                      }
+                    })
                   })
-                })
-              })]
-            })]
-          }) : null
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-              colSpan: "2",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("table", {
-                className: "table table-sm",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", {
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                      colSpan: "2",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h5", {
-                        onClick: function onClick() {
-                          return setMovCajatipo(1);
-                        },
-                        className: movCajatipo == 1 ? "text-primary" : null + " pointer",
-                        children: ["Entregado ", movCajatipo == 1 ? null : "(Click)"]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                      type: "text",
+                      required: true,
+                      placeholder: "Desc.",
+                      value: movCajadescripcion,
+                      onChange: function onChange(e) {
+                        return setMovCajadescripcion(e.target.value);
+                      },
+                      className: "form-control"
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                      type: "text",
+                      required: true,
+                      placeholder: "Monto.",
+                      value: movCajamonto,
+                      onChange: function onChange(e) {
+                        return setMovCajamonto(number(e.target.value));
+                      },
+                      className: "form-control"
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                    colSpan: "2",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                      onChange: function onChange(e) {
+                        return setMovCajacategoria(e.target.value);
+                      },
+                      value: movCajacategoria,
+                      className: "form-control",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                        value: "3",
+                        children: "Funcionamiento"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                        value: "4",
+                        children: "Pago a proveedores"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                        value: "2",
+                        children: "N\xF3mina"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                        value: "5",
+                        children: "Otros"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                        value: "6",
+                        children: "Devoluci\xF3n"
+                      })]
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                      className: "btn",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                        className: "fa fa-send"
                       })
                     })
-                  }), movimientosCaja.filter(function (e) {
-                    return e.tipo == 1;
-                  }).map(function (e) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      "data-id": e.id,
-                      onClick: delMovCaja,
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
-                        children: [e.descripcion, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("b", {
-                          children: [e.categoria == 1 ? " Vueltos" : null, e.categoria == 2 ? " Nómina" : null, e.categoria == 3 ? " Funcionamiento" : null, e.categoria == 4 ? " Pago a proveedores" : null, e.categoria == 5 ? " Otros" : null, e.categoria == 6 ? " Devolución" : null]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                          className: "text-muted",
-                          children: e.created_at
-                        })]
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: e.monto
-                      })]
-                    }, e.id);
                   })]
-                })
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-              colSpan: "3",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("table", {
-                className: "table table-sm",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", {
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                      colSpan: "2",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h5", {
-                        onClick: function onClick() {
-                          return setMovCajatipo(0);
-                        },
-                        className: movCajatipo == 0 ? "text-primary" : null + " pointer",
-                        children: ["Pendiente ", movCajatipo == 0 ? null : "(Click)"]
-                      })
+                })]
+              }) : null
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  colSpan: "2",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("table", {
+                    className: "table table-sm",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                          colSpan: "2",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h5", {
+                            onClick: function onClick() {
+                              return setMovCajatipo(1);
+                            },
+                            className: movCajatipo == 1 ? "text-primary" : null + " pointer",
+                            children: ["Entregado ", movCajatipo == 1 ? null : "(Click)"]
+                          })
+                        })
+                      }), movimientosCaja.filter(function (e) {
+                        return e.tipo == 1;
+                      }).map(function (e) {
+                        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                          "data-id": e.id,
+                          onClick: delMovCaja,
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
+                            children: [e.descripcion, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("b", {
+                              children: [e.categoria == 1 ? " Vueltos" : null, e.categoria == 2 ? " Nómina" : null, e.categoria == 3 ? " Funcionamiento" : null, e.categoria == 4 ? " Pago a proveedores" : null, e.categoria == 5 ? " Otros" : null, e.categoria == 6 ? " Devolución" : null]
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                              className: "text-muted",
+                              children: e.created_at
+                            })]
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                            children: e.monto
+                          })]
+                        }, e.id);
+                      })]
                     })
-                  }), movimientosCaja.filter(function (e) {
-                    return e.tipo == 0;
-                  }).map(function (e) {
-                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                      "data-id": e.id,
-                      onClick: delMovCaja,
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
-                        children: [e.descripcion, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("b", {
-                          children: [e.categoria == 1 ? " Vueltos" : null, e.categoria == 2 ? " Nómina" : null, e.categoria == 3 ? " Funcionamiento" : null, e.categoria == 4 ? " Pago a proveedores" : null, e.categoria == 5 ? " Otros" : null, e.categoria == 6 ? " Devolución" : null]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                          className: "text-muted",
-                          children: e.created_at
-                        })]
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                        children: e.monto
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  colSpan: "3",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("table", {
+                    className: "table table-sm",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                          colSpan: "2",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h5", {
+                            onClick: function onClick() {
+                              return setMovCajatipo(0);
+                            },
+                            className: movCajatipo == 0 ? "text-primary" : null + " pointer",
+                            children: ["Pendiente ", movCajatipo == 0 ? null : "(Click)"]
+                          })
+                        })
+                      }), movimientosCaja.filter(function (e) {
+                        return e.tipo == 0;
+                      }).map(function (e) {
+                        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                          "data-id": e.id,
+                          onClick: delMovCaja,
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
+                            children: [e.descripcion, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("b", {
+                              children: [e.categoria == 1 ? " Vueltos" : null, e.categoria == 2 ? " Nómina" : null, e.categoria == 3 ? " Funcionamiento" : null, e.categoria == 4 ? " Pago a proveedores" : null, e.categoria == 5 ? " Otros" : null, e.categoria == 6 ? " Devolución" : null]
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                              className: "text-muted",
+                              children: e.created_at
+                            })]
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                            children: e.monto
+                          })]
+                        }, e.id);
                       })]
-                    }, e.id);
-                  })]
-                })
+                    })
+                  })
+                })]
               })
             })]
           })
         })]
-      })
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+      className: "overlay"
     })]
   });
 }
@@ -5187,7 +5205,7 @@ var Login = /*#__PURE__*/function (_Component) {
         });
 
         if (data.data) {
-          _this4.props.loginRes(data.data);
+          _this4.props.loginRes(data);
         } // handleNotification(data)
 
       }); // .catch(error=>{handleNotification(error)})
@@ -7222,6 +7240,7 @@ __webpack_require__.r(__webpack_exports__);
 var host = ""; // const host = "http://localhost/arabitoapp"
 
 var db = {
+  // setCentralData: data=>axios.get(host+"/setCentralData",{params:data}),
   getMoneda: function getMoneda() {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/getMoneda");
   },
@@ -7368,9 +7387,6 @@ var db = {
   },
   sendCierre: function sendCierre(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/verCierre", data);
-  },
-  setCentralData: function setCentralData(data) {
-    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "/setCentralData", data);
   } // getProveedores: ()=>axios.post(host+"/getProveedores.php"),
   // getusuarios: ()=>axios.post(host+"/getusuarios.php"),
   // setPedidos: (data)=>{
@@ -40733,6 +40749,7 @@ function Facturar() {
     try {
       if (view == "seleccionar" && selectItem !== null) {
         setSelectItem(null);
+        setViewCaja(false);
       } else if (view == "seleccionar" && selectItem === null) {
         inputbusquedaProductosref.current.value = "";
         inputbusquedaProductosref.current.focus();
@@ -41247,9 +41264,10 @@ function Facturar() {
   };
 
   var loginRes = function loginRes(res) {
-    setLoginActive(res.estado);
+    notificar(res);
 
-    if (res.estado) {
+    if (res.data) {
+      setLoginActive(res.data.estado);
       getProductos();
       getPedidosList();
     }
@@ -42436,6 +42454,8 @@ function Facturar() {
             delMovCaja: delMovCaja,
             movCajatipo: movCajatipo,
             movCajaFecha: movCajaFecha,
+            viewCaja: viewCaja,
+            setViewCaja: setViewCaja,
             setMovCajaFecha: setMovCajaFecha
           }) : null]
         })

@@ -234,7 +234,7 @@ class PedidosController extends Controller
         {
 
             $q->with("producto");
-            $q->orderBy("id","desc");
+            $q->orderBy("id","asc");
 
         }])->where("id",$id_pedido)->first();
 

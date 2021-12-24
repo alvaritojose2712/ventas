@@ -34,7 +34,10 @@ class CreateCierresTable extends Migration
             $table->date("fecha")->unique();
 
             $table->integer("id_usuario");
+            $table->boolean("push")->default(0);
             $table->timestamps();
+
+
         });
     }
 

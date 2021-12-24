@@ -49,7 +49,7 @@ class Login extends Component{
 				activeLoading:false,
 			});
 			if (data.data) {
-				this.props.loginRes(data.data)
+				this.props.loginRes(data)
 			}
 			// handleNotification(data)
 

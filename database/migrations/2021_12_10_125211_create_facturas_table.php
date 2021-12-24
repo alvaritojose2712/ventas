@@ -26,6 +26,8 @@ class CreateFacturasTable extends Migration
             $table->date("fechavencimiento");
             $table->boolean("estatus");
 
+            $table->boolean("push")->default(0);
+
 
             $table->timestamps();
         });
