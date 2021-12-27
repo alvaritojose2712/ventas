@@ -21,13 +21,28 @@ class sendCentral extends Controller
 
 
         $version_actual = env("APP_VERSION");
-        return "V.".$version_actual;
+        // return "V.".$version_actual;
 
         $version_new = 2;
         //$response = Http::get($this->path.'/setGastos');
 
         if ($version_actual<$version_new) {
-            $pull = exec("git pull https://github.com/alvaritojose2712/arabitofacturacion.git");
+            
+
+            exec("cd c:/arabitofacturacion && git pull https://github.com/alvaritojose2712/arabitofacturacion.git", $output, $return);
+            // Return will return non-zero upon an error
+            if (!$return) {
+                exec("npm run production", $output, $return);
+                if (!$return) {
+                    exec("cd c:/arabitofacturacion && move public\ cd:/xampp/htdocs/arabito", $output, $return);
+                    if (!$return) {
+                        echo "Exito al actualizar";
+                    }
+                }
+
+            } else {
+                echo "Error. No se pudo hacer Pull";
+            }
         }
 
     }

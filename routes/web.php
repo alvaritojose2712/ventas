@@ -38,107 +38,107 @@ use App\Http\Controllers\sendCentral;
 
 
 
-Route::get('/sucursal', [SucursalController::class,"index"]);
-Route::get('/setSucursal', [SucursalController::class,"setSucursal"])->name("setSucursal");
+Route::get('sucursal', [SucursalController::class,"index"]);
+Route::get('setSucursal', [SucursalController::class,"setSucursal"])->name("setSucursal");
 
-Route::get('/', [HomeController::class,"index"]);
-Route::post('/login', [HomeController::class,"login"]);
-Route::get('/logout', [HomeController::class,"logout"]);
-Route::post('/verificarLogin', [HomeController::class,"verificarLogin"]);
+Route::get('', [HomeController::class,"index"]);
+Route::post('login', [HomeController::class,"login"]);
+Route::get('logout', [HomeController::class,"logout"]);
+Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 
 // if (session()->has("id_usuario")) {
 	// code...
-	Route::get('/notaentregapedido', [PedidosController::class,"notaentregapedido"]);
-	Route::post('/getinventario', [InventarioController::class,"index"]);
-	Route::post('/setCarrito', [InventarioController::class,"setCarrito"]);
-	Route::post('/getPedidosList', [PedidosController::class,"getPedidosUser"]);
-	Route::post('/getPedido', [PedidosController::class,"getPedido"]);
-	Route::post('/getMoneda', [MonedaController::class,"getMoneda"]);
-	Route::post('/setMoneda', [MonedaController::class,"setMoneda"]);
-	Route::post('/delItemPedido', [ItemsPedidosController::class,"delItemPedido"]);
-	Route::post('/setDescuentoUnitario', [ItemsPedidosController::class,"setDescuentoUnitario"]);
+	Route::get('notaentregapedido', [PedidosController::class,"notaentregapedido"]);
+	Route::post('getinventario', [InventarioController::class,"index"]);
+	Route::post('setCarrito', [InventarioController::class,"setCarrito"]);
+	Route::post('getPedidosList', [PedidosController::class,"getPedidosUser"]);
+	Route::post('getPedido', [PedidosController::class,"getPedido"]);
+	Route::post('getMoneda', [MonedaController::class,"getMoneda"]);
+	Route::post('setMoneda', [MonedaController::class,"setMoneda"]);
+	Route::post('delItemPedido', [ItemsPedidosController::class,"delItemPedido"]);
+	Route::post('setDescuentoUnitario', [ItemsPedidosController::class,"setDescuentoUnitario"]);
 
 
-	Route::post('/setDescuentoTotal', [ItemsPedidosController::class,"setDescuentoTotal"]);
+	Route::post('setDescuentoTotal', [ItemsPedidosController::class,"setDescuentoTotal"]);
 
 	
-	Route::post('/setCantidad', [ItemsPedidosController::class,"setCantidad"]);
+	Route::post('setCantidad', [ItemsPedidosController::class,"setCantidad"]);
 
-	Route::post('/getpersona', [ClientesController::class,"getpersona"]);
-	Route::post('/setpersonacarrito', [PedidosController::class,"setpersonacarrito"]);
+	Route::post('getpersona', [ClientesController::class,"getpersona"]);
+	Route::post('setpersonacarrito', [PedidosController::class,"setpersonacarrito"]);
 
 
-	Route::post('/setPagoPedido', [PagoPedidosController::class,"setPagoPedido"]);
-	Route::post('/delpedido', [PedidosController::class,"delpedido"]);
+	Route::post('setPagoPedido', [PagoPedidosController::class,"setPagoPedido"]);
+	Route::post('delpedido', [PedidosController::class,"delpedido"]);
 	
-	Route::post('/getPedidos', [PedidosController::class,"getPedidos"]);
+	Route::post('getPedidos', [PedidosController::class,"getPedidos"]);
 
-	Route::post('/cerrar', [PedidosController::class,"cerrar"]);
+	Route::post('cerrar', [PedidosController::class,"cerrar"]);
 
-	Route::post('/today', [PedidosController::class,"today"]);
+	Route::post('today', [PedidosController::class,"today"]);
 
-	Route::post('/guardarCierre', [PedidosController::class,"guardarCierre"]);
+	Route::post('guardarCierre', [PedidosController::class,"guardarCierre"]);
 	
-	Route::post('/verCierre', [PedidosController::class,"verCierre"]);
+	Route::post('verCierre', [PedidosController::class,"verCierre"]);
 
 
-	Route::post('/setPagoCredito', [PagoPedidosController::class,"setPagoCredito"]);
+	Route::post('setPagoCredito', [PagoPedidosController::class,"setPagoCredito"]);
 
-	Route::post('/getDeudores', [PagoPedidosController::class,"getDeudores"]);
-	Route::post('/getDeudor', [PagoPedidosController::class,"getDeudor"]);
+	Route::post('getDeudores', [PagoPedidosController::class,"getDeudores"]);
+	Route::post('getDeudor', [PagoPedidosController::class,"getDeudor"]);
 
-	Route::post('/entregarVuelto', [PagoPedidosController::class,"entregarVuelto"]);
+	Route::post('entregarVuelto', [PagoPedidosController::class,"entregarVuelto"]);
 	
-	Route::post('/getMovimientosCaja', [MovimientosCajaController::class,"getMovimientosCaja"]);
-	Route::post('/setMovimientoCaja', [MovimientosCajaController::class,"setMovimientoCaja"]);
+	Route::post('getMovimientosCaja', [MovimientosCajaController::class,"getMovimientosCaja"]);
+	Route::post('setMovimientoCaja', [MovimientosCajaController::class,"setMovimientoCaja"]);
 
-	Route::post('/delMovCaja', [MovimientosCajaController::class,"delMovCaja"]);
+	Route::post('delMovCaja', [MovimientosCajaController::class,"delMovCaja"]);
 	
-	Route::post('/getMovimientos', [MovimientosController::class,"getMovimientos"]);
-	Route::post('/getBuscarDevolucion', [InventarioController::class,"index"]);
-	Route::post('/setDevolucion', [MovimientosController::class,"setDevolucion"]);
-	Route::post('/delMov', [MovimientosController::class,"delMov"]);
+	Route::post('getMovimientos', [MovimientosController::class,"getMovimientos"]);
+	Route::post('getBuscarDevolucion', [InventarioController::class,"index"]);
+	Route::post('setDevolucion', [MovimientosController::class,"setDevolucion"]);
+	Route::post('delMov', [MovimientosController::class,"delMov"]);
 	
-	Route::post('/setProveedor', [ProveedoresController::class,"setProveedor"]);
-	Route::post('/guardarNuevoProducto', [InventarioController::class,"guardarNuevoProducto"]);
+	Route::post('setProveedor', [ProveedoresController::class,"setProveedor"]);
+	Route::post('guardarNuevoProducto', [InventarioController::class,"guardarNuevoProducto"]);
 
-	Route::post('/getProveedores', [ProveedoresController::class,"getProveedores"]);
+	Route::post('getProveedores', [ProveedoresController::class,"getProveedores"]);
 
-	Route::post('/delProveedor', [ProveedoresController::class,"delProveedor"]);
-	Route::post('/delProducto', [InventarioController::class,"delProducto"]);
+	Route::post('delProveedor', [ProveedoresController::class,"delProveedor"]);
+	Route::post('delProducto', [InventarioController::class,"delProducto"]);
 
-	Route::post('/getDepositos', [DepositosController::class,"getDepositos"]);
-	Route::post('/getMarcas', [MarcasController::class,"getMarcas"]);
+	Route::post('getDepositos', [DepositosController::class,"getDepositos"]);
+	Route::post('getMarcas', [MarcasController::class,"getMarcas"]);
 
-	Route::post('/getFacturas', [FacturaController::class,"getFacturas"]);
-	Route::post('/setFactura', [FacturaController::class,"setFactura"]);
-	Route::post('/delFactura', [FacturaController::class,"delFactura"]);
+	Route::post('getFacturas', [FacturaController::class,"getFacturas"]);
+	Route::post('setFactura', [FacturaController::class,"setFactura"]);
+	Route::post('delFactura', [FacturaController::class,"delFactura"]);
 
-	Route::post('/delItemFact', [ItemsFacturaController::class,"delItemFact"]);
+	Route::post('delItemFact', [ItemsFacturaController::class,"delItemFact"]);
 
-	Route::post('/setClienteCrud', [ClientesController::class,"setClienteCrud"]);
-	Route::post('/getClienteCrud', [ClientesController::class,"getpersona"]);
-	Route::post('/delCliente', [ClientesController::class,"delCliente"]);
-	Route::post('/sumpedidos', [PedidosController::class,"sumpedidos"]);
+	Route::post('setClienteCrud', [ClientesController::class,"setClienteCrud"]);
+	Route::post('getClienteCrud', [ClientesController::class,"getpersona"]);
+	Route::post('delCliente', [ClientesController::class,"delCliente"]);
+	Route::post('sumpedidos', [PedidosController::class,"sumpedidos"]);
 
-	Route::post('/getFallas', [InventarioController::class,"getFallas"]);
-	Route::post('/setFalla', [InventarioController::class,"setFalla"]);
-	Route::post('/delFalla', [InventarioController::class,"delFalla"]);
+	Route::post('getFallas', [InventarioController::class,"getFallas"]);
+	Route::post('setFalla', [InventarioController::class,"setFalla"]);
+	Route::post('delFalla', [InventarioController::class,"delFalla"]);
 
-	Route::post('/imprimirTicked', [tickera::class,"imprimir"]);
+	Route::post('imprimirTicked', [tickera::class,"imprimir"]);
 
 
 
 	
 	//Update App
-	Route::get('/update', [sendCentral::class,"updateApp"]);
+	Route::get('update', [sendCentral::class,"updateApp"]);
 
 
 	//Central
-	Route::get('/setVentas', [sendCentral::class,"setVentas"]);
-	Route::get('/setGastos', [sendCentral::class,"setGastos"]);
-	Route::get('/setCentralData', [sendCentral::class,"setCentralData"]);
-	Route::get('/central', [sendCentral::class,"index"]);
+	Route::get('setVentas', [sendCentral::class,"setVentas"]);
+	Route::get('setGastos', [sendCentral::class,"setGastos"]);
+	Route::get('setCentralData', [sendCentral::class,"setCentralData"]);
+	Route::get('central', [sendCentral::class,"index"]);
 
 
 
