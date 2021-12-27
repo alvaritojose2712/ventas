@@ -34,11 +34,14 @@ class sendCentral extends Controller
             if (!$return) {
                 exec("cd c:/arabitofacturacion && npm run production && move /Y ./public/css c:/xampp/htdocs/arabito && move /Y ./public/js c:/xampp/htdocs/arabito && move /Y ./public/fonts c:/xampp/htdocs/arabito && move /Y ./public/images c:/xampp/htdocs/arabito",$output,$return);
                 if (!$return) {
-                    echo "Exito al actualizar";
+                    exec("cd c:/arabitofacturacion && php artisan key:generate && && php artisan view:clear && php artisan route:clear && php artisan cache:clear",$output,$return);
+                    if (!$return) {
+                        echo "Exito al actualizar";
+                    }
                 }
 
             } else {
-                echo "Error. No se pudo hacer Pull";
+                echo "Error. No se pudo hacer Pull. ".$output;
             }
         }
 
