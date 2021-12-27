@@ -10,6 +10,7 @@ use App\Models\sucursal;
 use Http;
 use Response;
 
+ini_set('max_execution_time', 300);
 class sendCentral extends Controller
 {
     // public $path = "arabitonline.com";
@@ -30,14 +31,10 @@ class sendCentral extends Controller
             
 
             exec("cd c:/arabitofacturacion && git pull https://github.com/alvaritojose2712/arabitofacturacion.git", $output, $return);
-            // Return will return non-zero upon an error
             if (!$return) {
-                exec("npm run production", $output, $return);
+                exec("cd c:/arabitofacturacion && npm run production && move /Y ./public/css c:/xampp/htdocs/arabito && move /Y ./public/js c:/xampp/htdocs/arabito && move /Y ./public/fonts c:/xampp/htdocs/arabito && move /Y ./public/images c:/xampp/htdocs/arabito",$output,$return);
                 if (!$return) {
-                    exec("cd c:/arabitofacturacion && move public\ cd:/xampp/htdocs/arabito", $output, $return);
-                    if (!$return) {
-                        echo "Exito al actualizar";
-                    }
+                    echo "Exito al actualizar";
                 }
 
             } else {
