@@ -127,8 +127,11 @@ Route::post('/verificarLogin', [HomeController::class,"verificarLogin"]);
 
 	Route::post('/imprimirTicked', [tickera::class,"imprimir"]);
 
-	
 
+
+	
+	//Update App
+	Route::get('/update', [sendCentral::class,"updateApp"]);
 
 
 	//Central

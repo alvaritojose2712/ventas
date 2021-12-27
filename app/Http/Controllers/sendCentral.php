@@ -12,7 +12,23 @@ use Response;
 
 class sendCentral extends Controller
 {
+    // public $path = "arabitonline.com";
     public $path = "http://127.0.0.1:8001";
+
+
+    public function updateApp()
+    {
+        $version_actual = env("APP_VERSION");
+
+
+        $version_new = 2;
+        //$response = Http::get($this->path.'/setGastos');
+
+        if ($version_actual<$version_new) {
+            
+        }
+
+    }
     public function index()
     {
         return view("central.index");
