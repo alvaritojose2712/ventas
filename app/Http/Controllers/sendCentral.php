@@ -18,14 +18,16 @@ class sendCentral extends Controller
 
     public function updateApp()
     {
-        $version_actual = env("APP_VERSION");
 
+
+        $version_actual = env("APP_VERSION");
+        return "V.".$version_actual;
 
         $version_new = 2;
         //$response = Http::get($this->path.'/setGastos');
 
         if ($version_actual<$version_new) {
-            
+            $pull = exec("git pull https://github.com/alvaritojose2712/arabitofacturacion.git");
         }
 
     }
