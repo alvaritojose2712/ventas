@@ -42,7 +42,7 @@ class sendCentral extends Controller
                 $output = shell_exec("cd c:/arabitofacturacion && ".$runproduction." && ".$phpArtisan."",$output, $retval);
             }else{
                 echo "Pull al día";
-                print_r($output)
+                print_r($output);
 
             }
         }
