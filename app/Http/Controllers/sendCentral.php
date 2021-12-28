@@ -29,19 +29,18 @@ class sendCentral extends Controller
 
         if ($version_actual<$version_new) {
             
+            $pull = "git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
+            $runproduction = "npm run production";
+            
+            $phpArtisan = "php artisan key:generate && php artisan view:clear && php artisan route:clear && php artisan cache:clear";
 
-            exec("cd c:/arabitofacturacion && git pull https://github.com/alvaritojose2712/arabitofacturacion.git", $output, $return);
-            if (!$return) {
-                exec("cd c:/arabitofacturacion && npm run production && move /Y ./public/css c:/xampp/htdocs/arabito && move /Y ./public/js c:/xampp/htdocs/arabito && move /Y ./public/fonts c:/xampp/htdocs/arabito && move /Y ./public/images c:/xampp/htdocs/arabito",$output,$return);
-                if (!$return) {
-                    exec("cd c:/arabitofacturacion && php artisan key:generate && && php artisan view:clear && php artisan route:clear && php artisan cache:clear",$output,$return);
-                    if (!$return) {
-                        echo "Exito al actualizar";
-                    }
-                }
+            $output = shell_exec("cd c:/arabitofacturacion && ".$pull." && ".$runproduction." && ".$phpArtisan."",$output, $retval);
 
-            } else {
-                echo "Error. No se pudo hacer Pull. ".$output;
+            if (!$retval) {
+                echo "Éxito al Updating";
+            }else{
+                print_r($output)
+
             }
         }
 
