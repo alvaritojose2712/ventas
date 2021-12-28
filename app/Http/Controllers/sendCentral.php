@@ -29,7 +29,7 @@ class sendCentral extends Controller
 
         if ($version_actual<$version_new) {
             
-            $pull = "";
+            $pull = "git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
             $runproduction = "npm run production";
             
             $phpArtisan = "php artisan key:generate && php artisan view:clear && php artisan route:clear && php artisan cache:clear";
