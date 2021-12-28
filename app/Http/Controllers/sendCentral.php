@@ -40,6 +40,10 @@ class sendCentral extends Controller
             if (!$retval) {
                 echo "Éxito al Pull. Building...";
                 exec("cd c:/arabitofacturacion && ".$runproduction." && ".$phpArtisan."",$output, $retval);
+
+                if (!$retval) {
+                    echo "Éxito al Build. Actualizado...";
+                }
             }else{
                 echo "Pull al día. No requiere actualizar <br>";
                 print_r($output);
