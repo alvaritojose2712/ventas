@@ -21,23 +21,20 @@ class sendCentral extends Controller
     {
 
 
+
         $version_actual = env("APP_VERSION");
-        // return "V.".$version_actual;
 
         $version_new = 2;
         //$response = Http::get($this->path.'/setGastos');
+        $pull = "git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
+        $runproduction = "npm run production";
+        
+        $phpArtisan = "php artisan key:generate && php artisan view:clear && php artisan route:clear && php artisan cache:clear";
 
         if ($version_actual<$version_new) {
-            
-            $pull = "git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
-            $runproduction = "npm run production";
-            
-            $phpArtisan = "php artisan key:generate && php artisan view:clear && php artisan route:clear && php artisan cache:clear";
+            $pull = shell_exec("cd c:/arabitofacturacion && ".$pull);
 
-
-            exec("cd c:/arabitofacturacion && ".$pull,$output, $retval);
-
-            if (!$retval) {
+            if (!str_contains($pull, "Already up to date")) {
                 echo "Éxito al Pull. Building...";
                 exec("cd c:/arabitofacturacion && ".$runproduction." && ".$phpArtisan."",$output, $retval);
 
@@ -46,7 +43,7 @@ class sendCentral extends Controller
                 }
             }else{
                 echo "Pull al día. No requiere actualizar <br>";
-                print_r($output);
+                echo "<pre>$pull</pre>";
 
             }
         }
