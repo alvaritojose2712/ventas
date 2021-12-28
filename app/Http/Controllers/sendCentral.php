@@ -34,11 +34,14 @@ class sendCentral extends Controller
             
             $phpArtisan = "php artisan key:generate && php artisan view:clear && php artisan route:clear && php artisan cache:clear";
 
-            $output = shell_exec("cd c:/arabitofacturacion && ".$pull." && ".$runproduction." && ".$phpArtisan."",$output, $retval);
+            $pull = shell_exec("cd c:/arabitofacturacion && ".$pull,$output, $retval);
+
 
             if (!$retval) {
-                echo "Éxito al Updating";
+                echo "Éxito al Pull. Building...";
+                $output = shell_exec("cd c:/arabitofacturacion && ".$runproduction." && ".$phpArtisan."",$output, $retval);
             }else{
+                echo "Pull al día";
                 print_r($output)
 
             }
