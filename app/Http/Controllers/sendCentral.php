@@ -29,19 +29,19 @@ class sendCentral extends Controller
 
         if ($version_actual<$version_new) {
             
-            $pull = "git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
+            $pull = "";
             $runproduction = "npm run production";
             
             $phpArtisan = "php artisan key:generate && php artisan view:clear && php artisan route:clear && php artisan cache:clear";
 
-            $pull = shell_exec("cd c:/arabitofacturacion && ".$pull,$output, $retval);
 
+            exec("cd c:/arabitofacturacion && ".$pull,$output, $retval);
 
             if (!$retval) {
                 echo "Éxito al Pull. Building...";
-                $output = shell_exec("cd c:/arabitofacturacion && ".$runproduction." && ".$phpArtisan."",$output, $retval);
+                exec("cd c:/arabitofacturacion && ".$runproduction." && ".$phpArtisan."",$output, $retval);
             }else{
-                echo "Pull al día";
+                echo "Pull al día. No requiere actualizar <br>";
                 print_r($output);
 
             }
