@@ -137,7 +137,7 @@ class InventarioController extends Controller
                 "deposito",
             ])
             ->where(function($e) use($itemCero){
-                if ($itemCero=="false") {
+                if (!$itemCero) {
                     $e->where("cantidad",">",0);
                     // code...
                 }
@@ -150,7 +150,8 @@ class InventarioController extends Controller
                     ->orWhere("codigo_proveedor","$q");
                 }else{
                     $e->orWhere("descripcion","LIKE","%$q%")
-                    ->orWhere("codigo_proveedor","LIKE","$q%");
+                    ->orWhere("codigo_proveedor","LIKE","$q%")
+                    ->orWhere("codigo_barras","LIKE","$q%");
 
                 }
 

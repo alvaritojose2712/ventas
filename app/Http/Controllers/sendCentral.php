@@ -21,31 +21,23 @@ class sendCentral extends Controller
     {
 
 
+        $pull = "git stash && git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
+        $runproduction = "npm run production";        
+        $phpArtisan = "php artisan key:generate && php artisan view:cache && php artisan route:cache && php artisan config:cache";
 
-        $version_actual = env("APP_VERSION");
+        $pull = shell_exec("cd c:/arabitofacturacion && ".$pull);
 
-        $version_new = 2;
-        //$response = Http::get($this->path.'/setGastos');
-        $pull = "git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
-        $runproduction = "npm run production";
-        
-        $phpArtisan = "php artisan key:generate && php artisan view:clear && php artisan route:clear && php artisan cache:clear";
+        if (!str_contains($pull, "Already up to date")) {
+            echo "Éxito al Pull. Building...";
+            exec("cd c:/arabitofacturacion && ".$runproduction." && ".$phpArtisan,$output, $retval);
 
-        if ($version_actual<$version_new) {
-            $pull = shell_exec("cd c:/arabitofacturacion && ".$pull);
-
-            if (!str_contains($pull, "Already up to date")) {
-                echo "Éxito al Pull. Building...";
-                exec("cd c:/arabitofacturacion && ".$runproduction." && ".$phpArtisan."",$output, $retval);
-
-                if (!$retval) {
-                    echo "Éxito al Build. Actualizado...";
-                }
-            }else{
-                echo "Pull al día. No requiere actualizar <br>";
-                echo "<pre>$pull</pre>";
-
+            if (!$retval) {
+                echo "Éxito al Build. Actualizado...";
             }
+        }else{
+            echo "Pull al día. No requiere actualizar <br>";
+            echo "<pre>$pull</pre>";
+
         }
 
     }
@@ -54,10 +46,19 @@ class sendCentral extends Controller
         return view("central.index");
     }
 
+    public function getInventarioCentral()
+    {
+        $sucursal = sucursal::all()->first();
+        $response = Http::post($this->path.'/getInventario', [
+            "sucursal_code"=>$sucursal->codigo,
+
+        ]);
+    }
+
     public function setGastos(Request $req)
     {
         $sucursal = sucursal::all()->first();
-        $movimientos_caja = movimientos_caja::where("push",0)->get();
+        $movimientos_caja = movimientos_caja::all();
 
         if (!$movimientos_caja->count()) {
             return Response::json(["msj"=>"Nada que enviar","estado"=>false]);
@@ -74,9 +75,7 @@ class sendCentral extends Controller
         if ($response->ok()) {
             $res = $response->json();
             if ($res["estado"]) {
-                $changePushMov = movimientos_caja::whereIn("id",$res["ids_ok"])->update(["push"=>1]);
-
-                if ($changePushMov) {return $res["msj"];}
+                return $res["msj"];
             }
         }else{
             return $response->body();
@@ -85,7 +84,7 @@ class sendCentral extends Controller
     public function setCentralData(Request $req)
     {
         $sucursal = sucursal::all()->first();
-        $fallas = fallas::where("push",0)->get();
+        $fallas = fallas::all();
 
         if (!$fallas->count()) {
             return Response::json(["msj"=>"Nada que enviar","estado"=>false]);
@@ -102,11 +101,14 @@ class sendCentral extends Controller
         if ($response->ok()) {
             $res = $response->json();
             // code...
-            if ($res["estado"]) {
-                $changePushFallas = fallas::whereIn("id_producto",$res["ids_ok"])->update(["push"=>1]);
 
-                if ($changePushFallas) {return $res["msj"];}
+            if ($res["estado"]) {
+
+                return $res["msj"];
             }
+        }else{
+            
+            return $response;
         }
 
     }

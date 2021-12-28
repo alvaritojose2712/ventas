@@ -20,9 +20,6 @@ class CreateFallasTable extends Migration
             $table->foreign('id_producto')->references('id')->on('inventarios');
             $table->decimal("cantidad",10,2)->nullable();
 
-            $table->boolean("push")->default(0);
-
-
             $table->timestamps();
         });
     }

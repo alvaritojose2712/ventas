@@ -88,8 +88,8 @@ function Facturar() {
   const [inpInvid_marca,setinpInvid_marca] = useState("")
   const [inpInvid_deposito,setinpInvid_deposito] = useState("")
   
-  const [depositosList,setdepositosList] = useState([ ])
-  const [marcasList,setmarcasList] = useState([ ])
+  const [depositosList,setdepositosList] = useState([])
+  const [marcasList,setmarcasList] = useState([])
 
   const [Invnum,setInvnum] = useState(25)
   const [InvorderColumn,setInvorderColumn] = useState("id")
@@ -106,7 +106,7 @@ function Facturar() {
 
   const [qBuscarProveedor,setQBuscarProveedor] = useState("")
 
-  const [proveedoresList,setProveedoresList] = useState("")
+  const [proveedoresList,setProveedoresList] = useState([])
 
   const [pedidoList,setPedidoList] = useState([])
 
@@ -655,7 +655,7 @@ function Facturar() {
     db.getBuscarDevolucion({
       qProductosMain:buscarDevolucion,
       num:25,
-      itemCero:1,
+      itemCero:true,
       orderColumn:"descripcion",
       orderBy:"asc"
     }).then(res=>{
@@ -1539,7 +1539,7 @@ function Facturar() {
         setinpInvbarras("")
         setinpInvcantidad("")
         setinpInvalterno("")
-        setinpInvunidad("")
+        setinpInvunidad("UND")
         setinpInvcategoria("24")
         setinpInvdescripcion("")
         setinpInvbase("")
@@ -1781,7 +1781,7 @@ const sumPedidos = e => {
 }
 const addCarritoFast = () => {
   if (pedidoData.id) {
-    db.getinventario({exacto:"si",num:1,itemCero:1,qProductosMain:inputaddCarritoFast,orderColumn:"id",orderBy:"desc"}).then(res=>{
+    db.getinventario({exacto:"si",num:1,itemCero:true,qProductosMain:inputaddCarritoFast,orderColumn:"id",orderBy:"desc"}).then(res=>{
       if(res.data.length==1){
         let id = res.data[0].id
        db.setCarrito({id,type:null,cantidad:1,numero_factura:pedidoData.id}).then(res=>{
