@@ -5230,7 +5230,7 @@ var Login = /*#__PURE__*/function (_Component) {
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               className: "login100-form-title pt-3 pb-3",
-              children: "Iniciar Sesi\xF3n"
+              children: "Iniciar Arabito App"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
               className: "wrap-input100 validate-input",
               "data-validate": "Introduzca Usuario",
