@@ -139,6 +139,8 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::get('setGastos', [sendCentral::class,"setGastos"]);
 	Route::get('setCentralData', [sendCentral::class,"setCentralData"]);
 	Route::get('central', [sendCentral::class,"index"]);
+	Route::get('getMonedaCentral', [sendCentral::class,"getMonedaCentral"]);
+	
 
 
 

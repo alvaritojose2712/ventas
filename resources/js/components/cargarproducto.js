@@ -112,7 +112,7 @@ function Cargarproducto({
                   data-index={i}
                   key={e.id}
                   className={(indexSelectInventario==i?"bg-arabito":"bg-light text-secondary")+" card mt-2 pointer"}>
-                    <div className="card-header flex-row row justify-content-between">
+                    <div className="card-header flex-row justify-content-between">
                       <div>
                         <small>ID.{e.id}</small>
                       </div>

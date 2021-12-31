@@ -29,6 +29,7 @@ class CreateSucursalsTable extends Migration
 
             $table->string("tickera")->nullable();
             $table->string("fiscal")->nullable();
+            $table->string("app_version")->default("1");
             
 // SUCURSAL="Mantecal"
 // CODIGO="ARAMCAL"

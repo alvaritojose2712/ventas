@@ -15,4 +15,8 @@ class moneda extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
+    protected $fillable = [
+        "tipo","valor"
+    ];
+
 }

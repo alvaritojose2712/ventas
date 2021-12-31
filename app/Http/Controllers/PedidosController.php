@@ -112,14 +112,17 @@ class PedidosController extends Controller
 
         $totalventas = 0;
 
-
+        $limit = 1000;
         if ($fecha1pedido=="" AND $fecha2pedido=="") {
             $fecha1pedido = "0000-00-00";
             $fecha2pedido = "9999-12-31";
+            $limit = 25;
         }else if($fecha1pedido == ""){
             $fecha1pedido = "0000-00-00";
+            $limit = 25;
         }else if($fecha2pedido == ""){
             $fecha2pedido = "9999-12-31";
+            $limit = 25;
         }
 
         if ($tipobusquedapedido=="prod") {
@@ -162,6 +165,7 @@ class PedidosController extends Controller
             ->where("estado",$tipoestadopedido)
             ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
             ->orderBy("created_at","desc")
+            ->limit($limit)
             ->get()
             ->map(function($q) use (&$subtotal, &$desctotal, &$totaltotal,&$porctotal,&$itemstotal,&$totalventas,$filterMetodoPagoToggle){
                 // global ;
@@ -193,8 +197,7 @@ class PedidosController extends Controller
             "desctotal"=>$desctotal, 
             "totaltotal"=>number_format($totaltotal,2,".",","),
             "itemstotal"=>$itemstotal,
-            "totalventas"=>$totalventas
-        ,];
+            "totalventas"=>$totalventas];
     }
     public function getPedidosUser()
     {

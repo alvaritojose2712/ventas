@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\fallas;
 use App\Models\movimientos_caja;
 use App\Models\sucursal;
+use App\Models\moneda;
 
 use Http;
 use Response;
@@ -17,11 +18,9 @@ class sendCentral extends Controller
     public $path = "http://127.0.0.1:8001";
 
 
-    public function updateApp()
+    public function update($new_version)
     {
-
-
-        $pull = "git stash && git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
+         $pull = "git stash && git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
         $runproduction = "npm run production";        
         $phpArtisan = "php artisan key:generate && php artisan view:cache && php artisan route:cache && php artisan config:cache";
 
@@ -33,11 +32,38 @@ class sendCentral extends Controller
 
             if (!$retval) {
                 echo "Éxito al Build. Actualizado...";
+
+                sucursal::update(["app_version",$new_version]);
             }
         }else{
             echo "Pull al día. No requiere actualizar <br>";
             echo "<pre>$pull</pre>";
 
+        }
+    }
+    public function updateApp()
+    {   
+        try {
+            
+            $sucursal = sucursal::all()->first();
+            $actually_version = $sucursal["app_version"];
+
+            $getVersion = Http::get($this->path."/getVersionRemote");
+
+            if ($getVersion->ok()) {
+
+                $server_version = $getVersion->json();
+                if ($actually_version!=$server_version) {
+                    $this->update($server_version);
+                }else if($actually_version==$server_version){
+                    return "Sistema al día :)";
+                }else{
+                    return "Upps.. :("."V-Actual=".$actually_version." V-Remote".$server_version;
+
+                };
+            }
+        } catch (\Exception $e) {
+            return "Error: ".$e->getMessage();
         }
 
     }
@@ -153,6 +179,38 @@ class sendCentral extends Controller
             }
         }else{
             return $response->body();
+        }
+    }
+
+    public function getMonedaCentral()
+    {   
+
+        try {
+            $res = Http::get($this->path."/getMoneda");
+
+            if ($res->ok()) {
+                $moneda_get = $res->json();
+                
+                $cop = moneda::where("tipo",2)->orderBy("id","desc")->first();
+                $bs = moneda::where("tipo",1)->orderBy("id","desc")->first();
+                
+                if ($moneda_get["bs"]) {
+                    if ($moneda_get["bs"]!=$bs["valor"]) {
+                        moneda::updateOrCreate(["tipo"=>1],["valor"=>$moneda_get["bs"]]);
+                        // code...
+                    }
+                }
+                if ($moneda_get["cop"]) {
+                    if ($moneda_get["cop"]!=$cop["valor"]) {
+                        moneda::updateOrCreate(["tipo"=>2],["valor"=>$moneda_get["cop"]]);
+                    }
+                }
+            }else{
+
+            }
+            
+        } catch (\Exception $e) {
+            return Response::json(["estado"=>false,"msj"=>"Error: Conexión rechazada"]);
         }
     }
 
