@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\items_pedidos;
 use Illuminate\Http\Request;
+use Response;
 
 class ItemsPedidosController extends Controller
 {
@@ -16,11 +17,20 @@ class ItemsPedidosController extends Controller
     }
     public function setDescuentoUnitario(Request $req)
     {
-        $item = items_pedidos::find($req->index);
 
-        $item->descuento = floatval($req->descuento);
 
-        $item->save();
+        try {
+            (new PedidosController)->checkPedidoAuth($req->index,"item");
+
+            $item = items_pedidos::find($req->index);
+            $item->descuento = floatval($req->descuento);
+            $item->save();
+
+            return Response::json(["msj"=>"¡Éxito!","estado"=>true]);
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+        }
     }
 
     public function setCantidad(Request $req)
@@ -31,7 +41,16 @@ class ItemsPedidosController extends Controller
     
     public function setDescuentoTotal(Request $req)
     {
-        $item = items_pedidos::where("id_pedido",$req->index)->update(["descuento"=>floatval($req->descuento)]);
+        try {
+            (new PedidosController)->checkPedidoAuth($req->index);
+            
+            $item = items_pedidos::where("id_pedido",$req->index)->update(["descuento"=>floatval($req->descuento)]);
+            return Response::json(["msj"=>"¡Éxito!","estado"=>true]);
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+        }
+
 
     }
 

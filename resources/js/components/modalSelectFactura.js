@@ -38,6 +38,8 @@ function ModalSelectFactura({
 
   delFactura,
   delItemFact,
+
+  verDetallesFactura,
 }) {
   const setfactOrderByFun = val => {
     if (val==factOrderBy) {
@@ -155,7 +157,9 @@ function ModalSelectFactura({
                  <td>{e.monto}</td>
                  <td>
                   <i className={e.estatus=="1"?"fa fa-check text-success":"fa fa-times text-danger"}></i>
-                  </td>
+                  <br/>
+                  <i className={e.push?"fa fa-send text-info":""}></i>
+                 </td>
                  <td>{e.created_at}</td>
                  <td>
                    <button className="btn btn-outline-success" onClick={()=>setfactSelectIndexFun(i,"agregar")}><i className="fa fa-pencil"></i></button>
@@ -285,6 +289,9 @@ function ModalSelectFactura({
                 )}
                 </tbody>
               </table>
+              <div className="m-5 d-flex justify-content-center align-items-center">
+                <button className="btn btn lg btn-xl btn-outline-success" onClick={verDetallesFactura}>Ver todo <i className="fa fa-send"></i></button>
+              </div>
             </>:null
           :null}
 

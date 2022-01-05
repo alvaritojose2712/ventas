@@ -3,9 +3,19 @@ import Proveedores from '../components/proveedores';
 import CargarProducto from '../components/cargarproducto';
 import Facturas from '../components/facturas';
 import Fallas from '../components/fallas';
+import PedidosCentralComponent from '../components/pedidosCentral';
+
 
 
 function Inventario({
+  showaddpedidocentral,
+  setshowaddpedidocentral,
+  valheaderpedidocentral,
+  setvalheaderpedidocentral,
+  valbodypedidocentral,
+  setvalbodypedidocentral,
+  procesarImportPedidoCentral,
+
   productosInventario,
   qBuscarInventario,
   setQBuscarInventario,
@@ -121,7 +131,18 @@ function Inventario({
   ascdescFallas,
   setascdescFallas,
   fallas,
-  delFalla
+  delFalla,
+
+  getPedidosCentral,
+  selectPedidosCentral,
+  checkPedidosCentral,
+
+  pedidosCentral,
+  setIndexPedidoCentral,
+  indexPedidoCentral,
+  moneda,
+  
+  verDetallesFactura,
   
 }) {
 
@@ -139,16 +160,8 @@ function Inventario({
           </div>
         </div>
           <div className="col text-right d-flex align-items-center justify-content-between">
-            {factSelectIndex==null?null
-            : 
-              <h1 className="text-right d-flex align-items-center">
-                <span className="badge bg-secondary">{facturas[factSelectIndex]?facturas[factSelectIndex].numfact:null}</span>  {facturas[factSelectIndex]?facturas[factSelectIndex].proveedor.descripcion:null}  
-              </h1>
-            }
+            <button className={("btn ")+(subViewInventario=="pedidosCentral"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("pedidosCentral")}>Pedidos Central</button>
             <div className="btn-group mb-2">
-              {factSelectIndex!==null?<button className="btn btn-outline-danger m-2" onClick={()=>setfactSelectIndex(null)}>
-                <i className="fa fa-times"></i>
-              </button>:null}
               <button className="btn btn-arabito" onClick={()=>setshowModalFacturas(!showModalFacturas)}>Seleccionar Factura</button>
             </div>
           </div>
@@ -156,10 +169,28 @@ function Inventario({
         </div>
       </div>
       <hr/>
+      <div className="container">
+        
+        <div className="d-flex justify-content-end">
+          {factSelectIndex==null?null
+          : 
+          <div className="input-group w-25">
+            <span className="input-group-text" >{facturas[factSelectIndex]?facturas[factSelectIndex].proveedor.descripcion:null}</span>
+
+            <button className="btn btn-outline-secondary">{facturas[factSelectIndex]?facturas[factSelectIndex].numfact:null}</button>
+            <button className="btn btn-outline-danger" onClick={()=>setfactSelectIndex(null)}>
+              <i className="fa fa-times"></i>
+            </button>
+          </div>
+          }
+        </div>
+      </div>
+      <hr/>
       <Facturas
         setshowModalFacturas={setshowModalFacturas}
         showModalFacturas={showModalFacturas}
         facturas={facturas}
+        verDetallesFactura={verDetallesFactura}
 
         factqBuscar={factqBuscar}
         setfactqBuscar={setfactqBuscar}
@@ -312,6 +343,27 @@ function Inventario({
         fallas={fallas}
         delFalla={delFalla}
       />:null}
+
+      {subViewInventario=="pedidosCentral"?
+        <PedidosCentralComponent
+          getPedidosCentral={getPedidosCentral}
+          selectPedidosCentral={selectPedidosCentral}
+          checkPedidosCentral={checkPedidosCentral}
+
+          pedidosCentral={pedidosCentral}
+          setIndexPedidoCentral={setIndexPedidoCentral}
+          indexPedidoCentral={indexPedidoCentral}
+          moneda={moneda}
+
+          showaddpedidocentral={showaddpedidocentral}
+          setshowaddpedidocentral={setshowaddpedidocentral}
+          valheaderpedidocentral={valheaderpedidocentral}
+          setvalheaderpedidocentral={setvalheaderpedidocentral}
+          valbodypedidocentral={valbodypedidocentral}
+          setvalbodypedidocentral={setvalbodypedidocentral}
+          procesarImportPedidoCentral={procesarImportPedidoCentral}
+        />
+      :null}
 
     </>
   )

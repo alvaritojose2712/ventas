@@ -7,6 +7,7 @@ use App\Models\fallas;
 use App\Models\movimientos_caja;
 use App\Models\sucursal;
 use App\Models\moneda;
+use App\Models\factura;
 
 use Http;
 use Response;
@@ -17,7 +18,10 @@ class sendCentral extends Controller
     // public $path = "arabitonline.com";
     public $path = "http://127.0.0.1:8001";
 
-
+    public function index()
+    {
+        return view("central.index");
+    }
     public function update($new_version)
     {
          $pull = "git stash && git pull https://github.com/alvaritojose2712/arabitofacturacion.git";
@@ -67,118 +71,203 @@ class sendCentral extends Controller
         }
 
     }
-    public function index()
-    {
-        return view("central.index");
-    }
+    
 
     public function getInventarioCentral()
     {
-        $sucursal = sucursal::all()->first();
-        $response = Http::post($this->path.'/getInventario', [
-            "sucursal_code"=>$sucursal->codigo,
+        try {
+            $sucursal = sucursal::all()->first();
+            $response = Http::post($this->path.'/getInventario', [
+                "sucursal_code"=>$sucursal->codigo,
 
-        ]);
-    }
-
-    public function setGastos(Request $req)
-    {
-        $sucursal = sucursal::all()->first();
-        $movimientos_caja = movimientos_caja::all();
-
-        if (!$movimientos_caja->count()) {
-            return Response::json(["msj"=>"Nada que enviar","estado"=>false]);
-        }
-
-
-        $response = Http::post($this->path.'/setGastos', [
-            "sucursal_code"=>$sucursal->codigo,
-            "movimientos_caja"=>$movimientos_caja
-        ]);
-
-        //ids_ok => id de movimiento 
-
-        if ($response->ok()) {
-            $res = $response->json();
-            if ($res["estado"]) {
-                return $res["msj"];
-            }
-        }else{
-            return $response->body();
-        }
-    }
-    public function setCentralData(Request $req)
-    {
-        $sucursal = sucursal::all()->first();
-        $fallas = fallas::all();
-
-        if (!$fallas->count()) {
-            return Response::json(["msj"=>"Nada que enviar","estado"=>false]);
-        }
-
-
-        $response = Http::post($this->path.'/setFalla', [
-            "sucursal_code"=>$sucursal->codigo,
-            "fallas"=>$fallas
-        ]);
-
-        //ids_ok => id de productos 
-
-        if ($response->ok()) {
-            $res = $response->json();
-            // code...
-
-            if ($res["estado"]) {
-
-                return $res["msj"];
-            }
-        }else{
+            ]);
+        } catch (\Exception $e) {
+            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: ".$e->getMessage()]);
             
-            return $response;
         }
+        
+    }
+
+    public function setGastos()
+    {
+        try {
+            $sucursal = sucursal::all()->first();
+            $movimientos_caja = movimientos_caja::all();
+
+            if (!$movimientos_caja->count()) {
+                return Response::json(["msj"=>"Nada que enviar","estado"=>false]);
+            }
+
+
+            $response = Http::post($this->path.'/setGastos', [
+                "sucursal_code"=>$sucursal->codigo,
+                "movimientos_caja"=>$movimientos_caja
+            ]);
+
+            //ids_ok => id de movimiento 
+
+            if ($response->ok()) {
+                $res = $response->json();
+                if ($res["estado"]) {
+                    return $res["msj"];
+                }
+            }else{
+                return $response->body();
+            }   
+        } catch (\Exception $e) {
+            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: ".$e->getMessage()]);
+            
+        }
+    }
+    public function setFacturasCentral()
+    {
+        try {
+            $sucursal = sucursal::all()->first();
+            $facturas = factura::with(["proveedor","items"=>function($q){
+                $q->with("producto");
+            }])
+            ->where("push",0)->get();
+
+
+            if (!$facturas->count()) {
+                return Response::json(["msj"=>"Nada que enviar","estado"=>false]);
+            }
+
+
+            $response = Http::post($this->path.'/setConfirmFacturas', [
+                "sucursal_code"=>$sucursal->codigo,
+                "facturas"=>$facturas
+            ]);
+
+            //ids_ok => id de movimiento 
+
+            if ($response->ok()) {
+                $res = $response->json();
+                if (isset($res["estado"])) {
+                    if ($res["estado"]) {
+                        factura::where("push",0)->update(["push"=>1]);
+                        return $res["msj"];
+                    }
+
+                }else{
+
+                    return $response;
+                }
+            }else{
+                return $response->body();
+            }   
+        } catch (\Exception $e) {
+            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: ".$e->getMessage()]);
+            
+        }
+    }
+    public function setCentralData()
+    {
+        try {
+            $sucursal = sucursal::all()->first();
+            $fallas = fallas::all();
+
+            if (!$fallas->count()) {
+                return Response::json(["msj"=>"Nada que enviar","estado"=>false]);
+            }
+
+
+            $response = Http::post($this->path.'/setFalla', [
+                "sucursal_code"=>$sucursal->codigo,
+                "fallas"=>$fallas
+            ]);
+
+            //ids_ok => id de productos 
+
+            if ($response->ok()) {
+                $res = $response->json();
+                // code...
+
+                if ($res["estado"]) {
+
+                    return $res["msj"];
+                }
+            }else{
+                
+                return $response;
+            }            
+        } catch (\Exception $e) {
+            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: ".$e->getMessage()]);
+            
+        }
+
 
     }
 
-    public function setVentas(Request $req)
+    public function setVentas()
     {
-        $PedidosController = new PedidosController; 
-        $sucursal = sucursal::all()->first();
-        $fecha = $PedidosController->today();
-        $bs = $PedidosController->get_moneda()["bs"];
+        try {
+            $PedidosController = new PedidosController; 
+            $sucursal = sucursal::all()->first();
+            $fecha = $PedidosController->today();
+            $bs = $PedidosController->get_moneda()["bs"];
 
-        $cierre_fun = $PedidosController->cerrarFun($fecha,0,0);
+            $cierre_fun = $PedidosController->cerrarFun($fecha,0,0);
 
-              // 1 Transferencia
-               // 2 Debito 
-               // 3 Efectivo 
-               // 4 Credito  
-               // 5 Otros
-               // 6 vuelto
+                  // 1 Transferencia
+                   // 2 Debito 
+                   // 3 Efectivo 
+                   // 4 Credito  
+                   // 5 Otros
+                   // 6 vuelto
 
-        $ventas = [
-            "debito"=> $cierre_fun[2],
-            "efectivo"=>$cierre_fun[3],
-            "transferencia"=> $cierre_fun[1],
-            "tasa"=>$bs,
-            "fecha"=>$cierre_fun["fecha"],
-            "num_ventas"=>$cierre_fun["numventas"],
-        ];
+            $ventas = [
+                "debito"=> $cierre_fun[2],
+                "efectivo"=>$cierre_fun[3],
+                "transferencia"=> $cierre_fun[1],
+                "tasa"=>$bs,
+                "fecha"=>$cierre_fun["fecha"],
+                "num_ventas"=>$cierre_fun["numventas"],
+            ];
 
 
-        $response = Http::post($this->path.'/setVentas', [
-            "sucursal_code"=>$sucursal->codigo,
-            "ventas"=>$ventas
-        ]);
+            $response = Http::post($this->path.'/setVentas', [
+                "sucursal_code"=>$sucursal->codigo,
+                "ventas"=>$ventas
+            ]);
 
-        //ids_ok => id de movimiento 
+            //ids_ok => id de movimiento 
 
-        if ($response->ok()) {
-            $res = $response->json();
-            if ($res["estado"]) {
-               return $res["msj"];
+            if ($response->ok()) {
+                $res = $response->json();
+                if ($res["estado"]) {
+                   return $res["msj"];
+                }
+            }else{
+                return $response->body();
+            }            
+        } catch (\Exception $e) {
+            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: ".$e->getMessage()]);
+            
+        }
+
+    }
+    public function getPedidosCentral()
+    {   
+        try {
+            $sucursal = sucursal::all()->first();
+
+            $response = Http::post($this->path.'/getPedidoPendSucursal', [
+                "sucursal_code"=>$sucursal->codigo,
+            ]);
+
+            if ($response->ok()) {
+                $res = $response->json();
+                if ($res["pedido"]) {
+                    return $res["pedido"];
+                }
+            }else{
+                return $response->body();
+
             }
-        }else{
-            return $response->body();
+            
+        } catch (\Exception $e) {
+            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: ".$e->getMessage()]);
         }
     }
 
@@ -210,7 +299,7 @@ class sendCentral extends Controller
             }
             
         } catch (\Exception $e) {
-            return Response::json(["estado"=>false,"msj"=>"Error: Conexión rechazada"]);
+            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: Conexión rechazada"]);
         }
     }
 

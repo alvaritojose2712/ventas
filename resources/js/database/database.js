@@ -86,7 +86,16 @@ const db = {
   setFalla: data=>axios.post(host+"setFalla",data),
   delFalla: data=>axios.post(host+"delFalla",data),
   imprimirTicked: data=>axios.post(host+"imprimirTicked",data),
-  sendCierre: data=>axios.post(host+"verCierre",data),
+  sendCierre: data=>axios.get(host+"verCierre",{params:data}),
+
+
+  getPedidosCentral: data=>axios.post(host+"getPedidosCentral",data),
+
+  getSucursal: data=>axios.get(host+"getSucursal",{params:data}),
+
+  getProductosSerial: data=>axios.get(host+"getProductosSerial",{params:data}),
+  checkPedidosCentral: data=>axios.post(host+"checkPedidosCentral",data),
+  
 
 
 

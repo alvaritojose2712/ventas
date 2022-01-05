@@ -4,6 +4,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 
 import {useState,useEffect, useRef,StrictMode} from 'react';
+import {cloneDeep} from 'lodash';
 import ReactDOM, {render} from 'react-dom';
 import db from '../database/database';
 
@@ -258,8 +259,41 @@ function Facturar() {
 
   const [autoCorrector,setautoCorrector] = useState(true)
 
+  const [pedidosCentral,setpedidoCentral] = useState([])
+  const [indexPedidoCentral, setIndexPedidoCentral] = useState(null)
 
+  const [showaddpedidocentral, setshowaddpedidocentral] = useState(false)
 
+  const [valheaderpedidocentral, setvalheaderpedidocentral] = useState("12340005ARAMCAL")
+  const [valbodypedidocentral, setvalbodypedidocentral] = useState("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345")
+
+// 1234123812345612345612345
+// 1234123712345612345612345
+// 1234123612345612345612345
+// 1234123512345612345612345
+// 1234123412345612345612345
+// 12341234ARAMCAL
+
+  const moneda = (value, decimals=2, separators=['.',".",',']) => {
+    decimals = decimals >= 0 ? parseInt(decimals, 0) : 2;
+    separators = separators || ['.', "'", ','];
+    var number = (parseFloat(value) || 0).toFixed(decimals);
+    if (number.length <= (4 + decimals))
+        return number.replace('.', separators[separators.length - 1]);
+    var parts = number.split(/[-.]/);
+    value = parts[parts.length > 1 ? parts.length - 2 : 0];
+    var result = value.substr(value.length - 3, 3) + (parts.length > 1 ?
+        separators[separators.length - 1] + parts[parts.length - 1] : '');
+    var start = value.length - 6;
+    var idx = 0;
+    while (start > -3) {
+        result = (start > 0 ? value.substr(start, 3) : value.substr(0, 3 + start))
+            + separators[idx] + result;
+        idx = (++idx) % 2;
+        start -= 3;
+    }
+    return (parts.length == 3 ? '-' : '') + result;
+  }
 
   useHotkeys('f1', () => {
     if(view=="pedidos"){
@@ -482,7 +516,6 @@ function Facturar() {
         }
 
       }catch(err){
-        console.log(err)
       }
     }else if(selectItem!==null&&view=="seleccionar"){
       addCarritoRequest("agregar_procesar")
@@ -595,7 +628,10 @@ function Facturar() {
         getProductos()
       }else if (subViewInventario=="proveedores") {
         getProveedores()
+      }else if (subViewInventario=="pedidosCentral") {
+        getPedidosCentral()
       }
+
     }
   },[subViewInventario])  
 
@@ -960,7 +996,9 @@ function Facturar() {
     let time = window.setTimeout(()=>{
       db.getinventario({num,itemCero,qProductosMain,orderColumn,orderBy}).then(res=>{
         setProductos(res.data)
-        setCounterListProductos(0)
+        if (!res.data[counterListProductos]) {
+          setCounterListProductos(0)
+        }
         setLoading(false)
       })
     },150)
@@ -1130,9 +1168,10 @@ function Facturar() {
     setLoading(true)
     if (confirm("¿Seguro de eliminar?")) {
       const index = e.currentTarget.attributes["data-index"].value
-      db.delItemPedido({index}).then(()=>{
+      db.delItemPedido({index}).then(res=>{
         getPedido()
         setLoading(false)
+        notificar(res)
       })
     }
   }
@@ -1142,9 +1181,11 @@ function Facturar() {
     let descuento = window.prompt("Descuento Total *0 para eliminar*")
     let index = e.currentTarget.attributes["data-index"].value
     if (descuento=="0") {
-      db.setDescuentoTotal({index,descuento:0}).then(()=>{
+      db.setDescuentoTotal({index,descuento:0}).then(res=>{
         getPedido()
         setLoading(false)
+        notificar(res)
+
       })
     }else{
       if (typeof parseFloat(descuento) == "number" && pedidoData.clean_total) {
@@ -1154,9 +1195,11 @@ function Facturar() {
         descuento = (100-((parseFloat(descuento)*100)/total).toFixed(3))
 
 
-        db.setDescuentoTotal({index,descuento}).then(()=>{
+        db.setDescuentoTotal({index,descuento}).then(res=>{
           getPedido()
           setLoading(false)
+          notificar(res)
+
         })
       }
 
@@ -1168,9 +1211,10 @@ function Facturar() {
     const descuento = window.prompt("Descuento unitario")
     if (descuento) {
       const index = e.currentTarget.attributes["data-index"].value
-      db.setDescuentoUnitario({index,descuento}).then(()=>{
+      db.setDescuentoUnitario({index,descuento}).then(res=>{
         getPedido()
         setLoading(false)
+        notificar(res)
       })
     }
   }
@@ -1179,9 +1223,10 @@ function Facturar() {
     const cantidad = window.prompt("Cantidad")
     if (cantidad) {
       const index = e.currentTarget.attributes["data-index"].value
-      db.setCantidad({index,cantidad}).then(()=>{
+      db.setCantidad({index,cantidad}).then(res=>{
         getPedido()
         setLoading(false)
+        notificar(res)
       })
     }
   } 
@@ -1203,6 +1248,7 @@ function Facturar() {
         getPedido()
         setModaladdproductocarritoToggle(false)
         setLoading(false)
+
       })
     }
   }
@@ -1222,6 +1268,7 @@ function Facturar() {
           getPedido()
           setToggleAddPersona(false)
           setLoading(false)
+          notificar(res)
         })
 
       }
@@ -1826,7 +1873,226 @@ const viewReportPedido = () =>{
   window.open("/notaentregapedido?id="+pedidoData.id,"_blank")
 }
 
+const getPedidosCentral = () => {
+  setLoading(true)
+  db.getPedidosCentral({}).then(res=>{
+    setLoading(false)
+    if (res.data) {
+      if (res.data.length) {
+        setpedidoCentral(res.data)
+      }
+      if (res.data.msj) {
+        notificar(res)
+      }
+    }
+  })
+}
 
+const procesarImportPedidoCentral = () => {
+  // console.log(valbodypedidocentral)
+  // Id pedido 4
+  // Count items pedido 4
+  // sucursal code *
+
+
+  // console.log(valheaderpedidocentral)
+  //id_pedido 4 (0)
+  //id_producto 4 (0)
+  //base 6 (2)
+  //venta 6 (2)
+  //cantidad 5 (1)
+
+  try{
+
+    // Header...
+    let id_pedido_header = valheaderpedidocentral.substring(0,4).replace(/\b0*/g, '')
+    let count = valheaderpedidocentral.substring(4,8).replace(/\b0*/g, '')
+    let sucursal_code = valheaderpedidocentral.substring(8)
+
+    let import_pedido = {}
+
+    if (id_pedido_header&&count&&sucursal_code) {
+
+      db.getSucursal({}).then(res=>{
+        try{
+          if (res.data) {
+            if (res.data.codigo) {
+              if (res.data.codigo!=sucursal_code) {
+                throw("Error: Pedido no pertenece a esta sucursal!")
+              }else{
+                import_pedido.created_at = today
+                import_pedido.sucursal = sucursal_code
+                import_pedido.id = id_pedido_header
+                import_pedido.base = 0
+                import_pedido.venta = 0
+                import_pedido.items = []
+
+                let body = valbodypedidocentral.toString().replace(/[^0-9]/g,"")
+                if (!body) {
+                  
+                  throw("Error: Cuerpo incorrecto!")
+                }else{
+                  
+                  let ids_productos = body.match(/.{1,25}/g).map((e,i)=>{
+
+                    if (e.length!=25) {
+                      throw("Error: Líneas no tienen la longitud!")
+
+                    }
+                    let id_pedido = e.substring(0,4).replace(/\b0*/g, '')
+                    let id_producto = e.substring(4,8).replace(/\b0*/g, '')
+
+                    let base = e.substring(8,12).replace(/\b0*/g, '')+"."+e.substring(12,14)
+                    let venta = e.substring(14,18).replace(/\b0*/g, '')+"."+e.substring(18,20)
+                    
+                    let cantidad = e.substring(20,24).replace(/\b0*/g, '')+"."+e.substring(24,25)
+
+                    // if (id_pedido_header!=id_pedido) {
+                    //   
+                    //   throw("Error: Producto #"+(i+1)+" no pertenece a este pedido!")
+                    // }
+
+
+                    
+                    return {id_producto,
+                      id_pedido,
+                      base,
+                      venta,
+                      cantidad}
+                  })
+                  db.getProductosSerial({count,ids_productos:ids_productos.map(e=>e.id_producto)})
+                  .then(res=>{
+                    try{
+
+                      let obj = res.data
+
+                      if (obj.estado) {
+                        if (obj.msj) {
+                          let pro = obj.msj.map((e,i)=>{
+                            let filter = ids_productos.filter(ee=>ee.id_producto==e.id)[0];
+
+                            let cantidad = filter.cantidad
+                            let base = filter.base
+                            let venta = filter.venta
+                            let monto = cantidad*venta
+
+                            import_pedido.items.push({
+                              cantidad: cantidad,
+                              producto: {
+                                precio_base: base,
+                                precio: venta,
+                                codigo_barras: e.codigo_barras,
+                                codigo_proveedor: e.codigo_proveedor,
+                                descripcion: e.descripcion,
+                                id: e.id,
+                              },
+                              id:i,
+                              monto,
+                            })
+
+                            import_pedido.base += parseFloat(cantidad*base)
+                            import_pedido.venta += parseFloat(monto)
+
+
+                          })
+                          // console.log("import_pedido",import_pedido)
+                          setpedidoCentral(pedidosCentral.concat(import_pedido))
+                          setshowaddpedidocentral(false)
+
+                        }
+                      }else{
+                        alert(obj.msj)
+                      } 
+
+                    }catch(err){
+                      alert(err)
+                    }
+
+                  })
+                  
+                }
+
+              }
+            }
+          }
+        }catch(err){
+          alert(err)
+        }
+      })
+
+    }else{
+      throw("Error: Cabezera incorrecta!")
+    }
+  }catch(err){
+    alert(err)
+  }
+}
+
+
+const selectPedidosCentral = e => {
+
+  try{
+    let index = e.currentTarget.attributes["data-index"].value
+    let tipo = e.currentTarget.attributes["data-tipo"].value
+
+    let pedidosCentral_copy = cloneDeep(pedidosCentral)
+
+    if (tipo=="select") {
+      if (pedidosCentral_copy[indexPedidoCentral].items[index].aprobado===true) {
+        
+        pedidosCentral_copy[indexPedidoCentral].items[index].aprobado = false
+        pedidosCentral_copy[indexPedidoCentral].items[index].ct_real = ""
+
+      }else if (pedidosCentral_copy[indexPedidoCentral].items[index].aprobado===false) {
+
+        delete pedidosCentral_copy[indexPedidoCentral].items[index].aprobado
+        delete pedidosCentral_copy[indexPedidoCentral].items[index].ct_real
+      
+      }else if (typeof(pedidosCentral_copy[indexPedidoCentral].items[index].aprobado) === "undefined") {
+        pedidosCentral_copy[indexPedidoCentral].items[index].aprobado = true
+
+      }
+
+    }else if(tipo=="changect_real"){
+      pedidosCentral_copy[indexPedidoCentral].items[index].ct_real = number(e.currentTarget.value,4)
+    }
+    
+    setpedidoCentral(pedidosCentral_copy)
+
+
+
+    // console.log(pedidosCentral_copy)
+
+  }catch(err){
+    console.log(err)
+  }
+}
+const checkPedidosCentral = () => {
+  if (indexPedidoCentral!==null&&pedidosCentral) {
+    if (pedidosCentral[indexPedidoCentral]) {
+      setLoading(true)
+      db.checkPedidosCentral({pedido:pedidosCentral[indexPedidoCentral]}).then(res=>{
+        setLoading(false)
+        
+        notificar(res)
+        if (res.data.estado) {
+          getPedidosCentral()
+        }
+      })
+    }
+  }
+}
+
+const verDetallesFactura = (e=null) => {
+  let id = facturas[factSelectIndex]
+  if (e) {
+    id = e
+  } 
+  if (id) {
+    window.open("verFactura?id="+facturas[factSelectIndex].id,"targed=blank")
+  }
+  
+}
   
 
 
@@ -1998,6 +2264,15 @@ const viewReportPedido = () =>{
             setTipoestadopedido={setTipoestadopedido}
           />:null}
           {view=="inventario"?<Inventario
+            verDetallesFactura={verDetallesFactura}
+            showaddpedidocentral={showaddpedidocentral}
+            setshowaddpedidocentral={setshowaddpedidocentral}
+            valheaderpedidocentral={valheaderpedidocentral}
+            setvalheaderpedidocentral={setvalheaderpedidocentral}
+            valbodypedidocentral={valbodypedidocentral}
+            setvalbodypedidocentral={setvalbodypedidocentral}
+            procesarImportPedidoCentral={procesarImportPedidoCentral}
+            moneda={moneda}
             productosInventario={productosInventario}
             qBuscarInventario={qBuscarInventario}
             setQBuscarInventario={setQBuscarInventario}
@@ -2113,6 +2388,14 @@ const viewReportPedido = () =>{
             setascdescFallas={setascdescFallas}
             fallas={fallas}
             delFalla={delFalla}
+
+            getPedidosCentral={getPedidosCentral}
+            selectPedidosCentral={selectPedidosCentral}
+            checkPedidosCentral={checkPedidosCentral}
+            pedidosCentral={pedidosCentral}
+            setIndexPedidoCentral={setIndexPedidoCentral}
+            indexPedidoCentral={indexPedidoCentral}
+
           />:null}
           {view=="pagar"?<Pagar 
             pedidoData={pedidoData} 

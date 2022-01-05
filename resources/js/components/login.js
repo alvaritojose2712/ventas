@@ -70,7 +70,7 @@ class Login extends Component{
 						</div>
 
 						<span className="login100-form-title pt-3 pb-3">
-							Iniciar Arabito App
+							Iniciar Sesión
 						</span>
 
 						<div className="wrap-input100 validate-input" data-validate = "Introduzca Usuario">

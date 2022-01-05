@@ -21,9 +21,7 @@ class factura extends Model
     public function items() { 
         return $this->hasMany('App\Models\items_factura',"id_factura","id"); 
     }
-    public function producto() { 
-        return $this->hasOne('App\Models\inventario',"id","id_producto"); 
-    }
+   
     protected $fillable = [
     "id",
     "id_proveedor",
@@ -31,6 +29,7 @@ class factura extends Model
     "descripcion",
     "monto",
     "fechavencimiento",
-    "estatus"
+    "estatus",
+    "push",
     ];
 }

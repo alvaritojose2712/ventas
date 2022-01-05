@@ -251,7 +251,7 @@ getEfectivo,
                   
                   <div className="col p-0">
                     
-                    <div className={(debito!=""?"card-arabito":"t-5")+(" card")}>
+                    <div className={(debito!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
                       <div className="card-body">
                         <div className="card-title pointer" onClick={getDebito}>Déb.</div>
                         <div className="card-text pago-numero"><input type="text" value={debito} onChange={(e)=>syncPago(e.target.value,"Debito")} placeholder="D"/></div>
@@ -261,7 +261,7 @@ getEfectivo,
                   </div>
                   <div className="col p-0">
                     
-                    <div className={(efectivo!=""?"card-arabito":"t-5")+(" card")}>
+                    <div className={(efectivo!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
                       <div className="card-body">
                         <div className="card-title pointer" onClick={getEfectivo}>Efec.</div>
                         <div className="card-text pago-numero"><input type="text" value={efectivo} onChange={(e)=>syncPago(e.target.value,"Efectivo")} placeholder="E"/></div>
@@ -272,7 +272,7 @@ getEfectivo,
 
                   <div className="col p-0">
                     
-                    <div className={(transferencia!=""?"card-arabito":"t-5")+(" card")}>
+                    <div className={(transferencia!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
                       <div className="card-body">
                         <div className="card-title pointer" onClick={getTransferencia}>Tran.</div>
                         <div className="card-text pago-numero"><input type="text" value={transferencia} onChange={(e)=>syncPago(e.target.value,"Transferencia")} placeholder="T"/></div>
@@ -283,7 +283,7 @@ getEfectivo,
 
                   <div className="col p-0">
                     
-                    <div className={(credito!=""?"card-arabito":"t-5")+(" card")}>
+                    <div className={(credito!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
                       <div className="card-body">
                         <div className="card-title pointer" onClick={getCredito}>Créd.</div>
                         <div className="card-text pago-numero"><input type="text" value={credito} onChange={(e)=>syncPago(e.target.value,"Credito")} placeholder="C"/></div>

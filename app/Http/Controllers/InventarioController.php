@@ -10,6 +10,9 @@ use App\Models\pago_pedidos;
 use App\Models\factura;
 use App\Models\items_factura;
 use App\Models\fallas;
+use App\Models\proveedores;
+            
+
 
 use Illuminate\Http\Request;
 use Response;
@@ -17,83 +20,224 @@ use Response;
 class InventarioController extends Controller
 {
     public function hacer_pedido($id,$id_pedido,$cantidad,$type)
-    {
-        if ($cantidad<0) {
-            exit;
-        }
-        $cantidad = $cantidad==""?1:$cantidad;
-        $old_ct = 0;
-        
-        
-
-        // $old_cant_query = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido)->first();
-        // $old_cant = $old_cant_query["cantidad"];
-        if ($type=="ins") {
-            $producto = inventario::find($id);
-            $precio = $producto->precio;
-            
-            $setcantidad = $cantidad;
-            $setprecio = $precio;
-            
-            $checkIfExits = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido);
-            
-            if ($checkIfExits) {
-                $old_ct = $checkIfExits->first()["cantidad"];
-
-                $setcantidad = $cantidad + $old_ct;
-                $setprecio = $setcantidad*$precio;
+    {   
+        try {
+            if ($cantidad<0) {
+                exit;
             }
-
-
-            items_pedidos::updateOrCreate(["id_producto"=>$id,"id_pedido"=>$id_pedido],[
-                "id_producto" => $id,
-                "id_pedido" => $id_pedido,
-                "cantidad" => $setcantidad,
-                "monto" => $setprecio
-            ]);
-
-            $ctSeter = (($producto->cantidad + ($old_ct)) - $setcantidad);
-            $producto->cantidad = $ctSeter;
-            $producto->save();
-
-            $this->checkFalla($id,$ctSeter);
-        }else if($type=="upd"){
-            $checkIfExits = items_pedidos::find($id);
-
-            $producto = inventario::find($checkIfExits->id_producto);
-            $precio = $producto->precio;
-
-            $old_ct = $checkIfExits->cantidad;
-
-            $setprecio = $cantidad*$precio;
-
-            items_pedidos::updateOrCreate(["id"=>$id],[
-                "cantidad" => $cantidad,
-                "monto" => $setprecio
-            ]);
-            $ctSeter = (($producto->cantidad + ($old_ct)) - $cantidad);
-            $producto->cantidad = $ctSeter;
-            $producto->save();
-
-            $this->checkFalla($checkIfExits->id_producto,$ctSeter);
-        }else if($type=="del"){
-            $item = items_pedidos::find($id);
-                $old_ct = $item->cantidad;
-                $id_producto = $item->id_producto;
+            $cantidad = $cantidad==""?1:$cantidad;
+            $old_ct = 0;
             
-            $producto = inventario::find($id_producto);
+            
 
-            if($item->delete()){
-                $ctSeter = $producto->cantidad + ($old_ct);
+            // $old_cant_query = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido)->first();
+            // $old_cant = $old_cant_query["cantidad"];
+            if ($type=="ins") {
+                $producto = inventario::find($id);
+                $precio = $producto->precio;
+                
+                $setcantidad = $cantidad;
+                $setprecio = $precio;
+                
+                $checkIfExits = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido);
+                (new PedidosController)->checkPedidoAuth($id_pedido);
+
+                
+                if ($checkIfExits) {
+                    $old_ct = $checkIfExits->first()["cantidad"];
+
+                    $setcantidad = $cantidad + $old_ct;
+                    $setprecio = $setcantidad*$precio;
+                }
+
+
+                items_pedidos::updateOrCreate(["id_producto"=>$id,"id_pedido"=>$id_pedido],[
+                    "id_producto" => $id,
+                    "id_pedido" => $id_pedido,
+                    "cantidad" => $setcantidad,
+                    "monto" => $setprecio
+                ]);
+
+                $ctSeter = (($producto->cantidad + ($old_ct)) - $setcantidad);
                 $producto->cantidad = $ctSeter;
                 $producto->save();
 
-                $this->checkFalla($id_producto,$ctSeter);
-                // return Response::json(["msj"=>"Item Eliminado","estado"=>true]);
+                $this->checkFalla($id,$ctSeter);
+            }else if($type=="upd"){
+                $checkIfExits = items_pedidos::find($id);
+                (new PedidosController)->checkPedidoAuth($id,"item");
 
+
+                $producto = inventario::find($checkIfExits->id_producto);
+                $precio = $producto->precio;
+
+                $old_ct = $checkIfExits->cantidad;
+
+                $setprecio = $cantidad*$precio;
+
+                items_pedidos::updateOrCreate(["id"=>$id],[
+                    "cantidad" => $cantidad,
+                    "monto" => $setprecio
+                ]);
+                $ctSeter = (($producto->cantidad + ($old_ct)) - $cantidad);
+                $producto->cantidad = $ctSeter;
+                $producto->save();
+
+                $this->checkFalla($checkIfExits->id_producto,$ctSeter);
+            }else if($type=="del"){
+                $item = items_pedidos::find($id);
+                (new PedidosController)->checkPedidoAuth($id,"item");
+
+                    $old_ct = $item->cantidad;
+                    $id_producto = $item->id_producto;
+                
+                $producto = inventario::find($id_producto);
+
+                if($item->delete()){
+                    $ctSeter = $producto->cantidad + ($old_ct);
+                    $producto->cantidad = $ctSeter;
+                    $producto->save();
+
+                    $this->checkFalla($id_producto,$ctSeter);
+                    // return Response::json(["msj"=>"Item Eliminado","estado"=>true]);
+
+                }
             }
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+            
         }
 
+    }
+
+    public function getProductosSerial(Request $req)
+    {
+        try {
+            $ids = $req->ids_productos;
+            $count = $req->count;
+            $uniques = array_unique($ids);
+
+            if (count($uniques)!==count($ids)) {
+                throw new \Exception("¡Productos duplicados!", 1);
+            }
+            if ($count!=count($uniques)) {
+                throw new \Exception("¡Faltan/Sobran productos! ".$count." | ".count($uniques), 1);
+            } 
+            $where = inventario::whereIn("id",$ids)->get();
+            if ($where->count()!=count($uniques)) {
+                throw new \Exception("¡Algunos productos no están registrados!", 1);
+            }
+            return Response::json(["msj"=>$where,"estado"=>true]);   
+            
+        } catch (\Exception $e) {
+
+            return Response::json(["msj"=>"Error. ".$e->getMessage(),"estado"=>false]);
+            
+        }
+    }
+    public function checkPedidosCentral(Request $req)
+    {   
+        $pedido = $req->pedido;
+        try {
+            //Check Items
+            foreach ($pedido["items"] as $i => $item) {
+                if (!isset($item["aprobado"])) {
+                    throw new \Exception("¡Falta verificar productos!", 1);
+                }
+
+                if (isset($item["ct_real"])) {
+                    if ($item["ct_real"]<=0 OR $item["ct_real"]==$item["cantidad"]) {
+                        throw new \Exception("¡Error con cantidad verificada ".$item["ct_real"]."!", 1);
+                    }
+                }
+            }
+            //Check Proveedor
+            $proveedor_name = "21628222-8";
+            $proveedor = proveedores::where("rif",$proveedor_name)->first();
+
+
+            if ($proveedor) {
+                $id = $pedido["id"];
+                $factInpid_proveedor = $proveedor->id;
+                $factInpnumfact = $pedido["id"];
+                $factInpdescripcion = "De centro de acopio ".$pedido["created_at"];
+                $factInpmonto = $pedido["venta"];
+                $factInpfechavencimiento = $pedido["created_at"];
+                $factInpestatus = 1;
+
+
+                $checkIfExitsFact = factura::find($id);
+                if (!$checkIfExitsFact) {
+                    $fact = new factura;
+                    $fact->id = $id;
+                    $fact->id_proveedor = $factInpid_proveedor;
+                    $fact->numfact = $factInpnumfact;
+                    $fact->descripcion = $factInpdescripcion;
+                    $fact->monto = $factInpmonto;
+                    $fact->fechavencimiento = $factInpfechavencimiento;
+                    $fact->estatus = $factInpestatus;
+
+                    if ($fact->save()) {
+                        $num = 0;
+                        foreach ($pedido["items"] as $i => $item) {
+                            $id_pro = $item["producto"]["id"];
+                            $ctNew = $item["cantidad"];
+
+                            $precio_base = $item["producto"]["precio_base"];
+                            $precio = $item["producto"]["precio"];
+
+                            $codigo_proveedor = $item["producto"]["codigo_proveedor"];
+                            $codigo_barras = $item["producto"]["codigo_barras"];
+                            $descripcion = $item["producto"]["descripcion"];
+
+
+                            if (isset($item["ct_real"])) {
+                                $ctNew = $item["ct_real"];
+                            }
+
+                            
+                            $insertOrUpdateInv = inventario::find($id_pro);
+                            
+                            $insertOrUpdateInv->cantidad = $insertOrUpdateInv->cantidad + $ctNew;
+                            $insertOrUpdateInv->precio_base = $precio_base;
+                            $insertOrUpdateInv->precio = $precio;
+                            
+                            $insertOrUpdateInv->codigo_proveedor = $codigo_proveedor;
+                            $insertOrUpdateInv->codigo_barras = $codigo_barras;
+                            $insertOrUpdateInv->descripcion = $descripcion;
+
+                            
+                            if ($insertOrUpdateInv->save()) {
+                                $this->checkFalla($id_pro,$ctNew);
+                                items_factura::updateOrCreate([
+                                    "id_factura" => $id,
+                                    "id_producto" => $id_pro,
+                                ],[
+                                    "cantidad" => $ctNew,
+                                    "tipo" => "Actualización",
+                                ]);
+                                $num++;
+                            }
+                        }
+                        (new sendCentral)->setFacturasCentral();
+                        return Response::json(["msj"=>"¡Éxito.".$num." productos procesados!","estado"=>true]);
+                    }
+                }else{
+                    throw new \Exception("¡Factura ya existe!", 1);
+
+                }
+            }else{
+                throw new \Exception("¡No existe proveedor ".$proveedor_name."!", 1);
+
+            }
+            
+
+            
+        } catch (\Exception $e) {
+            
+            return Response::json(["msj"=>"Error. ".$e->getMessage(),"estado"=>false]);
+        }
     }
 
     public function index(Request $req)
@@ -102,7 +246,10 @@ class InventarioController extends Controller
 
         if (isset($req->exacto)) {
             if ($req->exacto=="si") {
-                $exacto = true;
+                $exacto = "si";
+            }
+            if ($req->exacto=="id_only") {
+                $exacto = "id_only";
             }
         }
         $cop = moneda::where("tipo",2)->orderBy("id","desc")->first();
@@ -145,9 +292,12 @@ class InventarioController extends Controller
             })
             ->where(function($e) use($itemCero,$q,$exacto){
 
-                if ($exacto) {
+                if ($exacto=="si") {
                     $e->orWhere("descripcion","$q")
                     ->orWhere("codigo_proveedor","$q");
+                }elseif($exacto=="id_only"){
+
+                    $e->where("id","$q");
                 }else{
                     $e->orWhere("descripcion","LIKE","%$q%")
                     ->orWhere("codigo_proveedor","LIKE","$q%")
@@ -179,6 +329,7 @@ class InventarioController extends Controller
 
         if (isset($numero_factura)) {
             $id = $numero_factura;
+
             $id_producto = $req->id;
             $cantidad = $cantidad==""?1:$cantidad;
 
@@ -369,12 +520,6 @@ class InventarioController extends Controller
             }])->get()->groupBy("producto.proveedor.descripcion");
 
         }
-
-            
-            
-        
-        
-
     }
     public function setFalla(Request $req)
     {   

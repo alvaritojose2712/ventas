@@ -206,10 +206,43 @@ class PedidosController extends Controller
             return pedidos::where("estado",0)->where("id_vendedor",$vendedor)->orderBy("id","desc")->get();
         }
     }
+    public function pedidoAuth($id,$tipo="pedido")
+    {
+        if ($tipo=="pedido") {
+            $pedido = pedidos::find($id);
+       }else{
+            $pedido = pedidos::find(items_pedidos::find($id)->id_pedido);
+       }
+       $fecha_creada = date("Y-m-d",strtotime($pedido->created_at));
+       
+       $estado = $pedido->estado;
+       $last_cierre = cierres::orderBy("fecha","desc")->first();
+
+       //Si no se ha pagado
+       //si la fecha de entrada no existe en los cierres
+       //si la fecha del ultimo cierre es igual la fecha de entrada
+       if (!$estado || !cierres::where("fecha",$fecha_creada)->get()->count() || $last_cierre->fecha==$fecha_creada) {
+        return true;   
+       }else{
+        return false;   
+        
+       }
+    }
+    public function checkPedidoAuth($id,$tipo="pedido")
+    {   
+        if (!$this->pedidoAuth($id,$tipo)) {
+            throw new \Exception("¡Pedido procesado, no se puede alterar!", 1);
+        }
+
+       
+    }
     public function delpedido(Request $req)
     {
+
+
         try {
             $id = $req->id;
+            $this->checkPedidoAuth($id);
             if ($id) {
                $items = items_pedidos::where("id_pedido",$id)->get();
 
@@ -273,12 +306,12 @@ class PedidosController extends Controller
             });
             $pedido->total_des = number_format($total_des_ped,2,".",",");
             $pedido->subtotal = number_format($subtotal_ped,2,".",",");
-            $pedido->total = number_format(round( $total_ped),2,".",",");
-            $pedido->iva = round( $total_ped)*.16;
+            $pedido->total = number_format(round( $total_ped,3),2,".",",");
+            $pedido->iva = round($total_ped,3)*.16;
 
             $pedido->clean_total_des = $total_des_ped;
             $pedido->clean_subtotal = $subtotal_ped;
-            $pedido->clean_total = round( $total_ped);
+            $pedido->clean_total = round($total_ped,3);
 
             
             $pedido->editable = 1;
@@ -350,9 +383,19 @@ class PedidosController extends Controller
 
     public function setpersonacarrito(Request $req)
     {
-        $pedido_select = pedidos::find($req->numero_factura);
-        $pedido_select->id_cliente = $req->id_cliente;
-        $pedido_select->save();
+        try {
+            $this->checkPedidoAuth($req->numero_factura);
+
+            $pedido_select = pedidos::find($req->numero_factura);
+            $pedido_select->id_cliente = $req->id_cliente;
+            $pedido_select->save();
+            return Response::json(["msj"=>"¡Éxito al agregar cliente!","estado"=>true]);
+
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+            
+        }
     }
 
     public function entregadoPendi($fecha)
@@ -555,7 +598,13 @@ class PedidosController extends Controller
         $inv = items_pedidos::with("producto")->whereIn("id_pedido",pedidos::where("created_at","LIKE",$req->fecha."%")->where("estado",1)->select("id"))
         ->get()
         ->map(function($q){
-            $q->base_tot = $q->producto->precio_base*$q->cantidad;
+            if (isset($q->producto)) {
+                $q->base_tot = $q->producto->precio_base*$q->cantidad;
+                // code...
+            }else{
+                $q->base_tot = 0;
+
+            }
             return $q;
         });
 
@@ -613,6 +662,13 @@ class PedidosController extends Controller
         if ($type=="ver") {
             return view("reportes.cierre",$arr_send);
         }else{
+            //Enviar Central
+
+            (new sendCentral)->setGastos();
+            (new sendCentral)->setCentralData();
+            (new sendCentral)->setVentas();
+
+            //Enviar Cierre
 
             $from1 = $sucursal->correo;
             $from = "Arabito ";

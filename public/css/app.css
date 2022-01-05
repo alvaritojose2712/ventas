@@ -308,6 +308,19 @@ body{
   text-shadow: 0 0 black;
 
 }
+
+.bg-arabito-light{
+  background-color: #fdecde !important;
+  text-shadow: 0 0 black;
+}
+.bg-success-light{
+  background-color: #e0fdde !important;
+  text-shadow: 0 0 black;
+}
+    
+
+    
+
 .text-arabito{
   color: #ec7311 !important;
 

@@ -36,6 +36,7 @@ setfactInpestatus,
 
 delFactura,
 delItemFact,
+verDetallesFactura,
 }) {
 
 	return (
@@ -45,6 +46,7 @@ delItemFact,
 					{showModalFacturas&&<ModalSelectFactura 
 						setshowModalFacturas={setshowModalFacturas}
 						facturas={facturas}
+						verDetallesFactura={verDetallesFactura}
 
 						factqBuscar={factqBuscar}
 						setfactqBuscar={setfactqBuscar}

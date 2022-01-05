@@ -26,10 +26,10 @@ class CreateProveedoresTable extends Migration
         });
         DB::table("proveedores")->insert([
             [
-                "descripcion"=>"Proveedor 1",
-                "rif"=>"216282228",
-                "direccion"=>"Elorza",
-                "telefono"=>"0426896585",
+                "descripcion"=>"Centro de Acopio ARABITO",
+                "rif"=>"21628222-8",
+                "direccion"=>"Mantecal",
+                "telefono"=>"04269414946",
             ],
         ]);
     }

@@ -40,6 +40,9 @@ use App\Http\Controllers\sendCentral;
 
 Route::get('sucursal', [SucursalController::class,"index"]);
 Route::get('setSucursal', [SucursalController::class,"setSucursal"])->name("setSucursal");
+Route::get('getSucursal', [SucursalController::class,"getSucursal"]);
+
+
 
 Route::get('', [HomeController::class,"index"]);
 Route::post('login', [HomeController::class,"login"]);
@@ -79,7 +82,7 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 
 	Route::post('guardarCierre', [PedidosController::class,"guardarCierre"]);
 	
-	Route::post('verCierre', [PedidosController::class,"verCierre"]);
+	Route::get('verCierre', [PedidosController::class,"verCierre"]);
 
 
 	Route::post('setPagoCredito', [PagoPedidosController::class,"setPagoCredito"]);
@@ -128,6 +131,11 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::post('imprimirTicked', [tickera::class,"imprimir"]);
 
 
+	Route::get('getProductosSerial', [InventarioController::class,"getProductosSerial"]);
+	Route::post('checkPedidosCentral', [InventarioController::class,"checkPedidosCentral"]);
+	Route::get('verFactura', [FacturaController::class,"verFactura"]);
+
+
 
 	
 	//Update App
@@ -140,6 +148,9 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::get('setCentralData', [sendCentral::class,"setCentralData"]);
 	Route::get('central', [sendCentral::class,"index"]);
 	Route::get('getMonedaCentral', [sendCentral::class,"getMonedaCentral"]);
+	Route::post('getPedidosCentral', [sendCentral::class,"getPedidosCentral"]);
+	Route::get('setFacturasCentral', [sendCentral::class,"setFacturasCentral"]);
+	
 	
 
 

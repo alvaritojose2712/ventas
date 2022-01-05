@@ -46,6 +46,7 @@ class PagoPedidosController extends Controller
     public function setPagoPedido(Request $req)
     {   
         $ped = (new PedidosController)->getPedido($req);
+
         $total_real = $ped->clean_total;
         $total_ins = floatval($req->debito)+floatval($req->efectivo)+floatval($req->transferencia)+floatval($req->credito);
 
@@ -66,6 +67,8 @@ class PagoPedidosController extends Controller
                // 5 Otros
                // 6 vuelto
             try {
+                (new PedidosController)->checkPedidoAuth($req->id);
+
                 $cuenta = 1;
                 $checkIfAbono = items_pedidos::where("id_producto",NULL)->where("id_pedido",$req->id)->get()->count();
                 if ($checkIfAbono && !$req->credito) {

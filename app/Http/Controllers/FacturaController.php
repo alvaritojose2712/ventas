@@ -3,10 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\factura;
+use App\Models\sucursal;
 use Illuminate\Http\Request;
 use Response;
 class FacturaController extends Controller
-{   
+{      
+    public function verFactura(Request $req)
+    {
+        $id = $req->id;
+        $factura = factura::with(["proveedor","items"=>function($q){
+            $q->with("producto");
+        }])
+        ->find($id);
+
+        $factura->items->map(function($q)
+        {   
+            $q->subtotal = number_format($q->producto->precio*$q->cantidad,2);
+            return $q;
+        });
+        $factura->monto = number_format($factura->monto,2);
+
+        $sucursal = sucursal::all()->first();
+
+        return view("reportes.factura",["factura"=>$factura,"sucursal"=>$sucursal]);
+    }
     public function getFacturas(Request $req)
     {
         $factqBuscar = $req->factqBuscar;
@@ -17,7 +37,7 @@ class FacturaController extends Controller
         if ($factqBuscarDate=="") {
             return factura::with(["proveedor","items"=>function($q){
                 $q->with("producto");
-            },"producto"])
+            }])
             ->where("descripcion","LIKE","$factqBuscar%")
             ->orWhere("numfact","LIKE","$factqBuscar%")
                 ->orderBy($factOrderBy,$factOrderDescAsc)
@@ -25,7 +45,7 @@ class FacturaController extends Controller
         }else{
             return factura::with(["proveedor","items"=>function($q){
                 $q->with("producto");
-            },"producto"])->where("descripcion","LIKE","$factqBuscar%")->where("created_at","LIKE","$factqBuscarDate%")
+            }])->where("descripcion","LIKE","$factqBuscar%")->where("created_at","LIKE","$factqBuscarDate%")
                 ->orderBy($factOrderBy,$factOrderDescAsc)
                 ->get();
         }
