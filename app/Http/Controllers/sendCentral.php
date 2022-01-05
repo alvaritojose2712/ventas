@@ -15,8 +15,8 @@ use Response;
 ini_set('max_execution_time', 300);
 class sendCentral extends Controller
 {
-    // public $path = "arabitonline.com";
-    public $path = "http://127.0.0.1:8001";
+    public $path = "arabitonline.com";
+    // public $path = "http://127.0.0.1:8001";
 
     public function index()
     {

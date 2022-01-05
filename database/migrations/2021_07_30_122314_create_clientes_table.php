@@ -36,24 +36,24 @@ class CreateClientesTable extends Migration
                 "estado"=>"CF",
                 "ciudad"=>"CF",
             ],
-            [
-                "identificacion"=>"26767116",
-                "nombre"=>"Alvaro Ospino",
-                "correo"=>"alvaroospino79",
-                "direccion"=>"Mantecal",
-                "telefono"=>"02409940793",
-                "estado"=>"Apure",
-                "ciudad"=>"Mantecal",
-            ],
-            [
-                "identificacion"=>"12345678",
-                "nombre"=>"Pedro Puerta",
-                "correo"=>"pedropuerta79",
-                "direccion"=>"Bruzual",
-                "telefono"=>"02409940480",
-                "estado"=>"Apure",
-                "ciudad"=>"Bruzual",
-            ],
+            // [
+            //     "identificacion"=>"26767116",
+            //     "nombre"=>"Alvaro Ospino",
+            //     "correo"=>"alvaroospino79",
+            //     "direccion"=>"Mantecal",
+            //     "telefono"=>"02409940793",
+            //     "estado"=>"Apure",
+            //     "ciudad"=>"Mantecal",
+            // ],
+            // [
+            //     "identificacion"=>"12345678",
+            //     "nombre"=>"Pedro Puerta",
+            //     "correo"=>"pedropuerta79",
+            //     "direccion"=>"Bruzual",
+            //     "telefono"=>"02409940480",
+            //     "estado"=>"Apure",
+            //     "ciudad"=>"Bruzual",
+            // ],
         ]);
     }
 

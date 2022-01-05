@@ -673,10 +673,8 @@ class PedidosController extends Controller
             $from1 = $sucursal->correo;
             $from = "Arabito ";
             $subject = $sucursal->sucursal." ".$req->fecha;
-            $sends = [
-                "alvaroospino79@gmail.com"
-                // "alvaritojose2712@gmail.com",
-            ];
+            $env_emails = str_replace("\n", "", env("SEND_MAIL"));
+            $sends = explode(",", $env_emails);
             try {
                 Mail::to($sends)->send(new enviarCierre($arr_send,$from1,$from,$subject));    
                 
