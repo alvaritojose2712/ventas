@@ -47,7 +47,7 @@ function ProductosList({
       <tbody ref={tbodyproductosref}>
         {productos.map((e,i)=>
           <tr data-index={i} tabIndex="-1" className={(counterListProductos==i?"bg-select":null)+(' tr-producto')} key={e.id}>
-            <td data-index={i} onClick={addCarrito} className="pointer cell3">{e.codigo_proveedor}</td>
+            <td data-index={i} onClick={addCarrito} className="pointer cell3">{e.codigo_barras}</td>
             <td data-index={i} onClick={addCarrito} className='pointer text-left pl-5 cell3'>{e.descripcion}</td>
             <td className="cell1">
               <a href='#' className='formShowProductos btn btn-arabito btn-sm w-50'>{e.cantidad}</a>         

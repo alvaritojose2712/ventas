@@ -5878,7 +5878,7 @@ function ModalAddCarrito(_ref) {
               className: "input-group-append",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                 className: "input-group-text",
-                children: ["Total. ", cantidad * producto.precio ? cantidad * producto.precio : null]
+                children: ["Total. ", cantidad * producto.precio ? (cantidad * producto.precio).toFixed(2) : null]
               })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -5915,13 +5915,13 @@ function ModalAddCarrito(_ref) {
               type: "button",
               onClick: addCarritoRequest,
               "data-type": "agregar",
-              children: "Agregar (ctrl+enter)"
+              children: "Agregar (enter)"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
               className: "btn btn-outline-success",
               type: "button",
               onClick: addCarritoRequest,
               "data-type": "agregar_procesar",
-              children: "Agregar y procesar (enter)"
+              children: "Agregar y procesar (ctrl+enter)"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
               className: "btn btn-outline-secondary",
               type: "button",
@@ -6228,7 +6228,7 @@ function Pagar(_ref) {
                     })]
                   }, e.id) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                      children: e.producto.codigo_proveedor
+                      children: e.producto.codigo_barras
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                       children: e.producto.descripcion
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
@@ -7282,7 +7282,7 @@ function ProductosList(_ref) {
             "data-index": i,
             onClick: addCarrito,
             className: "pointer cell3",
-            children: e.codigo_proveedor
+            children: e.codigo_barras
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
             "data-index": i,
             onClick: addCarrito,
@@ -58520,13 +58520,9 @@ function Facturar() {
   }, [view, counterListProductos, countListInter, countListPersoInter]);
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('enter', function () {
     if (selectItem === null && view == "seleccionar") {
-      try {
-        if (tbodyproductosref.current) {
-          var tr = tbodyproductosref.current.rows[counterListProductos];
-          var index = tr.attributes["data-index"].value;
-          addCarrito(index);
-        }
-      } catch (err) {}
+      if (selectItem !== null && view == "seleccionar") {
+        addCarritoRequest("agregar");
+      }
     } else if (selectItem !== null && view == "seleccionar") {
       addCarritoRequest("agregar_procesar");
     } else if (view == "pagar") {
@@ -58549,9 +58545,13 @@ function Facturar() {
     enableOnTags: ["INPUT", "SELECT"]
   }, [view, counterListProductos, selectItem]);
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('ctrl+enter', function () {
-    if (selectItem !== null && view == "seleccionar") {
-      addCarritoRequest("agregar");
-    }
+    try {
+      if (tbodyproductosref.current) {
+        var tr = tbodyproductosref.current.rows[counterListProductos];
+        var index = tr.attributes["data-index"].value;
+        addCarrito(index);
+      }
+    } catch (err) {}
   }, {
     filterPreventDefault: false,
     enableOnTags: ["INPUT", "SELECT"]
@@ -59247,17 +59247,14 @@ function Facturar() {
 
   var delItemPedido = function delItemPedido(e) {
     setLoading(true);
-
-    if (confirm("¿Seguro de eliminar?")) {
-      var index = e.currentTarget.attributes["data-index"].value;
-      _database_database__WEBPACK_IMPORTED_MODULE_5__["default"].delItemPedido({
-        index: index
-      }).then(function (res) {
-        getPedido();
-        setLoading(false);
-        notificar(res);
-      });
-    }
+    var index = e.currentTarget.attributes["data-index"].value;
+    _database_database__WEBPACK_IMPORTED_MODULE_5__["default"].delItemPedido({
+      index: index
+    }).then(function (res) {
+      getPedido();
+      setLoading(false);
+      notificar(res);
+    });
   };
 
   var setDescuentoTotal = function setDescuentoTotal(e) {
@@ -59927,27 +59924,34 @@ function Facturar() {
 
   var addCarritoFast = function addCarritoFast() {
     if (pedidoData.id) {
-      _database_database__WEBPACK_IMPORTED_MODULE_5__["default"].getinventario({
-        exacto: "si",
-        num: 1,
-        itemCero: true,
-        qProductosMain: inputaddCarritoFast,
-        orderColumn: "id",
-        orderBy: "desc"
-      }).then(function (res) {
-        if (res.data.length == 1) {
-          var id = res.data[0].id;
-          _database_database__WEBPACK_IMPORTED_MODULE_5__["default"].setCarrito({
-            id: id,
-            type: null,
-            cantidad: 1,
-            numero_factura: pedidoData.id
-          }).then(function (res) {
-            setinputaddCarritoFast("");
-            getPedido();
-          });
-        }
-      });
+      if (time != 0) {
+        clearTimeout(typingTimeout);
+      }
+
+      var time = window.setTimeout(function () {
+        _database_database__WEBPACK_IMPORTED_MODULE_5__["default"].getinventario({
+          exacto: "si",
+          num: 1,
+          itemCero: true,
+          qProductosMain: inputaddCarritoFast,
+          orderColumn: "id",
+          orderBy: "desc"
+        }).then(function (res) {
+          if (res.data.length == 1) {
+            var id = res.data[0].id;
+            _database_database__WEBPACK_IMPORTED_MODULE_5__["default"].setCarrito({
+              id: id,
+              type: null,
+              cantidad: 1,
+              numero_factura: pedidoData.id
+            }).then(function (res) {
+              setinputaddCarritoFast("");
+              getPedido();
+            });
+          }
+        });
+      }, 100);
+      setTypingTimeout(time);
     }
   };
 

@@ -508,14 +508,8 @@ function Facturar() {
   },[view,counterListProductos,countListInter,countListPersoInter]);
   useHotkeys('enter', () => {
     if(selectItem===null&&view=="seleccionar"){
-      try{
-        if (tbodyproductosref.current) {
-          let tr = tbodyproductosref.current.rows[counterListProductos]
-          let index = tr.attributes["data-index"].value
-          addCarrito(index)
-        }
-
-      }catch(err){
+      if(selectItem!==null&&view=="seleccionar"){
+        addCarritoRequest("agregar")
       }
     }else if(selectItem!==null&&view=="seleccionar"){
       addCarritoRequest("agregar_procesar")
@@ -541,9 +535,15 @@ function Facturar() {
   },[view,counterListProductos,selectItem]);
 
   useHotkeys('ctrl+enter', () => {
-    if(selectItem!==null&&view=="seleccionar"){
-      addCarritoRequest("agregar")
-    }
+    
+    try{
+      if (tbodyproductosref.current) {
+        let tr = tbodyproductosref.current.rows[counterListProductos]
+        let index = tr.attributes["data-index"].value
+        addCarrito(index)
+      }
+
+    }catch(err){}
   },{
     filterPreventDefault:false,
     enableOnTags:["INPUT", "SELECT"],
@@ -1166,14 +1166,12 @@ function Facturar() {
 
   const delItemPedido = (e) => {
     setLoading(true)
-    if (confirm("¿Seguro de eliminar?")) {
-      const index = e.currentTarget.attributes["data-index"].value
-      db.delItemPedido({index}).then(res=>{
-        getPedido()
-        setLoading(false)
-        notificar(res)
-      })
-    }
+    const index = e.currentTarget.attributes["data-index"].value
+    db.delItemPedido({index}).then(res=>{
+      getPedido()
+      setLoading(false)
+      notificar(res)
+    })
   }
   const setDescuentoTotal = (e) => {
     // setLoading(true)
@@ -1828,6 +1826,13 @@ const sumPedidos = e => {
 }
 const addCarritoFast = () => {
   if (pedidoData.id) {
+    if (time!=0) {
+      clearTimeout(typingTimeout)
+    }
+
+    let time = window.setTimeout(()=>{
+      
+
     db.getinventario({exacto:"si",num:1,itemCero:true,qProductosMain:inputaddCarritoFast,orderColumn:"id",orderBy:"desc"}).then(res=>{
       if(res.data.length==1){
         let id = res.data[0].id
@@ -1838,6 +1843,12 @@ const addCarritoFast = () => {
 
       }
     })
+
+
+    },100)
+    setTypingTimeout(time)
+
+    
 
 
   }

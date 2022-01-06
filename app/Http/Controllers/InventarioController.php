@@ -267,7 +267,7 @@ class InventarioController extends Controller
 
         if ($q=="") {
             $data = inventario::where(function($e) use($itemCero){
-                if ($itemCero=="false") {
+                if (!$itemCero) {
                     $e->where("cantidad",">",0);
                     // code...
                 }
@@ -293,15 +293,15 @@ class InventarioController extends Controller
             ->where(function($e) use($itemCero,$q,$exacto){
 
                 if ($exacto=="si") {
-                    $e->orWhere("descripcion","$q")
+                    $e->orWhere("codigo_barras","$q")
                     ->orWhere("codigo_proveedor","$q");
                 }elseif($exacto=="id_only"){
 
                     $e->where("id","$q");
                 }else{
                     $e->orWhere("descripcion","LIKE","%$q%")
-                    ->orWhere("codigo_proveedor","LIKE","$q%")
-                    ->orWhere("codigo_barras","LIKE","$q%");
+                    ->orWhere("codigo_proveedor","LIKE","%$q%")
+                    ->orWhere("codigo_barras","LIKE","%$q%");
 
                 }
 

@@ -206,7 +206,7 @@ getEfectivo,
                       <td> </td>
                     </tr>
                     :<tr key={e.id}>
-                      <td>{e.producto.codigo_proveedor}</td>
+                      <td>{e.producto.codigo_barras}</td>
                       <td>{e.producto.descripcion}</td>
                       <td onClick={setCantidadCarrito} data-index={e.id} className="pointer clickme">{e.cantidad} </td>
                       <td>{e.producto.precio}</td>

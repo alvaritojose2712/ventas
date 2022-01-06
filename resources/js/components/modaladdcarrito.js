@@ -20,7 +20,7 @@ function ModalAddCarrito({number,inputCantidadCarritoref,producto,pedidoList,set
               <input type="number" ref={inputCantidadCarritoref} className="form-control" placeholder="Cantidad" onChange={(e)=>setCantidad(number(e.target.value))} value={number(cantidad)}/>
 
               <div className="input-group-append">
-                <span className="input-group-text">Total. {cantidad*producto.precio?cantidad*producto.precio:null}</span>
+                <span className="input-group-text">Total. {cantidad*producto.precio?(cantidad*producto.precio).toFixed(2):null}</span>
               </div>
             </div>
             <div className="input-group mb-3">
@@ -39,8 +39,8 @@ function ModalAddCarrito({number,inputCantidadCarritoref,producto,pedidoList,set
 
             </div>
             <div className="btn-group">
-              <button className="btn btn-arabito agregar_carrito" type="button" onClick={addCarritoRequest} data-type="agregar">Agregar (ctrl+enter)</button>
-              <button className="btn btn-outline-success" type="button" onClick={addCarritoRequest} data-type="agregar_procesar">Agregar y procesar (enter)</button>
+              <button className="btn btn-arabito agregar_carrito" type="button" onClick={addCarritoRequest} data-type="agregar">Agregar (enter)</button>
+              <button className="btn btn-outline-success" type="button" onClick={addCarritoRequest} data-type="agregar_procesar">Agregar y procesar (ctrl+enter)</button>
               <button className="btn btn-outline-secondary" type="button" onClick={setFalla} data-id={producto.id}>Falla</button>
               
             </div>
