@@ -208,30 +208,35 @@ class PedidosController extends Controller
     }
     public function pedidoAuth($id,$tipo="pedido")
     {
-        if ($tipo=="pedido") {
-            $pedido = pedidos::find($id);
-       }else{
-            $pedido = pedidos::find(items_pedidos::find($id)->id_pedido);
-       }
-       $fecha_creada = date("Y-m-d",strtotime($pedido->created_at));
-       
-       $estado = $pedido->estado;
-       $last_cierre = cierres::orderBy("fecha","desc")->first();
+        if ($id===null) {
+            $fecha_creada = $tipo;
+            $estado = true;
+        }else{
+
+            if ($tipo=="pedido") {
+                $pedido = pedidos::find($id);
+            }else{
+                $pedido = pedidos::find(items_pedidos::find($id)->id_pedido);
+            }
+            $fecha_creada = date("Y-m-d",strtotime($pedido->created_at));
+           
+            $estado = $pedido->estado;
+            $last_cierre = cierres::orderBy("fecha","desc")->first();
+        }
 
        //Si no se ha pagado
        //si la fecha de entrada no existe en los cierres
        //si la fecha del ultimo cierre es igual la fecha de entrada
-       if (!$estado || !cierres::where("fecha",$fecha_creada)->get()->count() || $last_cierre->fecha==$fecha_creada) {
+       if (!$estado || !cierres::where("fecha",$fecha_creada)->get()->count()) {
         return true;   
        }else{
         return false;   
-        
        }
     }
     public function checkPedidoAuth($id,$tipo="pedido")
     {   
         if (!$this->pedidoAuth($id,$tipo)) {
-            throw new \Exception("¡Pedido procesado, no se puede alterar!", 1);
+            throw new \Exception("No se puede hacer movimientos en esta fecha. ¡Cierre Procesado!", 1);
         }
 
        

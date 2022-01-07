@@ -20,6 +20,10 @@
   width: 100%;
 
 }
+.table-phone{
+  display: none;
+}
+
 td,th{
   padding: 4px;
 }

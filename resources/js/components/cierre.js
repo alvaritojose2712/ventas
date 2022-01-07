@@ -101,7 +101,7 @@ function Cierre({
 									<h2>{cierre["total_caja"]?cierre["total_caja"]:0}</h2>
 								</td>
 								<td className="align-middle text-center bg-success">
-									<h2>{cierre[3]?cierre[3]:null}</h2>
+									<h2>{cierre[3]?cierre[3].toFixed(2):null}</h2>
 								</td>
 							</tr>
 							<tr className="table-active">

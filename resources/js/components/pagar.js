@@ -227,7 +227,7 @@ getEfectivo,
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td><button className="btn btn-outline-success">{items.length}</button></td>
 
                   </tr>
                   <tr>

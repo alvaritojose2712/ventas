@@ -65,13 +65,6 @@ class Login extends Component{
 				
 				<div className="wrap-login100">
 					<form className="login100-form validate-form" onSubmit={this.submit}>
-						<div className="login100-form-logo">
-							<img src={""} alt=""/>
-						</div>
-
-						<span className="login100-form-title pt-3 pb-3">
-							Iniciar Sesión
-						</span>
 
 						<div className="wrap-input100 validate-input" data-validate = "Introduzca Usuario">
 							<input className="input100" type="text" value={this.state.usuario} name="usuario" onChange={(event)=>this.changeUniqueState({usuario:event.target.value})} placeholder="Usuario" required/>

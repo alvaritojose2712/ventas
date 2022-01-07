@@ -1,3 +1,4 @@
+
 @media 
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
@@ -6,6 +7,13 @@ only screen and (max-width: 760px),
   table, thead, tbody, th, td, tr { 
     display: block; 
   }
+  .table-phone{
+    display: initial;
+  }
+  .tabla-facturacion{
+    display: none;
+  }
+
   
   /* Hide table headers (but not display: none;, for accessibility) */
   thead tr { 

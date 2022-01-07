@@ -122,7 +122,7 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::post('setClienteCrud', [ClientesController::class,"setClienteCrud"]);
 	Route::post('getClienteCrud', [ClientesController::class,"getpersona"]);
 	Route::post('delCliente', [ClientesController::class,"delCliente"]);
-	Route::post('sumpedidos', [PedidosController::class,"sumpedidos"]);
+	Route::get('sumpedidos', [PedidosController::class,"sumpedidos"]);
 
 	Route::post('getFallas', [InventarioController::class,"getFallas"]);
 	Route::post('setFalla', [InventarioController::class,"setFalla"]);

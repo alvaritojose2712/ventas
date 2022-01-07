@@ -81,14 +81,14 @@
 }
 
 .wrap-login100 {
-  width: 500px;
+  width: 400px;
   border-radius: 10px;
   overflow: hidden;
   padding: 55px 55px 37px 55px;
 
   
  
-  background: linear-gradient(0deg, rgba(242,109,10,1) 0%, rgba(255,169,105,1) 22%, rgba(255,255,255,0) 85%);
+  background: linear-gradient(180deg,#f26d0a,#ffa969 12%,rgba(255,255,255,0) 85%)
 }
 
 

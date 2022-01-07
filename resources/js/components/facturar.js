@@ -263,6 +263,7 @@ function Facturar() {
   const [indexPedidoCentral, setIndexPedidoCentral] = useState(null)
 
   const [showaddpedidocentral, setshowaddpedidocentral] = useState(false)
+  const [permisoExecuteEnter, setpermisoExecuteEnter] = useState(true)
 
   const [valheaderpedidocentral, setvalheaderpedidocentral] = useState("12340005ARAMCAL")
   const [valbodypedidocentral, setvalbodypedidocentral] = useState("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345")
@@ -296,7 +297,9 @@ function Facturar() {
   }
 
   useHotkeys('f1', () => {
-    if(view=="pedidos"){
+    if(selectItem!==null&&view=="seleccionar"){
+      addCarritoRequest("agregar_procesar")
+    }else if(view=="pedidos"){
       setView("seleccionar")
     }else if(view=="pagar"){
       toggleModalProductos(true,()=>{
@@ -304,20 +307,24 @@ function Facturar() {
 
       })
       
-    }else if(view=="seleccionar"){
+    }else if(selectItem===null && view=="seleccionar"){
       getPedido("ultimo",()=>{
         setView("pagar")
       })
     }
+
   },{
     enableOnTags:["INPUT", "SELECT"],
-  },[view]);
+  },[view,selectItem]);
   useHotkeys('f2', () => {
     if (view=="seleccionar") {
       setView("pedidos")
       getPedidos()
     }else if(view=="pagar"){
       setToggleAddPersonaFun(true,()=>{
+        setclienteInpnombre("")
+        setclienteInptelefono("")
+        setclienteInpdireccion("")
 
         inputmodaladdpersonacarritoref.current.focus()
       })
@@ -508,15 +515,31 @@ function Facturar() {
   },[view,counterListProductos,countListInter,countListPersoInter]);
   useHotkeys('enter', () => {
     if(selectItem===null&&view=="seleccionar"){
-      if(selectItem!==null&&view=="seleccionar"){
-        addCarritoRequest("agregar")
-      }
+      try{
+        if (tbodyproductosref.current) {
+          let tr = tbodyproductosref.current.rows[counterListProductos]
+          let index = tr.attributes["data-index"].value
+          if (permisoExecuteEnter) {
+
+            addCarrito(index)
+            // console.log("Execute Enter")
+          }
+          //wait
+        }
+
+      }catch(err){}
+
     }else if(selectItem!==null&&view=="seleccionar"){
-      addCarritoRequest("agregar_procesar")
+      addCarritoRequest("agregar")
     }else if(view=="pagar"){
       if (ModaladdproductocarritoToggle) {
         if (tbodyproducInterref.current.rows[countListInter]) {
-          setProductoCarritoInterno(tbodyproducInterref.current.rows[countListInter].attributes["data-index"].value)
+          if (permisoExecuteEnter) {
+            setProductoCarritoInterno(tbodyproducInterref.current.rows[countListInter].attributes["data-index"].value)
+            // console.log("Execute Enter")
+
+          }
+          //wait
         }
       }else if(toggleAddPersona){
         if (tbodypersoInterref.current.rows[countListPersoInter]) {
@@ -534,20 +557,7 @@ function Facturar() {
     enableOnTags:["INPUT", "SELECT"],
   },[view,counterListProductos,selectItem]);
 
-  useHotkeys('ctrl+enter', () => {
-    
-    try{
-      if (tbodyproductosref.current) {
-        let tr = tbodyproductosref.current.rows[counterListProductos]
-        let index = tr.attributes["data-index"].value
-        addCarrito(index)
-      }
 
-    }catch(err){}
-  },{
-    filterPreventDefault:false,
-    enableOnTags:["INPUT", "SELECT"],
-  },[view,counterListProductos,selectItem]);
 
 
   useEffect(()=>{
@@ -985,8 +995,9 @@ function Facturar() {
       setLoading(false)
     })
   }
-  
   const getProductos = () => {
+
+    setpermisoExecuteEnter(false)
     setLoading(true)
 
     if (time!=0) {
@@ -1001,8 +1012,12 @@ function Facturar() {
         }
         setLoading(false)
       })
+      setpermisoExecuteEnter(true)
+
     },150)
     setTypingTimeout(time)
+
+
   }
   const getPersona = q => {
     setLoading(true)
@@ -1412,6 +1427,7 @@ function Facturar() {
       db.delMovCaja({id}).then(res=>{
         setLoading(false)
         getMovimientosCaja()
+        notificar(res)
       })
 
     }
@@ -1424,6 +1440,7 @@ function Facturar() {
 
       db.delMov({id}).then(res=>{
         setLoading(false)
+        notificar(res)
         getMovimientos()
       })
 
@@ -2131,98 +2148,95 @@ const verDetallesFactura = (e=null) => {
           {
           view=="seleccionar"?
           <div className="container p-0">
-            <div className="row">
-              <div className="col">
-                {selectItem!==null?productos[selectItem]?<ModalAddCarrito 
-                  producto={productos[selectItem]} 
-                  setSelectItem={setSelectItem}
-                  cantidad={cantidad}
-                  setCantidad={setCantidad}
-                  numero_factura={numero_factura}
-                  setNumero_factura={setNumero_factura}
-                  pedidoList={pedidoList}
-                  setFalla={setFalla}
-                  number={number}
-                  inputCantidadCarritoref={inputCantidadCarritoref}
-                  addCarritoRequest={addCarritoRequest}/>:null:null}
+            
+              {selectItem!==null?productos[selectItem]?<ModalAddCarrito 
+                producto={productos[selectItem]} 
+                setSelectItem={setSelectItem}
+                cantidad={cantidad}
+                setCantidad={setCantidad}
+                numero_factura={numero_factura}
+                setNumero_factura={setNumero_factura}
+                pedidoList={pedidoList}
+                setFalla={setFalla}
+                number={number}
+                inputCantidadCarritoref={inputCantidadCarritoref}
+                addCarritoRequest={addCarritoRequest}/>:null:null}
 
-                {showModalMovimientos&&<ModalMovimientos 
-                  setShowModalMovimientos={setShowModalMovimientos}
-                  showModalMovimientos={showModalMovimientos}
+              {showModalMovimientos&&<ModalMovimientos 
+                setShowModalMovimientos={setShowModalMovimientos}
+                showModalMovimientos={showModalMovimientos}
 
-                  setBuscarDevolucion={setBuscarDevolucion}
-                  buscarDevolucion={buscarDevolucion}
-                  setTipoMovMovimientos={setTipoMovMovimientos}
-                  tipoMovMovimientos={tipoMovMovimientos}
-                  setTipoCatMovimientos={setTipoCatMovimientos}
-                  tipoCatMovimientos={tipoCatMovimientos}
-                  productosDevulucionSelect={productosDevulucionSelect}
-                  setDevolucion={setDevolucion}
-                  idMovSelect={idMovSelect}
-                  setIdMovSelect={setIdMovSelect}
-                  movimientos={movimientos}
-                  delMov={delMov}
-                  setFechaMovimientos={setFechaMovimientos}
-                  fechaMovimientos={fechaMovimientos}
+                setBuscarDevolucion={setBuscarDevolucion}
+                buscarDevolucion={buscarDevolucion}
+                setTipoMovMovimientos={setTipoMovMovimientos}
+                tipoMovMovimientos={tipoMovMovimientos}
+                setTipoCatMovimientos={setTipoCatMovimientos}
+                tipoCatMovimientos={tipoCatMovimientos}
+                productosDevulucionSelect={productosDevulucionSelect}
+                setDevolucion={setDevolucion}
+                idMovSelect={idMovSelect}
+                setIdMovSelect={setIdMovSelect}
+                movimientos={movimientos}
+                delMov={delMov}
+                setFechaMovimientos={setFechaMovimientos}
+                fechaMovimientos={fechaMovimientos}
 
 
-                  
-                />}
-                <div className="input-group mb-3">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text pointer" onClick={()=>{
-                      let num = window.prompt("Número de resultados a mostrar")
-                      if (num) {setNum(num)}
-                    }}>Resultados({num})</span>
-                  </div>
-                    <span className="input-group-text pointer" onClick={()=>setItemCero(!itemCero)}>En cero: {itemCero?"Sí":"No"}</span>
-                  <input type="text" 
-                  className="form-control" 
-                  ref={inputbusquedaProductosref}
-                  placeholder="Buscar... Presiona (ESC)" 
-                  onChange={onchangeinputmain}/>
-                </div>
-                <ProductosList 
-                  productos={productos} 
-                  addCarrito={addCarrito}
-
-                  clickSetOrderColumn={clickSetOrderColumn}
-
-                  orderColumn={orderColumn}
-                  orderBy={orderBy}
-
-                  counterListProductos={counterListProductos}
-                  setCounterListProductos={setCounterListProductos}
-
-                  tbodyproductosref={tbodyproductosref}
-                  focusCtMain={focusCtMain}
-
-                />
-                {productos.length==0?<div className="text-center p-2"><small className="mr-2">Nada para mostrar...</small></div>:null}
                 
+              />}
+              <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text pointer" onClick={()=>{
+                    let num = window.prompt("Número de resultados a mostrar")
+                    if (num) {setNum(num)}
+                  }}>Resultados({num})</span>
+                </div>
+                  <span className="input-group-text pointer" onClick={()=>setItemCero(!itemCero)}>En cero: {itemCero?"Sí":"No"}</span>
+                <input type="text" 
+                className="form-control" 
+                ref={inputbusquedaProductosref}
+                placeholder="Buscar... Presiona (ESC)" 
+                onChange={onchangeinputmain}/>
               </div>
-              {viewCaja?
-                <Cajagastos 
-                  setMovimientoCaja={setMovimientoCaja}
-                  movCajadescripcion={movCajadescripcion}
-                  setMovCajadescripcion={setMovCajadescripcion}
-                  movCajamonto={movCajamonto}
-                  setMovCajamonto={setMovCajamonto}
-                  number={number}
-                  setMovCajacategoria={setMovCajacategoria}
-                  movCajacategoria={movCajacategoria}
-                  setMovCajatipo={setMovCajatipo}
-                  movimientosCaja={movimientosCaja}
-                  delMovCaja={delMovCaja}
-                  movCajatipo={movCajatipo}
+              <ProductosList 
+                productos={productos} 
+                addCarrito={addCarrito}
 
-                  movCajaFecha={movCajaFecha}
-                  viewCaja={viewCaja}
-                  setViewCaja={setViewCaja}
-                  setMovCajaFecha={setMovCajaFecha}
-                />
-              :null}
-            </div>
+                clickSetOrderColumn={clickSetOrderColumn}
+
+                orderColumn={orderColumn}
+                orderBy={orderBy}
+
+                counterListProductos={counterListProductos}
+                setCounterListProductos={setCounterListProductos}
+
+                tbodyproductosref={tbodyproductosref}
+                focusCtMain={focusCtMain}
+
+              />
+              {productos.length==0?<div className="text-center p-2"><small className="mr-2">Nada para mostrar...</small></div>:null}
+              
+            {viewCaja?
+              <Cajagastos 
+                setMovimientoCaja={setMovimientoCaja}
+                movCajadescripcion={movCajadescripcion}
+                setMovCajadescripcion={setMovCajadescripcion}
+                movCajamonto={movCajamonto}
+                setMovCajamonto={setMovCajamonto}
+                number={number}
+                setMovCajacategoria={setMovCajacategoria}
+                movCajacategoria={movCajacategoria}
+                setMovCajatipo={setMovCajatipo}
+                movimientosCaja={movimientosCaja}
+                delMovCaja={delMovCaja}
+                movCajatipo={movCajatipo}
+
+                movCajaFecha={movCajaFecha}
+                viewCaja={viewCaja}
+                setViewCaja={setViewCaja}
+                setMovCajaFecha={setMovCajaFecha}
+              />
+            :null}
           </div>
           :null
           }
