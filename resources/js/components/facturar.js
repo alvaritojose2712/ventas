@@ -1009,6 +1009,7 @@ function Facturar() {
         setProductos(res.data)
         if (!res.data[counterListProductos]) {
           setCounterListProductos(0)
+          setCountListInter(0)
         }
         setLoading(false)
       })
@@ -2424,6 +2425,9 @@ const verDetallesFactura = (e=null) => {
 
           />:null}
           {view=="pagar"?<Pagar 
+            onClickEditPedido={onClickEditPedido}
+            tipobusquedapedido={tipobusquedapedido}
+            pedidos={pedidos}
             pedidoData={pedidoData} 
             getPedido={getPedido} 
             debito={debito}

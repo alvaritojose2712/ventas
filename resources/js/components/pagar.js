@@ -81,6 +81,10 @@ getDebito,
 getCredito,
 getTransferencia,
 getEfectivo,
+tipobusquedapedido,
+pedidos,
+setPedidos,
+onClickEditPedido,
 }) {
 
   
@@ -136,6 +140,27 @@ getEfectivo,
       <>
         <div className="container-fluid">
           <div className="row">
+            <div className="col-md-auto">
+             {tipobusquedapedido=="fact"?
+              <>
+                {pedidos["fact"]?pedidos["fact"].map(e=>
+                  e?
+                    <div className="card-pedidos d-flex justify-content-center flex-column" key={e.id} data-id={e.pedido.id} onClick={onClickEditPedido}>
+                      <h3>
+                        <span className={(!e.pedido.estado?" btn-arabito":" btn-secondary")+(" fs-3 btn btn-xl btn-circle f")}>
+                          {e.id}
+                        </span>
+                      </h3>
+                      <span className="text-muted text-center">
+                          <b className="h5 text-success">{e.pedido.total}</b>
+
+                      </span>
+                    </div>
+                  :null
+                ):null} 
+              </>
+            :null}
+            </div>
             <div className="col">
               
               {ModaladdproductocarritoToggle&&<Modaladdproductocarrito 
@@ -208,11 +233,8 @@ getEfectivo,
                     :<tr key={e.id}>
                       <td>{e.producto.codigo_barras}</td>
                       <td>{e.producto.descripcion}</td>
-                      <td onClick={setCantidadCarrito} data-index={e.id} className="pointer clickme">{e.cantidad} </td>
+                      <td onClick={setCantidadCarrito} data-index={e.id} className="pointer clickme">{e.cantidad.replace(".00","")} </td>
                       <td>{e.producto.precio}</td>
-                      {/*<td>{e.subtotal}</td>
-                      <td onClick={setDescuentoUnitario} data-index={e.id} className="pointer clickme">{e.descuento}</td>
-                      {/*<td>{e.total_des}</td>*/}
 
                       <th className="font-weight-bold">{e.total}</th>
                       <td> <i onClick={delItemPedido} data-index={e.id} className="fa fa-times text-danger"></i> </td>
@@ -220,8 +242,8 @@ getEfectivo,
                   ):null}
                   <tr>
                     <td>
-                      <input type="text" className="form-control form-control-sm" ref={refinputaddcarritofast} value={inputaddCarritoFast} 
-                      placeholder="Agregar...(esc)" onChange={e=>setinputaddCarritoFast(e.target.value)}/>
+                      <textarea className="form-control form-control-sm" cols="30" rows="1" ref={refinputaddcarritofast} value={inputaddCarritoFast} 
+                      placeholder="Agregar...(esc)" onChange={e=>setinputaddCarritoFast(e.target.value)}></textarea>
                     </td>
                     <td></td>
                     <td></td>

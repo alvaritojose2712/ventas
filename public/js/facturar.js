@@ -6057,7 +6057,11 @@ function Pagar(_ref) {
       getDebito = _ref.getDebito,
       getCredito = _ref.getCredito,
       getTransferencia = _ref.getTransferencia,
-      getEfectivo = _ref.getEfectivo;
+      getEfectivo = _ref.getEfectivo,
+      tipobusquedapedido = _ref.tipobusquedapedido,
+      pedidos = _ref.pedidos,
+      setPedidos = _ref.setPedidos,
+      onClickEditPedido = _ref.onClickEditPedido;
 
   var syncPago = function syncPago(val, type) {
     val = number(val);
@@ -6143,7 +6147,30 @@ function Pagar(_ref) {
         className: "container-fluid",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "row",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "col-md-auto",
+            children: tipobusquedapedido == "fact" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+              children: pedidos["fact"] ? pedidos["fact"].map(function (e) {
+                return e ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                  className: "card-pedidos d-flex justify-content-center flex-column",
+                  "data-id": e.pedido.id,
+                  onClick: onClickEditPedido,
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                      className: (!e.pedido.estado ? " btn-arabito" : " btn-secondary") + " fs-3 btn btn-xl btn-circle f",
+                      children: e.id
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                    className: "text-muted text-center",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("b", {
+                      className: "h5 text-success",
+                      children: e.pedido.total
+                    })
+                  })]
+                }, e.id) : null;
+              }) : null
+            }) : null
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "col",
             children: [ModaladdproductocarritoToggle && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_Modaladdproductocarrito__WEBPACK_IMPORTED_MODULE_1__["default"], {
               toggleModalProductos: toggleModalProductos,
@@ -6229,7 +6256,7 @@ function Pagar(_ref) {
                       onClick: setCantidadCarrito,
                       "data-index": e.id,
                       className: "pointer clickme",
-                      children: [e.cantidad, " "]
+                      children: [e.cantidad.replace(".00", ""), " "]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                       children: e.producto.precio
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
@@ -6245,9 +6272,10 @@ function Pagar(_ref) {
                   }, e.id);
                 }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                      type: "text",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("textarea", {
                       className: "form-control form-control-sm",
+                      cols: "30",
+                      rows: "1",
                       ref: refinputaddcarritofast,
                       value: inputaddCarritoFast,
                       placeholder: "Agregar...(esc)",
@@ -59092,6 +59120,7 @@ function Facturar() {
 
         if (!res.data[counterListProductos]) {
           setCounterListProductos(0);
+          setCountListInter(0);
         }
 
         setLoading(false);
@@ -60530,6 +60559,9 @@ function Facturar() {
         setIndexPedidoCentral: setIndexPedidoCentral,
         indexPedidoCentral: indexPedidoCentral
       }) : null, view == "pagar" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_19__.jsx)(_components_pagar__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        onClickEditPedido: onClickEditPedido,
+        tipobusquedapedido: tipobusquedapedido,
+        pedidos: pedidos,
         pedidoData: pedidoData,
         getPedido: getPedido,
         debito: debito,
