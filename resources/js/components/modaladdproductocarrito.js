@@ -61,7 +61,7 @@ function Modaladdproductocarrito({
 
               {productos.map((e,i)=>
                 <tr tabIndex="-1" className={(countListInter==i?"bg-select":null)+(' tr-producto ')} key={e.id} onClick={setProductoCarritoInterno} data-index={e.id}>
-                  <td className="cell2">{e.codigo_proveedor}</td>
+                  <td className="cell2">{e.codigo_barras}</td>
                   <td className='text-left pl-5 cell4'>{e.descripcion}</td>
                   <td className="cell1">
                     <a href='#' className='formShowProductos btn btn-arabito btn-sm'>{e.cantidad}</a>         

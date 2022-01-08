@@ -150,8 +150,8 @@ class PedidosController extends Controller
 
             })
             ->get()
-            ->map(function($q){
-                $items = items_pedidos::where("id_producto",$q->id);
+            ->map(function($q)use ($fecha1pedido,$fecha2pedido){
+                $items = items_pedidos::whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])->where("id_producto",$q->id);
                 $q->cantidadtotal = $items->sum("cantidad");
                 $q->items = $items->get();
 
@@ -227,7 +227,9 @@ class PedidosController extends Controller
        //Si no se ha pagado
        //si la fecha de entrada no existe en los cierres
        //si la fecha del ultimo cierre es igual la fecha de entrada
-       if (!$estado || !cierres::where("fecha",$fecha_creada)->get()->count()) {
+    
+       $today = $this->today();
+       if (!$estado || !cierres::where("fecha",$fecha_creada)->get()->count() || $fecha_creada == $today) {
         return true;   
        }else{
         return false;   
@@ -679,7 +681,13 @@ class PedidosController extends Controller
             $from = "Arabito ";
             $subject = $sucursal->sucursal." ".$req->fecha;
             $env_emails = str_replace("\n", "", env("SEND_MAIL"));
-            $sends = explode(",", $env_emails);
+            $sends = [
+                "amerelhenaoui@gmail.com",
+                "omarelhenaoui@hotmail.com",
+                "yeisersalah2@gmail.com",
+                "yesers982@hotmail.com",
+                "alvaroospino79@gmail.com",
+            ];
             try {
                 Mail::to($sends)->send(new enviarCierre($arr_send,$from1,$from,$subject));    
                 

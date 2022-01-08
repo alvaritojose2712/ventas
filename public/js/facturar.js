@@ -2571,7 +2571,7 @@ function Modaladdproductocarrito(_ref) {
                 "data-index": e.id,
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   className: "cell2",
-                  children: e.codigo_proveedor
+                  children: e.codigo_barras
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   className: "text-left pl-5 cell4",
                   children: e.descripcion
@@ -59280,6 +59280,7 @@ function Facturar() {
         }
 
         setCantidad("");
+        inputbusquedaProductosref.current.value = "";
         setLoading(false);
       });
     } catch (err) {

@@ -153,15 +153,14 @@ class PagoPedidosController extends Controller
     public function getDeudores(Request $req)
     {
         $busqueda = $req->qDeudores;
-        return clientes::with(["pedidos"=>function($q){
+        return array_slice(clientes::with(["pedidos"=>function($q){
             $q->with(["pagos"]);
             $q->orderBy("created_at","desc");
         }])
         ->where("id","<>",1)->where(function($q) use ($busqueda){
-            $q->orWhere("identificacion","LIKE",$busqueda."%")
-            ->orWhere("nombre","LIKE",$busqueda."%");
+            $q->orWhere("identificacion","LIKE","%".$busqueda."%")
+            ->orWhere("nombre","LIKE","%".$busqueda."%");
         })
-        ->limit($busqueda==""?20:75)
         ->get()
         ->map(function($q){
 
@@ -186,7 +185,9 @@ class PagoPedidosController extends Controller
 
 
             return $q;
-        })->sortBy("saldo")->values()->all();
+        })->sortBy("saldo")
+        ->values()
+        ->all(),0,50);
 
     }
 

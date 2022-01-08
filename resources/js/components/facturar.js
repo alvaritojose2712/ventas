@@ -1142,6 +1142,7 @@ function Facturar() {
           break;
         }
         setCantidad("")
+        inputbusquedaProductosref.current.value = ""
         setLoading(false)
       })
 
