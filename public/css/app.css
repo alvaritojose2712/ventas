@@ -30,17 +30,29 @@ td,th{
 
 
 .cell1{
-  width: 10%;
+  width: 10% !important;
 }
 
 .cell2{
-  width: 20%;
+  width: 20% !important;
+}
+.cell25{
+  width: 25% !important;
 }
 .cell3{
-  width: 30%;
+  width: 30% !important;
 }
 .cell4{
-  width: 40%;
+  width: 40% !important;
+}
+.cell5{
+  width: 50% !important;
+}
+.cell75{
+  width: 75% !important;
+}
+.cell8{
+  width: 80% !important;
 }
 .cargando{
   position: fixed;
@@ -265,6 +277,10 @@ body{
 .card-arabito .descripcion{
   font-size: 1em;
   font-weight: bold;
+}
+.btn-outline-arabito{
+  color: #ec7311 !important;
+  border-color: #ec7311 !important;
 }
 .card-arabito .categoria{
   font-size: 0.8em;

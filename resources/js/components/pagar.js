@@ -147,12 +147,12 @@ onClickEditPedido,
                   e?
                     <div className="card-pedidos d-flex justify-content-center flex-column" key={e.id} data-id={e.pedido.id} onClick={onClickEditPedido}>
                       <h3>
-                        <span className={(!e.pedido.estado?" btn-arabito":" btn-secondary")+(" fs-3 btn btn-xl btn-circle f")}>
+                        <span className={(e.pedido.id==id?"btn":"btn-outline")+(!e.pedido.estado?"-arabito":"-success")+(" fs-4 btn btn-xl btn-circle f")}>
                           {e.id}
                         </span>
                       </h3>
                       <span className="text-muted text-center">
-                          <b className="h5 text-success">{e.pedido.total}</b>
+                          <b className={("h5 ")+(!e.pedido.estado?" text-arabito":" text-success")}>{e.pedido.total}</b>
 
                       </span>
                     </div>
@@ -241,21 +241,15 @@ onClickEditPedido,
                     </tr>
                   ):null}
                   <tr>
-                    <td>
-                      <textarea className="form-control form-control-sm" cols="30" rows="1" ref={refinputaddcarritofast} value={inputaddCarritoFast} 
-                      placeholder="Agregar...(esc)" onChange={e=>setinputaddCarritoFast(e.target.value)}></textarea>
+                    <td colSpan="8">
+                      <input className="form-control form-control-sm" ref={refinputaddcarritofast} value={inputaddCarritoFast} 
+                      placeholder="Agregar...(esc)" onChange={e=>setinputaddCarritoFast(e.target.value)}/>
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td><button className="btn btn-outline-success">{items.length}</button></td>
 
                   </tr>
                   <tr>
-                    <th colSpan="3" className="p-2">{cliente?cliente.nombre:null} ({cliente?cliente.telefono:null})</th>
-                    <th colSpan="2" className="p-2">{cliente?cliente.identificacion:null}</th>
-                    <th colSpan="4" className="p-2">{cliente?cliente.direccion:null}</th>
+                    <th colSpan="9" className="p-2">{cliente?cliente.nombre:null} <b>{cliente?cliente.identificacion:null}</b></th>
                   </tr>
                 </tbody>
               </table>

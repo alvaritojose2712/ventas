@@ -162,7 +162,20 @@ class PedidosController extends Controller
             // code...
         }else if ($tipobusquedapedido=="fact") {
             $fact = pedidos::where("id","LIKE","$busquedaPedido%")
-            ->where("estado",$tipoestadopedido)
+            ->where(function($q) use (&$saludos, $tipoestadopedido){
+
+                if (!$tipoestadopedido) {
+                    $q->where("estado",false);
+                }
+                if($tipoestadopedido==1){
+                    $q->where("estado",true);
+                }
+
+                if($tipoestadopedido=="todos"){
+
+                    // $q->where("estado",true);
+                }
+            })
             ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
             ->orderBy("created_at","desc")
             ->limit($limit)
@@ -197,7 +210,8 @@ class PedidosController extends Controller
             "desctotal"=>$desctotal, 
             "totaltotal"=>number_format($totaltotal,2,".",","),
             "itemstotal"=>$itemstotal,
-            "totalventas"=>$totalventas];
+            "totalventas"=>$totalventas,
+        ];
     }
     public function getPedidosUser()
     {

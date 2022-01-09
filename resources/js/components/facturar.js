@@ -133,7 +133,7 @@ function Facturar() {
 
   const [tipobusquedapedido,setTipoBusqueda] = useState("fact")
 
-  const [tipoestadopedido,setTipoestadopedido] = useState("0")
+  const [tipoestadopedido,setTipoestadopedido] = useState("todos")
 
 
   const [busquedaPedido,setBusquedaPedido] = useState("")
@@ -1072,6 +1072,8 @@ function Facturar() {
       setEfectivo("")
       setCredito("")
       setVuelto("")
+
+      setTipoestadopedido("todos")
 
       if (res.data.pagos) {
         let d = res.data.pagos

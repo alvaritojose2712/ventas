@@ -17,7 +17,7 @@ function ModalAddCarrito({number,inputCantidadCarritoref,producto,pedidoList,set
          </div>
           <form onSubmit={e=>e.preventDefault()} className="d-flex justify-content-center flex-column p-3">
             <div className="input-group m-3">
-              <input type="number" ref={inputCantidadCarritoref} className="form-control" placeholder="Cantidad" onChange={(e)=>setCantidad(number(e.target.value))} value={number(cantidad)}/>
+              <input type="text" ref={inputCantidadCarritoref} className="form-control" placeholder="Cantidad" onChange={(e)=>setCantidad(number(e.target.value))} value={cantidad}/>
 
               <div className="input-group-append">
                 <span className="input-group-text">Total. {cantidad*producto.precio?(cantidad*producto.precio).toFixed(2):null}</span>

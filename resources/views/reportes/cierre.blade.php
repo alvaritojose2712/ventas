@@ -56,6 +56,13 @@
 			background: green;
 			color: white;
 		}
+		.text-success-only{
+			color: green;
+		}
+		.fs-3{
+			font-size: xx-large;
+			font-weight: bold;
+		}
 
 		.table-dark{
 			background-color: #f2f2f2;
@@ -124,7 +131,7 @@
 					<th class="right">
 						VENTAS DEL DÍA
 					</th>
-					<td class="">{{$facturado["numventas"]}}</td>
+					<td class=""><span class="text-success-only fs-3">{{$facturado["numventas"]}}</span></td>
 					<th class="right">
 						INVENTARIO
 					</th>
