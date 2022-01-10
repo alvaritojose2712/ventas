@@ -53,6 +53,10 @@ td,th{
 .cell8{
   width: 80% !important;
 }
+.h-600{
+  height: 900px !important;
+  overflow-y: auto;
+}
 .cargando{
   position: fixed;
   bottom: 10px;

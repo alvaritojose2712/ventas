@@ -26,6 +26,8 @@ class CreateCierresTable extends Migration
 
 
             $table->float("efectivo_guardado");
+            $table->float("efectivo_guardado_cop");
+            $table->float("efectivo_guardado_bs");
 
             $table->float("tasa"); 
             

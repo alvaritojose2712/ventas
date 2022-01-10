@@ -19,6 +19,7 @@ function Header({dolar,peso,view,setView,setMoneda,getPedidos,setViewCaja,viewCa
       <div className="bg-arabito container-fluid">
         <div className="row">
           <div className="col d-flex justify-content-end">
+            <span className={(view=="ventas"?"btn btn-dark":null)+(" p-3 pointer")} onClick={()=>setView("ventas")}>Ventas</span>
             <span className={(view=="seleccionar"?"btn btn-dark":null)+(" p-3 pointer")} onClick={()=>setView("seleccionar")}>Facturar</span>
             <span className={(view=="credito"?"btn btn-dark":null)+(" p-3 pointer")} onClick={()=>setView("credito")}>Crédito</span>
             <span className={(view=="cierres"?"btn btn-dark":null)+(" p-3 pointer")} onClick={()=>setView("cierres")}>Cierre</span>

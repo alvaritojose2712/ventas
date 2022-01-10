@@ -141,25 +141,27 @@ onClickEditPedido,
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-auto">
-             {tipobusquedapedido=="fact"?
-              <>
-                {pedidos["fact"]?pedidos["fact"].map(e=>
-                  e?
-                    <div className="card-pedidos d-flex justify-content-center flex-column" key={e.id} data-id={e.pedido.id} onClick={onClickEditPedido}>
-                      <h3>
-                        <span className={(e.pedido.id==id?"btn":"btn-outline")+(!e.pedido.estado?"-arabito":"-success")+(" fs-4 btn btn-xl btn-circle f")}>
-                          {e.id}
-                        </span>
-                      </h3>
-                      <span className="text-muted text-center">
-                          <b className={("h5 ")+(!e.pedido.estado?" text-arabito":" text-success")}>{e.pedido.total}</b>
+              <div className="h-600">
+                {tipobusquedapedido=="fact"?
+                  <>
+                    {pedidos["fact"]?pedidos["fact"].map(e=>
+                      e?
+                        <div className="card-pedidos d-flex justify-content-center flex-column" key={e.id} data-id={e.pedido.id} onClick={onClickEditPedido}>
+                          <h3>
+                            <span className={(e.pedido.id==id?"btn":"btn-outline")+(!e.pedido.estado?"-arabito":"-success")+(" fs-4 btn btn-xl btn-circle f")}>
+                              {e.id}
+                            </span>
+                          </h3>
+                          <span className="text-muted text-center">
+                              <b className={("h5 ")+(!e.pedido.estado?" text-arabito":" text-success")}>{e.pedido.total}</b>
 
-                      </span>
-                    </div>
-                  :null
-                ):null} 
-              </>
-            :null}
+                          </span>
+                        </div>
+                      :null
+                    ):null} 
+                  </>
+                :null}
+              </div>
             </div>
             <div className="col">
               

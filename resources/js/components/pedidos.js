@@ -26,7 +26,8 @@ filterMetodoPagoToggle,
 	try{
 		return (
 			<div className="container">
-				<div className="d-flex justify-content-between">
+				<div className="row">
+
 					<div className="input-group cell2">
 
 					  <div className="input-group-prepend">
@@ -53,11 +54,14 @@ filterMetodoPagoToggle,
 									<div className={" m-1 pointer " + (tipobusquedapedido=="prod"?"select-fact bg-arabito":"select-fact")} onClick={()=>setTipoBusqueda("prod")}>
 										Prod. <i className="fa fa-search"></i> 
 									</div>
+									<div className={" m-1 pointer " + (tipobusquedapedido=="cliente"?"select-fact bg-arabito":"select-fact")} onClick={()=>setTipoBusqueda("cliente")}>
+										Clien. <i className="fa fa-user"></i> 
+									</div>
 								</div>
 							</div>
 	          </div>
 
-	          <input className="form-control" placeholder="Buscar... #Factura, Descripción de producto" value={busquedaPedido} data-type="busquedaPedido" onChange={onChangePedidos} autoComplete="off" />
+	          <input className="form-control" placeholder="Buscar... #Factura, #Descripción, #Cliente" value={busquedaPedido} data-type="busquedaPedido" onChange={onChangePedidos} autoComplete="off" />
 	          <input type="date" value={fecha1pedido} data-type="fecha1pedido" onChange={onChangePedidos} className="form-control" />
 	          <input type="date" value={fecha2pedido} data-type="fecha2pedido" onChange={onChangePedidos} className="form-control" />
 						<i className="fa fa-reload" onClick={()=>getPedidos()}></i>
@@ -101,7 +105,7 @@ filterMetodoPagoToggle,
 						</>
 					:null}
 
-					{tipobusquedapedido=="fact"?
+					{tipobusquedapedido=="fact"||tipobusquedapedido=="cliente"?
 						<>
 									
 							<div className="card-pedidos-header">

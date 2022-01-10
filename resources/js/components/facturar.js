@@ -29,6 +29,7 @@ import Cierres from '../components/cierre';
 import Inventario from '../components/inventario';
 
 import Cajagastos from '../components/cajagastos';
+import Ventas from '../components/ventas';
 
 
 
@@ -264,6 +265,17 @@ function Facturar() {
 
   const [showaddpedidocentral, setshowaddpedidocentral] = useState(false)
   const [permisoExecuteEnter, setpermisoExecuteEnter] = useState(true)
+
+  const [guardar_usd,setguardar_usd] = useState("")
+  const [guardar_cop,setguardar_cop] = useState("")
+  const [guardar_bs,setguardar_bs] = useState("")
+
+  const [ventasData,setventasData] = useState([])
+
+  const [fechaventas,setfechaventas] = useState("")
+  
+
+
 
   const [valheaderpedidocentral, setvalheaderpedidocentral] = useState("12340005ARAMCAL")
   const [valbodypedidocentral, setvalbodypedidocentral] = useState("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345")
@@ -667,6 +679,12 @@ function Facturar() {
   },[indexSelectInventario])
 
   useEffect(()=>{
+    getVentas()
+  },[fechaventas])
+
+  
+
+  useEffect(()=>{
     setInputsProveedores()
   },[indexSelectProveedores])
   
@@ -685,6 +703,7 @@ function Facturar() {
     setLoading(true)
     db.cerrar({total_caja_neto,total_punto,fechaCierre}).then(res=>{
       setCierre(res.data)
+      console.log(res.data)
       setLoading(false)
     })
   }
@@ -793,6 +812,7 @@ function Facturar() {
       setFecha2pedido(today)
       setFechaMovimientos(today)
       setMovCajaFecha(today)
+      setfechaventas(today)
 
     })
   }
@@ -1073,6 +1093,7 @@ function Facturar() {
       setCredito("")
       setVuelto("")
 
+      getPedidos()
       setTipoestadopedido("todos")
 
       if (res.data.pagos) {
@@ -1292,31 +1313,34 @@ function Facturar() {
   }
 
   const facturar_pedido = () => {
-    setLoading(true)
-    if (pedidoData.id) {
-      db.setPagoPedido({
-        id:pedidoData.id,
-        debito,
-        efectivo,
-        transferencia,
-        credito,
-        vuelto,
-      }).then(res=>{
-        notificar(res)
-        setLoading(false)
-        
-        if (res.data.estado) {
-          setView("seleccionar")
-          getPedidos()
-          getPedidosList()
-          getProductos()
+    if (refinputaddcarritofast.current !== document.activeElement) {
+      setLoading(true)
+      if (pedidoData.id) {
+        db.setPagoPedido({
+          id:pedidoData.id,
+          debito,
+          efectivo,
+          transferencia,
+          credito,
+          vuelto,
+        }).then(res=>{
+          notificar(res)
+          setLoading(false)
+          
+          if (res.data.estado) {
+            setView("seleccionar")
+            getPedidos()
+            getPedidosList()
+            getProductos()
 
-          setSelectItem(null)
+            setSelectItem(null)
 
-        }
-      })
+          }
+        })
 
+      }
     }
+
   }
 
   const del_pedido = () =>{
@@ -1348,6 +1372,10 @@ function Facturar() {
 
       total_dejar_caja_neto,
       total_punto,
+
+      guardar_usd,
+      guardar_cop,
+      guardar_bs,
       
       efectivo: cierre["total_caja"],
       transferencia: cierre[1],
@@ -1920,6 +1948,8 @@ const getPedidosCentral = () => {
   })
 }
 
+
+
 const procesarImportPedidoCentral = () => {
   // console.log(valbodypedidocentral)
   // Id pedido 4
@@ -2125,6 +2155,19 @@ const verDetallesFactura = (e=null) => {
   }
   
 }
+
+const getVentas = () => {
+  setLoading(true)
+  db.getVentas({fechaventas}).then(res=>{
+    setventasData(res.data)
+    setLoading(false)
+    console.log(res.data)
+  })
+}
+
+const getVentasClick = () => {
+  getVentas()
+}
   
 
 
@@ -2244,7 +2287,21 @@ const verDetallesFactura = (e=null) => {
           </div>
           :null
           }
+          {view=="ventas"?<Ventas
+            ventasData={ventasData}
+            getVentasClick={getVentasClick}
+            setfechaventas={setfechaventas}
+            fechaventas={fechaventas}
+          />:null}
+
           {view=="cierres"?<Cierres
+            number={number}
+            guardar_usd={guardar_usd}
+            setguardar_usd={setguardar_usd}
+            guardar_cop={guardar_cop}
+            setguardar_cop={setguardar_cop}
+            guardar_bs={guardar_bs}
+            setguardar_bs={setguardar_bs}
             caja_usd={caja_usd}
             caja_cop={caja_cop}
             caja_bs={caja_bs}

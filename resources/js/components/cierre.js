@@ -24,6 +24,15 @@ function Cierre({
 	setToggleDetallesCierre,
 	guardar_cierre,
 	total_dejar_caja_neto,
+
+	guardar_usd,
+	setguardar_usd,
+	guardar_cop,
+	setguardar_cop,
+	guardar_bs,
+	setguardar_bs,
+
+	number,
 }) {
 
 
@@ -100,12 +109,12 @@ function Cierre({
 									:null}
 									<h2>{cierre["total_caja"]?cierre["total_caja"]:0}</h2>
 								</td>
-								<td className="align-middle text-center bg-success">
+								<td className="align-middle text-center bg-success-light">
 									<h2>{cierre[3]?cierre[3].toFixed(2):null}</h2>
 								</td>
 							</tr>
 							<tr className="table-active">
-								<td colSpan="2" className={(cierre["estado_efec"]==1?"bg-success":"bg-danger")+" align-middle"}>
+								<td colSpan="2" className={(cierre["estado_efec"]==1?"bg-success-light":"bg-arabito-light")+" align-middle"}>
 									<h2 className="text-center">{cierre["msj_efec"]?cierre["msj_efec"]:null}</h2>
 								</td>
 							</tr>
@@ -124,18 +133,18 @@ function Cierre({
 										{total_punto}
 									</h3>
 								</td>
-								<td className="align-middle text-center bg-success">
+								<td className="align-middle text-center bg-success-light">
 									<h2>{cierre[2]?cierre[2]:null}</h2>
 								</td>
 							</tr>
 							<tr>
-								<td colSpan="2" className={(cierre["estado_punto"]==1?"bg-success":"bg-danger")+" align-middle text-center"}>
+								<td colSpan="2" className={(cierre["estado_punto"]==1?"bg-success-light":"bg-arabito-light")+" align-middle text-center"}>
 									<h2 className="text-center">{cierre["msj_punto"]?cierre["msj_punto"]:null}</h2>
 								</td>
 							</tr>
 							<tr className="table-active">
 								<td colSpan="2"><h4>Transferencia</h4></td>
-								<td className="text-center bg-success">
+								<td className="text-center bg-success-light">
 									<h2>
 										{cierre[1]?cierre[1]:null}
 										
@@ -147,7 +156,7 @@ function Cierre({
 									<h3>¿Cuánto dejarás en caja?</h3>
 								</td>
 								<td colSpan="2">
-									<div className="row">
+										<div className="row">
 											<div className="col">
 												<div className="input-group mb-3">
 												  <div className="input-group-prepend w-50">
@@ -177,6 +186,46 @@ function Cierre({
 										</div>
 										<h3>{total_dejar_caja_neto}</h3>
 								</td>
+							</tr>
+							<tr>
+								<td>
+									<h3>Efectivo Guardado</h3>
+								</td>
+								<td>
+									<div className="container fluid">
+										<div className="row">
+											<div className="col">
+												  <span className="text-success fs-3 fw-bold">{cierre["efectivo_guardado"]?cierre["efectivo_guardado"]:null}</span>
+											</div>
+											<div className="col">
+												<div className="input-group mb-3">
+												  <div className="input-group-prepend w-50">
+												    <span className="input-group-text">Dólar USD($)</span>
+												  </div>
+												  <input type="text" className="form-control" placeholder="$" name="guardar_usd" value={guardar_usd} onChange={e=>setguardar_usd(number(e.target.value))}/>
+												</div>
+												
+											</div>
+											<div className="col">
+												<div className="input-group mb-3">
+												  <div className="input-group-prepend w-50">
+												    <span className="input-group-text">Pesos COP.</span>
+												  </div>
+												  <input type="text" className="form-control" placeholder="COP" name="guardar_cop" value={guardar_cop} onChange={e=>setguardar_cop(number(e.target.value))}/>
+												</div>
+												
+											</div>
+											<div className="col">
+												<div className="input-group mb-3">
+												  <div className="input-group-prepend w-50">
+												    <span className="input-group-text">Bolívares VE.</span>
+												  </div>
+												  <input type="text" className="form-control" placeholder="Bs." name="guardar_bs" value={guardar_bs} onChange={e=>setguardar_bs(number(e.target.value))}/>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>		
 							</tr>
 							<tr>
 								<td>

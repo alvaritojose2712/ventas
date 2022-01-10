@@ -24,6 +24,8 @@ class cierres extends Model
         "dejar_peso",
         "dejar_bss",
         "efectivo_guardado",
+        "efectivo_guardado_cop",
+        "efectivo_guardado_bs",
         "tasa",
         "nota",
         "id_usuario",

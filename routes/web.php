@@ -70,7 +70,8 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::post('getpersona', [ClientesController::class,"getpersona"]);
 	Route::post('setpersonacarrito', [PedidosController::class,"setpersonacarrito"]);
 
-
+	Route::post('getVentas', [PedidosController::class,"getVentas"]);
+	
 	Route::post('setPagoPedido', [PagoPedidosController::class,"setPagoPedido"]);
 	Route::post('delpedido', [PedidosController::class,"delpedido"]);
 	

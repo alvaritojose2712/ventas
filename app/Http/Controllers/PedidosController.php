@@ -22,7 +22,17 @@ use App\Mail\enviarCierre;
 use Response;
 
 class PedidosController extends Controller
-{   
+{  
+    public function get_moneda()
+    {
+        $cop = moneda::where("tipo",2)->orderBy("id","desc")->first()["valor"];
+        $bs = moneda::where("tipo",1)->orderBy("id","desc")->first()["valor"];
+        return ["cop"=>$cop, "bs"=>$bs];
+    }
+    public function today()
+    {
+        return date("Y-m-d");
+    } 
     public function sumpedidos(Request $req)
     {
         $ped = pedidos::with(["cliente","pagos","items"=>function($q)
@@ -87,6 +97,12 @@ class PedidosController extends Controller
         ]);
 
     }
+    public function getVentas(Request $req)
+    {
+        $fechaventas = $req->fechaventas;
+
+        return $this->cerrarFun($fechaventas,0,0);
+    }
     public function getPedidos(Request $req)
     {   
         $fact = [];
@@ -143,7 +159,20 @@ class PedidosController extends Controller
                 ->whereIn("id_pedido",function($q) use ($fecha1pedido,$fecha2pedido,$tipoestadopedido){
                     $q->from("pedidos")
                     ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
-                    ->where("estado",$tipoestadopedido)
+                    ->where(function($q) use ( $tipoestadopedido){
+
+                        if (!$tipoestadopedido) {
+                            $q->where("estado",false);
+                        }
+                        if($tipoestadopedido==1){
+                            $q->where("estado",true);
+                        }
+
+                        if($tipoestadopedido=="todos"){
+
+                            // $q->where("estado",true);
+                        }
+                    })
                     ->select("id");
                 })
                 ->select("id_producto");
@@ -162,7 +191,51 @@ class PedidosController extends Controller
             // code...
         }else if ($tipobusquedapedido=="fact") {
             $fact = pedidos::where("id","LIKE","$busquedaPedido%")
-            ->where(function($q) use (&$saludos, $tipoestadopedido){
+            ->where(function($q) use ( $tipoestadopedido){
+
+                if (!$tipoestadopedido) {
+                    $q->where("estado",false);
+                }
+                if($tipoestadopedido==1){
+                    $q->where("estado",true);
+                }
+
+                if($tipoestadopedido=="todos"){
+
+                    // $q->where("estado",true);
+                }
+            })
+            ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
+            ->orderBy("created_at","desc")
+            ->limit($limit)
+            ->get()
+            ->map(function($q) use (&$subtotal, &$desctotal, &$totaltotal,&$porctotal,&$itemstotal,&$totalventas,$filterMetodoPagoToggle){
+                // global ;
+
+                $fun = $this->getPedidoFun($q->id,$filterMetodoPagoToggle);
+                $q->pedido = $fun;
+
+                // $istrue = false; 
+                if ($filterMetodoPagoToggle=="todos"||count($q->pagos->where("tipo",$filterMetodoPagoToggle)->where("monto","<>",0))) {
+                    $totalventas++;
+                    $itemstotal += count($fun->items);
+
+                    $subtotal += $fun->clean_subtotal;
+                    $desctotal += $fun->clean_total_des;
+                    $totaltotal += $fun->clean_total;
+                    $porctotal += $fun->clean_total_porciento;
+                    return $q;
+                }else{
+                    
+                }
+            });  
+        }else if($tipobusquedapedido=="cliente"){
+            $fact = pedidos::whereIn("id_cliente",function($q) use ($busquedaPedido)
+            {
+                $q->from("clientes")->orWhere("nombre","LIKE","%$busquedaPedido%")->orWhere("identificacion","LIKE","%$busquedaPedido%")->select("id");
+
+            })
+            ->where(function($q) use ( $tipoestadopedido){
 
                 if (!$tipoestadopedido) {
                     $q->where("estado",false);
@@ -200,8 +273,6 @@ class PedidosController extends Controller
                     
                 }
             });
-
-            
         }
         return [
             "fact"=>$fact, 
@@ -464,6 +535,8 @@ class PedidosController extends Controller
         }
         $pedido = pedidos::where("created_at","LIKE",$fecha."%");
 
+
+
         $arr_pagos = [
             "total"=>0,
             "fecha"=>$fecha,
@@ -524,6 +597,9 @@ class PedidosController extends Controller
             $this->msj_cuadre($total_caja,$arr_pagos[3],"efec",$arr_pagos);
         }
 
+        $efectivo_guardado = floatval($arr_pagos[3])+floatval($caja_inicial)-($entregadomenospend)-$total_caja_neto;
+
+        $arr_pagos["efectivo_guardado"] = round($efectivo_guardado,2);
 
         return $arr_pagos;
     }
@@ -552,16 +628,7 @@ class PedidosController extends Controller
         }
     }
 
-    public function get_moneda()
-    {
-        $cop = moneda::where("tipo",2)->orderBy("id","desc")->first()["valor"];
-        $bs = moneda::where("tipo",1)->orderBy("id","desc")->first()["valor"];
-        return ["cop"=>$cop, "bs"=>$bs];
-    }
-    public function today()
-    {
-        return date("Y-m-d");
-    }
+    
 
     public function guardarCierre(Request $req)
     {
@@ -569,7 +636,6 @@ class PedidosController extends Controller
             
             $cop = $this->get_moneda()["cop"];
             $bs = $this->get_moneda()["bs"];
-            $efectivo_guardado = floatval($req->efectivo)+floatval($req->caja_inicial)-($req->entregadomenospend)-$req->total_dejar_caja_neto;
 
 
             cierres::updateOrCreate(
@@ -581,7 +647,10 @@ class PedidosController extends Controller
                     "dejar_dolar" => floatval($req->dejar_usd),
                     "dejar_peso" => floatval($req->dejar_cop),
                     "dejar_bss" => floatval($req->dejar_bs),
-                    "efectivo_guardado" => $efectivo_guardado,
+
+                    "efectivo_guardado" => floatval($req->guardar_usd),
+                    "efectivo_guardado_cop" => floatval($req->guardar_cop),
+                    "efectivo_guardado_bs" => floatval($req->guardar_bs),
                     "tasa" => $bs,
                     "nota" => $req->notaCierre,
                     "id_usuario" => session()->has("id_usuario"),

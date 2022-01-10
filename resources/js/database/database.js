@@ -39,6 +39,8 @@ const db = {
   cerrar: data=>axios.post(host+"cerrar",data),
 
   today: data=>axios.post(host+"today",data),
+  getVentas: data=>axios.post(host+"getVentas",data),
+  
 
   
   setPagoCredito: data=>axios.post(host+"setPagoCredito",data),
