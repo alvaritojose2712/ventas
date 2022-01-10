@@ -7689,7 +7689,8 @@ function VentasComponet(_ref) {
   var ventasData = _ref.ventasData,
       getVentasClick = _ref.getVentasClick,
       setfechaventas = _ref.setfechaventas,
-      fechaventas = _ref.fechaventas;
+      fechaventas = _ref.fechaventas,
+      moneda = _ref.moneda;
   console.log(ventasData);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "container",
@@ -7720,16 +7721,16 @@ function VentasComponet(_ref) {
             className: "btn-group",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
               className: "btn btn-outline-success fs-1",
-              children: ["Tot. ", ventasData["total"]]
+              children: ["Tot. ", moneda(ventasData["total"])]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
               className: "btn btn-outline-arabito fs-4",
-              children: ["Efec. ", ventasData[3]]
+              children: ["Efec. ", moneda(ventasData[3])]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
               className: "btn btn-outline-arabito fs-4",
-              children: ["Deb. ", ventasData[2]]
+              children: ["Deb. ", moneda(ventasData[2])]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
               className: "btn btn-outline-arabito fs-4",
-              children: ["Trans. ", ventasData[1]]
+              children: ["Trans. ", moneda(ventasData[1])]
             })]
           }) : null
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -60579,7 +60580,8 @@ function Facturar() {
         ventasData: ventasData,
         getVentasClick: getVentasClick,
         setfechaventas: setfechaventas,
-        fechaventas: fechaventas
+        fechaventas: fechaventas,
+        moneda: moneda
       }) : null, view == "cierres" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_components_cierre__WEBPACK_IMPORTED_MODULE_16__["default"], {
         number: number,
         guardar_usd: guardar_usd,

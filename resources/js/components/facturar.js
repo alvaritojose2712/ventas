@@ -2292,6 +2292,7 @@ const getVentasClick = () => {
             getVentasClick={getVentasClick}
             setfechaventas={setfechaventas}
             fechaventas={fechaventas}
+            moneda={moneda}
           />:null}
 
           {view=="cierres"?<Cierres

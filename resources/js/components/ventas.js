@@ -2,7 +2,8 @@ export default function VentasComponet({
 	ventasData,
 	getVentasClick,
 	setfechaventas,
-	fechaventas
+	fechaventas,
+	moneda
 }) {
 		console.log(ventasData)
 	return (
@@ -18,10 +19,10 @@ export default function VentasComponet({
 					<div className="col p-0">
 						{ventasData?
 							<div className="btn-group">
-								<button className="btn btn-outline-success fs-1">Tot. {ventasData["total"]}</button>
-								<button className="btn btn-outline-arabito fs-4">Efec. {ventasData[3]}</button>
-								<button className="btn btn-outline-arabito fs-4">Deb. {ventasData[2]}</button>
-								<button className="btn btn-outline-arabito fs-4">Trans. {ventasData[1]}</button>
+								<button className="btn btn-outline-success fs-1">Tot. {moneda(ventasData["total"])}</button>
+								<button className="btn btn-outline-arabito fs-4">Efec. {moneda(ventasData[3])}</button>
+								<button className="btn btn-outline-arabito fs-4">Deb. {moneda(ventasData[2])}</button>
+								<button className="btn btn-outline-arabito fs-4">Trans. {moneda(ventasData[1])}</button>
 							</div>
 						:null}
 
