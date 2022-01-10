@@ -110,17 +110,17 @@
 					</td>
 					<td colspan="2">
 						<h2>CAJA</h2>
-						$ = <b>{{$cierre->dejar_dolar}}</b>
+						$ = <b>{{toLetras($cierre->dejar_dolar)}}</b>
 						<br/>
 						<br/>
-						P = <b>{{$cierre->dejar_peso}}</b>
+						P = <b>{{toLetras($cierre->dejar_peso)}}</b>
 						<br/>
 						<br/>
-						BSS = <b>{{$cierre->dejar_bss}}</b>
+						BSS = <b>{{toLetras($cierre->dejar_bss)}}</b>
 					</td>
 					<td>
 						<h2>TASA</h2>
-						{{$cierre->tasa}}
+						{{toLetras($cierre->tasa)}}
 					</td>
 					<td>
 						<h2>{{$cierre->fecha}}</h2>
@@ -131,14 +131,14 @@
 					<th class="right">
 						VENTAS DEL DÍA
 					</th>
-					<td class=""><span class="text-success-only fs-3">{{$facturado["numventas"]}}</span></td>
+					<td class=""><span class="text-success-only fs-3">{{toLetras($facturado["numventas"])}}</span></td>
 					<th class="right">
 						INVENTARIO
 					</th>
-					<td class="">{{number_format($total_inventario,2,",",".")}}</td>
+					<td class="">{{toLetras(number_format($total_inventario,2,",","."))}}</td>
 					<td>
 						<b>VUELTOS TOTALES</b> <hr>
-						{{$vueltos_totales}}
+						{{toLetras($vueltos_totales)}}
 					</td>
 				</tr>
 				<tr>
@@ -152,23 +152,23 @@
 
 				</tr>
 				<tr>
-					<td>{{$facturado[2]}}</td>
-					<td>{{$facturado[3]}}</td>
-					<td>{{$facturado[1]}}</td>
-					<td>{{$facturado[4]}}</td>
-					<td>{{$facturado["entregado"]}} - {{$facturado["pendiente"]}} = {{$facturado["entregadomenospend"]}}</td>
+					<td>{{toLetras($facturado[2])}}</td>
+					<td>{{toLetras($facturado[3])}}</td>
+					<td>{{toLetras($facturado[1])}}</td>
+					<td>{{toLetras($facturado[4])}}</td>
+					<td>{{toLetras($facturado["entregado"])}} - {{toLetras($facturado["pendiente"])}} = {{toLetras($facturado["entregadomenospend"])}}</td>
 				</tr>
 				<tr>
 					<th colspan="3">
 						<h3>TOTAL FACTURADO:</h3>
-						<h1 class="text-success">{{$facturado[2]+$facturado[3]+$facturado[1]}}</h1>
+						<h1 class="text-success">{{toLetras($facturado[2]+$facturado[3]+$facturado[1])}}</h1>
 					</th>
-					<th colspan="1">
+					<th colspan="1" class="text-warning">
 
 						<h3>EFECTIVO GUARDADO:</h3>
-						<h1 class="text-warning">$ {{$cierre->efectivo_guardado}}</h1>
-						<h1 class="text-warning">COP {{$cierre->efectivo_guardado_cop}}</h1>
-						<h1 class="text-warning">BS {{$cierre->efectivo_guardado_bs}}</h1>
+						<span class="">$ <span class="fs-3">{{toLetras($cierre->efectivo_guardado)}}</span></span><br>
+						<span class="">COP <span class="fs-3">{{toLetras($cierre->efectivo_guardado_cop)}}</span></span><br>
+						<span class="">BS <span class="fs-3">{{toLetras($cierre->efectivo_guardado_bs)}}</span></span><br>
 					</th>
 					<th class="right d-flex">
 						<table>
@@ -186,15 +186,15 @@
 									
 								</td>
 								<td>
-									{{$precio_base}}
+									{{toLetras($precio_base)}}
 									<hr/>
-									{{$porcentaje}}
+									{{toLetras($porcentaje)}}
 									<hr/>
-									{{$precio}}
+									{{toLetras($precio)}}
 									<hr/>
-									{{$desc_total}}
+									{{toLetras($desc_total)}}
 									<hr/>
-									{{$ganancia}}
+									{{toLetras($ganancia)}}
 									
 								</td>
 							</tr>
@@ -209,30 +209,30 @@
 
 				
 					<th class="right sin-borde">DÉBITO</th>
-					<td class="sin-borde">{{$cierre->debito}}</td>
+					<td class="sin-borde">{{toLetras($cierre->debito)}}</td>
 					<td rowspan="4" colspan="3">
 						<h2>
 							NOTA
 						</h2>
-						{{ $cierre->nota }}
+						{{ toLetras($cierre->nota) }}
 					</td>
 					
 				</tr>
 				<tr>
 					<th class="right sin-borde">EFECTIVO</th>
-					<td class="sin-borde">{{$cierre->efectivo}}</td>
+					<td class="sin-borde">{{toLetras($cierre->efectivo)}}</td>
 					
 
 				</tr>
 				<tr>
 					<th class="right sin-borde">TRANSFERENCIA</th>
-					<td class="sin-borde">{{$cierre->transferencia}}</td>
+					<td class="sin-borde">{{toLetras($cierre->transferencia)}}</td>
 					
 
 				</tr>
 				<tr>
 					<th class="right sin-borde">TOTAL REAL</th>
-					<td class="sin-borde text-success"><h1>{{$cierre->debito+$cierre->efectivo+$cierre->transferencia}}</h1></td>
+					<td class="sin-borde text-success"><h1>{{toLetras($cierre->debito+$cierre->efectivo+$cierre->transferencia)}}</h1></td>
 					
 					
 				</tr>

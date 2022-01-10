@@ -7740,7 +7740,7 @@ function VentasComponet(_ref) {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
               className: "fa fa-user m-2"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-              className: "btn btn-xl btn-outline-success btn-circle fs-2",
+              className: "btn btn-xl btn-outline-success btn-circle fs-3",
               children: ventasData["numventas"]
             })]
           }) : null
@@ -58891,7 +58891,10 @@ function Facturar() {
     _database_database__WEBPACK_IMPORTED_MODULE_5__["default"].cerrar({
       total_caja_neto: total_caja_neto,
       total_punto: total_punto,
-      fechaCierre: fechaCierre
+      fechaCierre: fechaCierre,
+      dejar_usd: dejar_usd,
+      dejar_cop: dejar_cop,
+      dejar_bs: dejar_bs
     }).then(function (res) {
       setCierre(res.data);
       console.log(res.data);

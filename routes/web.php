@@ -151,6 +151,9 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::get('getMonedaCentral', [sendCentral::class,"getMonedaCentral"]);
 	Route::post('getPedidosCentral', [sendCentral::class,"getPedidosCentral"]);
 	Route::get('setFacturasCentral', [sendCentral::class,"setFacturasCentral"]);
+
+	Route::get('acomodar', [InventarioController::class,"acomodar"]);
+
 	
 	
 

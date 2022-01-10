@@ -701,7 +701,13 @@ function Facturar() {
   const cerrar_dia = (e) => {
     e.preventDefault()
     setLoading(true)
-    db.cerrar({total_caja_neto,total_punto,fechaCierre}).then(res=>{
+    db.cerrar({
+    total_caja_neto,
+    total_punto,
+    fechaCierre,
+    dejar_usd,
+    dejar_cop,
+    dejar_bs,}).then(res=>{
       setCierre(res.data)
       console.log(res.data)
       setLoading(false)

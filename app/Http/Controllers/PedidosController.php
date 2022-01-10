@@ -516,7 +516,7 @@ class PedidosController extends Controller
             "ultimo_cierre" =>$this->ultimoCierre($fecha)
         ];
     }
-    public function cerrarFun($fecha,$total_caja_neto,$total_punto)
+    public function cerrarFun($fecha,$total_caja_neto,$total_punto,$dejar=[])
     {   
         if (!$fecha) {
             return Response::json(["msj"=>"Error: Fecha inválida","estado"=>false]);
@@ -597,7 +597,17 @@ class PedidosController extends Controller
             $this->msj_cuadre($total_caja,$arr_pagos[3],"efec",$arr_pagos);
         }
 
-        $efectivo_guardado = floatval($arr_pagos[3])+floatval($caja_inicial)-($entregadomenospend)-$total_caja_neto;
+
+        $dejar_usd = 0;
+        $dejar_cop = 0;
+        $dejar_bs = 0;
+
+        if ($dejar) {
+            $dejar_usd = floatval($dejar["dejar_usd"]);
+            $dejar_cop = floatval($dejar["dejar_cop"]);
+            $dejar_bs = floatval($dejar["dejar_bs"]);
+        }
+        $efectivo_guardado = floatval($arr_pagos["total_caja"])+floatval($caja_inicial)-($entregadomenospend)-floatval($dejar_usd + ($dejar_cop/$cop) + ($dejar_bs/$bs));
 
         $arr_pagos["efectivo_guardado"] = round($efectivo_guardado,2);
 
@@ -605,7 +615,7 @@ class PedidosController extends Controller
     }
     public function cerrar(Request $req)
     {
-        return $this->cerrarFun($req->fechaCierre,$req->total_caja_neto,$req->total_punto);
+        return $this->cerrarFun($req->fechaCierre,$req->total_caja_neto,$req->total_punto,["dejar_bs"=>$req->dejar_bs, "dejar_usd"=>$req->dejar_usd, "dejar_cop"=>$req->dejar_cop]);
     }
 
     public function msj_cuadre($total_entregado,$monto_facturado,$clave,&$arr_pagos,$tolerancia=10)
@@ -736,7 +746,7 @@ class PedidosController extends Controller
         $sucursal = sucursal::all()->first();
         $arr_send = [
             "cierre" => $cierre,
-            "total_inventario" =>$total_inventario,
+            "total_inventario" =>($total_inventario),
             "vueltos_totales" =>$vueltos_totales,
             "vueltos_des" =>$vueltos_des,
 
@@ -748,6 +758,11 @@ class PedidosController extends Controller
             "facturado" =>$this->cerrarFun($req->fecha,0,0),
             "sucursal"=>$sucursal
         ];
+
+
+
+        
+        
 
         if ($type=="ver") {
             return view("reportes.cierre",$arr_send);
@@ -784,6 +799,8 @@ class PedidosController extends Controller
 
         }
     }
+
+    
 
     
     

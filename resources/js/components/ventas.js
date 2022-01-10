@@ -31,7 +31,7 @@ export default function VentasComponet({
 						{ventasData?
 							<span className="text-success pull-right fs-2">
 								<i className="fa fa-user m-2"></i>
-								<button className="btn btn-xl btn-outline-success btn-circle fs-2">
+								<button className="btn btn-xl btn-outline-success btn-circle fs-3">
 									{ventasData["numventas"]}
 								</button>
 							</span>
