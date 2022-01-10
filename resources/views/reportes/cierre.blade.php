@@ -166,7 +166,7 @@
 					<th colspan="1">
 
 						<h3>EFECTIVO GUARDADO:</h3>
-						<h1 class="text-warning">$ {{$cierre->guardar_usd}}</h1>
+						<h1 class="text-warning">$ {{$cierre->efectivo_guardado}}</h1>
 						<h1 class="text-warning">COP {{$cierre->efectivo_guardado_cop}}</h1>
 						<h1 class="text-warning">BS {{$cierre->efectivo_guardado_bs}}</h1>
 					</th>
