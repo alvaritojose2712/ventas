@@ -16,20 +16,20 @@ class CreateCierresTable extends Migration
         Schema::create('cierres', function (Blueprint $table) {
             $table->increments('id');
             
-            $table->float("debito"); 
-            $table->float("efectivo"); 
-            $table->float("transferencia"); 
+            $table->decimal("debito",8,2); 
+            $table->decimal("efectivo",8,2); 
+            $table->decimal("transferencia",8,2); 
 
-            $table->float("dejar_dolar"); 
-            $table->float("dejar_peso"); 
-            $table->float("dejar_bss");
+            $table->decimal("dejar_dolar",8,2); 
+            $table->decimal("dejar_peso",8,2); 
+            $table->decimal("dejar_bss",8,2);
 
 
-            $table->float("efectivo_guardado");
-            $table->float("efectivo_guardado_cop");
-            $table->float("efectivo_guardado_bs");
+            $table->decimal("efectivo_guardado",8,2);
+            $table->decimal("efectivo_guardado_cop",8,2);
+            $table->decimal("efectivo_guardado_bs",8,2);
 
-            $table->float("tasa"); 
+            $table->decimal("tasa",8,2); 
             
             $table->text("nota")->nullable();
 

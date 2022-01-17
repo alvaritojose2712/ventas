@@ -10,6 +10,10 @@ function Cierre({
 	dejar_cop,
 	dejar_bs,
 
+	setDejar_usd,
+	setDejar_cop,
+	setDejar_bs,
+
 	onchangecaja,
 	cierre,
 	cerrar_dia,
@@ -33,166 +37,251 @@ function Cierre({
 	setguardar_bs,
 
 	number,
+
+	billete1,
+	billete5,
+	billete10,
+	billete20,
+	billete50,
+	billete100,
+	
+	setbillete1,
+	setbillete5,
+	setbillete10,
+	setbillete20,
+	setbillete50,
+	setbillete100,
 }) {
 
 
 	
 	return (
-		<div className="container-fluid">
-			<h5>Fecha de cierre: <input type="date" required={true} value={fechaCierre} className="form-control" onChange={e=>setFechaCierre(e.target.value)}/></h5>
+		<div className="container">
+			<div className="input-group">
+				<button className="btn btn-arabito" onClick={cerrar_dia}><i className="fa fa-cogs"></i></button>
+
+				<input type="date" required={true} value={fechaCierre} className="form-control" onChange={e=>setFechaCierre(e.target.value)}/>
+				{cierre["fecha"]?
+					<>
+						<button className="btn" onClick={()=>setToggleDetallesCierre(!toggleDetallesCierre)}>Ver detalles</button>
+
+						<button className="btn btn-arabito" onClick={guardar_cierre} type="button" data-type="ver">Ver</button>
+
+						<button className="btn btn-warning" onClick={guardar_cierre} type="button" data-type="enviar">Enviar</button>
+					</>
+				:null}
+				
+			</div>
 			{cierre["fecha"]?
 				<form onSubmit={cerrar_dia}>
-					
-					<table className="table table-bordered">
-						<thead>
-							<tr>
-								<td colSpan="2" className="d-flex justify-content-between">
-									<button className="btn btn-arabito" onClick={cerrar_dia}><i className="fa fa-cogs"></i></button>
-								</td>
-								<td>
-								</td>
-								<td className="text-center">
-									<h4>Se ha facturado:</h4>
-								</td>
-							</tr>
-							<tr className="table-active">
-								<td rowSpan="2" className="align-middle">
-									<h4>¿Cuánto hay en caja?</h4>
-									<div>
-										<div className="row">
-											<div className="col">
-												<div className="input-group mb-3">
-												  <div className="input-group-prepend w-50">
-												    <span className="input-group-text">Dólar USD($)</span>
-												  </div>
-												  <input type="text" className="form-control" placeholder="$" name="caja_usd" value={caja_usd} onChange={onchangecaja}/>
+					<button hidden={true}></button>
+					<table className="table">
+						<tbody>
+									{cierre["match_cierre"]?
+										<tr>
+											<td colSpan="3" className="text-center">
+												<div className="card-pedidos bg-success-light">
+													<table className="table table-sm">
+														<thead>
+															<tr>
+																<th>Fecha</th>
+																<th>Débito</th>
+																<th>Efectivo</th>
+																<th>Transferencia</th>
+																<th>Dejar $</th>
+																<th>Dejar COP</th>
+																<th>Dejar BS.</th>
+																<th>Guardado $</th>
+																<th>Guardado COP</th>
+																<th>Guardado BS</th>
+																<th>Tasa</th>
+															</tr>
+															<tr>
+																<td>{cierre["match_cierre"]["fecha"]}</td>
+																<td>{cierre["match_cierre"]["debito"]}</td>
+																<td>{cierre["match_cierre"]["efectivo"]}</td>
+																<td>{cierre["match_cierre"]["transferencia"]}</td>
+																<td>{cierre["match_cierre"]["dejar_dolar"]}</td>
+																<td>{cierre["match_cierre"]["dejar_peso"]}</td>
+																<td>{cierre["match_cierre"]["dejar_bss"]}</td>
+																<td>{cierre["match_cierre"]["efectivo_guardado"]}</td>
+																<td>{cierre["match_cierre"]["efectivo_guardado_cop"]}</td>
+																<td>{cierre["match_cierre"]["efectivo_guardado_bs"]}</td>
+																<td>{cierre["match_cierre"]["tasa"]}</td>
+															</tr>
+														</thead>
+													</table>
 												</div>
-												
-											</div>
-											<div className="col">
-												<div className="input-group mb-3">
-												  <div className="input-group-prepend w-50">
-												    <span className="input-group-text">Pesos COP.</span>
-												  </div>
-												  <input type="text" className="form-control" placeholder="COP" name="caja_cop" value={caja_cop} onChange={onchangecaja}/>
-												</div>
-												
-											</div>
-											<div className="col">
-												<div className="input-group mb-3">
-												  <div className="input-group-prepend w-50">
-												    <span className="input-group-text">Bolívares VE.</span>
-												  </div>
-												  <input type="text" className="form-control" placeholder="Bs." name="caja_bs" value={caja_bs} onChange={onchangecaja}/>
-												</div>
-												
-											</div>
-										</div>
-										<div className="input-group mb-3 w-50">
-										  <div className="input-group-prepend w-25">
-										    <span className="input-group-text">Total.</span>
-										  </div>
-										  <input type="text" value={total_caja_neto} className="form-control" disabled={true}/>
-										</div>
-									</div>
-								</td>
-								<td className="align-middle text-center">
-									{toggleDetallesCierre?
-										<div>
-											<h6>Entregado</h6>
-											{cierre["entregado"]}
-											<h6>Pendiente</h6>
-											{cierre["pendiente"]}
-											<h6>Caja inicial</h6>
-											{cierre["caja_inicial"]}
-										</div>
+
+											</td>
+										</tr>
 									:null}
-									<h2>{cierre["total_caja"]?cierre["total_caja"]:0}</h2>
-								</td>
-								<td className="align-middle text-center bg-success-light">
-									<h2>{cierre[3]?cierre[3].toFixed(2):null}</h2>
-								</td>
-							</tr>
-							<tr className="table-active">
-								<td colSpan="2" className={(cierre["estado_efec"]==1?"bg-success-light":"bg-arabito-light")+" align-middle"}>
-									<h2 className="text-center">{cierre["msj_efec"]?cierre["msj_efec"]:null}</h2>
-								</td>
+									{toggleDetallesCierre?
+										<tr>
+											<td colSpan="3" className="text-center">
+													<div>
+														<h6>Entregado</h6>
+														{cierre["entregado"]}
+														<h6>Pendiente</h6>
+														{cierre["pendiente"]}
+														<h6>Caja inicial</h6>
+														{cierre["caja_inicial"]}
+													</div>
+											</td>
+										</tr>
+									:null}
+							<tr>
+								<td></td>
+								<th colSpan="2" className="text-center">
+									¿Cuánto hay en caja?
+									
+								</th>
 							</tr>
 							<tr>
-								<td rowSpan="2">
-									<h4>Punto de venta</h4>
-									<div className="input-group mb-3">
-									  <div className="input-group-prepend w-25">
-									    <span className="input-group-text">Bs.</span>
-									  </div>
-									  <input type="text" className="form-control" placeholder="Punto de venta" name="caja_punto" value={caja_punto} onChange={onchangecaja}/>
+								<td className="align-middle">Billetes $</td>
+								<th colSpan="2" className="align-middle">
+									<div>
+										<span className="h5">1</span>
+		                <input type="text" value={billete1} name="billete1" onChange={e=>setbillete1(number(e.target.value))} className="input-50" placeholder="1 $" />
+		                <span className="h5">5</span>
+		                <input type="text" value={billete5} name="billete5" onChange={e=>setbillete5(number(e.target.value))} className="input-50" placeholder="5 $" />
+		                <span className="h5">10</span>
+		                <input type="text" value={billete10} name="billete10" onChange={e=>setbillete10(number(e.target.value))} className="input-50" placeholder="10 $" />
+		                <span className="h5">20</span>
+		                <input type="text" value={billete20} name="billete20" onChange={e=>setbillete20(number(e.target.value))} className="input-50" placeholder="20 $" />
+		                <span className="h5">50</span>
+		                <input type="text" value={billete50} name="billete50" onChange={e=>setbillete50(number(e.target.value))} className="input-50" placeholder="50 $" />
+		                <span className="h5">100</span>
+		                <input type="text" value={billete100} name="billete100" onChange={e=>setbillete100(number(e.target.value))} className="input-50" placeholder="100 $" />
 									</div>
-								</td>
-								<td className="text-center">
-									<h3>
-										{total_punto}
-									</h3>
-								</td>
-								<td className="align-middle text-center bg-success-light">
-									<h2>{cierre[2]?cierre[2]:null}</h2>
-								</td>
+								</th>
 							</tr>
 							<tr>
-								<td colSpan="2" className={(cierre["estado_punto"]==1?"bg-success-light":"bg-arabito-light")+" align-middle text-center"}>
-									<h2 className="text-center">{cierre["msj_punto"]?cierre["msj_punto"]:null}</h2>
-								</td>
-							</tr>
-							<tr className="table-active">
-								<td colSpan="2"><h4>Transferencia</h4></td>
-								<td className="text-center bg-success-light">
-									<h2>
-										{cierre[1]?cierre[1]:null}
-										
-									</h2>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h3>¿Cuánto dejarás en caja?</h3>
-								</td>
-								<td colSpan="2">
+								<th className="align-middle">$ / P / Bs</th>
+								<th>
+									<div className="container">
 										<div className="row">
-											<div className="col">
-												<div className="input-group mb-3">
-												  <div className="input-group-prepend w-50">
-												    <span className="input-group-text">Dólar USD($)</span>
-												  </div>
-												  <input type="text" className="form-control" placeholder="$" name="dejar_usd" value={dejar_usd} onChange={onchangecaja}/>
-												</div>
-												
+											<div className="col p-0">
+												$ <input type="text" className="" placeholder="$" name="caja_usd" value={caja_usd} onChange={onchangecaja}/>
 											</div>
-											<div className="col">
-												<div className="input-group mb-3">
-												  <div className="input-group-prepend w-50">
-												    <span className="input-group-text">Pesos COP.</span>
-												  </div>
-												  <input type="text" className="form-control" placeholder="COP" name="dejar_cop" value={dejar_cop} onChange={onchangecaja}/>
-												</div>
-												
+
+											<div className="col p-0">
+												P <input type="text" className="" placeholder="COP" name="caja_cop" value={caja_cop} onChange={onchangecaja}/>
 											</div>
-											<div className="col">
-												<div className="input-group mb-3">
-												  <div className="input-group-prepend w-50">
-												    <span className="input-group-text">Bolívares VE.</span>
-												  </div>
-												  <input type="text" className="form-control" placeholder="Bs." name="dejar_bs" value={dejar_bs} onChange={onchangecaja}/>
-												</div>
+
+											<div className="col p-0">
+												Bs. <input type="text" className="" placeholder="Bs." name="caja_bs" value={caja_bs} onChange={onchangecaja}/>
 											</div>
 										</div>
-										<h3>{total_dejar_caja_neto}</h3>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td className="text-success align-middle">Total Caja Actual</td>
+								<td>
+									<input type="text" value={total_caja_neto} className="form-control" disabled={true}/>
+								</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td></td>
+
+								<th colSpan="2" className="text-center">
+									¿Cuánto dejarás en caja?
+								</th>
+							</tr>
+							<tr>
+								<td></td>
+								<th className="" colSpan="2">
+									<div className="container-fluid">
+										<div className="row">
+											<div className="col">
+												USD($)
+												<input type="text" className="form-control" placeholder="$" name="dejar_usd" value={dejar_usd} onChange={e=>setDejar_usd(number(e.target.value))}/>
+											</div>
+											<div className="col">
+												P
+												<input type="text" className="form-control" placeholder="COP" name="dejar_cop" value={dejar_cop} onChange={e=>setDejar_cop(number(e.target.value))}/>
+											</div>
+											<div className="col">
+												Bs.
+												<input type="text" className="form-control" placeholder="Bs." name="dejar_bs" value={dejar_bs} onChange={e=>setDejar_bs(number(e.target.value))}/>
+												
+											</div>
+										</div>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<td className="text-success align-middle">Total Dejar Caja</td>
+
+								<td className="align-middle text-center" colSpan="2">
+									<span className="text-success">{total_dejar_caja_neto}</span>
 								</td>
 							</tr>
 							<tr>
+								<td></td>
+								<th colSpan="2" className="text-center">
+									Real
+								</th>
+							</tr>
+							<tr>
+								<th className="text-right">Punto</th>
 								<td>
-									<h3>Efectivo Guardado</h3>
+									<input type="text" className="form-control" placeholder="Punto de venta Bs." name="caja_punto" value={caja_punto} onChange={onchangecaja}/>
+								</td>
+								<td className="text-success">Facturado</td>
+							</tr>
+							<tr>
+								<th className="text-right align-middle">Débito</th>
+								<td>
+									{total_punto}
+									<div className={(cierre["estado_punto"]==1?"text-success":"text-danger")}>
+										<small className="fst-italic">
+											{cierre["msj_punto"]?cierre["msj_punto"]:null}
+										</small>
+									</div>
+								</td>
+								<td className="align-middle">
+									{cierre[2]?cierre[2].toFixed(2):null}
+								</td>
+							</tr>
+							<tr>
+								<th className="text-right align-middle">Efectivo</th>
+								<td>
+									{cierre["total_caja"]?cierre["total_caja"]:0}
+									<div className={(cierre["estado_efec"]==1?"text-success":"text-danger")}>
+										<small className="fst-italic">
+											{cierre["msj_efec"]?cierre["msj_efec"]:null}
+										</small>
+									</div>
+								</td>
+								<td className="align-middle">
+									{cierre[3]?cierre[3].toFixed(2):null}
+								</td>
+							</tr>
+							<tr>
+								<th className="text-right align-middle">Transferencia</th>
+								<td>
+									{cierre[1]?cierre[1]:null}
 								</td>
 								<td>
-									<div className="container fluid">
+									{cierre[1]?cierre[1]:null}
+								</td>
+							</tr>
+							<tr>
+								<th className="text-right">Nota</th>
+								<td>
+									<textarea name="notaCierre" placeholder="Novedades..." value={notaCierre?notaCierre:""} onChange={onchangecaja} cols="40" rows="2"></textarea>
+								</td>
+								<td>
+									
+								</td>
+							</tr>
+							<tr>
+								<th className="text-right">Efectivo Guardado</th>
+								<td colSpan="">
+									<div className="container-fluid">
 										<div className="row">
 											<div className="col">
 												  <span className="text-success fs-3 fw-bold">{cierre["efectivo_guardado"]?cierre["efectivo_guardado"]:null}</span>
@@ -200,7 +289,7 @@ function Cierre({
 											<div className="col">
 												<div className="input-group mb-3">
 												  <div className="input-group-prepend w-50">
-												    <span className="input-group-text">Dólar USD($)</span>
+												    <span className="input-group-text">USD($)</span>
 												  </div>
 												  <input type="text" className="form-control" placeholder="$" name="guardar_usd" value={guardar_usd} onChange={e=>setguardar_usd(number(e.target.value))}/>
 												</div>
@@ -209,7 +298,7 @@ function Cierre({
 											<div className="col">
 												<div className="input-group mb-3">
 												  <div className="input-group-prepend w-50">
-												    <span className="input-group-text">Pesos COP.</span>
+												    <span className="input-group-text">COP.</span>
 												  </div>
 												  <input type="text" className="form-control" placeholder="COP" name="guardar_cop" value={guardar_cop} onChange={e=>setguardar_cop(number(e.target.value))}/>
 												</div>
@@ -218,37 +307,18 @@ function Cierre({
 											<div className="col">
 												<div className="input-group mb-3">
 												  <div className="input-group-prepend w-50">
-												    <span className="input-group-text">Bolívares VE.</span>
+												    <span className="input-group-text">Bs.</span>
 												  </div>
 												  <input type="text" className="form-control" placeholder="Bs." name="guardar_bs" value={guardar_bs} onChange={e=>setguardar_bs(number(e.target.value))}/>
 												</div>
 											</div>
 										</div>
 									</div>
-								</td>		
-							</tr>
-							<tr>
-								<td>
-									<h3>
-										Nota
-									</h3>
-								</td>
-								<td colSpan="2">
-									<textarea name="notaCierre" placeholder="Novedades..." value={notaCierre} onChange={onchangecaja} cols="40" rows="2"></textarea>
 								</td>
 							</tr>
-							<tr>
-								<td colSpan="3" className="text-center">
-									<div className="btn-group">
-										<button className="btn" onClick={()=>setToggleDetallesCierre(!toggleDetallesCierre)}>Ver detalles</button>
-
-										<button className="btn btn-arabito" onClick={guardar_cierre} type="button" data-type="ver">Guardar&Ver</button>
-										<button className="btn btn-warning" onClick={guardar_cierre} type="button" data-type="enviar">Guardar&Enviar</button>
-									</div>
-								</td>
-							</tr>
-						</thead>
+						</tbody>
 					</table>
+
 				</form>
 
 				:<div className="d-flex justify-content-center align-items-center">

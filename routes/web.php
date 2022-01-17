@@ -20,6 +20,8 @@ use App\Http\Controllers\ItemsFacturaController;
 use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\tickera;
 use App\Http\Controllers\sendCentral;
+use App\Http\Controllers\UsuariosController;
+
 
 
 
@@ -130,11 +132,18 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::post('delFalla', [InventarioController::class,"delFalla"]);
 
 	Route::post('imprimirTicked', [tickera::class,"imprimir"]);
+	Route::post('getPedidosFast', [PedidosController::class,"getPedidosFast"]);
+
 
 
 	Route::get('getProductosSerial', [InventarioController::class,"getProductosSerial"]);
 	Route::post('checkPedidosCentral', [InventarioController::class,"checkPedidosCentral"]);
 	Route::get('verFactura', [FacturaController::class,"verFactura"]);
+
+	Route::post('setUsuario', [UsuariosController::class,"setUsuario"]);
+	Route::post('delUsuario', [UsuariosController::class,"delUsuario"]);
+	Route::get('getUsuarios', [UsuariosController::class,"getUsuarios"]);
+
 
 
 

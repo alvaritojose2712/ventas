@@ -19,26 +19,25 @@ class PagoPedidosController extends Controller
     
     public function entregarVuelto(Request $req)
     {
-        $id_pedido = $req->id_pedido;
-        $monto = floatval($req->monto);
+        try {
+            $id_pedido = $req->id_pedido;
+            $monto = floatval($req->monto);
 
+            $mov = new movimientos_caja;
 
-        if(movimientos_caja::updateOrCreate(
-            [
-                "id_pedido" => $id_pedido,
-                "categoria" => 1,
-            ],
-            [
-                "descripcion" => "VUELTO Ped.".$id_pedido,
-                "tipo" => 1,
-                "categoria" => "1",
-                "id_pedido" => $id_pedido,
-                "monto" => $monto,
-            ]
+            $mov->id_pedido = $id_pedido;
+            $mov->categoria = 1;
+            $mov->descripcion = "VUELTO Ped.".$id_pedido;
+            $mov->tipo = 1;
+            $mov->monto = $monto;
 
-        )){
-            return Response::json(["msj"=>"Éxito a entregar","estado"=>true]);
-
+            if ($mov->save()) {
+                return Response::json(["msj"=>"Éxito a entregar","estado"=>true]);
+            }
+            
+        } catch (\Exception $e) {
+            
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
         }
 
         
@@ -153,6 +152,7 @@ class PagoPedidosController extends Controller
     public function getDeudores(Request $req)
     {
         $busqueda = $req->qDeudores;
+        $view = $req->view;
         return array_slice(clientes::with(["pedidos"=>function($q){
             $q->with(["pagos"]);
             $q->orderBy("created_at","desc");
@@ -162,23 +162,30 @@ class PagoPedidosController extends Controller
             ->orWhere("nombre","LIKE","%".$busqueda."%");
         })
         ->get()
-        ->map(function($q){
+        ->map(function($q) use ($view) {
 
-            $q->saldo = $q->pedidos->map(function($q){
-                return $q->pagos->where("cuenta",0)->sum("monto")-$q->pagos->where("tipo",4)->sum("monto");
-            })->sum();
+            $q->totalVuelto = 0; 
+            $q->saldo = 0;
+            if ($view==="clientes") {
+                // code...
+                $q->totalVuelto = $q->pedidos->map(function($q){
 
-            $q->totalVuelto = $q->pedidos->map(function($q){
+                    $check_vuelto_entregado = movimientos_caja::where("id_pedido",$q->id)->sum("monto");
+                    $sum_entregado = 0;
+                    if ($check_vuelto_entregado) {
+                        
+                        $sum_entregado = $check_vuelto_entregado;
+                    }
 
-                $check_vuelto_entregado = movimientos_caja::where("id_pedido",$q->id)->first();
-                $sum_entregado = 0;
-                if ($check_vuelto_entregado) {
-                    
-                    $sum_entregado = $check_vuelto_entregado->monto;
-                }
+                    return $q->pagos->where("tipo",6)->sum("monto")-$sum_entregado;
+                })->sum();
+            }else if($view==="credito"){
+                $q->saldo = $q->pedidos->map(function($q){
+                    return $q->pagos->where("cuenta",0)->sum("monto")-$q->pagos->where("tipo",4)->sum("monto");
+                })->sum();
 
-                return $q->pagos->where("tipo",6)->sum("monto")-$sum_entregado;
-            })->sum();
+            }
+
             
                 
 

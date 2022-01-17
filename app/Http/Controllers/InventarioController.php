@@ -293,8 +293,8 @@ class InventarioController extends Controller
             ->where(function($e) use($itemCero,$q,$exacto){
 
                 if ($exacto=="si") {
-                    $e->orWhere("codigo_barras","$q")
-                    ->orWhere("codigo_proveedor","$q");
+                    $e->orWhere("codigo_barras","LIKE","$q%")
+                    ->orWhere("codigo_proveedor","LIKE","$q%");
                 }elseif($exacto=="id_only"){
 
                     $e->where("id","$q");
@@ -412,9 +412,9 @@ class InventarioController extends Controller
 
         $ctInsert = $req->inpInvcantidad;
 
-        if (!$find_factura) {
-           return Response::json(["msj"=>"Error: No hay factura seleccionada","estado"=>false]);
-        }
+        // if (!$find_factura) {
+        //    return Response::json(["msj"=>"Error: No hay factura seleccionada","estado"=>false]);
+        // }
          try {
             
             $tipo = "";
@@ -451,7 +451,7 @@ class InventarioController extends Controller
 
             $this->checkFalla($req->id,$ctInsert);
 
-            if($insertOrUpdateInv){
+            if($insertOrUpdateInv && $find_factura){
 
                 $id_pro = $insertOrUpdateInv->id;
                 $check_fact = items_factura::where("id_factura",$id_factura)->where("id_producto",$id_pro)->first();

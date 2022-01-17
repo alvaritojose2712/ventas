@@ -15,4 +15,11 @@ class usuarios extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
+    protected $fillable = [
+        "nombre",
+        "usuario",
+        "clave",
+        "tipo_usuario",
+    ];
+
 }

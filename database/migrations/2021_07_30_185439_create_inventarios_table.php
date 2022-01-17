@@ -42,13 +42,13 @@ class CreateInventariosTable extends Migration
 
             
 
-            $table->float("iva",10,2);
+            $table->decimal("iva",3,2)->default(0);
 
-            $table->float("porcentaje_ganancia",10,2);
-            $table->float("precio_base",10,2);
-            $table->float("precio",10,2);
+            $table->decimal("porcentaje_ganancia",3,2);
+            $table->decimal("precio_base",8,2);
+            $table->decimal("precio",8,2);
 
-            $table->float("cantidad",10,2);
+            $table->decimal("cantidad",7,2);
 
             $table->boolean("push")->default(0);
 

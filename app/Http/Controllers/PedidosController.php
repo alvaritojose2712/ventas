@@ -23,6 +23,12 @@ use Response;
 
 class PedidosController extends Controller
 {  
+    public function getPedidosFast(Request $req)
+    {
+        $fecha = $req->fecha1pedido;
+
+        return pedidos::whereBetween("created_at",["$fecha 00:00:01","$fecha 23:59:59"])->limit(7)->orderBy("id","desc")->get();
+    }
     public function get_moneda()
     {
         $cop = moneda::where("tipo",2)->orderBy("id","desc")->first()["valor"];
@@ -406,22 +412,15 @@ class PedidosController extends Controller
             $pedido->clean_total = round($total_ped,3);
 
             
-            $pedido->editable = 1;
+            $pedido->editable = $this->pedidoAuth($id_pedido);
+            
 
             $timestamp = strtotime($pedido->created_at);
             $fecha_separada = date("Y-m-d", $timestamp);
 
-            $pedido->vuelto_entregado = 0;
-
-            $check_vuelto_entregado = movimientos_caja::where("id_pedido",$pedido->id)->first();
-            if ($check_vuelto_entregado) {
-                
-                $pedido->vuelto_entregado = $check_vuelto_entregado->monto;
-            }
-            if ($pedido->estado==1&&$fecha_separada<$this->today()) {
-                // code...
-                $pedido->editable = 0;
-            }
+            $pedido->vuelto_entregado = movimientos_caja::where("id_pedido",$pedido->id)->get();
+             
+            
             if ($subtotal_ped==0) {
                 // code...
                 $porcen = 0;
@@ -535,9 +534,10 @@ class PedidosController extends Controller
         }
         $pedido = pedidos::where("created_at","LIKE",$fecha."%");
 
-
+        $match_cierre = cierres::where("fecha",$fecha)->first();
 
         $arr_pagos = [
+            "match_cierre" => $match_cierre,
             "total"=>0,
             "fecha"=>$fecha,
             "caja_inicial"=>$caja_inicial,
@@ -607,6 +607,8 @@ class PedidosController extends Controller
             $dejar_cop = floatval($dejar["dejar_cop"]);
             $dejar_bs = floatval($dejar["dejar_bs"]);
         }
+
+        
         $efectivo_guardado = floatval($arr_pagos["total_caja"])+floatval($caja_inicial)-($entregadomenospend)-floatval($dejar_usd + ($dejar_cop/$cop) + ($dejar_bs/$bs));
 
         $arr_pagos["efectivo_guardado"] = round($efectivo_guardado,2);

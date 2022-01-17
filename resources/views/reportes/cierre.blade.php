@@ -6,7 +6,10 @@
 	<title>Reporte de Cierre</title>
 	<style type="text/css">
 
-
+		body{
+			background-color: #131313;
+			color: white;
+		}
 		.long-text{
 			width: 400px;
 		}
@@ -77,6 +80,9 @@
 		.d-flex div{
 			display: inline-block;
 		}
+		.img{
+			background: white;
+		}
 		
 
 	</style>
@@ -93,9 +99,9 @@
 				<tr>
 					<td>
 						@if (isset($message))
-							<img src="{{$message->embed('images/logo.png')}}" width="200px">
+							<img src="{{$message->embed('images/logo.png')}}" width="200px" class="img">
 						@else
-							<img src="{{asset('images/logo.png')}}" width="200px">
+							<img src="{{asset('images/logo.png')}}" width="200px" class="img">
 						@endif
 						
 
@@ -127,7 +133,7 @@
 						<h4>CAJERO: {{$cierre->id_usuario}}</h4>
 					</td>
 				</tr>
-				<tr class="table-dark">
+				<tr class="">
 					<th class="right">
 						VENTAS DEL DÍA
 					</th>
@@ -163,7 +169,7 @@
 						<h3>TOTAL FACTURADO:</h3>
 						<h1 class="text-success">{{toLetras($facturado[2]+$facturado[3]+$facturado[1])}}</h1>
 					</th>
-					<th colspan="1" class="text-warning">
+					<th colspan="1" class="">
 
 						<h3>EFECTIVO GUARDADO:</h3>
 						<span class="">$ <span class="fs-3">{{toLetras($cierre->efectivo_guardado)}}</span></span><br>

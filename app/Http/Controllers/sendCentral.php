@@ -27,7 +27,7 @@ class sendCentral extends Controller
         $runproduction = "npm run production";        
         // $phpArtisan = "php artisan key:generate && php artisan view:cache && php artisan route:cache && php artisan config:cache";
 
-        $pull = shell_exec("cd C:\arabitofacturacion && git stash && git pull https://github.com/alvaritojose2712/arabitofacturacion.git".$pull);
+        $pull = shell_exec("cd C:\arabitofacturacion && git stash && git pull https://github.com/alvaritojose2712/arabitofacturacion.git && composer install --optimize-autoloader --no-dev");
 
         if (!str_contains($pull, "Already up to date")) {
             echo "Éxito al Pull. Building...";

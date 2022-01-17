@@ -19,6 +19,8 @@ function Credito({
   onlyVueltos,
   setOnlyVueltos,
 
+  vueltoSubview,
+  setvueltoSubview,
   qBuscarCliente,
   setqBuscarCliente,
   clientesCrud,
@@ -50,32 +52,36 @@ function Credito({
     <div className="container"> 
       <div className="row">
         <div className="col">
-          <h3>Créditos</h3> 
+          <h3>Clientes</h3> 
+          <div className="btn-group">
+            <button className={("btn ")+(vueltoSubview=="vuelto"?"btn-dark":"btn-arabito")} onClick={()=>setvueltoSubview("vuelto")}>Vuelto</button>
+            <button className={("btn ")+(vueltoSubview=="clientes"?"btn-dark":"btn-arabito")} onClick={()=>setvueltoSubview("clientes")}>Editar Clientes</button>
+          </div>
         </div>
       </div> 
-
-      {
+      {vueltoSubview=="vuelto"?
         selectDeudor===null?
         <div>
           <input type="text" className="form-control" value={qDeudores} name="qDeudores" onChange={onchangecaja}/>
           <table className="table table-hoverable">
             <thead>
               <tr>
-                <th className="text-right">Balance</th>
                 <th className="text-center">Nombres</th>
+                <th className="text-right">Vuelto</th>
               </tr>
             </thead>
             <tbody>
               {deudoresList.map((e,i)=>
                 e?
-                <tr key={e.id} className="text-center pointer">
-                  <td  className={(e.saldo>0?"text-success":"text-danger")+(" h2 text-right")}>
-                    <button className={("btn ")+(e.saldo<0?"btn-outline-danger":"btn-outline-success")} onClick={()=>{
-                      setOnlyVueltos(0)
+                <tr key={e.id} className="text-center pointer" onClick={()=>{
+                      setOnlyVueltos(1)
                       setSelectDeudor(i)
-                    }}>{e.saldo}</button>
-                  </td>
+                    }}>
                   <td>{e.id} - {e.nombre} - {e.identificacion}</td>
+                  <td className="text-right">
+                    <button className="btn btn-outline-danger">Vuelto {e.totalVuelto}</button>
+                  </td>
+                  
                 </tr>
                 :null
               )}
@@ -204,8 +210,32 @@ function Credito({
             </table>
           </div>
         </div>
-      }
-      
+      :null}
+      {vueltoSubview=="clientes"?
+        <Clientes
+          qBuscarCliente={qBuscarCliente}
+          setqBuscarCliente={setqBuscarCliente}
+          clientesCrud={clientesCrud}
+          setindexSelectCliente={setindexSelectCliente}
+          indexSelectCliente={indexSelectCliente}
+          setClienteCrud={setClienteCrud}
+          delCliente={delCliente}
+          clienteInpidentificacion={clienteInpidentificacion}
+          setclienteInpidentificacion={setclienteInpidentificacion}
+          clienteInpnombre={clienteInpnombre}
+          setclienteInpnombre={setclienteInpnombre}
+          clienteInpcorreo={clienteInpcorreo}
+          setclienteInpcorreo={setclienteInpcorreo}
+          clienteInpdireccion={clienteInpdireccion}
+          setclienteInpdireccion={setclienteInpdireccion}
+          clienteInptelefono={clienteInptelefono}
+          setclienteInptelefono={setclienteInptelefono}
+          clienteInpestado={clienteInpestado}
+          setclienteInpestado={setclienteInpestado}
+          clienteInpciudad={clienteInpciudad}
+          setclienteInpciudad={setclienteInpciudad}
+        />
+      :null}
     </div>
   )
 }

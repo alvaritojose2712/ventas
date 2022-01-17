@@ -29,10 +29,9 @@ class CreateMovimientosCajasTable extends Migration
             // 6 Devolución
             $table->integer("id_pedido")->nullable();
 
-            $table->float("monto",10,2);
+            $table->decimal("monto",10,2);
             $table->timestamps();
 
-            $table->unique(["id_pedido","categoria"]);
 
         });
     }

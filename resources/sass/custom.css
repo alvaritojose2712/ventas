@@ -1,5 +1,25 @@
-
-
+body *::-webkit-scrollbar {
+    width: 1em;
+}
+ 
+body *::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 5px;
+}
+body *::-webkit-scrollbar {
+    width: 0.5em;
+}
+ 
+body *::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  border-radius: 5px;
+  outline: 1px solid slategrey;
+}
+.input-50{
+  width: 50px;
+  outline: none;
+  border:none;
+}
 .input-ct{
   border: none;
   width: 165px;
@@ -25,6 +45,9 @@
 
 td,th{
   padding: 4px;
+}
+.sin-overflow-x{
+  overflow-x: hidden;
 }
 
 

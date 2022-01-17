@@ -41,7 +41,8 @@ const db = {
   today: data=>axios.post(host+"today",data),
   getVentas: data=>axios.post(host+"getVentas",data),
   
-
+  getPedidosFast: data=>axios.post(host+"getPedidosFast",data),
+  
   
   setPagoCredito: data=>axios.post(host+"setPagoCredito",data),
 
@@ -97,6 +98,11 @@ const db = {
 
   getProductosSerial: data=>axios.get(host+"getProductosSerial",{params:data}),
   checkPedidosCentral: data=>axios.post(host+"checkPedidosCentral",data),
+
+  setUsuario: data=>axios.post(host+"setUsuario",data),
+  delUsuario: data=>axios.post(host+"delUsuario",data),
+  getUsuarios: data=>axios.get(host+"getUsuarios"),
+
   
 
 

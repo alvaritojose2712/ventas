@@ -22,7 +22,7 @@ class CreateItemsFacturasTable extends Migration
             $table->integer("id_producto")->unsigned();
             $table->foreign('id_producto')->references('id')->on('inventarios');
 
-            $table->decimal("cantidad",10,2);
+            $table->decimal("cantidad",8,2);
             $table->string("tipo");
 
             $table->unique(["id_factura","id_producto"]);

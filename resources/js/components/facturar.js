@@ -24,12 +24,17 @@ import Cargando from '../components/cargando';
 import Pedidos from '../components/pedidos';
 
 import Credito from '../components/credito';
+import Clientesall from '../components/clientesall';
+
 
 import Cierres from '../components/cierre';
 import Inventario from '../components/inventario';
 
 import Cajagastos from '../components/cajagastos';
 import Ventas from '../components/ventas';
+import Usuarios from '../components/usuarios';
+
+
 
 
 
@@ -234,7 +239,8 @@ function Facturar() {
 
   const [factInpestatus,setfactInpestatus] = useState(0)
 
-  const [crediSubview,setcrediSubview] = useState("credito")
+  
+  const [vueltoSubview,setvueltoSubview] = useState("vuelto")
   const [qBuscarCliente,setqBuscarCliente] = useState("")
   const [numclientesCrud,setnumclientesCrud] = useState(25)
 
@@ -273,6 +279,19 @@ function Facturar() {
   const [ventasData,setventasData] = useState([])
 
   const [fechaventas,setfechaventas] = useState("")
+
+  const [pedidosFast,setpedidosFast] = useState([])
+
+  const [billete1,setbillete1] = useState("") 
+  const [billete5,setbillete5] = useState("") 
+  const [billete10,setbillete10] = useState("") 
+  const [billete20,setbillete20] = useState("") 
+  const [billete50,setbillete50] = useState("") 
+  const [billete100,setbillete100] = useState("")
+
+  const [usuariosData,setusuariosData] = useState([])
+
+
   
 
 
@@ -380,7 +399,10 @@ function Facturar() {
       }else if(view=="pagar"){
         setToggleAddPersona(false)
         toggleModalProductos(false)
-        refinputaddcarritofast.current.focus()
+        if (refinputaddcarritofast.current) {
+          refinputaddcarritofast.current.focus()
+
+        }
       }else if(view=="inventario"){
         inputBuscarInventario.current.value = ""
         inputBuscarInventario.current.focus()
@@ -658,7 +680,7 @@ function Facturar() {
   },[subViewInventario])  
 
   useEffect(() => {
-    if (view=="credito") {
+    if (view=="credito"||view=="clientes") {
       getDeudores()
       getDeudor()
     }
@@ -687,6 +709,24 @@ function Facturar() {
   useEffect(()=>{
     setInputsProveedores()
   },[indexSelectProveedores])
+
+  useEffect(()=>{
+    setBilletes()
+  },[
+    billete1,
+    billete5,
+    billete10,
+    billete20,
+    billete50,
+    billete100,
+  ])
+
+  
+  
+  
+  
+  
+  
   
 
   let total_caja_calc = ( parseFloat(caja_usd?caja_usd:0) + (parseFloat(caja_cop?caja_cop:0)/parseFloat(peso)) + (parseFloat(caja_bs?caja_bs:0)/parseFloat(dolar)) ).toFixed(2)
@@ -702,14 +742,34 @@ function Facturar() {
     e.preventDefault()
     setLoading(true)
     db.cerrar({
+    fechaCierre,
     total_caja_neto,
     total_punto,
-    fechaCierre,
     dejar_usd,
     dejar_cop,
     dejar_bs,}).then(res=>{
-      setCierre(res.data)
-      console.log(res.data)
+
+      let cierreData = res.data
+      if (res.data) {
+        setguardar_usd(cierreData["efectivo_guardado"])
+
+        if (cierreData["match_cierre"]) {
+
+
+          setDejar_usd(cierreData["match_cierre"]["dejar_dolar"])
+          setDejar_cop(cierreData["match_cierre"]["dejar_peso"])
+          setDejar_bs(cierreData["match_cierre"]["dejar_bss"])
+          setNotaCierre(cierreData["match_cierre"]["nota"])
+
+
+          setguardar_usd(cierreData["match_cierre"]["efectivo_guardado"])
+          setguardar_cop(cierreData["match_cierre"]["efectivo_guardado_cop"])
+          setguardar_bs(cierreData["match_cierre"]["efectivo_guardado_bs"])
+          
+        }
+      }
+      setCierre(cierreData)
+
       setLoading(false)
     })
   }
@@ -1099,25 +1159,64 @@ function Facturar() {
       setCredito("")
       setVuelto("")
 
-      getPedidos()
-      setTipoestadopedido("todos")
+      getPedidosFast()
 
       if (res.data.pagos) {
         let d = res.data.pagos
         if (d.filter(e=>e.tipo==1)[0]) {
-          setTransferencia(d.filter(e=>e.tipo==1)[0].monto)
+          let var_setTransferencia = d.filter(e=>e.tipo==1)[0].monto
+          if (var_setTransferencia=="0.00") {
+            setTransferencia("")
+
+          }else{
+            setTransferencia(d.filter(e=>e.tipo==1)[0].monto)
+
+          }
+
         }
         if (d.filter(e=>e.tipo==2)[0]) {
-          setDebito(d.filter(e=>e.tipo==2)[0].monto)
+          let var_setDebito = d.filter(e=>e.tipo==2)[0].monto
+          if (var_setDebito=="0.00") {
+            setDebito("")
+
+          }else{
+            setDebito(d.filter(e=>e.tipo==2)[0].monto)
+
+          }
+
         }
         if (d.filter(e=>e.tipo==3)[0]) {
-          setEfectivo(d.filter(e=>e.tipo==3)[0].monto)
+          let var_setEfectivo = d.filter(e=>e.tipo==3)[0].monto
+          if (var_setEfectivo=="0.00") {
+            setEfectivo("")
+
+          }else{
+            setEfectivo(d.filter(e=>e.tipo==3)[0].monto)
+
+          }
+
         }
         if (d.filter(e=>e.tipo==4)[0]) {
-          setCredito(d.filter(e=>e.tipo==4)[0].monto)
+          let var_setCredito = d.filter(e=>e.tipo==4)[0].monto
+          if (var_setCredito=="0.00") {
+            setCredito("")
+
+          }else{
+            setCredito(d.filter(e=>e.tipo==4)[0].monto)
+
+          }
+
         }
         if (d.filter(e=>e.tipo==6)[0]) {
-          setVuelto(d.filter(e=>e.tipo==6)[0].monto)
+          let var_setVuelto = d.filter(e=>e.tipo==6)[0].monto
+          if (var_setVuelto=="0.00") {
+            setVuelto("")
+
+          }else{
+            setVuelto(d.filter(e=>e.tipo==6)[0].monto)
+
+          }
+
         }
       }else{
         alert("Sin pagos registrados")
@@ -1430,7 +1529,7 @@ function Facturar() {
 
   const getDeudores = e =>{
     setLoading(true)
-    db.getDeudores({qDeudores}).then(res=>{
+    db.getDeudores({qDeudores,view}).then(res=>{
       setDeudoresList(res.data)
       setLoading(false)
     })
@@ -1644,9 +1743,17 @@ function Facturar() {
         setinpInvdescripcion("")
         setinpInvbase("")
         setinpInvventa("")
-        setinpInviva("")
+        setinpInviva("0")
         setinpInvid_marca("")
       }
+    })
+  }
+
+  const getPedidosFast = () => {
+
+    db.getPedidosFast({fecha1pedido}).then(res=>{
+      setpedidosFast(res.data)
+      
     })
   }
   
@@ -2174,12 +2281,68 @@ const getVentas = () => {
 const getVentasClick = () => {
   getVentas()
 }
-  
+
+ 
+
+const setBilletes = () => {
+
+  let total = 0
+  total = (parseInt(!billete1?0:billete1)*1) + (parseInt(!billete5?0:billete5)*5) + (parseInt(!billete10?0:billete10)*10) + (parseInt(!billete20?0:billete20)*20) + (parseInt(!billete50?0:billete50)*50) + (parseInt(!billete100?0:billete100)*100)
+  setCaja_usd(total)
+}
+
+const addNewUsuario = e => {
+
+  let id = null
+  let tipo = e.currentTarget.attributes["data-tipo"].value
+
+  let role = window.prompt("Role 1,2,3")
+  let nombres = window.prompt("Nombres")
+  let usuario = window.prompt("Usuario")
+  let clave = window.prompt("Clave")
+
+  if(tipo=="update"){
+    id = e.currentTarget.attributes["data-id"].value
+  }
+
+  if (role&&nombres&&usuario&&clave) {
+    setLoading(true)
+    db.setUsuario({id,role,nombres,usuario,clave}).then(res=>{
+      notificar(res)
+      setLoading(false)
+      getUsuarios()
+    })
+  }
+}
+
+const getUsuarios = () => {
+  setLoading(true)
+  db.getUsuarios({}).then(res=>{
+    setLoading(false)
+    setusuariosData(res.data)
+  })
+}
+
+const delUsuario = () => {
+  setLoading(true)
+  let id = e.currentTarget.attributes["data-id"].value
+  db.delUsuario({id}).then(res=>{
+    setLoading(false)
+    notificar(res)
+  })
+}
+
+const selectProductoFast = e => {
+  let id = e.currentTarget.attributes["data-id"].value
+  let val = e.currentTarget.attributes["data-val"].value
+
+  setQBuscarInventario(val)
+  setfactSelectIndex("ninguna")
+  setView("inventario")
+  setsubViewInventario("inventario")
+}
 
 
-
-
-  
 
   return (
     <StrictMode>
@@ -2266,6 +2429,9 @@ const getVentasClick = () => {
                 tbodyproductosref={tbodyproductosref}
                 focusCtMain={focusCtMain}
 
+                selectProductoFast={selectProductoFast}
+
+
               />
               {productos.length==0?<div className="text-center p-2"><small className="mr-2">Nada para mostrar...</small></div>:null}
               
@@ -2301,6 +2467,48 @@ const getVentasClick = () => {
             moneda={moneda}
           />:null}
 
+          {view=="clientes"?<Clientesall
+            onchangecaja={onchangecaja}
+            qDeudores={qDeudores}
+            deudoresList={deudoresList}
+            selectDeudor={selectDeudor}
+            setSelectDeudor={setSelectDeudor}
+            tipo_pago_deudor={tipo_pago_deudor}
+            monto_pago_deudor={monto_pago_deudor}
+            setPagoCredito={setPagoCredito}
+            onClickEditPedido={onClickEditPedido}
+            onCLickDelPedido={onCLickDelPedido}
+            detallesDeudor={detallesDeudor}
+            onlyVueltos={onlyVueltos}
+            setOnlyVueltos={setOnlyVueltos}
+            vueltoSubview={vueltoSubview}
+            setvueltoSubview={setvueltoSubview}
+            qBuscarCliente={qBuscarCliente}
+            setqBuscarCliente={setqBuscarCliente}
+            clientesCrud={clientesCrud}
+            setindexSelectCliente={setindexSelectCliente}
+            indexSelectCliente={indexSelectCliente}
+            setClienteCrud={setClienteCrud}
+            delCliente={delCliente}
+            clienteInpidentificacion={clienteInpidentificacion}
+            setclienteInpidentificacion={setclienteInpidentificacion}
+            clienteInpnombre={clienteInpnombre}
+            setclienteInpnombre={setclienteInpnombre}
+            clienteInpcorreo={clienteInpcorreo}
+            setclienteInpcorreo={setclienteInpcorreo}
+            clienteInpdireccion={clienteInpdireccion}
+            setclienteInpdireccion={setclienteInpdireccion}
+            clienteInptelefono={clienteInptelefono}
+            setclienteInptelefono={setclienteInptelefono}
+            clienteInpestado={clienteInpestado}
+            setclienteInpestado={setclienteInpestado}
+            clienteInpciudad={clienteInpciudad}
+            setclienteInpciudad={setclienteInpciudad}
+            sumPedidos={sumPedidos}
+            sumPedidosArr={sumPedidosArr}
+          />:null}
+
+
           {view=="cierres"?<Cierres
             number={number}
             guardar_usd={guardar_usd}
@@ -2317,6 +2525,10 @@ const getVentasClick = () => {
             dejar_usd={dejar_usd}
             dejar_cop={dejar_cop}
             dejar_bs={dejar_bs}
+
+            setDejar_usd={setDejar_usd}
+            setDejar_cop={setDejar_cop}
+            setDejar_bs={setDejar_bs}
             
             cierre={cierre}
             cerrar_dia={cerrar_dia}
@@ -2335,6 +2547,19 @@ const getVentasClick = () => {
             setFechaCierre={setFechaCierre}
             guardar_cierre={guardar_cierre}
             notaCierre={notaCierre}
+
+            billete1={billete1}
+            setbillete1={setbillete1}
+            billete5={billete5}
+            setbillete5={setbillete5}
+            billete10={billete10}
+            setbillete10={setbillete10}
+            billete20={billete20}
+            setbillete20={setbillete20}
+            billete50={billete50}
+            setbillete50={setbillete50}
+            billete100={billete100}
+            setbillete100={setbillete100}
           />:null}
           {view=="pedidos"?<Pedidos
             tipobusquedapedido={tipobusquedapedido}
@@ -2355,6 +2580,14 @@ const getVentasClick = () => {
             filterMetodoPagoToggle={filterMetodoPagoToggle}
             tipoestadopedido={tipoestadopedido}
             setTipoestadopedido={setTipoestadopedido}
+          />:null}
+
+          {view=="usuarios"?<Usuarios
+
+          usuariosData={usuariosData}
+          addNewUsuario={addNewUsuario}
+          delUsuario={delUsuario}
+          getUsuarios={getUsuarios}
           />:null}
           {view=="inventario"?<Inventario
             verDetallesFactura={verDetallesFactura}
@@ -2491,6 +2724,7 @@ const getVentasClick = () => {
 
           />:null}
           {view=="pagar"?<Pagar 
+            pedidosFast={pedidosFast}
             onClickEditPedido={onClickEditPedido}
             tipobusquedapedido={tipobusquedapedido}
             pedidos={pedidos}
@@ -2593,8 +2827,6 @@ const getVentasClick = () => {
             onlyVueltos={onlyVueltos}
             setOnlyVueltos={setOnlyVueltos}
 
-            crediSubview={crediSubview}
-            setcrediSubview={setcrediSubview}
             qBuscarCliente={qBuscarCliente}
             setqBuscarCliente={setqBuscarCliente}
             clientesCrud={clientesCrud}

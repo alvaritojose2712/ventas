@@ -10,7 +10,8 @@ function ProductosList({
   counterListProductos,
   setCounterListProductos,
   tbodyproductosref,
-  focusCtMain
+  focusCtMain,
+  selectProductoFast,
 }) {
 
   return (
@@ -51,7 +52,7 @@ function ProductosList({
               <td data-index={i} onClick={addCarrito} className="pointer cell3">{e.codigo_barras}</td>
               <td data-index={i} onClick={addCarrito} className='pointer text-left pl-5 cell3'>{e.descripcion}</td>
               <td className="cell1">
-                <a href='#' className='formShowProductos btn btn-arabito btn-sm w-50'>{e.cantidad}</a>         
+                <button onClick={selectProductoFast} data-id={e.id} data-val={e.codigo_barras} className='formShowProductos btn btn-arabito btn-sm w-50'>{e.cantidad.replace(".00","")}</button>         
               </td>
               <td className="cell1">{e.unidad}</td>
               <td className="cell2">

@@ -25,9 +25,9 @@ class CreateItemsPedidosTable extends Migration
             ->onUpdate('cascade');
             
             $table->string("abono")->nullable()->default(null);
-            $table->decimal("cantidad",10,2);
-            $table->decimal("descuento",10,2)->default(0);
-            $table->decimal("monto",10,2);
+            $table->decimal("cantidad",8,2);
+            $table->decimal("descuento",6,2)->default(0);
+            $table->decimal("monto",8,2);
             $table->timestamps();
 
             $table->unique(["id_producto","id_pedido"]);
