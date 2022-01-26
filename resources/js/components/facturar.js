@@ -44,7 +44,7 @@ function Facturar() {
   const [loading,setLoading] = useState(false)
 
   const [num,setNum] = useState(100)
-  const [itemCero,setItemCero] = useState(false)
+  const [itemCero,setItemCero] = useState(true)
   const [qProductosMain,setQProductosMain] = useState("")
 
   const [orderColumn, setOrderColumn] = useState("descripcion")
