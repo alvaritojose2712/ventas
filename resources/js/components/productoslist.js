@@ -52,7 +52,7 @@ function ProductosList({
               <td data-index={i} onClick={addCarrito} className="pointer cell3">{e.codigo_barras}</td>
               <td data-index={i} onClick={addCarrito} className='pointer text-left pl-5 cell3'>{e.descripcion}</td>
               <td className="cell1">
-                <button onClick={selectProductoFast} data-id={e.id} data-val={e.codigo_barras} className='formShowProductos btn btn-arabito btn-sm w-50'>{e.cantidad.replace(".00","")}</button>         
+                <button onClick={selectProductoFast} data-id={e.id} data-val={e.codigo_barras} className='formShowProductos btn btn-sinapsis btn-sm w-50'>{e.cantidad.replace(".00","")}</button>         
               </td>
               <td className="cell1">{e.unidad}</td>
               <td className="cell2">
@@ -76,7 +76,7 @@ function ProductosList({
             <div 
             key={e.id}
             data-index={i} onClick={addCarrito}
-            className={(false?"bg-arabito-light":"bg-light")+" text-secondary card mb-3 pointer shadow"}>
+            className={(false?"bg-sinapsis-light":"bg-light")+" text-secondary card mb-3 pointer shadow"}>
               <div className="card-header flex-row justify-content-between">
                 <div className="d-flex justify-content-between">
                   <div className="w-50">

@@ -15,7 +15,7 @@ use Response;
 ini_set('max_execution_time', 300);
 class sendCentral extends Controller
 {
-    public $path = "arabitonline.com";
+    public $path = "sinapsisnline.com";
     // public $path = "http://127.0.0.1:8001";
 
     public function index()
@@ -27,11 +27,11 @@ class sendCentral extends Controller
         $runproduction = "npm run production";        
         // $phpArtisan = "php artisan key:generate && php artisan view:cache && php artisan route:cache && php artisan config:cache";
 
-        $pull = shell_exec("cd C:\arabitofacturacion && git stash && git pull https://github.com/alvaritojose2712/arabitofacturacion.git && composer install --optimize-autoloader --no-dev");
+        $pull = shell_exec("cd C:\sinapsisfacturacion && git stash && git pull https://github.com/alvaritojose2712/sinapsisfacturacion.git && composer install --optimize-autoloader --no-dev");
 
         if (!str_contains($pull, "Already up to date")) {
             echo "Éxito al Pull. Building...";
-            exec("cd C:\arabitofacturacion && ".$runproduction." && ".$phpArtisan,$output, $retval);
+            exec("cd C:\sinapsisfacturacion && ".$runproduction." && ".$phpArtisan,$output, $retval);
 
             if (!$retval) {
                 echo "Éxito al Build. Actualizado...";

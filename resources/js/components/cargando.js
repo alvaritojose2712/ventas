@@ -6,9 +6,9 @@ function Cargando(props) {
 			<div className="loader" style={{display:props.active?"":"none"}}>
 						Trabajando...
 		        <div className="loader-inner ball-pulse">
-		          <div className="bg-arabito"></div>
-		          <div className="bg-arabito"></div>
-		          <div className="bg-arabito"></div>
+		          <div className="bg-sinapsis"></div>
+		          <div className="bg-sinapsis"></div>
+		          <div className="bg-sinapsis"></div>
 		        </div>
 		     </div>
 		</div>

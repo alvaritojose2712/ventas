@@ -29,12 +29,6 @@ class CreateUsuariosTable extends Migration
             "clave" => Hash::make("1234"),
             "tipo_usuario" => "1",
             ],
-            // [
-            // "nombre" => "Bonai",
-            // "usuario" => "caja",
-            // "clave" => Hash::make("1234"),
-            // "tipo_usuario" => "2",
-            // ],
         ]);
     }
 

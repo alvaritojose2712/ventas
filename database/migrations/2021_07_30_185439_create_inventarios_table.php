@@ -44,11 +44,11 @@ class CreateInventariosTable extends Migration
 
             $table->decimal("iva",3,2)->default(0);
 
-            $table->decimal("porcentaje_ganancia",3,2);
-            $table->decimal("precio_base",8,2);
-            $table->decimal("precio",8,2);
+            $table->decimal("porcentaje_ganancia",3,2)->default(0);
+            $table->decimal("precio_base",8,2)->default(0);
+            $table->decimal("precio",8,2)->default(0);
 
-            $table->decimal("cantidad",7,2);
+            $table->decimal("cantidad",7,2)->default(0);
 
             $table->boolean("push")->default(0);
 
@@ -3903,18 +3903,18 @@ class CreateInventariosTable extends Migration
             array_push($arr, 
                 [
                     // "id" => $value[0],
-                    "codigo_proveedor" => $value[0].$value[2],
-                    "codigo_barras" => "MAN".$value[0],
+                    "codigo_proveedor" => $value[0],
+                    "codigo_barras" => $value[0],
                     "id_proveedor" => 1,
                     "id_categoria" => 1,
                     "id_marca" => 1,
                     "unidad" => $value[5],
                     "id_deposito" => 1,
-                    "descripcion" => $value[4],
+                    "descripcion" => "Producto ".$value[0],
                     "iva" => 0,
                     "porcentaje_ganancia" => 0,
-                    "precio_base" => 0,
-                    "precio" => $value[7],
+                    "precio_base" => 3,
+                    "precio" => 100,
                     "cantidad" => $value[8],
                 ]
             );

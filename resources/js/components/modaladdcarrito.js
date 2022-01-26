@@ -39,7 +39,7 @@ function ModalAddCarrito({number,inputCantidadCarritoref,producto,pedidoList,set
 
             </div>
             <div className="btn-group">
-              <button className="btn btn-arabito agregar_carrito" type="button" onClick={addCarritoRequest} data-type="agregar">Agregar(enter)</button>
+              <button className="btn btn-sinapsis agregar_carrito" type="button" onClick={addCarritoRequest} data-type="agregar">Agregar(enter)</button>
               <button className="btn btn-outline-success" type="button" onClick={addCarritoRequest} data-type="agregar_procesar">Procesar(f1)</button>
               <button className="btn btn-outline-secondary" type="button" onClick={setFalla} data-id={producto.id}>Falla</button>
               

@@ -778,14 +778,10 @@ class PedidosController extends Controller
             //Enviar Cierre
 
             $from1 = $sucursal->correo;
-            $from = "Arabito ";
+            $from = "sinapsis ";
             $subject = $sucursal->sucursal." ".$req->fecha;
             $env_emails = str_replace("\n", "", env("SEND_MAIL"));
             $sends = [
-                "amerelhenaoui@gmail.com",
-                "omarelhenaoui@hotmail.com",
-                "yeisersalah2@gmail.com",
-                "yesers982@hotmail.com",
                 "alvaroospino79@gmail.com",
             ];
             try {

@@ -2,7 +2,7 @@ export default function Usuarios({usuariosData,addNewUsuario,delUsuario,getUsuar
 	return (
 	<div className="container">
 		<button className="btn btn-success" data-tipo="add" onClick={addNewUsuario}>Agregar Nuevo</button>
-		<button className="btn btn-arabito" onClick={getUsuarios}><i className="fa fa-search"></i></button>
+		<button className="btn btn-sinapsis" onClick={getUsuarios}><i className="fa fa-search"></i></button>
 
 		<table className="table">
 			<thead>

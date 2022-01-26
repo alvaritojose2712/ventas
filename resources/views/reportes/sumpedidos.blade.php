@@ -27,7 +27,7 @@
 						<td colspan="2">
 							<h6>OMAR EL HENAOUI SALAH</h6>
 							<h5>COMERCIALIZADORA Y DISTRIBUIDORA</h5>
-							<h5>EL ARABITO 222, F.P.</h5>
+							<h5>EL sinapsis 222, F.P.</h5>
 						</td>
 						<td colspan="4">
 							<b>RIF. V-21628222-8</b>

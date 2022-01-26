@@ -33,18 +33,19 @@ class InventarioController extends Controller
             // $old_cant_query = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido)->first();
             // $old_cant = $old_cant_query["cantidad"];
             if ($type=="ins") {
+
                 $producto = inventario::find($id);
                 $precio = $producto->precio;
                 
                 $setcantidad = $cantidad;
                 $setprecio = $precio;
                 
-                $checkIfExits = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido);
+                $checkIfExits = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido)->first();
                 (new PedidosController)->checkPedidoAuth($id_pedido);
 
                 
                 if ($checkIfExits) {
-                    $old_ct = $checkIfExits->first()["cantidad"];
+                    $old_ct = $checkIfExits["cantidad"];
 
                     $setcantidad = $cantidad + $old_ct;
                     $setprecio = $setcantidad*$precio;
@@ -105,6 +106,7 @@ class InventarioController extends Controller
             }
             
         } catch (\Exception $e) {
+
             return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
             
         }

@@ -150,12 +150,12 @@ onClickEditPedido,
                   e?
                     <div className="card-pedidos d-flex justify-content-center flex-column" key={e.id} data-id={e.id} onClick={onClickEditPedido}>
                       <h3>
-                        <span className={(e.id==id?"btn":"btn-outline")+(!e.estado?"-arabito":"-success")+(" fs-4 btn btn-xl btn-circle f")}>
+                        <span className={(e.id==id?"btn":"btn-outline")+(!e.estado?"-sinapsis":"-success")+(" fs-4 btn btn-xl btn-circle f")}>
                           {e.id}
                         </span>
                       </h3>
                       <span className="text-muted text-center">
-                          <b className={("h5 ")+(!e.estado?" text-arabito":" text-success")}></b>
+                          <b className={("h5 ")+(!e.estado?" text-sinapsis":" text-success")}></b>
 
                       </span>
                     </div>
@@ -205,16 +205,16 @@ onClickEditPedido,
               <table className="table table-bordered text-center">
                 <thead>
                   <tr>
-                    <th className="text-arabito">Código</th>
-                    <th className="text-arabito">Árticulo</th>
-                    <th className="text-arabito">Cant.</th>
-                    <th className="text-arabito">Precio</th>
-                    {/*<th className="text-arabito">Sub-total</th>*/}
-                    {/*<th className="text-arabito">Desc. %</th>*/}
-                    {/*<th className="text-arabito">Tot.Desc.</th>*/}
-                    <th className="text-arabito">Total</th>
+                    <th className="text-sinapsis">Código</th>
+                    <th className="text-sinapsis">Árticulo</th>
+                    <th className="text-sinapsis">Cant.</th>
+                    <th className="text-sinapsis">Precio</th>
+                    {/*<th className="text-sinapsis">Sub-total</th>*/}
+                    {/*<th className="text-sinapsis">Desc. %</th>*/}
+                    {/*<th className="text-sinapsis">Tot.Desc.</th>*/}
+                    <th className="text-sinapsis">Total</th>
                     {editable?
-                    <th><button className="btn btn-circle text-white btn-arabito btn-sm mb-3" onClick={toggleModalProductos}>F1 <i className="fa fa-plus"></i></button></th>
+                    <th><button className="btn btn-circle text-white btn-sinapsis btn-sm mb-3" onClick={toggleModalProductos}>F1 <i className="fa fa-plus"></i></button></th>
                     :null}
                   </tr>
                 </thead>
@@ -264,7 +264,7 @@ onClickEditPedido,
           
             
             <div className="col-5">
-              <div className={(estado?"bg-success":"bg-arabito")+(" text-center p-1")}>
+              <div className={(estado?"bg-success":"bg-sinapsis")+(" text-center p-1")}>
                 <h3>Pedido #{id}</h3>
                 <h6>{created_at}</h6>
               </div>
@@ -275,7 +275,7 @@ onClickEditPedido,
                     <>
                       <div className="col p-0">
                         
-                        <div className={(debito!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
+                        <div className={(debito!=""?"bg-success-light card-sinapsis":"t-5")+(" card")}>
                           <div className="card-body">
                             <div className="card-title pointer" onClick={getDebito}>Déb.</div>
                             <div className="card-text pago-numero"><input type="text" value={debito} onChange={(e)=>syncPago(e.target.value,"Debito")} placeholder="D"/></div>
@@ -285,7 +285,7 @@ onClickEditPedido,
                       </div>
                       <div className="col p-0">
                         
-                        <div className={(efectivo!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
+                        <div className={(efectivo!=""?"bg-success-light card-sinapsis":"t-5")+(" card")}>
                           <div className="card-body">
                             <div className="card-title pointer" onClick={getEfectivo}>Efec.</div>
                             <div className="card-text pago-numero"><input type="text" value={efectivo} onChange={(e)=>syncPago(e.target.value,"Efectivo")} placeholder="E"/></div>
@@ -296,7 +296,7 @@ onClickEditPedido,
 
                       <div className="col p-0">
                         
-                        <div className={(transferencia!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
+                        <div className={(transferencia!=""?"bg-success-light card-sinapsis":"t-5")+(" card")}>
                           <div className="card-body">
                             <div className="card-title pointer" onClick={getTransferencia}>Tran.</div>
                             <div className="card-text pago-numero"><input type="text" value={transferencia} onChange={(e)=>syncPago(e.target.value,"Transferencia")} placeholder="T"/></div>
@@ -307,7 +307,7 @@ onClickEditPedido,
 
                       <div className="col p-0">
                         
-                        <div className={(credito!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
+                        <div className={(credito!=""?"bg-success-light card-sinapsis":"t-5")+(" card")}>
                           <div className="card-body">
                             <div className="card-title pointer" onClick={getCredito}>Créd.</div>
                             <div className="card-text pago-numero"><input type="text" value={credito} onChange={(e)=>syncPago(e.target.value,"Credito")} placeholder="C"/></div>
@@ -319,7 +319,7 @@ onClickEditPedido,
                       
                       <div className="col p-0">
                         
-                        <div className={(debito!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
+                        <div className={(debito!=""?"bg-success-light card-sinapsis":"t-5")+(" card")}>
                           <div className="card-body">
                             <div className="card-title pointer">Déb.</div>
                             <div className="card-text pago-numero">{debito}</div>
@@ -329,7 +329,7 @@ onClickEditPedido,
                       </div>
                       <div className="col p-0">
                         
-                        <div className={(efectivo!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
+                        <div className={(efectivo!=""?"bg-success-light card-sinapsis":"t-5")+(" card")}>
                           <div className="card-body">
                             <div className="card-title pointer">Efec.</div>
                             <div className="card-text pago-numero">{efectivo}</div>
@@ -340,7 +340,7 @@ onClickEditPedido,
 
                       <div className="col p-0">
                         
-                        <div className={(transferencia!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
+                        <div className={(transferencia!=""?"bg-success-light card-sinapsis":"t-5")+(" card")}>
                           <div className="card-body">
                             <div className="card-title pointer">Tran.</div>
                             <div className="card-text pago-numero">{transferencia}</div>
@@ -351,7 +351,7 @@ onClickEditPedido,
 
                       <div className="col p-0">
                         
-                        <div className={(credito!=""?"bg-success-light card-arabito":"t-5")+(" card")}>
+                        <div className={(credito!=""?"bg-success-light card-sinapsis":"t-5")+(" card")}>
                           <div className="card-body">
                             <div className="card-title pointer">Créd.</div>
                             <div className="card-text pago-numero">{credito}</div>
@@ -441,8 +441,8 @@ onClickEditPedido,
                   {editable?
                   <button className="btn btn-circle text-white btn-primary btn-xl me-4" onClick={()=>setToggleAddPersona(true)}>F2 <i className="fa fa-user"></i></button>
                   :null}
-                  <button className="btn btn-circle text-white btn-arabito btn-xl me-1" onClick={toggleImprimirTicket}>F3 <i className="fa fa-print"></i></button>
-                  <button className="btn btn-circle text-white btn-arabito btn-xl me-4" onClick={viewReportPedido}>F4 <i className="fa fa-eye"></i></button>
+                  <button className="btn btn-circle text-white btn-sinapsis btn-xl me-1" onClick={toggleImprimirTicket}>F3 <i className="fa fa-print"></i></button>
+                  <button className="btn btn-circle text-white btn-sinapsis btn-xl me-4" onClick={viewReportPedido}>F4 <i className="fa fa-eye"></i></button>
                   {editable?
                   <button className="btn btn-circle text-white btn-danger btn-sm" onClick={del_pedido}>F5 <i className="fa fa-times"></i></button>
                   :null}

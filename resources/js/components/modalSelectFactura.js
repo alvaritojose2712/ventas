@@ -80,8 +80,8 @@ function ModalSelectFactura({
         <div className="text-danger" onClick={()=>setshowModalFacturas(false)}><span className="closeModal">&#10006;</span></div>
         <div className="modal-content">
           <div className="btn-group mb-4">
-            <button className={("btn ")+(factsubView=="buscar"?"btn-dark":"btn-arabito")} onClick={()=>setfactsubView("buscar")}>Buscar</button>
-            <button className={("btn ")+(factsubView=="agregar"?"btn-dark":"btn-arabito")} onClick={()=>setfactsubView("agregar")}>
+            <button className={("btn ")+(factsubView=="buscar"?"btn-dark":"btn-sinapsis")} onClick={()=>setfactsubView("buscar")}>Buscar</button>
+            <button className={("btn ")+(factsubView=="agregar"?"btn-dark":"btn-sinapsis")} onClick={()=>setfactsubView("agregar")}>
 
               {factSelectIndex==null?
                 <span>Agregar</span>
@@ -102,7 +102,7 @@ function ModalSelectFactura({
                   
               }
             </button>
-            <button className={("btn ")+(factsubView=="detalles"?"btn-dark":"btn-arabito")} onClick={()=>setfactsubView("detalles")}>Detalles</button>            
+            <button className={("btn ")+(factsubView=="detalles"?"btn-dark":"btn-sinapsis")} onClick={()=>setfactsubView("detalles")}>Detalles</button>            
           </div>
           {factsubView=="buscar"?
           <>
@@ -249,7 +249,7 @@ function ModalSelectFactura({
                   <button className="btn btn-outline-success btn-block" type="submit">Guardar</button>
                 : 
                   <div className="btn-group">
-                    <button className="btn btn-arabito btn-block" type="submit">Editar</button>
+                    <button className="btn btn-sinapsis btn-block" type="submit">Editar</button>
                     <button className="btn btn-outline-danger btn-block" onClick={delFactura} type="button"><i className="fa fa-times"></i></button>
                     
                   </div>

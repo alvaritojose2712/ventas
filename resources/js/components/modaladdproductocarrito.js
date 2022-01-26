@@ -64,7 +64,7 @@ function Modaladdproductocarrito({
                   <td className="cell2">{e.codigo_barras}</td>
                   <td className='text-left pl-5 cell4'>{e.descripcion}</td>
                   <td className="cell1">
-                    <a href='#' className='formShowProductos btn btn-arabito btn-sm'>{e.cantidad}</a>         
+                    <a href='#' className='formShowProductos btn btn-sinapsis btn-sm'>{e.cantidad}</a>         
                   </td>
                   <td className="cell1">{e.unidad}</td>
                   <td className="cell2">

@@ -72,7 +72,7 @@ setclienteInpciudad
               onClick={setindexSelectClienteFun} 
               data-index={i}
               key={e.id}
-              className={(indexSelectCliente==i?"bg-arabito":"bg-light text-secondary")+" card mt-2 pointer"}>
+              className={(indexSelectCliente==i?"bg-sinapsis":"bg-light text-secondary")+" card mt-2 pointer"}>
                 <div className="card-header flex-row row justify-content-between">
                   <div>
                     <small>ID.{e.id}</small>
@@ -178,7 +178,7 @@ setclienteInpciudad
                 <button className="btn btn-outline-success btn-block" type="submit">Guardar</button>
               :
                 <div className="btn-group">
-                  <button className="btn btn-arabito btn-block" type="submit">Editar</button>
+                  <button className="btn btn-sinapsis btn-block" type="submit">Editar</button>
                   <button className="btn btn-outline-danger btn-block" onClick={delCliente} type="button"><i className="fa fa-times"></i></button>
                 </div>
               }

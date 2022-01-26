@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" type="image/png" href="{{ asset('images/icon.ico') }}">
-    <title>Arabito</title>
+    <title>sinapsis</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/table/table.css') }}" rel="stylesheet">
@@ -25,14 +25,14 @@
             <div class="col">
                 <form action="{{route('setSucursal')}}" method="">
   <div class="form-group">
-    <label for="sucursal">Sucursal</label>
-    <input type="text" required name="sucursal" value="{{$sucursal?$sucursal->sucursal:null}}" class="form-control" id="sucursal" placeholder="Nombre de la sucursal">
+    <label for="sucursal">Empresa</label>
+    <input type="text" required name="sucursal" value="{{$sucursal?$sucursal->sucursal:null}}" class="form-control" id="sucursal" placeholder="Nombre de la Empresa">
     <small id="emailHelp" class="form-text text-muted">Ejemplo: Mantecal</small>
   </div>
   <div class="form-group">
     <label for="codsucursal">Código</label>
     <input type="text" required name="codigo" value="{{$sucursal?$sucursal->codigo:null}}" class="form-control" placeholder="Código">
-    <small id="textHelp" class="form-text text-muted">Ejemplo: ARAMCAL</small>
+    <small id="textHelp" class="form-text text-muted">Ejemplo: CODE</small>
   </div>
 
   <div class="form-group">
@@ -53,7 +53,7 @@
     <small id="textHelp" class="form-text text-muted"></small>
   </div>
   <div class="form-group">
-    <label for="sucursal">Dirección de Sucursal</label>
+    <label for="sucursal">Dirección</label>
     <input type="text" required name="direccion_sucursal" value="{{$sucursal?$sucursal->direccion_sucursal:null}}" class="form-control">
     <small id="textHelp" class="form-text text-muted"></small>
   </div>
@@ -90,7 +90,7 @@
   
 
   
-  <button type="submit" class="btn btn-arabito">Enviar</button>
+  <button type="submit" class="btn btn-sinapsis">Enviar</button>
 </form>
 
             </div>

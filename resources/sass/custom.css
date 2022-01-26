@@ -1,3 +1,10 @@
+:root{
+  --sinapsis-color : #118bec;
+  --sinapsis-color-light : #deedfd;
+  --sinapsis-color-select : #84bcf3;
+
+  
+}
 body *::-webkit-scrollbar {
     width: 1em;
 }
@@ -128,7 +135,7 @@ td,th{
   margin-bottom: 1em;
   position: fixed;
   
-  background: rgba(242,109,10,1) !important;
+  background: var(--sinapsis-color) !important;
   box-shadow: 0px 10px 8px #e0e0e0;
   background-clip: border-box;
   border: 1px solid #000;
@@ -169,7 +176,7 @@ td,th{
 i{
   cursor: pointer;
 }
-.card-arabito{
+.card-sinapsis{
   background: antiquewhite !important;
 }
 
@@ -286,7 +293,7 @@ body{
   color: #00000085;
 
 }
-.card-arabito{
+.card-sinapsis{
   margin-bottom: 1em;
   position: relative;
   display: flex;
@@ -300,35 +307,35 @@ body{
   box-shadow: 1px 8px 13px -14px black;
   color: #00000085;
 }
-.card-arabito .descripcion{
+.card-sinapsis .descripcion{
   font-size: 1em;
   font-weight: bold;
 }
-.btn-outline-arabito{
-  color: #ec7311 !important;
-  border-color: #ec7311 !important;
+.btn-outline-sinapsis{
+  color: var(--sinapsis-color) !important;
+  border-color: var(--sinapsis-color) !important;
 }
-.card-arabito .categoria{
+.card-sinapsis .categoria{
   font-size: 0.8em;
   margin-left: 5px;
 }
 
-.card-arabito .suma{
+.card-sinapsis .suma{
   font-size: 1.2em;
   font-weight: bold;
 
 }
-.card-arabito .total{
+.card-sinapsis .total{
   font-size: 1.5em;
   font-weight: bold;
 
 }
-.card-arabito .cantidad{
+.card-sinapsis .cantidad{
   font-size: 1.3em;
   font-weight: bold;
 
 }
-.card-arabito .pu{
+.card-sinapsis .pu{
   font-size: 1.3em;
   font-weight: bold;
 
@@ -342,21 +349,21 @@ body{
 .tag{
   padding: 5px;
   border-radius: 5px;
-  border-color: #f3b684;
+  border-color: var(--sinapsis-color-select);
   background-color: #f3b660 ;
 }
 .App {
   text-align: center;
 }
-.bg-arabito{
-  background-color: #ec7311 !important;
+.bg-sinapsis{
+  background-color: var(--sinapsis-color) !important;
   color: #fff !important;
   text-shadow: 0 0 black;
 
 }
 
-.bg-arabito-light{
-  background-color: #fdecde !important;
+.bg-sinapsis-light{
+  background-color: var(--sinapsis-color-light) !important;
   text-shadow: 0 0 black;
 }
 .bg-success-light{
@@ -367,23 +374,23 @@ body{
 
     
 
-.text-arabito{
-  color: #ec7311 !important;
+.text-sinapsis{
+  color: var(--sinapsis-color) !important;
 
 }
-.bg-arabito-select{
-  background-color: #f3b684 !important;
+.bg-sinapsis-select{
+  background-color: var(--sinapsis-color-select) !important;
 
 }
-.btn-arabito{
+.btn-sinapsis{
   color: white !important;
-  background-color: #ec7311 !important;
+  background-color: var(--sinapsis-color) !important;
 
 }
-.btn-arabito-border{
-  color: #ec7311 !important;
+.btn-sinapsis-border{
+  color: var(--sinapsis-color) !important;
   background-color: white !important;
-  border-color: #ec7311 !important;
+  border-color: var(--sinapsis-color) !important;
 
 }
 .btn-hacer-pedido{

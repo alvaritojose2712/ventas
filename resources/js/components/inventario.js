@@ -162,7 +162,7 @@ function Inventario({
           <div className="col text-right d-flex align-items-center justify-content-between">
             <button className={("btn ")+(subViewInventario=="pedidosCentral"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("pedidosCentral")}>Pedidos Central</button>
             <div className="btn-group mb-2">
-              <button className="btn btn-arabito" onClick={()=>setshowModalFacturas(!showModalFacturas)}>Seleccionar Factura</button>
+              <button className="btn btn-sinapsis" onClick={()=>setshowModalFacturas(!showModalFacturas)}>Seleccionar Factura</button>
             </div>
           </div>
           

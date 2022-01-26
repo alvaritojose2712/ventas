@@ -2360,6 +2360,8 @@ const selectProductoFast = e => {
         viewCaja={viewCaja}
         setShowModalMovimientos={setShowModalMovimientos}
         showModalMovimientos={showModalMovimientos}
+        getVentasClick={getVentasClick}
+        
         setView={setView}/>
           {
           view=="seleccionar"?

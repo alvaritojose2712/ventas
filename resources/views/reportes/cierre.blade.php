@@ -7,8 +7,6 @@
 	<style type="text/css">
 
 		body{
-			background-color: #131313;
-			color: white;
 		}
 		.long-text{
 			width: 400px;
@@ -81,7 +79,7 @@
 			display: inline-block;
 		}
 		.img{
-			background: white;
+			filter: sepia(100%);
 		}
 		
 
@@ -116,17 +114,17 @@
 					</td>
 					<td colspan="2">
 						<h2>CAJA</h2>
-						$ = <b>{{toLetras($cierre->dejar_dolar)}}</b>
+						$ = <b>{{($cierre->dejar_dolar)}}</b>
 						<br/>
 						<br/>
-						P = <b>{{toLetras($cierre->dejar_peso)}}</b>
+						P = <b>{{($cierre->dejar_peso)}}</b>
 						<br/>
 						<br/>
-						BSS = <b>{{toLetras($cierre->dejar_bss)}}</b>
+						BSS = <b>{{($cierre->dejar_bss)}}</b>
 					</td>
 					<td>
 						<h2>TASA</h2>
-						{{toLetras($cierre->tasa)}}
+						{{($cierre->tasa)}}
 					</td>
 					<td>
 						<h2>{{$cierre->fecha}}</h2>
@@ -137,14 +135,14 @@
 					<th class="right">
 						VENTAS DEL DÍA
 					</th>
-					<td class=""><span class="text-success-only fs-3">{{toLetras($facturado["numventas"])}}</span></td>
+					<td class=""><span class="text-success-only fs-3">{{($facturado["numventas"])}}</span></td>
 					<th class="right">
 						INVENTARIO
 					</th>
-					<td class="">{{toLetras(number_format($total_inventario,2,",","."))}}</td>
+					<td class="">{{(number_format($total_inventario,2,",","."))}}</td>
 					<td>
 						<b>VUELTOS TOTALES</b> <hr>
-						{{toLetras($vueltos_totales)}}
+						{{($vueltos_totales)}}
 					</td>
 				</tr>
 				<tr>
@@ -158,23 +156,23 @@
 
 				</tr>
 				<tr>
-					<td>{{toLetras($facturado[2])}}</td>
-					<td>{{toLetras($facturado[3])}}</td>
-					<td>{{toLetras($facturado[1])}}</td>
-					<td>{{toLetras($facturado[4])}}</td>
-					<td>{{toLetras($facturado["entregado"])}} - {{toLetras($facturado["pendiente"])}} = {{toLetras($facturado["entregadomenospend"])}}</td>
+					<td>{{($facturado[2])}}</td>
+					<td>{{($facturado[3])}}</td>
+					<td>{{($facturado[1])}}</td>
+					<td>{{($facturado[4])}}</td>
+					<td>{{($facturado["entregado"])}} - {{($facturado["pendiente"])}} = {{($facturado["entregadomenospend"])}}</td>
 				</tr>
 				<tr>
 					<th colspan="3">
 						<h3>TOTAL FACTURADO:</h3>
-						<h1 class="text-success">{{toLetras($facturado[2]+$facturado[3]+$facturado[1])}}</h1>
+						<h1 class="text-success">{{($facturado[2]+$facturado[3]+$facturado[1])}}</h1>
 					</th>
 					<th colspan="1" class="">
 
 						<h3>EFECTIVO GUARDADO:</h3>
-						<span class="">$ <span class="fs-3">{{toLetras($cierre->efectivo_guardado)}}</span></span><br>
-						<span class="">COP <span class="fs-3">{{toLetras($cierre->efectivo_guardado_cop)}}</span></span><br>
-						<span class="">BS <span class="fs-3">{{toLetras($cierre->efectivo_guardado_bs)}}</span></span><br>
+						<span class="">$ <span class="fs-3">{{($cierre->efectivo_guardado)}}</span></span><br>
+						<span class="">COP <span class="fs-3">{{($cierre->efectivo_guardado_cop)}}</span></span><br>
+						<span class="">BS <span class="fs-3">{{($cierre->efectivo_guardado_bs)}}</span></span><br>
 					</th>
 					<th class="right d-flex">
 						<table>
@@ -192,15 +190,15 @@
 									
 								</td>
 								<td>
-									{{toLetras($precio_base)}}
+									{{($precio_base)}}
 									<hr/>
-									{{toLetras($porcentaje)}}
+									{{($porcentaje)}}
 									<hr/>
-									{{toLetras($precio)}}
+									{{($precio)}}
 									<hr/>
-									{{toLetras($desc_total)}}
+									{{($desc_total)}}
 									<hr/>
-									{{toLetras($ganancia)}}
+									{{($ganancia)}}
 									
 								</td>
 							</tr>
@@ -215,30 +213,30 @@
 
 				
 					<th class="right sin-borde">DÉBITO</th>
-					<td class="sin-borde">{{toLetras($cierre->debito)}}</td>
+					<td class="sin-borde">{{($cierre->debito)}}</td>
 					<td rowspan="4" colspan="3">
 						<h2>
 							NOTA
 						</h2>
-						{{ toLetras($cierre->nota) }}
+						{{ ($cierre->nota) }}
 					</td>
 					
 				</tr>
 				<tr>
 					<th class="right sin-borde">EFECTIVO</th>
-					<td class="sin-borde">{{toLetras($cierre->efectivo)}}</td>
+					<td class="sin-borde">{{($cierre->efectivo)}}</td>
 					
 
 				</tr>
 				<tr>
 					<th class="right sin-borde">TRANSFERENCIA</th>
-					<td class="sin-borde">{{toLetras($cierre->transferencia)}}</td>
+					<td class="sin-borde">{{($cierre->transferencia)}}</td>
 					
 
 				</tr>
 				<tr>
 					<th class="right sin-borde">TOTAL REAL</th>
-					<td class="sin-borde text-success"><h1>{{toLetras($cierre->debito+$cierre->efectivo+$cierre->transferencia)}}</h1></td>
+					<td class="sin-borde text-success"><h1>{{($cierre->debito+$cierre->efectivo+$cierre->transferencia)}}</h1></td>
 					
 					
 				</tr>

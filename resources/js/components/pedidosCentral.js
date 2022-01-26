@@ -23,7 +23,7 @@ export default function PedidosCentralComponent({
 				
 				<div className="col-3">
 					<div className="text-center">
-						<button className="btn btn-outline-arabito" onClick={getPedidosCentral}>Actualizar Pedidos</button>
+						<button className="btn btn-outline-sinapsis" onClick={getPedidosCentral}>Actualizar Pedidos</button>
 						<button className="btn btn-outline-success" onClick={()=>setshowaddpedidocentral(!showaddpedidocentral)}><i className="fa fa-plus"></i></button>
 					</div>
 					<div>
@@ -70,7 +70,7 @@ export default function PedidosCentralComponent({
 					          <div className="w-50 text-right">
 					            <span>
 					          		<span className="h6 text-muted font-italic">Base. </span>
-					          		<span className="h6 text-arabito">{moneda(pedidosCentral[indexPedidoCentral].base)}</span>
+					          		<span className="h6 text-sinapsis">{moneda(pedidosCentral[indexPedidoCentral].base)}</span>
 					            </span>
 					          	<br/>
 
@@ -102,7 +102,7 @@ export default function PedidosCentralComponent({
 								pedidosCentral[indexPedidoCentral]?
 								pedidosCentral[indexPedidoCentral].items.map((e,i)=>
 									<tr key={e.id} 
-									className={(e.aprobado?"bg-success-light":(e.aprobado===false?"bg-arabito-light":null))+(" pointer")}>
+									className={(e.aprobado?"bg-success-light":(e.aprobado===false?"bg-sinapsis-light":null))+(" pointer")}>
 										<td
 											onClick={selectPedidosCentral} 
 											data-index={i} 
@@ -132,7 +132,7 @@ export default function PedidosCentralComponent({
 											<small className="text-muted">{e.producto.codigo_proveedor}</small>
 										</td>
 										<td className="align-middle">{e.producto.descripcion}</td>
-										<td className="align-middle text-arabito">{moneda(e.producto.precio_base)}</td>
+										<td className="align-middle text-sinapsis">{moneda(e.producto.precio_base)}</td>
 										<td className="align-middle text-success">{moneda(e.producto.precio)}</td>
 										<td className="align-middle text-right">{moneda(e.monto)}</td>
 									</tr>

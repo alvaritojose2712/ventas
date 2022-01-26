@@ -2264,7 +2264,7 @@ function Modaladdproductocarrito(_ref) {
                   className: "cell1",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
                     href: "#",
-                    className: "formShowProductos btn btn-arabito btn-sm",
+                    className: "formShowProductos btn btn-sinapsis btn-sm",
                     children: e.cantidad
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
@@ -2335,11 +2335,11 @@ function Cargando(props) {
       children: ["Trabajando...", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "loader-inner ball-pulse",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "bg-arabito"
+          className: "bg-sinapsis"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "bg-arabito"
+          className: "bg-sinapsis"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "bg-arabito"
+          className: "bg-sinapsis"
         })]
       })]
     })
@@ -2399,7 +2399,7 @@ function Cierre(_ref) {
               colSpan: "2",
               className: "d-flex justify-content-between",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                className: "btn btn-arabito",
+                className: "btn btn-sinapsis",
                 onClick: cerrar_dia,
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
                   className: "fa fa-cogs"
@@ -2688,7 +2688,7 @@ function Cierre(_ref) {
                   },
                   children: "Ver detalles"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                  className: "btn btn-arabito",
+                  className: "btn btn-sinapsis",
                   onClick: guardar_cierre,
                   type: "button",
                   "data-type": "ver",
@@ -3023,14 +3023,14 @@ function Header(_ref) {
         className: "p-3",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
           src: _images_logo_png__WEBPACK_IMPORTED_MODULE_0__["default"],
-          alt: "arabito",
+          alt: "sinapsis",
           className: "logo"
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "p-3",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
           src: _images_carrito1_png__WEBPACK_IMPORTED_MODULE_1__["default"],
-          alt: "arabito",
+          alt: "sinapsis",
           width: "50px",
           className: "pointer carrito-icon",
           onClick: function onClick() {
@@ -3040,7 +3040,7 @@ function Header(_ref) {
         }), "f2"]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "d-flex justify-content-center bg-arabito",
+      className: "d-flex justify-content-center bg-sinapsis",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
         className: "p-3 pointer",
         onClick: function onClick() {
@@ -3377,7 +3377,7 @@ function ModalAddCarrito(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "btn-group",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-              className: "btn btn-arabito agregar_carrito",
+              className: "btn btn-sinapsis agregar_carrito",
               type: "button",
               onClick: addCarritoRequest,
               "data-type": "agregar",
@@ -3565,23 +3565,23 @@ function Pagar(_ref) {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("thead", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "C\xF3digo"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "\xC1rticulo"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "Cant."
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "Precio"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "Total"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-                      className: "btn btn-circle text-white btn-arabito btn-sm mb-3",
+                      className: "btn btn-circle text-white btn-sinapsis btn-sm mb-3",
                       onClick: toggleModalProductos,
                       children: ["F1 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                         className: "fa fa-plus"
@@ -3649,7 +3649,7 @@ function Pagar(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "col-5",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-              className: "text-center p-1 bg-arabito",
+              className: "text-center p-1 bg-sinapsis",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("h3", {
                 children: ["Pedido #", id]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h6", {
@@ -3734,7 +3734,7 @@ function Pagar(_ref) {
                   })]
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-                className: (vuelto != "" ? "card-arabito" : "t-5") + " card m-1",
+                className: (vuelto != "" ? "card-sinapsis" : "t-5") + " card m-1",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
                   className: "card-body",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -3840,7 +3840,7 @@ function Pagar(_ref) {
                     className: "fa fa-user"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-                  className: "btn btn-circle text-white btn-arabito btn-xl me-1",
+                  className: "btn btn-circle text-white btn-sinapsis btn-xl me-1",
                   children: ["F3 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                     className: "fa fa-print"
                   })]
@@ -3849,7 +3849,7 @@ function Pagar(_ref) {
                   target: "_blank",
                   href: "/notaentregapedido?id=" + id,
                   children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-                    className: "btn btn-circle text-white btn-arabito btn-xl me-4",
+                    className: "btn btn-circle text-white btn-sinapsis btn-xl me-4",
                     children: ["F4 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
                       className: "fa fa-eye"
                     })]
@@ -3925,7 +3925,7 @@ function Pedidos(_ref) {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "radios d-flex mr-2",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                  className: " m-1 pointer " + (tipobusquedapedido == "fact" ? "select-fact bg-arabito" : "select-fact"),
+                  className: " m-1 pointer " + (tipobusquedapedido == "fact" ? "select-fact bg-sinapsis" : "select-fact"),
                   onClick: function onClick() {
                     return setTipoBusqueda("fact");
                   },
@@ -3933,7 +3933,7 @@ function Pedidos(_ref) {
                     className: "fa fa-search"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                  className: " m-1 pointer " + (tipobusquedapedido == "prod" ? "select-fact bg-arabito" : "select-fact"),
+                  className: " m-1 pointer " + (tipobusquedapedido == "prod" ? "select-fact bg-sinapsis" : "select-fact"),
                   onClick: function onClick() {
                     return setTipoBusqueda("prod");
                   },
@@ -3997,7 +3997,7 @@ function Pedidos(_ref) {
                   className: "",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-                      className: "badge btn-arabito",
+                      className: "badge btn-sinapsis",
                       children: e.cantidadtotal
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h6", {
@@ -4048,7 +4048,7 @@ function Pedidos(_ref) {
                           children: "Pedidos Tot."
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-                            className: "badge btn-arabito",
+                            className: "badge btn-sinapsis",
                             children: pedidos["totalventas"]
                           })
                         })]
@@ -4359,7 +4359,7 @@ function ProductosList(_ref) {
             className: "cell1",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
               href: "AgregarArticulo.php?codigo={e.codigo}",
-              className: "formShowProductos btn btn-arabito btn-sm w-50",
+              className: "formShowProductos btn btn-sinapsis btn-sm w-50",
               children: e.cantidad
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
@@ -4414,7 +4414,7 @@ __webpack_require__.r(__webpack_exports__);
 
  // import '../css/loading.css';
 
-var host = ""; // const host = "http://localhost/arabitoapp"
+var host = ""; // const host = "http://localhost/sinapsisapp"
 
 var db = {
   getinventario: function getinventario(data) {

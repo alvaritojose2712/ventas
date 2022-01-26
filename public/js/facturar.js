@@ -2579,7 +2579,7 @@ function Modaladdproductocarrito(_ref) {
                   className: "cell1",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("a", {
                     href: "#",
-                    className: "formShowProductos btn btn-arabito btn-sm",
+                    className: "formShowProductos btn btn-sinapsis btn-sm",
                     children: e.cantidad
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
@@ -2863,11 +2863,11 @@ function Cargando(props) {
       children: ["Trabajando...", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "loader-inner ball-pulse",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "bg-arabito"
+          className: "bg-sinapsis"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "bg-arabito"
+          className: "bg-sinapsis"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-          className: "bg-arabito"
+          className: "bg-sinapsis"
         })]
       })]
     })
@@ -3037,7 +3037,7 @@ function Cargarproducto(_ref) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               onClick: setIndexSelectInventarioFun,
               "data-index": i,
-              className: (indexSelectInventario == i ? "bg-arabito" : "bg-light text-secondary") + " card mt-2 pointer",
+              className: (indexSelectInventario == i ? "bg-sinapsis" : "bg-light text-secondary") + " card mt-2 pointer",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: "card-header flex-row justify-content-between",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -3365,7 +3365,7 @@ function Cargarproducto(_ref) {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "col text-right",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                  className: "bg-arabito p-2",
+                  className: "bg-sinapsis p-2",
                   children: ["Base. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
                     className: "h1 input-ct",
                     type: "text",
@@ -3422,7 +3422,7 @@ function Cargarproducto(_ref) {
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                   className: "btn-group",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                    className: "btn btn-arabito btn-block",
+                    className: "btn btn-sinapsis btn-block",
                     type: "submit",
                     children: "Editar"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
@@ -3512,7 +3512,7 @@ function Cierre(_ref) {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
       className: "input-group",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-        className: "btn btn-arabito",
+        className: "btn btn-sinapsis",
         onClick: cerrar_dia,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
           className: "fa fa-cogs"
@@ -3533,7 +3533,7 @@ function Cierre(_ref) {
           },
           children: "Ver detalles"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-          className: "btn btn-arabito",
+          className: "btn btn-sinapsis",
           onClick: guardar_cierre,
           type: "button",
           "data-type": "ver",
@@ -4105,7 +4105,7 @@ function Clientes(_ref) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           onClick: setindexSelectClienteFun,
           "data-index": i,
-          className: (indexSelectCliente == i ? "bg-arabito" : "bg-light text-secondary") + " card mt-2 pointer",
+          className: (indexSelectCliente == i ? "bg-sinapsis" : "bg-light text-secondary") + " card mt-2 pointer",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "card-header flex-row row justify-content-between",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -4255,7 +4255,7 @@ function Clientes(_ref) {
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               className: "btn-group",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                className: "btn btn-arabito btn-block",
+                className: "btn btn-sinapsis btn-block",
                 type: "submit",
                 children: "Editar"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
@@ -4346,13 +4346,13 @@ function Credito(_ref) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "btn-group",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-            className: "btn " + (vueltoSubview == "vuelto" ? "btn-dark" : "btn-arabito"),
+            className: "btn " + (vueltoSubview == "vuelto" ? "btn-dark" : "btn-sinapsis"),
             onClick: function onClick() {
               return setvueltoSubview("vuelto");
             },
             children: "Vuelto"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-            className: "btn " + (vueltoSubview == "clientes" ? "btn-dark" : "btn-arabito"),
+            className: "btn " + (vueltoSubview == "clientes" ? "btn-dark" : "btn-sinapsis"),
             onClick: function onClick() {
               return setvueltoSubview("clientes");
             },
@@ -5170,6 +5170,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _images_logo_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../images/logo.png */ "./resources/images/logo.png");
 /* harmony import */ var _images_carrito1_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../images/carrito1.png */ "./resources/images/carrito1.png");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -5177,7 +5179,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Header(_ref) {
-  var dolar = _ref.dolar,
+  var _jsx2;
+
+  var getVentasClick = _ref.getVentasClick,
+      dolar = _ref.dolar,
       peso = _ref.peso,
       view = _ref.view,
       setView = _ref.setView,
@@ -5195,14 +5200,14 @@ function Header(_ref) {
         className: "p-3",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
           src: _images_logo_png__WEBPACK_IMPORTED_MODULE_0__["default"],
-          alt: "arabito",
+          alt: "sinapsis",
           className: "logo"
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "p-3",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
           src: _images_carrito1_png__WEBPACK_IMPORTED_MODULE_1__["default"],
-          alt: "arabito",
+          alt: "sinapsis",
           width: "50px",
           className: "pointer carrito-icon",
           onClick: function onClick() {
@@ -5212,18 +5217,17 @@ function Header(_ref) {
         })
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      className: "bg-arabito container-fluid",
+      className: "bg-sinapsis container-fluid",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "row",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "col d-flex justify-content-end",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-            className: (view == "ventas" ? "btn btn-dark" : null) + " p-3 pointer",
-            onClick: function onClick() {
-              return setView("ventas");
-            },
-            children: "Ventas"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", (_jsx2 = {
+            onClick: getVentasClick,
+            className: (view == "ventas" ? "btn btn-dark" : null) + " p-3 pointer"
+          }, _defineProperty(_jsx2, "onClick", function onClick() {
+            return setView("ventas");
+          }), _defineProperty(_jsx2, "children", "Ventas"), _jsx2)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
             className: (view == "seleccionar" ? "btn btn-dark" : null) + " p-3 pointer",
             onClick: function onClick() {
               return setView("seleccionar");
@@ -5265,16 +5269,16 @@ function Header(_ref) {
             children: ["COP ", peso, " "]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "col d-flex justify-content-end",
+          className: "col-4 d-flex justify-content-end",
           children: [view == "seleccionar" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-              className: (viewCaja ? "btn btn-arabito" : null) + " p-3 pointer",
+              className: (viewCaja ? "btn btn-sinapsis" : null) + " p-3 pointer",
               onClick: function onClick() {
                 return setViewCaja(!viewCaja);
               },
               children: "Caja/Gastos"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-              className: (showModalMovimientos ? "btn btn-arabito" : null) + " p-3 pointer",
+              className: (showModalMovimientos ? "btn btn-sinapsis" : null) + " p-3 pointer",
               onClick: function onClick() {
                 return setShowModalMovimientos(!showModalMovimientos);
               },
@@ -5477,7 +5481,7 @@ function Inventario(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
             className: "btn-group mb-2",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
-              className: "btn btn-arabito",
+              className: "btn btn-sinapsis",
               onClick: function onClick() {
                 return setshowModalFacturas(!showModalFacturas);
               },
@@ -5962,13 +5966,13 @@ function ModalSelectFactura(_ref) {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "btn-group mb-4",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-            className: "btn " + (factsubView == "buscar" ? "btn-dark" : "btn-arabito"),
+            className: "btn " + (factsubView == "buscar" ? "btn-dark" : "btn-sinapsis"),
             onClick: function onClick() {
               return setfactsubView("buscar");
             },
             children: "Buscar"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-            className: "btn " + (factsubView == "agregar" ? "btn-dark" : "btn-arabito"),
+            className: "btn " + (factsubView == "agregar" ? "btn-dark" : "btn-sinapsis"),
             onClick: function onClick() {
               return setfactsubView("agregar");
             },
@@ -5982,7 +5986,7 @@ function ModalSelectFactura(_ref) {
               })]
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-            className: "btn " + (factsubView == "detalles" ? "btn-dark" : "btn-arabito"),
+            className: "btn " + (factsubView == "detalles" ? "btn-dark" : "btn-sinapsis"),
             onClick: function onClick() {
               return setfactsubView("detalles");
             },
@@ -6238,7 +6242,7 @@ function ModalSelectFactura(_ref) {
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               className: "btn-group",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                className: "btn btn-arabito btn-block",
+                className: "btn btn-sinapsis btn-block",
                 type: "submit",
                 children: "Editar"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
@@ -6426,7 +6430,7 @@ function ModalAddCarrito(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "btn-group",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-              className: "btn btn-arabito agregar_carrito",
+              className: "btn btn-sinapsis agregar_carrito",
               type: "button",
               onClick: addCarritoRequest,
               "data-type": "agregar",
@@ -6681,13 +6685,13 @@ function Pagar(_ref) {
                 onClick: onClickEditPedido,
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h3", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                    className: (e.id == id ? "btn" : "btn-outline") + (!e.estado ? "-arabito" : "-success") + " fs-4 btn btn-xl btn-circle f",
+                    className: (e.id == id ? "btn" : "btn-outline") + (!e.estado ? "-sinapsis" : "-success") + " fs-4 btn btn-xl btn-circle f",
                     children: e.id
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
                   className: "text-muted text-center",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("b", {
-                    className: "h5 " + (!e.estado ? " text-arabito" : " text-success")
+                    className: "h5 " + (!e.estado ? " text-sinapsis" : " text-success")
                   })
                 })]
               }, e.id) : null;
@@ -6728,23 +6732,23 @@ function Pagar(_ref) {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "C\xF3digo"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "\xC1rticulo"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "Cant."
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "Precio"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                    className: "text-arabito",
+                    className: "text-sinapsis",
                     children: "Total"
                   }), editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                      className: "btn btn-circle text-white btn-arabito btn-sm mb-3",
+                      className: "btn btn-circle text-white btn-sinapsis btn-sm mb-3",
                       onClick: toggleModalProductos,
                       children: ["F1 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                         className: "fa fa-plus"
@@ -6825,7 +6829,7 @@ function Pagar(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "col-5",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: (estado ? "bg-success" : "bg-arabito") + " text-center p-1",
+              className: (estado ? "bg-success" : "bg-sinapsis") + " text-center p-1",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("h3", {
                 children: ["Pedido #", id]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h6", {
@@ -6839,7 +6843,7 @@ function Pagar(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                     className: "col p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: (debito != "" ? "bg-success-light card-arabito" : "t-5") + " card",
+                      className: (debito != "" ? "bg-success-light card-sinapsis" : "t-5") + " card",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                         className: "card-body",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6862,7 +6866,7 @@ function Pagar(_ref) {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                     className: "col p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: (efectivo != "" ? "bg-success-light card-arabito" : "t-5") + " card",
+                      className: (efectivo != "" ? "bg-success-light card-sinapsis" : "t-5") + " card",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                         className: "card-body",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6885,7 +6889,7 @@ function Pagar(_ref) {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                     className: "col p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: (transferencia != "" ? "bg-success-light card-arabito" : "t-5") + " card",
+                      className: (transferencia != "" ? "bg-success-light card-sinapsis" : "t-5") + " card",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                         className: "card-body",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6908,7 +6912,7 @@ function Pagar(_ref) {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                     className: "col p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: (credito != "" ? "bg-success-light card-arabito" : "t-5") + " card",
+                      className: (credito != "" ? "bg-success-light card-sinapsis" : "t-5") + " card",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                         className: "card-body",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6933,7 +6937,7 @@ function Pagar(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                     className: "col p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: (debito != "" ? "bg-success-light card-arabito" : "t-5") + " card",
+                      className: (debito != "" ? "bg-success-light card-sinapsis" : "t-5") + " card",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                         className: "card-body",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6948,7 +6952,7 @@ function Pagar(_ref) {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                     className: "col p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: (efectivo != "" ? "bg-success-light card-arabito" : "t-5") + " card",
+                      className: (efectivo != "" ? "bg-success-light card-sinapsis" : "t-5") + " card",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                         className: "card-body",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6963,7 +6967,7 @@ function Pagar(_ref) {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                     className: "col p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: (transferencia != "" ? "bg-success-light card-arabito" : "t-5") + " card",
+                      className: (transferencia != "" ? "bg-success-light card-sinapsis" : "t-5") + " card",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                         className: "card-body",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -6978,7 +6982,7 @@ function Pagar(_ref) {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                     className: "col p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                      className: (credito != "" ? "bg-success-light card-arabito" : "t-5") + " card",
+                      className: (credito != "" ? "bg-success-light card-sinapsis" : "t-5") + " card",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                         className: "card-body",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -7118,13 +7122,13 @@ function Pagar(_ref) {
                     className: "fa fa-user"
                   })]
                 }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                  className: "btn btn-circle text-white btn-arabito btn-xl me-1",
+                  className: "btn btn-circle text-white btn-sinapsis btn-xl me-1",
                   onClick: toggleImprimirTicket,
                   children: ["F3 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fa fa-print"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                  className: "btn btn-circle text-white btn-arabito btn-xl me-4",
+                  className: "btn btn-circle text-white btn-sinapsis btn-xl me-4",
                   onClick: viewReportPedido,
                   children: ["F4 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fa fa-eye"
@@ -7233,7 +7237,7 @@ function Pedidos(_ref) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "radios d-flex mr-2",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                  className: " m-1 pointer " + (tipobusquedapedido == "fact" ? "select-fact bg-arabito" : "select-fact"),
+                  className: " m-1 pointer " + (tipobusquedapedido == "fact" ? "select-fact bg-sinapsis" : "select-fact"),
                   onClick: function onClick() {
                     return setTipoBusqueda("fact");
                   },
@@ -7241,7 +7245,7 @@ function Pedidos(_ref) {
                     className: "fa fa-search"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                  className: " m-1 pointer " + (tipobusquedapedido == "prod" ? "select-fact bg-arabito" : "select-fact"),
+                  className: " m-1 pointer " + (tipobusquedapedido == "prod" ? "select-fact bg-sinapsis" : "select-fact"),
                   onClick: function onClick() {
                     return setTipoBusqueda("prod");
                   },
@@ -7249,7 +7253,7 @@ function Pedidos(_ref) {
                     className: "fa fa-search"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-                  className: " m-1 pointer " + (tipobusquedapedido == "cliente" ? "select-fact bg-arabito" : "select-fact"),
+                  className: " m-1 pointer " + (tipobusquedapedido == "cliente" ? "select-fact bg-sinapsis" : "select-fact"),
                   onClick: function onClick() {
                     return setTipoBusqueda("cliente");
                   },
@@ -7295,7 +7299,7 @@ function Pedidos(_ref) {
                 className: "",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-                    className: "badge btn-arabito",
+                    className: "badge btn-sinapsis",
                     children: e.cantidadtotal
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h6", {
@@ -7336,7 +7340,7 @@ function Pedidos(_ref) {
               className: "cell1",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h1", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-                  className: "badge btn-arabito",
+                  className: "badge btn-sinapsis",
                   children: pedidos["totalventas"]
                 })
               })
@@ -7382,7 +7386,7 @@ function Pedidos(_ref) {
             })]
           }), pedidos["fact"] ? pedidos["fact"].map(function (e) {
             return e ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-              className: "card-pedidos " + (e.estado ? "" : "bg-arabito-light"),
+              className: "card-pedidos " + (e.estado ? "" : "bg-sinapsis-light"),
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "cell1 pointer",
                 "data-id": e.pedido.id,
@@ -7415,7 +7419,7 @@ function Pedidos(_ref) {
                         className: "btn btn-success btn-sm",
                         children: ["Efec. ", ee.monto]
                       }) : null, ee.monto != 0 && ee.tipo == 4 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
-                        className: "btn btn-arabito btn-sm",
+                        className: "btn btn-sinapsis btn-sm",
                         children: ["Cred. ", ee.monto]
                       }) : null, ee.monto != 0 && ee.tipo == 5 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
                         className: "btn btn-primary btn-sm",
@@ -7525,7 +7529,7 @@ function PedidosCentralComponent(_ref) {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "text-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-            className: "btn btn-outline-arabito",
+            className: "btn btn-outline-sinapsis",
             onClick: getPedidosCentral,
             children: "Actualizar Pedidos"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
@@ -7602,7 +7606,7 @@ function PedidosCentralComponent(_ref) {
                 className: "h6 text-muted font-italic",
                 children: "Base. "
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "h6 text-arabito",
+                className: "h6 text-sinapsis",
                 children: moneda(pedidosCentral[indexPedidoCentral].base)
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
@@ -7649,7 +7653,7 @@ function PedidosCentralComponent(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
             children: indexPedidoCentral !== null && pedidosCentral ? pedidosCentral[indexPedidoCentral] ? pedidosCentral[indexPedidoCentral].items.map(function (e, i) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
-                className: (e.aprobado ? "bg-success-light" : e.aprobado === false ? "bg-arabito-light" : null) + " pointer",
+                className: (e.aprobado ? "bg-success-light" : e.aprobado === false ? "bg-sinapsis-light" : null) + " pointer",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   onClick: selectPedidosCentral,
                   "data-index": i,
@@ -7686,7 +7690,7 @@ function PedidosCentralComponent(_ref) {
                   className: "align-middle",
                   children: e.producto.descripcion
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                  className: "align-middle text-arabito",
+                  className: "align-middle text-sinapsis",
                   children: moneda(e.producto.precio_base)
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   className: "align-middle text-success",
@@ -7848,7 +7852,7 @@ function ProductosList(_ref) {
                 onClick: selectProductoFast,
                 "data-id": e.id,
                 "data-val": e.codigo_barras,
-                className: "formShowProductos btn btn-arabito btn-sm w-50",
+                className: "formShowProductos btn btn-sinapsis btn-sm w-50",
                 children: e.cantidad.replace(".00", "")
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
@@ -8035,7 +8039,7 @@ function Proveedores(_ref) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               onClick: setIndexSelectProveedoresFun,
               "data-index": i,
-              className: (indexSelectProveedores == i ? "bg-arabito" : "bg-light text-secondary") + " card mt-2 pointer",
+              className: (indexSelectProveedores == i ? "bg-sinapsis" : "bg-light text-secondary") + " card mt-2 pointer",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: "card-header flex-row row justify-content-between",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -8143,7 +8147,7 @@ function Proveedores(_ref) {
               }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: "btn-group",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                  className: "btn btn-arabito btn-block",
+                  className: "btn btn-sinapsis btn-block",
                   type: "submit",
                   children: "Editar"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
@@ -8194,7 +8198,7 @@ function Usuarios(_ref) {
       onClick: addNewUsuario,
       children: "Agregar Nuevo"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-      className: "btn btn-arabito",
+      className: "btn btn-sinapsis",
       onClick: getUsuarios,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
         className: "fa fa-search"
@@ -8296,13 +8300,13 @@ function VentasComponet(_ref) {
               className: "btn btn-outline-success fs-1",
               children: ["Tot. ", moneda(ventasData["total"])]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
-              className: "btn btn-outline-arabito fs-4",
+              className: "btn btn-outline-sinapsis fs-4",
               children: ["Efec. ", moneda(ventasData[3])]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
-              className: "btn btn-outline-arabito fs-4",
+              className: "btn btn-outline-sinapsis fs-4",
               children: ["Deb. ", moneda(ventasData[2])]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
-              className: "btn btn-outline-arabito fs-4",
+              className: "btn btn-outline-sinapsis fs-4",
               children: ["Trans. ", moneda(ventasData[1])]
             })]
           }) : null
@@ -8342,7 +8346,7 @@ __webpack_require__.r(__webpack_exports__);
 
  // import '../css/loading.css';
 
-var host = ""; // const host = "http://localhost/arabitoapp"
+var host = ""; // const host = "http://localhost/sinapsisapp"
 
 var db = {
   // setCentralData: data=>axios.get(host+"setCentralData",{params:data}),
@@ -8565,7 +8569,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".login{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n.wraper-panel-pre-inscripcion{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n\r\n.header-register{\r\n  font-size: 2em;\r\n  font-weight:bolder;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n  box-shadow: 5px 5px 5px #adb5bd;\r\n  margin-bottom: 60px; \r\n}\r\n.header-register-logo img{\r\n  height: 150px;\r\n}\r\n\r\n.panel-pre-inscripcion{\r\n  width: auto;\r\n  border-radius: 10px;\r\n\r\n  padding: 55px 55px 37px 55px;\r\n  \r\n \r\n  box-shadow: 0px 10px 8px #e0e0e0;\r\n}\r\n.container-login100 {\r\n  width: 100%;  \r\n  min-height: 100vh;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 15px;\r\n\r\n  background-repeat: no-repeat;\r\n  background-position: center;\r\n  background-size: cover;\r\n  position: relative;\r\n  z-index: 1;  \r\n}\r\n\r\n.container-login100::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  background-color: rgba(255,255,255,0.9);\r\n}\r\n\r\n.wrap-login100 {\r\n  width: 400px;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  padding: 55px 55px 37px 55px;\r\n\r\n  \r\n \r\n  background: linear-gradient(180deg,#f26d0a,#ffa969 12%,rgba(255,255,255,0) 85%)\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Form ]*/\r\n\r\n.login100-form {\r\n  width: 100%;\r\n}\r\n.login100-form-logo{\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n.login100-form-logo img{\r\n  \r\n  \r\n  height: 220px;\r\n \r\n}\r\n\r\n.login100-form-title {\r\n  font-size: 30px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n  text-align: center;\r\n  text-transform: uppercase;\r\n\r\n  display: block;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Input ]*/\r\n\r\n.wrap-input100 {\r\n  width: 100%;\r\n  position: relative;\r\n  border-bottom: 2px solid rgba(255,255,255,0.24);\r\n  margin-bottom: 30px;\r\n}\r\n\r\n.input100 {\r\n  font-size: 16px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  width: 100%;\r\n  height: 45px;\r\n  background: transparent;\r\n  padding: 0 5px 0 38px;\r\n}\r\n\r\n/*---------------------------------------------*/ \r\n.focus-input100 {\r\n  position: absolute;\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  pointer-events: none;\r\n}\r\n\r\n.focus-input100::before {\r\n  font-family: Material-Design-Iconic-Font;\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  bottom: -2px;\r\n  left: 0;\r\n  width: 0;\r\n  height: 2px;\r\n  transition: all 0.4s;\r\n\r\n  background: #fff;\r\n}\r\n\r\n.focus-input100::after {\r\n  font-family: Material-Design-Iconic-Font;\r\n  font-size: 22px;\r\n  color: #fff;\r\n\r\n  content: attr(data-placeholder);\r\n  display: block;\r\n  width: 100%;\r\n  position: absolute;\r\n  top: 6px;\r\n  left: 0px;\r\n  padding-left: 5px;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.input100:focus {\r\n  padding-left: 5px;\r\n  transition: all .5s;\r\n}\r\n\r\n.input100:focus + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.input100:focus + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 {\r\n  padding-left: 5px;\r\n}\r\n\r\n\r\n/*==================================================================\r\n[ Restyle Checkbox ]*/\r\n\r\n.contact100-form-checkbox {\r\n  padding-left: 5px;\r\n  padding-top: 5px;\r\n  padding-bottom: 35px;\r\n}\r\n\r\n.input-checkbox100 {\r\n  display: none;\r\n}\r\n\r\n.label-checkbox100 {\r\n  font-size: 13px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  position: relative;\r\n  padding-left: 26px;\r\n  cursor: pointer;\r\n}\r\n\r\n.label-checkbox100::before {\r\n  content: \"\\F26B\";\r\n  font-size: 13px;\r\n  color: transparent;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  position: absolute;\r\n  width: 16px;\r\n  height: 16px;\r\n  border-radius: 2px;\r\n  background: #fff;\r\n  left: 0;\r\n  top: 50%;\r\n  transform: translateY(-50%);\r\n}\r\n\r\n.input-checkbox100:checked + .label-checkbox100::before {\r\n  color: #555555;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Button ]*/\r\n.container-login100-form-btn {\r\n  width: 100%;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n}\r\n\r\n.login100-form-btn {\r\n  font-size: 16px;\r\n  color: #555555;\r\n  line-height: 1.2;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 0 20px;\r\n  min-width: 120px;\r\n  height: 50px;\r\n  border-radius: 25px;\r\n\r\n  \r\n \r\n  background: linear-gradient(0deg, rgba(242,109,10,1) 0%, rgba(255,169,105,1) 22%, rgba(255,255,255,0) 85%);\r\n\r\n  position: relative;\r\n  z-index: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  border-radius: 25px;\r\n  background-color: #fff;\r\n  top: 0;\r\n  left: 0;\r\n  opacity: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn:hover {\r\n  color: #fff;\r\n}\r\n\r\n.login100-form-btn:hover:before {\r\n  opacity: 0;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n:root{\r\n  --sinapsis-color : #118bec;\r\n  --sinapsis-color-light : #deedfd;\r\n  --sinapsis-color-select : #84bcf3;\r\n\r\n  \r\n}\r\n.login{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n.wraper-panel-pre-inscripcion{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n\r\n.header-register{\r\n  font-size: 2em;\r\n  font-weight:bolder;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n  box-shadow: 5px 5px 5px #adb5bd;\r\n  margin-bottom: 60px; \r\n}\r\n.header-register-logo img{\r\n  height: 150px;\r\n}\r\n\r\n.panel-pre-inscripcion{\r\n  width: auto;\r\n  border-radius: 10px;\r\n\r\n  padding: 55px 55px 37px 55px;\r\n  \r\n \r\n  box-shadow: 0px 10px 8px #e0e0e0;\r\n}\r\n.container-login100 {\r\n  width: 100%;  \r\n  min-height: 100vh;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 15px;\r\n\r\n  background-repeat: no-repeat;\r\n  background-position: center;\r\n  background-size: cover;\r\n  position: relative;\r\n  z-index: 1;  \r\n}\r\n\r\n.container-login100::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  background-color: rgba(255,255,255,0.9);\r\n}\r\n\r\n.wrap-login100 {\r\n  width: 400px;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  padding: 55px 55px 37px 55px;\r\n\r\n  \r\n \r\n  background: linear-gradient(180deg,var(--sinapsis-color-light),var(--sinapsis-color) 12%,rgba(255,255,255,0) 85%)\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Form ]*/\r\n\r\n.login100-form {\r\n  width: 100%;\r\n}\r\n.login100-form-logo{\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n.login100-form-logo img{\r\n  \r\n  \r\n  height: 220px;\r\n \r\n}\r\n\r\n.login100-form-title {\r\n  font-size: 30px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n  text-align: center;\r\n  text-transform: uppercase;\r\n\r\n  display: block;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Input ]*/\r\n\r\n.wrap-input100 {\r\n  width: 100%;\r\n  position: relative;\r\n  border-bottom: 2px solid rgba(255,255,255,0.24);\r\n  margin-bottom: 30px;\r\n}\r\n\r\n.input100 {\r\n  font-size: 16px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  width: 100%;\r\n  height: 45px;\r\n  background: transparent;\r\n  padding: 0 5px 0 38px;\r\n}\r\n\r\n/*---------------------------------------------*/ \r\n.focus-input100 {\r\n  position: absolute;\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  pointer-events: none;\r\n}\r\n\r\n.focus-input100::before {\r\n  font-family: Material-Design-Iconic-Font;\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  bottom: -2px;\r\n  left: 0;\r\n  width: 0;\r\n  height: 2px;\r\n  transition: all 0.4s;\r\n\r\n  background: #fff;\r\n}\r\n\r\n.focus-input100::after {\r\n  font-family: Material-Design-Iconic-Font;\r\n  font-size: 22px;\r\n  color: #fff;\r\n\r\n  content: attr(data-placeholder);\r\n  display: block;\r\n  width: 100%;\r\n  position: absolute;\r\n  top: 6px;\r\n  left: 0px;\r\n  padding-left: 5px;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.input100:focus {\r\n  padding-left: 5px;\r\n  transition: all .5s;\r\n}\r\n\r\n.input100:focus + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.input100:focus + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 {\r\n  padding-left: 5px;\r\n}\r\n\r\n\r\n/*==================================================================\r\n[ Restyle Checkbox ]*/\r\n\r\n.contact100-form-checkbox {\r\n  padding-left: 5px;\r\n  padding-top: 5px;\r\n  padding-bottom: 35px;\r\n}\r\n\r\n.input-checkbox100 {\r\n  display: none;\r\n}\r\n\r\n.label-checkbox100 {\r\n  font-size: 13px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  position: relative;\r\n  padding-left: 26px;\r\n  cursor: pointer;\r\n}\r\n\r\n.label-checkbox100::before {\r\n  content: \"\\F26B\";\r\n  font-size: 13px;\r\n  color: transparent;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  position: absolute;\r\n  width: 16px;\r\n  height: 16px;\r\n  border-radius: 2px;\r\n  background: #fff;\r\n  left: 0;\r\n  top: 50%;\r\n  transform: translateY(-50%);\r\n}\r\n\r\n.input-checkbox100:checked + .label-checkbox100::before {\r\n  color: #555555;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Button ]*/\r\n.container-login100-form-btn {\r\n  width: 100%;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n}\r\n\r\n.login100-form-btn {\r\n  font-size: 16px;\r\n  color: #555555;\r\n  line-height: 1.2;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 0 20px;\r\n  min-width: 120px;\r\n  height: 50px;\r\n  border-radius: 25px;\r\n\r\n  \r\n \r\n  background: linear-gradient(0deg, rgba(242,109,10,1) 0%, rgba(255,169,105,1) 22%, rgba(255,255,255,0) 85%);\r\n\r\n  position: relative;\r\n  z-index: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  border-radius: 25px;\r\n  background-color: #fff;\r\n  top: 0;\r\n  left: 0;\r\n  opacity: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn:hover {\r\n  color: #fff;\r\n}\r\n\r\n.login100-form-btn:hover:before {\r\n  opacity: 0;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -8683,7 +8687,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/carrito1.png?010345308a0b042e40bd8e97e441c08f");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/carrito1.png?7033f67421d5e63955d51d798a2ddef3");
 
 /***/ }),
 
@@ -8698,7 +8702,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.png?1a0e2ec5bbad4517a2d8e03628760126");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.png?3c8fe6e98339e0d0a0bd6a0d822c4005");
 
 /***/ }),
 
@@ -58409,7 +58413,7 @@ function Facturar() {
       num = _useState8[0],
       setNum = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(true),
       _useState10 = _slicedToArray(_useState9, 2),
       itemCero = _useState10[0],
       setItemCero = _useState10[1];
@@ -61245,6 +61249,7 @@ function Facturar() {
         viewCaja: viewCaja,
         setShowModalMovimientos: setShowModalMovimientos,
         showModalMovimientos: showModalMovimientos,
+        getVentasClick: getVentasClick,
         setView: setView
       }), view == "seleccionar" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)("div", {
         className: "container p-0",

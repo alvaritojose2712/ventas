@@ -54,8 +54,8 @@ function Credito({
         <div className="col">
           <h3>Clientes</h3> 
           <div className="btn-group">
-            <button className={("btn ")+(vueltoSubview=="vuelto"?"btn-dark":"btn-arabito")} onClick={()=>setvueltoSubview("vuelto")}>Vuelto</button>
-            <button className={("btn ")+(vueltoSubview=="clientes"?"btn-dark":"btn-arabito")} onClick={()=>setvueltoSubview("clientes")}>Editar Clientes</button>
+            <button className={("btn ")+(vueltoSubview=="vuelto"?"btn-dark":"btn-sinapsis")} onClick={()=>setvueltoSubview("vuelto")}>Vuelto</button>
+            <button className={("btn ")+(vueltoSubview=="clientes"?"btn-dark":"btn-sinapsis")} onClick={()=>setvueltoSubview("clientes")}>Editar Clientes</button>
           </div>
         </div>
       </div> 

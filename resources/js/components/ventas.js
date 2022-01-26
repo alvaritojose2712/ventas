@@ -20,9 +20,9 @@ export default function VentasComponet({
 						{ventasData?
 							<div className="btn-group">
 								<button className="btn btn-outline-success fs-1">Tot. {moneda(ventasData["total"])}</button>
-								<button className="btn btn-outline-arabito fs-4">Efec. {moneda(ventasData[3])}</button>
-								<button className="btn btn-outline-arabito fs-4">Deb. {moneda(ventasData[2])}</button>
-								<button className="btn btn-outline-arabito fs-4">Trans. {moneda(ventasData[1])}</button>
+								<button className="btn btn-outline-sinapsis fs-4">Efec. {moneda(ventasData[3])}</button>
+								<button className="btn btn-outline-sinapsis fs-4">Deb. {moneda(ventasData[2])}</button>
+								<button className="btn btn-outline-sinapsis fs-4">Trans. {moneda(ventasData[1])}</button>
 							</div>
 						:null}
 

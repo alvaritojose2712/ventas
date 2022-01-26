@@ -58,14 +58,14 @@ function Cierre({
 	return (
 		<div className="container">
 			<div className="input-group">
-				<button className="btn btn-arabito" onClick={cerrar_dia}><i className="fa fa-cogs"></i></button>
+				<button className="btn btn-sinapsis" onClick={cerrar_dia}><i className="fa fa-cogs"></i></button>
 
 				<input type="date" required={true} value={fechaCierre} className="form-control" onChange={e=>setFechaCierre(e.target.value)}/>
 				{cierre["fecha"]?
 					<>
 						<button className="btn" onClick={()=>setToggleDetallesCierre(!toggleDetallesCierre)}>Ver detalles</button>
 
-						<button className="btn btn-arabito" onClick={guardar_cierre} type="button" data-type="ver">Ver</button>
+						<button className="btn btn-sinapsis" onClick={guardar_cierre} type="button" data-type="ver">Ver</button>
 
 						<button className="btn btn-warning" onClick={guardar_cierre} type="button" data-type="enviar">Enviar</button>
 					</>

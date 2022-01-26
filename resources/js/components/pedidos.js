@@ -48,13 +48,13 @@ filterMetodoPagoToggle,
 					  <div className="input-group-prepend">
 	            <div className="input-group-text">
 								<div className="radios d-flex mr-2">
-									<div className={" m-1 pointer "+(tipobusquedapedido=="fact"?"select-fact bg-arabito":"select-fact")} onClick={()=>setTipoBusqueda("fact")}>
+									<div className={" m-1 pointer "+(tipobusquedapedido=="fact"?"select-fact bg-sinapsis":"select-fact")} onClick={()=>setTipoBusqueda("fact")}>
 										Fact. <i className="fa fa-search"></i>
 									</div>
-									<div className={" m-1 pointer " + (tipobusquedapedido=="prod"?"select-fact bg-arabito":"select-fact")} onClick={()=>setTipoBusqueda("prod")}>
+									<div className={" m-1 pointer " + (tipobusquedapedido=="prod"?"select-fact bg-sinapsis":"select-fact")} onClick={()=>setTipoBusqueda("prod")}>
 										Prod. <i className="fa fa-search"></i> 
 									</div>
-									<div className={" m-1 pointer " + (tipobusquedapedido=="cliente"?"select-fact bg-arabito":"select-fact")} onClick={()=>setTipoBusqueda("cliente")}>
+									<div className={" m-1 pointer " + (tipobusquedapedido=="cliente"?"select-fact bg-sinapsis":"select-fact")} onClick={()=>setTipoBusqueda("cliente")}>
 										Clien. <i className="fa fa-user"></i> 
 									</div>
 								</div>
@@ -76,7 +76,7 @@ filterMetodoPagoToggle,
 									<div className="card-pedidos d-flex justify-content-between" key={e.id}>
 									  <div className="">
 										  <h1>
-										  	<span className="badge btn-arabito">
+										  	<span className="badge btn-sinapsis">
 										  		{e.cantidadtotal}
 										  	</span>
 										  </h1>
@@ -111,7 +111,7 @@ filterMetodoPagoToggle,
 							<div className="card-pedidos-header">
 									<div className="cell1">
 							    	<h1>
-								    	<span className="badge btn-arabito">
+								    	<span className="badge btn-sinapsis">
 								    	{pedidos["totalventas"]}
 								    	</span>
 							    	</h1>
@@ -130,7 +130,7 @@ filterMetodoPagoToggle,
 							</div>
 							{pedidos["fact"]?pedidos["fact"].map(e=>
 								e?
-									<div className={("card-pedidos ")+(e.estado?"":"bg-arabito-light")} key={e.id}>
+									<div className={("card-pedidos ")+(e.estado?"":"bg-sinapsis-light")} key={e.id}>
 											
 										<div className="cell1 pointer" data-id={e.pedido.id} onClick={onClickEditPedido}>
 											
@@ -160,7 +160,7 @@ filterMetodoPagoToggle,
 						    						:null}
 
 						    						{ee.monto!=0&&ee.tipo==4?
-						    							<span className="btn btn-arabito btn-sm">Cred. {ee.monto}</span>
+						    							<span className="btn btn-sinapsis btn-sm">Cred. {ee.monto}</span>
 						    						:null}
 
 						    						{ee.monto!=0&&ee.tipo==5?
