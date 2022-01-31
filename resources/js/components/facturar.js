@@ -5,7 +5,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 
 import {useState,useEffect, useRef,StrictMode} from 'react';
 import {cloneDeep} from 'lodash';
-import ReactDOM, {render} from 'react-dom';
+import {render} from 'react-dom';
 import db from '../database/database';
 
 
@@ -24,7 +24,9 @@ import Cargando from '../components/cargando';
 import Pedidos from '../components/pedidos';
 
 import Credito from '../components/credito';
-import Clientesall from '../components/clientesall';
+import Vueltos from '../components/vueltos';
+import Clientes from '../components/clientes';
+
 
 
 import Cierres from '../components/cierre';
@@ -88,8 +90,9 @@ function Facturar() {
   const [inpInvbase,setinpInvbase] = useState("")
   const [inpInvventa,setinpInvventa] = useState("")
   const [inpInviva,setinpInviva] = useState("0")
-  const [inpInvporcentaje_ganancia,setinpInvporcentaje_ganancia] = useState("0")
-
+  const [inpInvporcentaje_ganancia, setinpInvporcentaje_ganancia] = useState("0")
+  
+  const [inpInvLotes,setinpInvLotes] = useState([])
 
   const [inpInvid_proveedor,setinpInvid_proveedor] = useState("")
   const [inpInvid_marca,setinpInvid_marca] = useState("")
@@ -240,7 +243,6 @@ function Facturar() {
   const [factInpestatus,setfactInpestatus] = useState(0)
 
   
-  const [vueltoSubview,setvueltoSubview] = useState("vuelto")
   const [qBuscarCliente,setqBuscarCliente] = useState("")
   const [numclientesCrud,setnumclientesCrud] = useState(25)
 
@@ -289,12 +291,12 @@ function Facturar() {
   const [billete50,setbillete50] = useState("") 
   const [billete100,setbillete100] = useState("")
 
-  const [usuariosData,setusuariosData] = useState([])
-
-
+  const [usuariosData, setusuariosData] = useState([])
   
+  const [toggleClientesBtn, settoggleClientesBtn] = useState(false)
 
-
+  const [modViewInventario, setmodViewInventario] = useState("unique")
+  
 
   const [valheaderpedidocentral, setvalheaderpedidocentral] = useState("12340005ARAMCAL")
   const [valbodypedidocentral, setvalbodypedidocentral] = useState("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345")
@@ -399,6 +401,7 @@ function Facturar() {
       }else if(view=="pagar"){
         setToggleAddPersona(false)
         toggleModalProductos(false)
+        viewCaja(false)
         if (refinputaddcarritofast.current) {
           refinputaddcarritofast.current.focus()
 
@@ -680,11 +683,11 @@ function Facturar() {
   },[subViewInventario])  
 
   useEffect(() => {
-    if (view=="credito"||view=="clientes") {
+    if (view == "credito" || view =="vueltos") {
       getDeudores()
       getDeudor()
     }
-  }, [view,qDeudores]);
+  }, [qDeudores]);
 
   useEffect(()=>{
     getProductos()
@@ -828,7 +831,6 @@ function Facturar() {
   }
 
   const entregarVuelto = () => {
-    console.log("entregarVuelto")
       let monto = window.prompt("Monto a entregar")
       if (pedidoData.id&&number(monto)) {
           setLoading(true)
@@ -1036,6 +1038,13 @@ function Facturar() {
   }
   const toggleModalProductos = (prop,callback=null) => {
     setModaladdproductocarritoToggle(prop)
+    if (inputaddcarritointernoref) {
+      if (inputaddcarritointernoref.current){
+        inputaddcarritointernoref.current.focus()
+
+      }
+      
+    }
     if (callback) {callback()}
   }
   const toggleImprimirTicket = () => {
@@ -1053,7 +1062,6 @@ function Facturar() {
           }).then(res=>{
             notificar(res)
           })
-          console.log("toggleImprimirTicket")
         }
       }
       
@@ -1659,21 +1667,45 @@ function Facturar() {
   const setInputsInventario = () =>{
     if (productosInventario[indexSelectInventario]) {
       let obj = productosInventario[indexSelectInventario]
-      setinpInvbarras(obj.codigo_barras)
-      setinpInvcantidad(obj.cantidad)
-      setinpInvalterno(obj.codigo_proveedor)
-      setinpInvunidad(obj.unidad)
-      setinpInvdescripcion(obj.descripcion)
-      setinpInvbase(obj.precio_base)
-      setinpInvventa(obj.precio)
-      setinpInviva(obj.iva)
+      setinpInvbarras(obj.codigo_barras?obj.codigo_barras:"")
+      setinpInvcantidad(obj.cantidad?obj.cantidad:"")
+      setinpInvalterno(obj.codigo_proveedor?obj.codigo_proveedor:"")
+      setinpInvunidad(obj.unidad?obj.unidad:"")
+      setinpInvdescripcion(obj.descripcion?obj.descripcion:"")
+      setinpInvbase(obj.precio_base?obj.precio_base:"")
+      setinpInvventa(obj.precio?obj.precio:"")
+      setinpInviva(obj.iva?obj.iva:"")
 
-      setinpInvcategoria(obj.id_categoria)
-      setinpInvid_proveedor(obj.id_proveedor)
-      setinpInvid_marca(obj.id_marca)
-      setinpInvid_deposito(obj.id_deposito)
+      setinpInvcategoria(obj.id_categoria?obj.id_categoria:"")
+      setinpInvid_proveedor(obj.id_proveedor?obj.id_proveedor:"")
+      setinpInvid_marca(obj.id_marca?obj.id_marca:"")
+      setinpInvid_deposito(obj.id_deposito?obj.id_deposito:"")
+
+      setinpInvLotes(obj.lotes ? obj.lotes : [])
 
     }
+  }
+
+  const setNewProducto = () => {
+    setIndexSelectInventario(null)
+    setinpInvbarras("")
+    setinpInvcantidad("")
+    setinpInvalterno("")
+    setinpInvunidad("UND")
+    setinpInvdescripcion("")
+    setinpInvbase("")
+    setinpInvventa("")
+    setinpInviva("0")
+
+    setinpInvLotes([])
+
+    if (facturas[factSelectIndex]) {
+      setinpInvid_proveedor(facturas[factSelectIndex].proveedor.id)
+    }
+    
+
+    setinpInvid_marca("GENÉRICO")
+    setinpInvid_deposito(1)
   }
   const setInputsProveedores = () =>{
     if (proveedoresList[indexSelectProveedores]) {
@@ -1725,6 +1757,8 @@ function Facturar() {
       inpInvid_deposito,
       inpInvporcentaje_ganancia,
       id_factura,
+
+      inpInvLotes,
 
     }).then(res=>{
       notificar(res)
@@ -2274,7 +2308,6 @@ const getVentas = () => {
   db.getVentas({fechaventas}).then(res=>{
     setventasData(res.data)
     setLoading(false)
-    console.log(res.data)
   })
 }
 
@@ -2342,6 +2375,47 @@ const selectProductoFast = e => {
   setsubViewInventario("inventario")
 }
 
+const addNewLote = e => {
+  let addObj = {
+    creacion: "",
+    vence: "",
+    cantidad: "",
+    type: "new",
+    id: null,
+  }
+  setinpInvLotes(inpInvLotes.concat(addObj))
+}
+  const changeModLote = (val, i, id, type, name = null) => {
+  
+    let lote = cloneDeep(inpInvLotes)
+
+    switch (type) {
+      case "update":
+        if (lote[i].type != "new") {
+          lote[i].type = "update"
+        }
+        break;
+      case "delModeUpdateDelete":
+        delete lote[i].type
+        break;
+      case "delNew":
+        lote = lote.filter((e, ii) => ii !== i)
+        break;
+      case "changeInput":
+        lote[i][name] = val
+        break;
+
+      case "delMode":
+        lote[i].type = "delete"
+        let id_replace = window.prompt("New Id")
+        lote[i].id_replace = id_replace
+        break;
+    }
+    setinpInvLotes(lote)
+}
+
+
+
 
 
   return (
@@ -2361,6 +2435,9 @@ const selectProductoFast = e => {
         setShowModalMovimientos={setShowModalMovimientos}
         showModalMovimientos={showModalMovimientos}
         getVentasClick={getVentasClick}
+            toggleClientesBtn={toggleClientesBtn}
+            settoggleClientesBtn={settoggleClientesBtn}
+            
         
         setView={setView}/>
           {
@@ -2403,18 +2480,18 @@ const selectProductoFast = e => {
                 
               />}
               <div className="input-group mb-3">
-                <div className="input-group-prepend">
+                  <input type="text" 
+                  className="form-control" 
+                  ref={inputbusquedaProductosref}
+                  placeholder="Buscar... Presiona (ESC)" 
+                  onChange={onchangeinputmain}/>
+                <div className="input-group-append">
                   <span className="input-group-text pointer" onClick={()=>{
                     let num = window.prompt("Número de resultados a mostrar")
                     if (num) {setNum(num)}
-                  }}>Resultados({num})</span>
+                  }}>Num.({num})</span>
                 </div>
-                  <span className="input-group-text pointer" onClick={()=>setItemCero(!itemCero)}>En cero: {itemCero?"Sí":"No"}</span>
-                <input type="text" 
-                className="form-control" 
-                ref={inputbusquedaProductosref}
-                placeholder="Buscar... Presiona (ESC)" 
-                onChange={onchangeinputmain}/>
+                <span className="input-group-text pointer" onClick={()=>setItemCero(!itemCero)}>En cero: {itemCero?"Sí":"No"}</span>
               </div>
               <ProductosList 
                 productos={productos} 
@@ -2469,7 +2546,7 @@ const selectProductoFast = e => {
             moneda={moneda}
           />:null}
 
-          {view=="clientes"?<Clientesall
+          {view == "vueltos" ? <Vueltos
             onchangecaja={onchangecaja}
             qDeudores={qDeudores}
             deudoresList={deudoresList}
@@ -2483,8 +2560,7 @@ const selectProductoFast = e => {
             detallesDeudor={detallesDeudor}
             onlyVueltos={onlyVueltos}
             setOnlyVueltos={setOnlyVueltos}
-            vueltoSubview={vueltoSubview}
-            setvueltoSubview={setvueltoSubview}
+          
             qBuscarCliente={qBuscarCliente}
             setqBuscarCliente={setqBuscarCliente}
             clientesCrud={clientesCrud}
@@ -2507,9 +2583,34 @@ const selectProductoFast = e => {
             clienteInpciudad={clienteInpciudad}
             setclienteInpciudad={setclienteInpciudad}
             sumPedidos={sumPedidos}
-            sumPedidosArr={sumPedidosArr}
+            
           />:null}
 
+          {view=="clientes_crud"?
+            <Clientes
+            qBuscarCliente={qBuscarCliente}
+            setqBuscarCliente={setqBuscarCliente}
+            clientesCrud={clientesCrud}
+            setindexSelectCliente={setindexSelectCliente}
+            indexSelectCliente={indexSelectCliente}
+            setClienteCrud={setClienteCrud}
+            delCliente={delCliente}
+            clienteInpidentificacion={clienteInpidentificacion}
+            setclienteInpidentificacion={setclienteInpidentificacion}
+            clienteInpnombre={clienteInpnombre}
+            setclienteInpnombre={setclienteInpnombre}
+            clienteInpcorreo={clienteInpcorreo}
+            setclienteInpcorreo={setclienteInpcorreo}
+            clienteInpdireccion={clienteInpdireccion}
+            setclienteInpdireccion={setclienteInpdireccion}
+            clienteInptelefono={clienteInptelefono}
+            setclienteInptelefono={setclienteInptelefono}
+            clienteInpestado={clienteInpestado}
+            setclienteInpestado={setclienteInpestado}
+            clienteInpciudad={clienteInpciudad}
+            setclienteInpciudad={setclienteInpciudad}
+          />
+          :null}
 
           {view=="cierres"?<Cierres
             number={number}
@@ -2586,12 +2687,18 @@ const selectProductoFast = e => {
 
           {view=="usuarios"?<Usuarios
 
-          usuariosData={usuariosData}
-          addNewUsuario={addNewUsuario}
-          delUsuario={delUsuario}
-          getUsuarios={getUsuarios}
+            usuariosData={usuariosData}
+            addNewUsuario={addNewUsuario}
+            delUsuario={delUsuario}
+            getUsuarios={getUsuarios}
           />:null}
           {view=="inventario"?<Inventario
+            addNewLote={addNewLote}
+            changeModLote={changeModLote}
+            
+            modViewInventario={modViewInventario}
+            setmodViewInventario={setmodViewInventario}
+            setNewProducto={setNewProducto}
             verDetallesFactura={verDetallesFactura}
             showaddpedidocentral={showaddpedidocentral}
             setshowaddpedidocentral={setshowaddpedidocentral}
@@ -2628,6 +2735,7 @@ const selectProductoFast = e => {
             setinpInvventa={setinpInvventa}
             inpInviva={inpInviva}
             setinpInviva={setinpInviva}
+            inpInvLotes={inpInvLotes}
 
             number={number}
             guardarNuevoProducto={guardarNuevoProducto}
@@ -2853,6 +2961,8 @@ const selectProductoFast = e => {
 
             sumPedidos={sumPedidos}
             sumPedidosArr={sumPedidosArr}
+            setsumPedidosArr={setsumPedidosArr}
+            
             
           />
           :null}

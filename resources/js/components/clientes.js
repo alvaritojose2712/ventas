@@ -41,13 +41,13 @@ setclienteInpciudad
       if (clientesCrud[index]) {
       	let obj = clientesCrud[index]
 
-      	setclienteInpidentificacion(obj.identificacion)
-				setclienteInpnombre(obj.nombre)
-				setclienteInpcorreo(obj.correo)
-				setclienteInpdireccion(obj.direccion)
-				setclienteInptelefono(obj.telefono)
-				setclienteInpestado(obj.estado)
-				setclienteInpciudad(obj.ciudad)
+      	setclienteInpidentificacion(obj.identificacion?obj.identificacion:"")
+				setclienteInpnombre(obj.nombre?obj.nombre:"")
+				setclienteInpcorreo(obj.correo?obj.correo:"")
+				setclienteInpdireccion(obj.direccion?obj.direccion:"")
+				setclienteInptelefono(obj.telefono?obj.telefono:"")
+				setclienteInpestado(obj.estado?obj.estado:"")
+				setclienteInpciudad(obj.ciudad?obj.ciudad:"")
       }
     }
 	}

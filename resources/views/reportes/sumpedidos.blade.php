@@ -25,15 +25,13 @@
 				<tbody>
 					<tr class="text-center">
 						<td colspan="2">
-							<h6>OMAR EL HENAOUI SALAH</h6>
-							<h5>COMERCIALIZADORA Y DISTRIBUIDORA</h5>
-							<h5>EL sinapsis 222, F.P.</h5>
+							<h5>{{$sucursal->nombre_registro}}</h5>
 						</td>
 						<td colspan="4">
-							<b>RIF. V-21628222-8</b>
+							<b>RIF. {{$sucursal->rif}}</b>
 							<hr>
 							<span>
-								Domicilio Fiscal: {{ env('DIRECCION_REGISTRO') }}
+								Domicilio Fiscal: {{$sucursal->direccion_registro}}
 							</span>
 						</td>
 					</tr>

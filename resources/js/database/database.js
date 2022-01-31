@@ -100,8 +100,11 @@ const db = {
   checkPedidosCentral: data=>axios.post(host+"checkPedidosCentral",data),
 
   setUsuario: data=>axios.post(host+"setUsuario",data),
-  delUsuario: data=>axios.post(host+"delUsuario",data),
+  delUsuario: data => axios.post(host + "delUsuario", data),
   getUsuarios: data=>axios.get(host+"getUsuarios"),
+  
+  removeLote: data=>axios.post(host+"removeLote",data),
+  
 
   
 

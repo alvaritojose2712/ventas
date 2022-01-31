@@ -139,7 +139,7 @@ onClickEditPedido,
     // refinputaddcarritofast.current.focus()
   },[])
   try{
-    const {id,created_at,vendedor,cliente,items,total_des,subtotal,total,total_porciento,cop,bs,editable,vuelto_entregado,estado} = pedidoData
+    const {id,created_at,cliente,items,total_des,subtotal,total,total_porciento,cop,bs,editable,vuelto_entregado,estado} = pedidoData
     return (
       <>
         <div className="container-fluid">

@@ -21,6 +21,8 @@ use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\tickera;
 use App\Http\Controllers\sendCentral;
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\LotesController;
+
 
 
 
@@ -134,6 +136,7 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::post('imprimirTicked', [tickera::class,"imprimir"]);
 	Route::post('getPedidosFast', [PedidosController::class,"getPedidosFast"]);
 
+	Route::post('removeLote', [LotesController::class,"removeLote"]);
 
 
 	Route::get('getProductosSerial', [InventarioController::class,"getProductosSerial"]);
@@ -162,7 +165,7 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::get('setFacturasCentral', [sendCentral::class,"setFacturasCentral"]);
 
 	Route::get('acomodar', [InventarioController::class,"acomodar"]);
-
+	
 	
 	
 

@@ -244,7 +244,7 @@ function ModalSelectFactura({
 
 
                 
-                <div className="form-group">
+                <div className="form-group mt-2">
                 {factSelectIndex==null?
                   <button className="btn btn-outline-success btn-block" type="submit">Guardar</button>
                 : 

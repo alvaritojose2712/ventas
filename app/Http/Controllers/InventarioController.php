@@ -11,6 +11,7 @@ use App\Models\factura;
 use App\Models\items_factura;
 use App\Models\fallas;
 use App\Models\proveedores;
+use App\Models\lotes;
             
 
 
@@ -268,7 +269,13 @@ class InventarioController extends Controller
         $orderBy = $req->orderBy;
 
         if ($q=="") {
-            $data = inventario::where(function($e) use($itemCero){
+            $data = inventario::with([
+                "proveedor",
+                "categoria",
+                "marca",
+                "deposito",
+                "lotes",
+            ])->where(function($e) use($itemCero){
                 if (!$itemCero) {
                     $e->where("cantidad",">",0);
                     // code...
@@ -284,6 +291,7 @@ class InventarioController extends Controller
                 "categoria",
                 "marca",
                 "deposito",
+                "lotes",
             ])
             ->where(function($e) use($itemCero){
                 if (!$itemCero) {
@@ -450,6 +458,42 @@ class InventarioController extends Controller
                 "id_deposito" => $req->inpInvid_deposito,
                 "porcentaje_ganancia" => $req->inpInvporcentaje_ganancia
             ]);
+
+            foreach ($req->inpInvLotes as $ee) {
+                if (isset($ee["type"])&&($ee["type"]==="update"||$ee["type"]==="new")) {
+                    
+                    if (isset($ee["id"])) {
+                        lotes::updateOrCreate([
+                            "id" => $ee["id"],
+                        ],[
+                            "cantidad" => $ee["cantidad"],
+                            "lote" => $ee["lote"],
+                            "creacion" => $ee["creacion"],
+                            "vence" => $ee["vence"]
+                        ]);
+                    }else{
+                        lotes::create([
+                            "id_producto" => $req->id,
+                            "cantidad" => $ee["cantidad"],
+                            "lote" => $ee["lote"],
+                            "creacion" => $ee["creacion"],
+                            "vence" => $ee["vence"]
+                        ]);
+                    }
+                }else if (isset($ee["type"])&&$ee["type"]==="delete") {
+                    lotes::find($ee["id"])->delete();
+
+                    // if ($mysqli->errno==1451&&isset($ee["id_replace"])) {
+                    //     if ($mysqli->query("UPDATE items_pedidos SET id_producto='".$ee["id_replace"]."' WHERE id_producto='".$ee["id"]."'")) {
+                    //         $mysqli->query("DELETE FROM inventario WHERE id='".$ee["id"]."'");
+                    //         # code...
+                    //     }
+                        
+                    // }
+
+                }
+            
+        }
 
             $this->checkFalla($req->id,$ctInsert);
 

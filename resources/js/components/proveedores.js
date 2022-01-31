@@ -12,8 +12,6 @@ function Proveedores({
   setproveedordireccion,
   proveedortelefono,
   setproveedortelefono,
-  subViewInventario,
-  setsubViewInventario,
 
   setIndexSelectProveedores,
   indexSelectProveedores,
@@ -22,19 +20,10 @@ function Proveedores({
   proveedoresList,
 
   delProveedor,
-  delProducto,
 
-  inpInvid_proveedor,
-  setinpInvid_proveedor,
 
-  inpInvid_marca,
-  setinpInvid_marca,
 
-  inpInvid_deposito,
-  setinpInvid_deposito,
 
-  depositosList,
-  marcasList,
 }) {
 
  

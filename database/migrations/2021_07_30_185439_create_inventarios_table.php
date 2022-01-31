@@ -16,8 +16,8 @@ class CreateInventariosTable extends Migration
         Schema::create('inventarios', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string("codigo_proveedor")->unique();
             $table->string("codigo_barras")->unique();
+            $table->string("codigo_proveedor")->nullable()->default(null);
 
             $table->integer("id_proveedor")->unsigned();
             $table->foreign('id_proveedor')->references('id')->on('proveedores');
@@ -26,21 +26,15 @@ class CreateInventariosTable extends Migration
             $table->integer("id_categoria")->unsigned();
             $table->foreign('id_categoria')->references('id')->on('categorias');
 
-            $table->integer("id_marca")->unsigned();
-            $table->foreign('id_marca')->references('id')->on('marcas');
+            $table->string("id_marca")->default("GENÉRICO");
 
-            $table->string("unidad");
+            $table->string("unidad")->default("UND");
 
-            $table->integer("id_deposito")->unsigned();
-            $table->foreign('id_deposito')->references('id')->on('depositos');
+            $table->string("id_deposito")->default(1);
 
             
             
             $table->string("descripcion");
-
-            
-
-            
 
             $table->decimal("iva",3,2)->default(0);
 
@@ -48,7 +42,7 @@ class CreateInventariosTable extends Migration
             $table->decimal("precio_base",8,2)->default(0);
             $table->decimal("precio",8,2)->default(0);
 
-            $table->decimal("cantidad",7,2)->default(0);
+            $table->decimal("cantidad",9,2)->default(0);
 
             $table->boolean("push")->default(0);
 

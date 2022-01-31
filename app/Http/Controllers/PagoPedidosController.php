@@ -166,7 +166,7 @@ class PagoPedidosController extends Controller
 
             $q->totalVuelto = 0; 
             $q->saldo = 0;
-            if ($view==="clientes") {
+            if ($view==="vueltos") {
                 // code...
                 $q->totalVuelto = $q->pedidos->map(function($q){
 

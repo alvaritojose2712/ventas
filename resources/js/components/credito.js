@@ -14,35 +14,13 @@ function Credito({
   monto_pago_deudor,
   setPagoCredito,
   onClickEditPedido,
-  onCLickDelPedido,
   detallesDeudor,
   onlyVueltos,
   setOnlyVueltos,
 
-  qBuscarCliente,
-  setqBuscarCliente,
-  clientesCrud,
-  setindexSelectCliente,
-  indexSelectCliente,
-  setClienteCrud,
-  delCliente,
-  clienteInpidentificacion,
-  setclienteInpidentificacion,
-  clienteInpnombre,
-  setclienteInpnombre,
-  clienteInpcorreo,
-  setclienteInpcorreo,
-  clienteInpdireccion,
-  setclienteInpdireccion,
-  clienteInptelefono,
-  setclienteInptelefono,
-  clienteInpestado,
-  setclienteInpestado,
-  clienteInpciudad,
-  setclienteInpciudad,
-
   sumPedidos,
-  sumPedidosArr
+  sumPedidosArr,
+  setsumPedidosArr,
 
 }) {
 
@@ -73,6 +51,8 @@ function Credito({
                     <button className={("btn ")+(e.saldo<0?"btn-outline-danger":"btn-outline-success")} onClick={()=>{
                       setOnlyVueltos(0)
                       setSelectDeudor(i)
+                      setsumPedidosArr([])
+
                     }}>{e.saldo}</button>
                   </td>
                   <td>{e.id} - {e.nombre} - {e.identificacion}</td>
@@ -100,7 +80,9 @@ function Credito({
                           <span className="">{deudoresList[selectDeudor].identificacion}</span>
                           <h1 className="">{deudoresList[selectDeudor].nombre}</h1>
                         </div>:null}
-                        {sumPedidosArr.map(e=><button key={e} className="btn btn-outline-success" data-id={e} data-tipo="del" onClick={sumPedidos}>{e}</button>)}
+                        {sumPedidosArr?
+                          sumPedidosArr.map(e=><button key={e} className="btn btn-outline-success" data-id={e} data-tipo="del" onClick={sumPedidos}>{e}</button>)
+                        :null}
                         {sumPedidosArr.length?
                           <a className="" target="_blank" href={"/sumpedidos?id="+sumPedidosArr}>
                             <button className="btn btn-success">Emitir Factura.</button>

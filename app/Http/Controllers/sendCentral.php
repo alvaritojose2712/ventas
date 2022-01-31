@@ -22,28 +22,28 @@ class sendCentral extends Controller
     {
         return view("central.index");
     }
-    public function update($new_version)
-    {
-        $runproduction = "npm run production";        
-        // $phpArtisan = "php artisan key:generate && php artisan view:cache && php artisan route:cache && php artisan config:cache";
+    // public function update($new_version)
+    // {
+    //     $runproduction = "npm run production";        
+    //     // $phpArtisan = "php artisan key:generate && php artisan view:cache && php artisan route:cache && php artisan config:cache";
 
-        $pull = shell_exec("cd C:\sinapsisfacturacion && git stash && git pull https://github.com/alvaritojose2712/sinapsisfacturacion.git && composer install --optimize-autoloader --no-dev");
+    //     $pull = shell_exec("cd C:\sinapsisfacturacion && git stash && git pull https://github.com/alvaritojose2712/sinapsisfacturacion.git && composer install --optimize-autoloader --no-dev");
 
-        if (!str_contains($pull, "Already up to date")) {
-            echo "Éxito al Pull. Building...";
-            exec("cd C:\sinapsisfacturacion && ".$runproduction." && ".$phpArtisan,$output, $retval);
+    //     if (!str_contains($pull, "Already up to date")) {
+    //         echo "Éxito al Pull. Building...";
+    //         exec("cd C:\sinapsisfacturacion && ".$runproduction." && ".$phpArtisan,$output, $retval);
 
-            if (!$retval) {
-                echo "Éxito al Build. Actualizado...";
+    //         if (!$retval) {
+    //             echo "Éxito al Build. Actualizado...";
 
-                sucursal::update(["app_version",$new_version]);
-            }
-        }else{
-            echo "Pull al día. No requiere actualizar <br>";
-            echo "<pre>$pull</pre>";
+    //             sucursal::update(["app_version",$new_version]);
+    //         }
+    //     }else{
+    //         echo "Pull al día. No requiere actualizar <br>";
+    //         echo "<pre>$pull</pre>";
 
-        }
-    }
+    //     }
+    // }
     public function updateApp()
     {   
         try {

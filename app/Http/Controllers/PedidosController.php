@@ -89,7 +89,10 @@ class PedidosController extends Controller
 
         // return $items;
 
+        $sucursal = sucursal::all()->first();
+
         return view("reportes.sumpedidos",[
+            "sucursal" => $sucursal,
             "pedido"=>$items,
             "cliente"=>$cliente,
 
