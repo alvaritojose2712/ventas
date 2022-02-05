@@ -34,7 +34,7 @@ function Header({settoggleClientesBtn,toggleClientesBtn,getVentasClick,dolar,pes
                   <span className={(view=="credito"?"btn btn-dark":null)+(" p-3 pointer dropdown-item")} onClick={()=>{setView("credito");settoggleClientesBtn(false)}}>Crédito</span>
                 </li>
                 <li>
-                  <span className={(view == "clientes_crud" ? "btn btn-dark" : null) + (" p-3 pointer dropdown-item")} onClick={() => {setView("clientes_crud");settoggleClientesBtn(false)}}>Crud Clientes</span>
+                  <span className={(view == "clientes_crud" ? "btn btn-dark" : null) + (" p-3 pointer dropdown-item")} onClick={() => {setView("clientes_crud");settoggleClientesBtn(false)}}>Administrar Clientes</span>
 
                 </li>
               </ul>

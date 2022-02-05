@@ -23,8 +23,8 @@ class CreateLotesTable extends Migration
             $table->decimal("cantidad",8,2);
             
             $table->string("lote");
-            $table->date("creacion",8,2);
-            $table->date("vence",8,2);
+            $table->date("creacion");
+            $table->date("vence");
             $table->timestamps();
             $table->unique(["id_producto","lote"]);
 

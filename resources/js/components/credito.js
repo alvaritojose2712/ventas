@@ -21,6 +21,7 @@ function Credito({
   sumPedidos,
   sumPedidosArr,
   setsumPedidosArr,
+  printCreditos,
 
 }) {
 
@@ -29,6 +30,11 @@ function Credito({
       <div className="row">
         <div className="col">
           <h3>Créditos</h3> 
+        </div>
+        <div className="col text-right">
+          <button className="btn btn-outline-success m-2" onClick={printCreditos}>
+            <i className="fa fa-print"></i>
+          </button>
         </div>
       </div> 
 

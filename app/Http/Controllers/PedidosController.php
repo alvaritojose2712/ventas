@@ -110,7 +110,9 @@ class PedidosController extends Controller
     {
         $fechaventas = $req->fechaventas;
 
-        return $this->cerrarFun($fechaventas,0,0);
+        
+
+        return $this->cerrarFun($fechaventas,0,0,[],true);
     }
     public function getPedidos(Request $req)
     {   
@@ -370,7 +372,7 @@ class PedidosController extends Controller
         },"items"=>function($q)
         {
 
-            $q->with("producto");
+            $q->with(["producto","lotedata"]);
             $q->orderBy("id","asc");
 
         }])->where("id",$id_pedido)->first();
@@ -380,25 +382,46 @@ class PedidosController extends Controller
             $total_des_ped = 0;
             $subtotal_ped = 0;
             $total_ped = 0;            
-
-            $pedido->items->map(function($item) use (&$total_des_ped,&$subtotal_ped,&$total_ped)
+            $exento = 0;
+            $gravable = 0;
+            $ivas = "";
+            $monto_iva = 0;
+            $pedido->items->map(function($item) use (&$exento,&$gravable,&$ivas,&$monto_iva,&$total_des_ped,&$subtotal_ped,&$total_ped)
             {
-
+                
                 if (!$item->producto) {
                     $subtotal = $item->monto*$item->cantidad;
+                    $iva_val = "0";
+                    $iva_m = 0;
                 }else{
                     $subtotal = $item->producto["precio"]*$item->cantidad;
+                    $iva_val = $item->producto["iva"];
+                    $iva_m = $iva_val/100;
 
                 }
                 $total_des = ($item->descuento/100)*$subtotal;
 
                 $total_des_ped += $total_des;
                 $subtotal_ped += $subtotal;
-                $total_ped += ($subtotal-$total_des);
+
+                $subtotal_c_desc = $subtotal-$total_des;
+                
+                if (!$iva_m) {
+                    $exento += ($subtotal_c_desc);
+                }else{
+                    $gravable += ($subtotal_c_desc);
+                    $monto_iva += ($subtotal_c_desc)*$iva_m;
+                }
+                if (strpos($ivas,$iva_val)===false) {
+                    $ivas .= $iva_val."%,";
+                }
+                
+                $total_ped += ($subtotal_c_desc)+(($subtotal_c_desc)*$iva_m);
 
                 $item->total_des = number_format($total_des,2,".",",");
                 $item->subtotal = number_format($subtotal,2,".",",");
-                $item->total = number_format($subtotal-$total_des,2,".",",");
+                $item->total = number_format($subtotal_c_desc,2,".",",");
+
 
 
 
@@ -408,7 +431,11 @@ class PedidosController extends Controller
             $pedido->total_des = number_format($total_des_ped,2,".",",");
             $pedido->subtotal = number_format($subtotal_ped,2,".",",");
             $pedido->total = number_format(round( $total_ped,3),2,".",",");
-            $pedido->iva = round($total_ped,3)*.16;
+
+            $pedido->exento = number_format($exento,"2");
+            $pedido->gravable = number_format($gravable,"2");
+            $pedido->ivas = substr($ivas,0,-1);
+            $pedido->monto_iva = number_format($monto_iva,"2");
 
             $pedido->clean_total_des = $total_des_ped;
             $pedido->clean_subtotal = $subtotal_ped;
@@ -518,7 +545,7 @@ class PedidosController extends Controller
             "ultimo_cierre" =>$this->ultimoCierre($fecha)
         ];
     }
-    public function cerrarFun($fecha,$total_caja_neto,$total_punto,$dejar=[])
+    public function cerrarFun($fecha,$total_caja_neto,$total_punto,$dejar=[],$grafica=false)
     {   
         if (!$fecha) {
             return Response::json(["msj"=>"Error: Fecha inválida","estado"=>false]);
@@ -545,7 +572,8 @@ class PedidosController extends Controller
             "fecha"=>$fecha,
             "caja_inicial"=>$caja_inicial,
 
-            "numventas"=>$pedido->get()->count(),
+            "numventas"=>0,
+            "grafica"=>[],
 
             "entregadomenospend"=>0,
             "entregado" => $entregado_fun["entregado"],
@@ -568,19 +596,30 @@ class PedidosController extends Controller
             5=>0,
             6=>0,
         ];
+        $numventas_arr = [];
         pago_pedidos::whereIn("id_pedido",$pedido->select("id"))
         ->where("monto","<>",0)
         ->get()
-        ->map(function($q) use (&$arr_pagos){
+        ->map(function($q) use (&$arr_pagos,&$numventas_arr){
             if (array_key_exists($q->tipo,$arr_pagos)) {
                 $arr_pagos[$q->tipo] += $q->monto;
             }else{
                 $arr_pagos[$q->tipo] = $q->monto;
             }
             if ($q->tipo!=4&&$q->tipo!=6) {
+                $hora = date("h:i",strtotime($q->updated_at));
+                if (!array_key_exists($q->id_pedido,$numventas_arr)) {
+                    $numventas_arr[$q->id_pedido] = ["hora"=>$hora,"monto"=>$q->monto];
+                }else {
+                    $numventas_arr[$q->id_pedido]["monto"] = $numventas_arr[$q->id_pedido]["monto"]+$q->monto;
+                }
                 $arr_pagos["total"] += $q->monto;
             }
         });
+        $arr_pagos["numventas"] = count($numventas_arr);
+        if ($grafica) {
+            $arr_pagos["grafica"] = array_values($numventas_arr);
+        }
         if (isset($arr_pagos[6])) {
             // Sumar vuelto a pendientes
             $arr_pagos["pendiente"] += $arr_pagos[6]; 

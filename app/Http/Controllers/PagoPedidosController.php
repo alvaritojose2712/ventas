@@ -7,6 +7,7 @@ use App\Models\items_pedidos;
 use App\Models\pago_pedidos;
 use App\Models\clientes;
 use App\Models\movimientos_caja;
+use App\Models\sucursal;
 
 
 use Illuminate\Http\Request;
@@ -148,7 +149,33 @@ class PagoPedidosController extends Controller
         ]; 
 
     }
+    public function verCreditos(Request $req)
+    {
+        $sucursal = sucursal::all()->first();
 
+        $busqueda = $req->qDeudores;
+        $data = clientes::with(["pedidos"=>function($q){
+            $q->with(["pagos"]);
+            $q->orderBy("created_at","desc");
+        }])
+        ->where("id","<>",1)->where(function($q) use ($busqueda){
+            $q->orWhere("identificacion","LIKE","%".$busqueda."%")
+            ->orWhere("nombre","LIKE","%".$busqueda."%");
+        })
+        ->get()
+        ->map(function($q){
+
+            $q->totalVuelto = 0; 
+            $q->saldo = 0;
+            
+            $q->saldo = $q->pedidos->map(function($q){
+                return $q->pagos->where("cuenta",0)->sum("monto")-$q->pagos->where("tipo",4)->sum("monto");
+            })->sum();
+
+            return $q;
+        })->sortBy("saldo");
+        return view("reportes.creditos",["data" => $data,"sucursal" => $sucursal]);
+    }
     public function getDeudores(Request $req)
     {
         $busqueda = $req->qDeudores;

@@ -18,12 +18,16 @@ class items_pedidos extends Model
     public function producto() { 
         return $this->hasOne('App\Models\inventario',"id","id_producto"); 
     }
+    public function lotedata() { 
+        return $this->hasOne('App\Models\lotes',"id","lote"); 
+    }
     protected $fillable = [
         "id_producto",
         "id_pedido",
         "abono",
         "cantidad",
         "descuento",
-        "monto"
+        "monto",
+        "lote"
     ];
 }

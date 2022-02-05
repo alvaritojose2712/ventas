@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Faker\Generator as Faker;
 
 class CreateInventariosTable extends Migration
 {
@@ -13,6 +14,8 @@ class CreateInventariosTable extends Migration
      */
     public function up()
     {
+        $faker = new Faker;
+        
         Schema::create('inventarios', function (Blueprint $table) {
             $table->increments('id');
 
@@ -36,7 +39,7 @@ class CreateInventariosTable extends Migration
             
             $table->string("descripcion");
 
-            $table->decimal("iva",3,2)->default(0);
+            $table->decimal("iva",5,2)->default(0);
 
             $table->decimal("porcentaje_ganancia",3,2)->default(0);
             $table->decimal("precio_base",8,2)->default(0);
@@ -3897,19 +3900,19 @@ class CreateInventariosTable extends Migration
             array_push($arr, 
                 [
                     // "id" => $value[0],
-                    "codigo_proveedor" => $value[0],
-                    "codigo_barras" => $value[0],
-                    "id_proveedor" => 1,
-                    "id_categoria" => 1,
-                    "id_marca" => 1,
+                    "codigo_proveedor" => $faker->isbn13(),
+                    "codigo_barras" => $faker->ean13(),
+                    "id_proveedor" => $faker->numberBetween(1,8),
+                    "id_categoria" => $faker->numberBetween(1,39),
+                    "id_marca" => "MARCA".$faker->numberBetween(1,100),
                     "unidad" => $value[5],
                     "id_deposito" => 1,
-                    "descripcion" => "Producto ".$value[0],
+                    "descripcion" => $value[4],
                     "iva" => 0,
                     "porcentaje_ganancia" => 0,
-                    "precio_base" => 3,
-                    "precio" => 100,
-                    "cantidad" => $value[8],
+                    "precio_base" => $faker->numberBetween(1,1000),
+                    "precio" => $faker->numberBetween(1,1000),
+                    "cantidad" => $faker->numberBetween(5,4000),
                 ]
             );
         }

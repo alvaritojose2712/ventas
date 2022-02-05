@@ -1,3 +1,5 @@
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+
 export default function VentasComponet({
 	ventasData,
 	getVentasClick,
@@ -5,7 +7,10 @@ export default function VentasComponet({
 	fechaventas,
 	moneda
 }) {
-		console.log(ventasData)
+	
+	let dataGrafica = ventasData.grafica ? ventasData.grafica:[]
+	
+
 	return (
 		<div className="container">
 			<div className="input-group mb-4">
@@ -38,6 +43,15 @@ export default function VentasComponet({
 						:null}						
 					</div>	
 				</div>
+			</div>
+			<div className='m-3 d-flex justify-content-center'>
+				<LineChart width={800} height={300} data={dataGrafica}>
+					<Line type="monotone" dataKey="monto" stroke="#8884d8" />
+					<CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+					<XAxis dataKey="hora" />
+					<YAxis />
+					<Tooltip />
+				</LineChart>
 			</div>
 		</div>
 	)

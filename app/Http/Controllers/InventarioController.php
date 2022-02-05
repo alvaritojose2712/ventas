@@ -12,6 +12,9 @@ use App\Models\items_factura;
 use App\Models\fallas;
 use App\Models\proveedores;
 use App\Models\lotes;
+use App\Models\sucursal;
+use App\Models\categorias;
+
             
 
 
@@ -20,7 +23,7 @@ use Response;
 
 class InventarioController extends Controller
 {
-    public function hacer_pedido($id,$id_pedido,$cantidad,$type)
+    public function hacer_pedido($id,$id_pedido,$cantidad,$type,$lote=null)
     {   
         try {
             if ($cantidad<0) {
@@ -40,8 +43,18 @@ class InventarioController extends Controller
                 
                 $setcantidad = $cantidad;
                 $setprecio = $precio;
+                if ($lote) {
+                    $checkIfExits = items_pedidos::where("id_producto",$id)
+                    ->where("id_pedido",$id_pedido)
+                    ->where("lote",$lote)
+                    ->first();
+                    
+                }else{
+                    $checkIfExits = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido)->first();
+
+                }
                 
-                $checkIfExits = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido)->first();
+
                 (new PedidosController)->checkPedidoAuth($id_pedido);
 
                 
@@ -53,16 +66,26 @@ class InventarioController extends Controller
                 }
 
 
-                items_pedidos::updateOrCreate(["id_producto"=>$id,"id_pedido"=>$id_pedido],[
+                items_pedidos::updateOrCreate([
+                    "id_producto"=>$id,
+                    "id_pedido"=>$id_pedido,
+                    "lote"=>$lote,
+                ],[
                     "id_producto" => $id,
                     "id_pedido" => $id_pedido,
                     "cantidad" => $setcantidad,
-                    "monto" => $setprecio
+                    "monto" => $setprecio,
+                    "lote" => $lote,
                 ]);
+                if ($lote) {
+                    $lote_obj = lotes::find($lote);
+                    $ctSeter = (($lote_obj->cantidad + ($old_ct)) - $setcantidad);
+                }else{
+                    $ctSeter = (($producto->cantidad + ($old_ct)) - $setcantidad);
 
-                $ctSeter = (($producto->cantidad + ($old_ct)) - $setcantidad);
-                $producto->cantidad = $ctSeter;
-                $producto->save();
+                }
+                $this->descontarInventario($id,$ctSeter,$lote);
+                
 
                 $this->checkFalla($id,$ctSeter);
             }else if($type=="upd"){
@@ -74,6 +97,7 @@ class InventarioController extends Controller
                 $precio = $producto->precio;
 
                 $old_ct = $checkIfExits->cantidad;
+                $lote = $checkIfExits->lote;
 
                 $setprecio = $cantidad*$precio;
 
@@ -81,24 +105,37 @@ class InventarioController extends Controller
                     "cantidad" => $cantidad,
                     "monto" => $setprecio
                 ]);
-                $ctSeter = (($producto->cantidad + ($old_ct)) - $cantidad);
-                $producto->cantidad = $ctSeter;
-                $producto->save();
+                if ($lote) {
+                    $lote_obj = lotes::find($lote);
+                    
+                    $ctSeter = (($lote_obj->cantidad + ($old_ct)) - $cantidad);
+                }else{
+                    $ctSeter = (($producto->cantidad + ($old_ct)) - $cantidad);
+
+                }
+                $this->descontarInventario($checkIfExits->id_producto,$ctSeter,$lote);
+
 
                 $this->checkFalla($checkIfExits->id_producto,$ctSeter);
             }else if($type=="del"){
-                $item = items_pedidos::find($id);
                 (new PedidosController)->checkPedidoAuth($id,"item");
-
+                
+                    $item = items_pedidos::find($id);
                     $old_ct = $item->cantidad;
                     $id_producto = $item->id_producto;
+                    $lote = $item->lote;
                 
-                $producto = inventario::find($id_producto);
-
+                    $producto = inventario::find($id_producto);
+                    
                 if($item->delete()){
-                    $ctSeter = $producto->cantidad + ($old_ct);
-                    $producto->cantidad = $ctSeter;
-                    $producto->save();
+                    if ($lote) {
+                        $lote_obj = lotes::find($lote);
+                        $ctSeter = $lote_obj->cantidad + ($old_ct);
+                    }else{
+                        $ctSeter = $producto->cantidad + ($old_ct);
+                    }
+                    
+                    $this->descontarInventario($id_producto,$ctSeter,$lote);
 
                     $this->checkFalla($id_producto,$ctSeter);
                     // return Response::json(["msj"=>"Item Eliminado","estado"=>true]);
@@ -113,7 +150,20 @@ class InventarioController extends Controller
         }
 
     }
+    public function descontarInventario($id_producto,$cantidad,$lote)
+    {
 
+        if ($lote) {
+            $lote = lotes::find($lote);
+            $lote->cantidad = $cantidad;
+            $lote->save();
+        }else{
+            $inv = inventario::find($id_producto);
+            $inv->cantidad = $cantidad;
+            $inv->save();
+
+        }
+    }
     public function getProductosSerial(Request $req)
     {
         try {
@@ -274,7 +324,9 @@ class InventarioController extends Controller
                 "categoria",
                 "marca",
                 "deposito",
-                "lotes",
+                "lotes"=>function($q){
+                    $q->orderBy("vence","asc");
+                },
             ])->where(function($e) use($itemCero){
                 if (!$itemCero) {
                     $e->where("cantidad",">",0);
@@ -291,7 +343,9 @@ class InventarioController extends Controller
                 "categoria",
                 "marca",
                 "deposito",
-                "lotes",
+                "lotes"=>function($q){
+                    $q->orderBy("vence","asc");
+                },
             ])
             ->where(function($e) use($itemCero){
                 if (!$itemCero) {
@@ -303,8 +357,8 @@ class InventarioController extends Controller
             ->where(function($e) use($itemCero,$q,$exacto){
 
                 if ($exacto=="si") {
-                    $e->orWhere("codigo_barras","LIKE","$q%")
-                    ->orWhere("codigo_proveedor","LIKE","$q%");
+                    $e->orWhere("codigo_barras","LIKE","$q")
+                    ->orWhere("codigo_proveedor","LIKE","$q");
                 }elseif($exacto=="id_only"){
 
                     $e->where("id","$q");
@@ -324,6 +378,7 @@ class InventarioController extends Controller
         {
             $q->bs = number_format($q->precio*$bs["valor"],2,".",",");
             $q->cop = number_format($q->precio*$cop["valor"],2,".",",");
+            $q->lotes_ct = $q->lotes->sum("cantidad");
             return $q;
         });
         return $data;
@@ -334,9 +389,8 @@ class InventarioController extends Controller
         $type = $req->type;
         $cantidad = $req->cantidad;
         $numero_factura = $req->numero_factura;
-
-
-
+        $loteIdCarrito = $req->loteIdCarrito;
+        
         if (isset($numero_factura)) {
             $id = $numero_factura;
 
@@ -386,14 +440,14 @@ class InventarioController extends Controller
                // 6 vuelto
 
 
-                $this->hacer_pedido($id_producto,$nuevo_pedido_num,$cantidad,"ins");
+                $this->hacer_pedido($id_producto,$nuevo_pedido_num,$cantidad,"ins",$loteIdCarrito);
               return Response::json(["msj"=>"Agregado nuevo pedido #".$nuevo_pedido_num." || ".$producto["descripcion"]." || Cant. ".$cantidad,"estado"=>"ok","num_pedido"=>$nuevo_pedido_num,"type"=>$type]);
                 
 
             }else{
 
                 
-                $this->hacer_pedido($id_producto,$id,$cantidad,"ins");
+                $this->hacer_pedido($id_producto,$id,$cantidad,"ins",$loteIdCarrito);
 
                 return Response::json(["msj"=>"Agregado al pedido #".$id." || ".$producto["descripcion"]." || Cant. ".$cantidad,"estado"=>"ok","num_pedido"=>$id,"type"=>$type]);
 
@@ -402,37 +456,123 @@ class InventarioController extends Controller
         }
         
     }
-    
+    public function delProductoFun($id)
+    {
+        try {
+            inventario::find($id)->delete();
+            return true;   
+        } catch (\Exception $e) {
+            throw new \Exception("Error al eliminar. ".$e->getMessage(), 1);
+            
+        }
+    }
     public function delProducto(Request $req)
     {
         $id = $req->id;
         try {
-            inventario::find($id)->delete();
+            $this->delProductoFun($id);
             return Response::json(["msj"=>"Éxito al eliminar","estado"=>true]);   
         } catch (\Exception $e) {
-            return Response::json(["msj"=>"Error al eliminar. ".$e->getMessage(),"estado"=>false]);
+            return Response::json(["msj"=>$e->getMessage(),"estado"=>false]);
             
+        }  
+    }
+    public function guardarNuevoProductoLote(Request $req)
+    {
+      try {
+          foreach ($req->lotes as $key => $ee) {
+            if (isset($ee["type"])) {
+                if ($ee["type"]==="update"||$ee["type"]==="new") {
+
+                    $this->guardarProducto(
+                        $req->id_factura,
+                        $ee["cantidad"],
+                        $ee["id"],
+                        $ee["codigo_barras"],
+                        $ee["codigo_proveedor"],
+                        $ee["unidad"],
+                        $ee["id_categoria"],
+                        $ee["descripcion"],
+                        $ee["precio_base"],
+                        $ee["precio"],
+                        $ee["iva"],
+                        $ee["id_proveedor"],
+                        $ee["id_marca"],
+                        /*$req->inpInvid_deposito*/"",
+                        0,
+                        /*$req->inpInvLotes*/[]);
+                }else if ($ee["type"]==="delete") {
+                    $this->delProductoFun($ee["id"]);
+                }
+            }   
+          }
+                return Response::json(["msj"=>"Éxito","estado"=>true]);   
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
         }  
     }
     public function guardarNuevoProducto(Request $req)
     {   
+        try {
+            $this->guardarProducto(
+                $req->id_factura,
+                $req->inpInvcantidad,
+                $req->id,
+                $req->inpInvbarras,
+                $req->inpInvalterno,
+                $req->inpInvunidad,
+                $req->inpInvcategoria,
+                $req->inpInvdescripcion,
+                $req->inpInvbase,
+                $req->inpInvventa,
+                $req->inpInviva,
+                $req->inpInvid_proveedor,
+                $req->inpInvid_marca,
+                $req->inpInvid_deposito,
+                $req->inpInvporcentaje_ganancia,
+                $req->inpInvLotes);
+                return Response::json(["msj"=>"Éxito","estado"=>true]);   
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+        }
 
-        $id_factura = $req->id_factura;
-        $find_factura = factura::find($id_factura);
 
-        $ctInsert = $req->inpInvcantidad;
 
-        // if (!$find_factura) {
-        //    return Response::json(["msj"=>"Error: No hay factura seleccionada","estado"=>false]);
-        // }
+         
+    }
+
+    public function guardarProducto(
+        $req_id_factura,
+        $req_inpInvcantidad,
+        $req_id,
+        $req_inpInvbarras,
+        $req_inpInvalterno,
+        $req_inpInvunidad,
+        $req_inpInvcategoria,
+        $req_inpInvdescripcion,
+        $req_inpInvbase,
+        $req_inpInvventa,
+        $req_inpInviva,
+        $req_inpInvid_proveedor,
+        $req_inpInvid_marca,
+        $req_inpInvid_deposito,
+        $req_inpInvporcentaje_ganancia,
+        $req_inpInvLotes
+    ){
+        $id_factura = $req_id_factura;
+
+        $ctInsert = $req_inpInvcantidad;
+
          try {
             
+            $beforecantidad = 0;
+            $ctNew = 0;
             $tipo = "";
-            if (!$req->id) {
+            if (!$req_id) {
                 $ctNew = $ctInsert;
                 $tipo = "Nuevo";
             }else{
-                $before = inventario::find($req->id);
+                $before = inventario::find($req_id);
 
                 if ($before) {
                     $beforecantidad = $before->cantidad;
@@ -440,26 +580,26 @@ class InventarioController extends Controller
                     $tipo = "Actualización";
                 }
             }
-
+            
             $insertOrUpdateInv = inventario::updateOrCreate([
-                "id" => $req->id
+                "id" => $req_id
             ],[
-                "codigo_barras" => $req->inpInvbarras,
+                "codigo_barras" => $req_inpInvbarras,
                 "cantidad" => $ctInsert,
-                "codigo_proveedor" => $req->inpInvalterno,
-                "unidad" => $req->inpInvunidad,
-                "id_categoria" => $req->inpInvcategoria,
-                "descripcion" => $req->inpInvdescripcion,
-                "precio_base" => $req->inpInvbase,
-                "precio" => $req->inpInvventa,
-                "iva" => $req->inpInviva,
-                "id_proveedor" => $req->inpInvid_proveedor,
-                "id_marca" => $req->inpInvid_marca,
-                "id_deposito" => $req->inpInvid_deposito,
-                "porcentaje_ganancia" => $req->inpInvporcentaje_ganancia
+                "codigo_proveedor" => $req_inpInvalterno,
+                "unidad" => $req_inpInvunidad,
+                "id_categoria" => $req_inpInvcategoria,
+                "descripcion" => $req_inpInvdescripcion,
+                "precio_base" => $req_inpInvbase,
+                "precio" => $req_inpInvventa,
+                "iva" => $req_inpInviva,
+                "id_proveedor" => $req_inpInvid_proveedor,
+                "id_marca" => $req_inpInvid_marca,
+                "id_deposito" => $req_inpInvid_deposito,
+                "porcentaje_ganancia" => $req_inpInvporcentaje_ganancia
             ]);
 
-            foreach ($req->inpInvLotes as $ee) {
+            foreach ($req_inpInvLotes as $ee) {
                 if (isset($ee["type"])&&($ee["type"]==="update"||$ee["type"]==="new")) {
                     
                     if (isset($ee["id"])) {
@@ -473,7 +613,7 @@ class InventarioController extends Controller
                         ]);
                     }else{
                         lotes::create([
-                            "id_producto" => $req->id,
+                            "id_producto" => $req_id,
                             "cantidad" => $ee["cantidad"],
                             "lote" => $ee["lote"],
                             "creacion" => $ee["creacion"],
@@ -483,53 +623,49 @@ class InventarioController extends Controller
                 }else if (isset($ee["type"])&&$ee["type"]==="delete") {
                     lotes::find($ee["id"])->delete();
 
-                    // if ($mysqli->errno==1451&&isset($ee["id_replace"])) {
-                    //     if ($mysqli->query("UPDATE items_pedidos SET id_producto='".$ee["id_replace"]."' WHERE id_producto='".$ee["id"]."'")) {
-                    //         $mysqli->query("DELETE FROM inventario WHERE id='".$ee["id"]."'");
-                    //         # code...
-                    //     }
-                        
-                    // }
-
                 }
             
+            }
+
+            $this->checkFalla($req_id,$ctInsert);
+            $this->insertItemFact($id_factura,$insertOrUpdateInv,$ctInsert,$beforecantidad,$ctNew,$tipo);
+            
+
+            return true;   
+        } catch (\Exception $e) {
+            throw new \Exception("Error: ".$e->getMessage(), 1);
         }
+    }
+    public function insertItemFact($id_factura,$insertOrUpdateInv,$ctInsert,$beforecantidad,$ctNew,$tipo)
+    {
+        $find_factura = factura::find($id_factura);
 
-            $this->checkFalla($req->id,$ctInsert);
+        if($insertOrUpdateInv && $find_factura){
 
-            if($insertOrUpdateInv && $find_factura){
+            $id_pro = $insertOrUpdateInv->id;
+            $check_fact = items_factura::where("id_factura",$id_factura)->where("id_producto",$id_pro)->first();
 
-                $id_pro = $insertOrUpdateInv->id;
-                $check_fact = items_factura::where("id_factura",$id_factura)->where("id_producto",$id_pro)->first();
-
-                if ($check_fact) {
-                    $ctNew = $ctInsert - ($beforecantidad - $check_fact->cantidad);
-                }
+            if ($check_fact) {
+                $ctNew = $ctInsert - ($beforecantidad - $check_fact->cantidad);
+            }
 
 
-                if ($ctNew==0) {
-                    items_factura::where("id_factura",$id_factura)->where("id_producto",$id_pro)->delete();
-                }else{
-                    items_factura::updateOrCreate([
-                        "id_factura" => $id_factura,
-                        "id_producto" => $id_pro,
-                    ],[
-                        "cantidad" => $ctNew,
-                        "tipo" => $tipo,
+            if ($ctNew==0) {
+                items_factura::where("id_factura",$id_factura)->where("id_producto",$id_pro)->delete();
+            }else{
+                items_factura::updateOrCreate([
+                    "id_factura" => $id_factura,
+                    "id_producto" => $id_pro,
+                ],[
+                    "cantidad" => $ctNew,
+                    "tipo" => $tipo,
 
-                    ]);
-
-                }
+                ]);
 
             }
 
-            return Response::json(["msj"=>"Éxito","estado"=>true]);   
-        } catch (\Exception $e) {
-            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
-            
-        } 
+        }
     }
-
     public function getFallas(Request $req)
     {
 
@@ -600,7 +736,91 @@ class InventarioController extends Controller
 
             fallas::updateOrCreate(["id_producto"=>$id],["id_producto"=>$id]);
         }
+    }
 
+    public function reporteInventario(Request $req)
+    {
+        $costo = 0;
+        $venta = 0;
+
+        $descripcion = $req->descripcion;
+        $precio_base = $req->precio_base;
+        $precio = $req->precio;
+        $cantidad = $req->cantidad;
+        $proveedor = $req->proveedor;
+        $categoria = $req->categoria;
+        $marca = $req->marca;
+
+        $codigo_proveedor = $req->codigo_proveedor;
+        $codigo_barras = $req->codigo_barras;
+
+        $data= inventario::with("lotes","proveedor","categoria")->where(function($q) use ($codigo_proveedor,$codigo_barras,$descripcion,$precio_base,$precio,$cantidad,$proveedor,$categoria,$marca)
+        {
+
+            if($descripcion){$q->where("descripcion","LIKE",$descripcion."%");}
+            if($codigo_proveedor){$q->where("codigo_proveedor","LIKE",$codigo_proveedor."%");}
+            if($codigo_barras){$q->where("codigo_barras","LIKE",$codigo_barras."%");}
+
+            if($precio_base){$q->where("precio_base",$precio_base);}
+            if($precio){$q->where("precio",$precio);}
+            if($cantidad){$q->where("cantidad",$cantidad);}
+            if($proveedor){$q->where("id_proveedor",$proveedor);}
+            if($categoria){$q->where("id_categoria",$categoria);}
+            if($marca){$q->where("id_marca",$marca);}
+        })->get()
+        ->map(function($q) use (&$costo,&$venta)
+        {
+            if (count($q->lotes)) {
+                $q->cantidad = $q->lotes->sum("cantidad"); 
+            }
+            $c = $q->cantidad*$q->precio_base;
+            $v = $q->cantidad*$q->precio;
+
+            $q->t_costo = number_format($c,"2"); 
+            $q->t_venta = number_format($v,"2");
+            
+            $costo += $c;
+            $venta += $v;
+
+            return  $q;
+        });
+        $sucursal = sucursal::all()->first();
+        $proveedores = proveedores::all();
+        $categorias = categorias::all();
+        
+        
+        return view("reportes.inventario",[
+            "data"=>$data,
+            "sucursal"=>$sucursal,
+            "categorias"=>$categorias,
+            "proveedores"=>$proveedores,
+
+            "descripcion"=>$descripcion,
+            "precio_base"=>$precio_base,
+            "precio"=>$precio,
+            "cantidad"=>$cantidad,
+            "proveedor"=>$proveedor,
+            "categoria"=>$categoria,
+            "marca"=>$marca,
+
+            "count" => count($data),
+            "costo" => number_format($costo,"2"),
+            "venta" => number_format($venta,"2"),
+
+            "view_codigo_proveedor" => $req->view_codigo_proveedor==="off"?false:true,
+            "view_codigo_barras" => $req->view_codigo_barras==="off"?false:true,
+            "view_descripcion" => $req->view_descripcion==="off"?false:true,
+            "view_proveedor" => $req->view_proveedor==="off"?false:true,
+            "view_categoria" => $req->view_categoria==="off"?false:true,
+            "view_id_marca" => $req->view_id_marca==="off"?false:true,
+            "view_cantidad" => $req->view_cantidad==="off"?false:true,
+            "view_precio_base" => $req->view_precio_base==="off"?false:true,
+            "view_t_costo" => $req->view_t_costo==="off"?false:true,
+            "view_precio" => $req->view_precio==="off"?false:true,
+            "view_t_venta" => $req->view_t_venta==="off"?false:true,
+           
+
+        ]);
     }
             
 }

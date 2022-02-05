@@ -109,7 +109,9 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	
 	Route::post('setProveedor', [ProveedoresController::class,"setProveedor"]);
 	Route::post('guardarNuevoProducto', [InventarioController::class,"guardarNuevoProducto"]);
+	Route::post('guardarNuevoProductoLote', [InventarioController::class,"guardarNuevoProductoLote"]);
 
+	
 	Route::post('getProveedores', [ProveedoresController::class,"getProveedores"]);
 
 	Route::post('delProveedor', [ProveedoresController::class,"delProveedor"]);
@@ -146,6 +148,8 @@ Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
 	Route::post('setUsuario', [UsuariosController::class,"setUsuario"]);
 	Route::post('delUsuario', [UsuariosController::class,"delUsuario"]);
 	Route::get('getUsuarios', [UsuariosController::class,"getUsuarios"]);
+	Route::get('verCreditos', [PagoPedidosController::class,"verCreditos"]);
+	Route::get('reporteInventario', [InventarioController::class,"reporteInventario"]);
 
 
 

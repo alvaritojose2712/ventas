@@ -66,7 +66,9 @@ const db = {
 
   
   setProveedor: data=>axios.post(host+"setProveedor",data),
-  guardarNuevoProducto: data=>axios.post(host+"guardarNuevoProducto",data),
+  guardarNuevoProducto: data => axios.post(host + "guardarNuevoProducto", data),
+  guardarNuevoProductoLote: data=>axios.post(host+"guardarNuevoProductoLote",data),
+  
   getProveedores: data=>axios.post(host+"getProveedores",data),
   
   delProveedor: data=>axios.post(host+"delProveedor",data),
@@ -105,7 +107,12 @@ const db = {
   
   removeLote: data=>axios.post(host+"removeLote",data),
   
-
+  openPrintCreditos: (param) => window.open(host + "verCreditos","targed=blank"),
+  openVerCierre: ({ type,fechaCierre }) => window.open(host + "verCierre?type=" + type + "&fecha=" + fechaCierre,"targed=blank"),
+  openNotaentregapedido: ({ id }) => window.open(host + "/notaentregapedido?id=" + id, "targed=blank"),
+  openVerFactura: ({ id }) => window.open(host + "verFactura?id=" + id, "targed=blank"),
+  openReporteInventario: () => window.open(host + "reporteInventario","targed=blank"),
+  
   
 
 

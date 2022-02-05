@@ -45,7 +45,7 @@ function Facturar() {
   const [loginActive,setLoginActive] = useState(false)
   const [loading,setLoading] = useState(false)
 
-  const [num,setNum] = useState(100)
+  const [num,setNum] = useState(50)
   const [itemCero,setItemCero] = useState(true)
   const [qProductosMain,setQProductosMain] = useState("")
 
@@ -297,6 +297,8 @@ function Facturar() {
 
   const [modViewInventario, setmodViewInventario] = useState("unique")
   
+  const [loteIdCarrito, setLoteIdCarrito] = useState(null)
+  
 
   const [valheaderpedidocentral, setvalheaderpedidocentral] = useState("12340005ARAMCAL")
   const [valbodypedidocentral, setvalbodypedidocentral] = useState("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345")
@@ -401,7 +403,7 @@ function Facturar() {
       }else if(view=="pagar"){
         setToggleAddPersona(false)
         toggleModalProductos(false)
-        viewCaja(false)
+        setViewCaja(false)
         if (refinputaddcarritofast.current) {
           refinputaddcarritofast.current.focus()
 
@@ -557,8 +559,11 @@ function Facturar() {
           let tr = tbodyproductosref.current.rows[counterListProductos]
           let index = tr.attributes["data-index"].value
           if (permisoExecuteEnter) {
-
-            addCarrito(index)
+            if (productos[index]) {
+              if (!productos[index].lotes.length) {
+                addCarrito(index)
+              }
+            }
             // console.log("Execute Enter")
           }
           //wait
@@ -919,8 +924,12 @@ function Facturar() {
 
     setFilterMetodoPagoToggle(type)
   }
-  const number = (val) =>{
+  const number = (val,len=null) =>{
     if (val=="") return ""
+
+    if (len) {
+      val = val.substr(0,len)
+    }
     return val.replace(/[^\d|\.]+/g,'')
   }
 
@@ -1143,6 +1152,9 @@ function Facturar() {
       setLoading(false)
     })
   }
+  const printCreditos = () => {
+    db.openPrintCreditos("")
+  }
   const getPedidosList = ()=>{
     db.getPedidosList().then(res=>{
       setPedidoList(res.data)
@@ -1234,21 +1246,34 @@ function Facturar() {
     })
   }
   const addCarrito = (e,callback=null) => {
-    let index;
+    let index, loteid;
     if (e.currentTarget) {
-      index = e.currentTarget.attributes["data-index"].value
-
+      let attr = e.currentTarget.attributes 
+      index = attr["data-index"].value
+      
+      if (attr["data-loteid"]) {
+        loteid = attr["data-loteid"].value
+      }
+      
     }else{
       index = e
     }
 
-    if (pedidoList[0]) {
-      setNumero_factura(pedidoList[0].id)
+    setLoteIdCarrito(loteid)
+
+    
+    if (index != counterListProductos && productos[index].lotes.length) {
+      setCounterListProductos(index)
     }else{
-      setNumero_factura("nuevo")
+      if (pedidoList[0]) {
+        setNumero_factura(pedidoList[0].id)
+      }else{
+        setNumero_factura("nuevo")
+      }
+      setSelectItem(index)
+      if (callback) {callback()}
+
     }
-    setSelectItem(index)
-    if (callback) {callback()}
   }
   const addCarritoRequest = e =>{
     try{
@@ -1262,7 +1287,7 @@ function Facturar() {
       }
       const id = productos[selectItem].id
 
-      db.setCarrito({id,type,cantidad,numero_factura}).then(res=>{
+      db.setCarrito({ id, type, cantidad, numero_factura, loteIdCarrito}).then(res=>{
         getPedidosList()
         getProductos()
         notificar(res)
@@ -1339,9 +1364,9 @@ function Facturar() {
 
       })
     }else{
-      if (typeof parseFloat(descuento) == "number" && pedidoData.clean_total) {
+      if (typeof parseFloat(descuento) == "number" && pedidoData.clean_subtotal) {
 
-        let total = parseFloat(pedidoData.clean_total)
+        let total = parseFloat(pedidoData.clean_subtotal)
 
         descuento = (100-((parseFloat(descuento)*100)/total).toFixed(3))
 
@@ -1370,10 +1395,10 @@ function Facturar() {
     }
   }
   const setCantidadCarrito = (e) => {
-    setLoading(true)
     const cantidad = window.prompt("Cantidad")
     if (cantidad) {
       const index = e.currentTarget.attributes["data-index"].value
+      setLoading(true)
       db.setCantidad({index,cantidad}).then(res=>{
         getPedido()
         setLoading(false)
@@ -1503,7 +1528,7 @@ function Facturar() {
       
       if (res.data.estado) {
         if (type=="ver") {
-          window.open("verCierre?type="+type+"&fecha="+fechaCierre,"targed=blank")
+          db.openVerCierre({type,fechaCierre})
         }else{
           setLoading(true)
           db.sendCierre({type,fecha:fechaCierre}).then(res=>{
@@ -2077,7 +2102,8 @@ const delFalla = e => {
 }
 
 const viewReportPedido = () =>{
-  window.open("/notaentregapedido?id="+pedidoData.id,"_blank")
+  db.openNotaentregapedido({ id: pedidoData.id})
+  
 }
 
 const getPedidosCentral = () => {
@@ -2298,7 +2324,7 @@ const verDetallesFactura = (e=null) => {
     id = e
   } 
   if (id) {
-    window.open("verFactura?id="+facturas[factSelectIndex].id,"targed=blank")
+    db.openVerFactura({ id: facturas[factSelectIndex].id})
   }
   
 }
@@ -2377,6 +2403,7 @@ const selectProductoFast = e => {
 
 const addNewLote = e => {
   let addObj = {
+    lote: "",
     creacion: "",
     vence: "",
     cantidad: "",
@@ -2407,12 +2434,85 @@ const addNewLote = e => {
 
       case "delMode":
         lote[i].type = "delete"
-        let id_replace = window.prompt("New Id")
+        let id_replace = 0
         lote[i].id_replace = id_replace
         break;
     }
     setinpInvLotes(lote)
 }
+
+  const reporteInventario = () => {
+    db.openReporteInventario()
+  }
+  const guardarNuevoProductoLote = () => {
+    setLoading(true)
+    let id_factura = null
+
+    if (factSelectIndex != null) {
+      if (facturas[factSelectIndex]) {
+        id_factura = facturas[factSelectIndex].id
+      }
+    }
+
+    db.guardarNuevoProductoLote({ lotes: productosInventario, id_factura}).then(res=>{
+      notificar(res)
+      setLoading(false)
+      buscarInventario()
+
+    })
+  }
+  const changeInventario = (val, i, id, type, name = null) => {
+    let obj = cloneDeep(productosInventario)
+
+    switch (type) {
+      case "update":
+        if (obj[i].type != "new") {
+          obj[i].type = "update"
+        }
+        break;
+      case "delModeUpdateDelete":
+        delete obj[i].type
+        break;
+      case "delNew":
+        obj = obj.filter((e, ii) => ii !== i)
+        break;
+      case "changeInput":
+        obj[i][name] = val
+        break;
+      case "add":
+        let pro = ""
+
+        if (facturas[factSelectIndex]) {
+          pro = facturas[factSelectIndex].proveedor.id
+        }
+        let newObj = [{
+          id:null,
+          codigo_proveedor: "",
+          codigo_barras: "",
+          descripcion: "",
+          id_categoria: "1",
+          id_marca: "",
+          unidad: "UND",
+          id_proveedor: pro,
+          cantidad: "",
+          precio_base: "",
+          precio: "",
+          iva: "0",
+          type: "new",
+
+        }] 
+
+        obj = newObj.concat(obj)
+      break;
+
+      case "delMode":
+        obj[i].type = "delete"
+        let id_replace = 0
+        obj[i].id_replace = id_replace
+        break;
+    }
+    setProductosInventario(obj)
+  }
 
 
 
@@ -2693,6 +2793,9 @@ const addNewLote = e => {
             getUsuarios={getUsuarios}
           />:null}
           {view=="inventario"?<Inventario
+            guardarNuevoProductoLote={guardarNuevoProductoLote}
+            changeInventario={changeInventario}
+            reporteInventario={reporteInventario}
             addNewLote={addNewLote}
             changeModLote={changeModLote}
             
@@ -2922,6 +3025,7 @@ const addNewLote = e => {
             />
           :null}
           {view=="credito"?<Credito
+            printCreditos={printCreditos}
             onchangecaja={onchangecaja}
             qDeudores={qDeudores}
             deudoresList={deudoresList}

@@ -55,11 +55,11 @@
 						<th colspan="" class="text-right">Método de Pago</th>
 						<td colspan="3" class="text-left">
 							@foreach($pedido->pagos as $ee)
-								@if($ee->tipo==1&&$ee->monto!=0)<span className="w-50 btn-sm btn-info btn">Trans. {{$ee->monto}}</span> @endif
-	                            @if($ee->tipo==2&&$ee->monto!=0)<span className="w-50 btn-sm btn-secondary btn">Deb. {{$ee->monto}}</span> @endif
-	                            @if($ee->tipo==3&&$ee->monto!=0)<span className="w-50 btn-sm btn-success btn">Efec. {{$ee->monto}}</span> @endif
-	                            @if($ee->tipo==6&&$ee->monto!=0)<span className="w-50 btn-sm btn-danger btn">Vuel. {{$ee->monto}}</span> @endif
-	                            @if($ee->tipo==4&&$ee->monto!=0)<span className="w-50 btn-sm btn-warning btn">Cred. {{$ee->monto}}</span> @endif
+								@if($ee->tipo==1&&$ee->monto!=0)<span class="w-50 btn-sm btn-info btn">Trans. {{$ee->monto}}</span> @endif
+	                            @if($ee->tipo==2&&$ee->monto!=0)<span class="w-50 btn-sm btn-secondary btn">Deb. {{$ee->monto}}</span> @endif
+	                            @if($ee->tipo==3&&$ee->monto!=0)<span class="w-50 btn-sm btn-success btn">Efec. {{$ee->monto}}</span> @endif
+	                            @if($ee->tipo==6&&$ee->monto!=0)<span class="w-50 btn-sm btn-danger btn">Vuel. {{$ee->monto}}</span> @endif
+	                            @if($ee->tipo==4&&$ee->monto!=0)<span class="w-50 btn-sm btn-warning btn">Cred. {{$ee->monto}}</span> @endif
 							@endforeach
 						</td>
 					</tr>
@@ -106,19 +106,32 @@
 							</td>
 						</tr>
 					@endforeach
-
-					<tr>
-						<td class="text-right" colspan="5">Sub-total</td>
-						<th class="text-right" colspan="">{{$pedido->subtotal}}</th>
-					</tr>
-					<tr>
-						<td class="text-right" colspan="5">Descuento ({{$pedido->total_porciento}}%)</td>
-						<th class="text-right" colspan="">{{$pedido->total_des}}</th>
-					</tr>
-					<tr>
-						<td class="text-right" colspan="5">Total:</td>
-						<th class="text-right" colspan="">{{$pedido->total}}</th>
-					</tr>
+						
+					<tr class='hover'>
+                      <th colspan="5" class="text-right">Sub-Total</th>
+                      <td class="text-right">{{$pedido->subtotal}}</td>
+                    </tr>
+                    <tr class='hover'>
+                      <th colspan="5" class="text-right pointer clickme">Desc. {{$pedido->total_porciento}}%
+                      </th>
+                      <td class="text-right">{{$pedido->total_des}}</td>
+                    </tr>
+                    <tr class='hover'>
+                      <th colspan="5" class="text-right">Monto Exento</th>
+                      <td class="text-right">{{$pedido->exento}}</td>
+                    </tr>
+                    <tr class='hover'>
+                      <th colspan="5" class="text-right">Monto Gravable</th>
+                      <td class="text-right">{{$pedido->gravable}}</td>
+                    </tr>
+                    <tr class='hover'>
+                      <th colspan="5" class="text-right">IVA <span>({ivas})</span></th>
+                      <td class="text-right">{{$pedido->monto_iva}}</td>
+                    </tr>
+                    <tr class="hover h4">
+                      <th colspan="5" class="text-right">Total</th>
+                      <td class="text-right">{{$pedido->total}}</td>
+                    </tr>
 				</tbody>
 
 			</table>

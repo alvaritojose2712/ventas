@@ -22,7 +22,7 @@ class CreateFacturasTable extends Migration
             $table->string("numfact");
             $table->unique(["numfact","id_proveedor"]);
             $table->string("descripcion");
-            $table->decimal("monto",8,2);
+            $table->decimal("monto",10,2);
             $table->date("fechavencimiento");
             $table->boolean("estatus");
 

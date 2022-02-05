@@ -82,9 +82,6 @@ getDebito,
 getCredito,
 getTransferencia,
 getEfectivo,
-tipobusquedapedido,
-pedidos,
-setPedidos,
 onClickEditPedido,
 }) {
 
@@ -139,7 +136,26 @@ onClickEditPedido,
     // refinputaddcarritofast.current.focus()
   },[])
   try{
-    const {id,created_at,cliente,items,total_des,subtotal,total,total_porciento,cop,bs,editable,vuelto_entregado,estado} = pedidoData
+    const {
+      id,
+      created_at,
+      cliente,
+      items,
+      total_des,
+      subtotal,
+      total,
+      total_porciento,
+      cop,
+      bs,
+      editable,
+      vuelto_entregado,
+      estado,
+
+      exento,
+      gravable,
+      ivas,
+      monto_iva,
+    } = pedidoData
     return (
       <>
         <div className="container-fluid">
@@ -205,16 +221,16 @@ onClickEditPedido,
               <table className="table table-bordered text-center">
                 <thead>
                   <tr>
-                    <th className="text-sinapsis">Código</th>
-                    <th className="text-sinapsis">Árticulo</th>
-                    <th className="text-sinapsis">Cant.</th>
-                    <th className="text-sinapsis">Precio</th>
+                    <th className="text-sinapsis cell2">Código</th>
+                    <th className="text-sinapsis cell3">Árticulo</th>
+                    <th className="text-sinapsis cell1">Cant.</th>
+                    <th className="text-sinapsis cell1">Precio</th>
                     {/*<th className="text-sinapsis">Sub-total</th>*/}
                     {/*<th className="text-sinapsis">Desc. %</th>*/}
                     {/*<th className="text-sinapsis">Tot.Desc.</th>*/}
-                    <th className="text-sinapsis">Total</th>
+                    <th className="text-sinapsis cell2">Total</th>
                     {editable?
-                    <th><button className="btn btn-circle text-white btn-sinapsis btn-sm mb-3" onClick={toggleModalProductos}>F1 <i className="fa fa-plus"></i></button></th>
+                    <th className='cell1'><button className="btn btn-circle text-white btn-sinapsis btn-sm mb-3" onClick={toggleModalProductos}>F1 <i className="fa fa-plus"></i></button></th>
                     :null}
                   </tr>
                 </thead>
@@ -235,7 +251,14 @@ onClickEditPedido,
                     </tr>
                     :<tr key={e.id}>
                       <td>{e.producto.codigo_barras}</td>
-                      <td>{e.producto.descripcion}</td>
+                      <td>
+                        {e.producto.descripcion}
+                        <div className='fst-italic fs-6 text-success'>
+                            {e.lotedata?<>
+                              Lote. {e.lotedata ? e.lotedata.lote : null} - Exp. {e.lotedata ? e.lotedata.vence : null}
+                            </>:null} 
+                        </div>
+                      </td>
                       <td onClick={setCantidadCarrito} data-index={e.id} className="pointer clickme">{e.cantidad.replace(".00","")} </td>
                       <td>{e.producto.precio}</td>
 
@@ -405,20 +428,28 @@ onClickEditPedido,
               <div className="mt-1 mb-1">
                 <table className="table table-sm">
                   <tbody>
-                    <tr>
+                    <tr className='hover'>
                       <th className="">Sub-Total</th>
                       <td className="text-right">{subtotal}</td>
                     </tr>
-                    <tr>
-                      <th className="">I.V.A <span>16%</span></th>
-                      <td className="text-right"></td>
-                    </tr>
-                    <tr>
+                    <tr className='hover'>
                       <th className="" data-index={id} onClick={setDescuentoTotal} className="pointer clickme">Desc. {total_porciento}%
                       </th>
                       <td className="text-right">{total_des}</td>
                     </tr>
-                    <tr className="h4">
+                    <tr className='hover'>
+                      <th className="">Monto Exento</th>
+                      <td className="text-right">{exento}</td>
+                    </tr>
+                    <tr className='hover'>
+                      <th className="">Monto Gravable</th>
+                      <td className="text-right">{gravable}</td>
+                    </tr>
+                    <tr className='hover'>
+                      <th className="">IVA <span>({ivas})</span></th>
+                      <td className="text-right">{monto_iva}</td>
+                    </tr>
+                    <tr className="hover h4">
                       <th className="">Total</th>
                       <td className="text-right">{total}</td>
                     </tr>

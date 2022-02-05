@@ -54,7 +54,7 @@ function Cargarproducto({
 
   addNewLote,
   changeModLote,
-  
+  type,
 
 }) {
 
@@ -66,9 +66,7 @@ function Cargarproducto({
       setIndexSelectInventario(index)
     }
   }
-  const type = type => {
-    return !type || type === "delete" ? true : false
-  }
+  
 
  
   return (
@@ -113,19 +111,19 @@ function Cargarproducto({
                   <div 
                   onClick={setIndexSelectInventarioFun} 
                   data-index={i}
-                  key={e.id}
+                  key={i}
                   className={(indexSelectInventario==i?"bg-sinapsis":"bg-light text-secondary")+" card mt-2 pointer"}>
                     <div className="card-header flex-row justify-content-between">
                       <div>
                         <small>ID.{e.id}</small>
                       </div>
                       <div className="d-flex justify-content-between">
-                        <div><span>{e.codigo_proveedor}</span></div>
+                        <div><span>{e.codigo_barras}</span></div>
                         <div><span className="h3">{e.precio}</span></div>
                       </div>
                     </div>
                     <div className="card-body d-flex justify-content-between">
-                      <div className="/personal/vermas">
+                      <div className="">
                         <h5 
                         className="card-title"
                         ><b>{e.descripcion}</b></h5>
@@ -176,9 +174,9 @@ function Cargarproducto({
                     <option value="PQT">PQT</option>
                     <option value="MTR">MTR</option>
                     <option value="KG">KG</option>
-                    <option value="KG">GRS</option>
+                    <option value="GRS">GRS</option>
                     <option value="LTR">LTR</option>
-                    <option value="LTR">ML</option>
+                    <option value="ML">ML</option>
                   </select>
                 </div>
                 <div className="col">
@@ -207,7 +205,7 @@ function Cargarproducto({
                     <option value="18">LENTES</option>
                     <option value="19">JARDINERIA</option>
                     <option value="20">INTERNET</option>
-                    <option value="21">ILUMINACION></option>
+                    <option value="21">ILUMINACIÓN</option>
                     <option value="22">HOGAR</option>
                     <option value="23">HERRERIA</option>
                     <option value="24">HERRAMIENTAS</option>
@@ -286,7 +284,7 @@ function Cargarproducto({
                     IVA % <input className="input-ct" 
                     type="text"
                     value={inpInviva} 
-                    onChange={e=>setinpInviva(number(e.target.value))}
+                    onChange={e=>setinpInviva(number(e.target.value,2))}
                     placeholder="Iva."/>
                     </label>
                   </div>
@@ -324,14 +322,16 @@ function Cargarproducto({
                               </div>
                               <div className=''>
                                 <input type="date"
-                                  disabled={type(e.type)} className="form-control form-control-sm"
+                                  disabled={type(e.type)} 
+                                  className="form-control form-control-sm"
                                   value={e.creacion}
                                   onChange={e => changeModLote((e.target.value), i, e.id, "changeInput", "creacion")}
                                   />
                               </div>
                               <div className=''>
                                 <input type="date"
-                                  disabled={type(e.type)} className="form-control form-control-sm"
+                                  disabled={type(e.type)} 
+                                  className="form-control form-control-sm"
                                   value={e.vence}
                                   onChange={e => changeModLote((e.target.value), i, e.id, "changeInput", "vence")}
                                   />

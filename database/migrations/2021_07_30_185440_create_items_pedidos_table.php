@@ -31,7 +31,7 @@ class CreateItemsPedidosTable extends Migration
             $table->decimal("monto",8,2);
             $table->timestamps();
 
-            $table->unique(["id_producto","id_pedido"]);
+            $table->unique(["id_producto","id_pedido","lote"]);
         });
     }
 

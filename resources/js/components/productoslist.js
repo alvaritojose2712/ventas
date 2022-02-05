@@ -1,3 +1,4 @@
+import React from "react"
 
 function ProductosList({
   productos,
@@ -8,9 +9,7 @@ function ProductosList({
   orderColumn,
   orderBy,
   counterListProductos,
-  setCounterListProductos,
   tbodyproductosref,
-  focusCtMain,
   selectProductoFast,
 }) {
 
@@ -48,23 +47,51 @@ function ProductosList({
         </thead>
         <tbody ref={tbodyproductosref}>
           {productos.map((e,i)=>
-            <tr data-index={i} tabIndex="-1" className={(counterListProductos == i ?"bg-sinapsis-light":null)+(' tr-producto')} key={e.id}>
-              <td data-index={i} onClick={addCarrito} className="pointer cell3">{e.codigo_barras}</td>
-              <td data-index={i} onClick={addCarrito} className='pointer text-left pl-5 cell3'>{e.descripcion}</td>
-              <td className="cell1">
-                <button onClick={selectProductoFast} data-id={e.id} data-val={e.codigo_barras} className='formShowProductos btn btn-sinapsis btn-sm w-50'>{e.cantidad.replace(".00","")}</button>         
-              </td>
-              <td className="cell1">{e.unidad}</td>
-              <td className="cell2">
-                <div className='btn-group w-100'>
-                    <button type="button" className='m-0 btn-sm btn btn-success text-light w-50 fs-5'>{e.precio}</button>
-                    <button type="button" className='m-0 btn-sm btn btn-secondary w-50'>Bs. {e.bs} </button>
-                </div>
-                <div className='btn-group w-100'>
-                    <button type="button" className='m-0 btn-sm btn btn-secondary'>Cop. {e.cop}</button>
-                </div>
-              </td>
-            </tr>
+            
+              <tr data-index={i} tabIndex="-1" className={(counterListProductos == i ?"bg-sinapsis-light":null)+(' tr-producto')} key={e.id}>
+                <td data-index={i} onClick={event=>{
+                  if(!e.lotes.length)return addCarrito(event)
+                  }} className="pointer cell3">{e.codigo_barras}</td>
+                <td data-index={i} onClick={event=>{
+                  if(!e.lotes.length)return addCarrito(event)
+                  }} className='pointer text-left pl-5 cell3'>
+                  {e.descripcion}
+                  <div>
+                    <table className="table-sm mr-1 text-success">
+                      <tbody>
+                        {counterListProductos == i ? e.lotes.map((ee, ii) => 
+                        <tr
+                          data-index={i}
+                          data-loteid={ee.id}
+                          onClick={addCarrito}
+                          className="pointer hover fst-italic fst-bold fs-6"
+                          key={ee.id}>
+                          
+                          <td>Lote.{ee.lote}</td>
+                          <td><span className="btn btn-sm btn-outline-success w-100">Ct. {ee.cantidad}</span></td>
+                          <td>Exp.{ee.vence}</td>
+                        </tr>) : null}
+                          </tbody>
+                      </table> 
+                  </div>
+                </td>
+                <td className="cell1">
+                  <button onClick={selectProductoFast} data-id={e.id} data-val={e.codigo_barras} className='formShowProductos btn btn-sinapsis btn-sm w-50'>
+                  {e.lotes.length?e.lotes_ct:e.cantidad.replace(".00","")}
+                    </button>         
+                </td>
+                <td className="cell1">{e.unidad}</td>
+                <td className="cell2">
+                  <div className='btn-group w-100'>
+                      <button type="button" className='m-0 btn-sm btn btn-success text-light w-50 fs-5'>{e.precio}</button>
+                      <button type="button" className='m-0 btn-sm btn btn-secondary w-50'>Bs. {e.bs} </button>
+                  </div>
+                  <div className='btn-group w-100'>
+                      <button type="button" className='m-0 btn-sm btn btn-secondary'>Cop. {e.cop}</button>
+                  </div>
+                </td>
+              </tr>
+              
             )}
         </tbody>
       </table>
