@@ -1,4 +1,5 @@
 export default function InventarioForzado({
+    setporcenganancia,
     productosInventario,
     qBuscarInventario,
     setQBuscarInventario,
@@ -208,11 +209,16 @@ export default function InventarioForzado({
 
                                     </td>
                                     <td>
-                                        <input type="text"
-                                            disabled={type(e.type)} className="form-control form-control-sm"
-                                            value={e.precio}
-                                            onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio")}
-                                            placeholder="precio..." />
+                                        <div className="input-group">
+                                            <button type="button" className="btn" onClick={()=>setporcenganancia("list",e.precio_base,(precio)=>{
+                                                    changeInventario(precio, i, e.id, "changeInput", "precio")
+                                                })}>%</button>
+                                            <input type="text"
+                                                disabled={type(e.type)} className="form-control form-control-sm"
+                                                value={e.precio}
+                                                onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio")}
+                                                placeholder="Precio... % DoubeClick" />
+                                        </div>
 
                                     </td>
                                     <td>

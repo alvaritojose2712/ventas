@@ -11,6 +11,7 @@ import InventarioForzado from '../components/inventarioForzado';
 
 
 function Inventario({
+  setporcenganancia,
   changeInventario,
   
   showaddpedidocentral,
@@ -258,7 +259,8 @@ function Inventario({
               <hr/>
             </div>
             {modViewInventario=="unique"?
-            <CargarProducto 
+            <CargarProducto
+              setporcenganancia={setporcenganancia}
               type={type}
               setNewProducto={setNewProducto}
               productosInventario={productosInventario}
@@ -334,6 +336,8 @@ function Inventario({
               
             />
             : <InventarioForzado
+                setporcenganancia={setporcenganancia}
+
                 refsInpInvList={refsInpInvList}
                 proveedoresList={proveedoresList}
                 guardarNuevoProductoLote={guardarNuevoProductoLote}

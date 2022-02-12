@@ -303,7 +303,7 @@ export default function Facturar({user,notificar,setLoading}) {
 // 1234123512345612345612345
 // 1234123412345612345612345
 // 12341234ARAMCAL
-
+  
 
   useHotkeys('f1', () => {
     if(selectItem!==null&&view=="seleccionar"){
@@ -735,6 +735,23 @@ export default function Facturar({user,notificar,setLoading}) {
   let total_dejar_caja_neto = !total_dejar_caja_calc||total_dejar_caja_calc=="NaN"?0:total_dejar_caja_calc
 
   let total_punto = dolar&&caja_punto?(caja_punto/dolar).toFixed(2):0
+
+const setporcenganancia = (tipo,base=0,fun=null) => {
+  let insert = window.prompt("Porcentaje")
+  if (insert) {
+    if (number(insert)) {
+      if (tipo=="unique") {
+        let re = Math.round(parseFloat(inpInvbase) + (parseFloat(inpInvbase)*(parseFloat(insert)/100)))
+        setinpInvventa(re)
+      }else if("list"){
+        let re = Math.round(parseFloat(base) + (parseFloat(base)*(parseFloat(insert)/100)))
+        fun(re)
+      }
+    }
+
+  }
+
+}
 
 const focusInputSibli = (tar, mov) => {
   let inputs = [].slice.call(refsInpInvList.current.elements)
@@ -2739,6 +2756,7 @@ const auth = permiso => {
           getUsuarios={getUsuarios}
         />:null}
         {view=="inventario"?<Inventario
+          setporcenganancia={setporcenganancia}
           refsInpInvList={refsInpInvList}
           guardarNuevoProductoLote={guardarNuevoProductoLote}
           changeInventario={changeInventario}

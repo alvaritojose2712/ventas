@@ -1,5 +1,6 @@
 
 function Cargarproducto({
+  setporcenganancia,
   productosInventario,
   qBuscarInventario,
   setQBuscarInventario,
@@ -273,7 +274,7 @@ function Cargarproducto({
                     type="text"
                     value={inpInvventa} 
                     onChange={e=>setinpInvventa(number(e.target.value))}
-                    placeholder="Venta."/> Venta.
+                    placeholder="Venta."/> Venta <span className="btn pointer" onClick={()=>setporcenganancia("unique")}>%</span>.
                   </div>
                 </div>
               </div>
