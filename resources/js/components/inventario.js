@@ -154,6 +154,7 @@ function Inventario({
   reporteInventario,
 
   guardarNuevoProductoLote,
+  refsInpInvList,
   
 }) {
 
@@ -173,46 +174,18 @@ function Inventario({
               <button className={("btn ")+(subViewInventario=="proveedores"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("proveedores")}>Proveedores</button>
           </div>
         </div>
-          <div className="col text-right d-flex align-items-center justify-content-between">
+          {subViewInventario == "inventario" ?<div className="col text-right d-flex align-items-center justify-content-between">
             {/* <button className={("btn ")+(subViewInventario=="pedidosCentral"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("pedidosCentral")}>Pedidos Central</button> */}
             <div className="btn-group mb-2">
               <button className="btn btn-sinapsis" onClick={()=>setshowModalFacturas(!showModalFacturas)}>Seleccionar Factura</button>
             </div>
           </div>
+          :null}
           
         </div>
       </div>
       <hr/>
-      <div className="container">
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="">
-            
-            {subViewInventario=="inventario"&&modViewInventario!="unique"?
-            <button className="btn btn-success text-light" onClick={() => changeInventario(null, null, null, "add")}>Nuevo <i className="fa fa-plus"></i></button>
-            :
-            <button className="btn btn-sinapsis mr-1" onClick={setNewProducto}>Nuevo <i className="fa fa-plus"></i></button>
-            }
-            
-            <button className={(modViewInventario=="list"?"btn-success text-light":"")+(" ms-2 btn")} onClick={() => setmodViewInventario("list")}><i className="fa fa-list"></i></button>
-            <button className={(modViewInventario=="unique"?"btn-sinapsis":"")+(" btn")} onClick={() => setmodViewInventario("unique")}><i className="fa fa-columns"></i></button>
-            <button className="btn btn-warning ms-2" onClick={reporteInventario}><i className="fa fa-print"></i></button>
-          </div>
-
-          {factSelectIndex==null?null
-          : 
-          <div className="input-group w-25">
-            <span className="input-group-text" >{facturas[factSelectIndex]?facturas[factSelectIndex].proveedor.descripcion:null}</span>
-
-              <button className="btn btn-outline-secondary" 
-                onClick={() => { setshowModalFacturas(true);setfactsubView("detalles")}}>{facturas[factSelectIndex]?facturas[factSelectIndex].numfact:null}</button>
-            <button className="btn btn-outline-danger" onClick={()=>setfactSelectIndex(null)}>
-              <i className="fa fa-times"></i>
-            </button>
-          </div>
-          }
-        </div>
-      </div>
-      <hr/>
+     
       <Facturas
         setshowModalFacturas={setshowModalFacturas}
         showModalFacturas={showModalFacturas}
@@ -253,101 +226,134 @@ function Inventario({
       />
       {
         subViewInventario=="inventario"?
-          modViewInventario=="unique"?
-          <CargarProducto 
-            type={type}
-            setNewProducto={setNewProducto}
-            productosInventario={productosInventario}
-            qBuscarInventario={qBuscarInventario}
-            setQBuscarInventario={setQBuscarInventario}
+          <>
+            <div className="container">
+              <div className="d-flex justify-content-between align-items-center">
+                <div className="">
 
-            setIndexSelectInventario={setIndexSelectInventario}
-            indexSelectInventario={indexSelectInventario}
-            inputBuscarInventario={inputBuscarInventario}
+                  {subViewInventario == "inventario" && modViewInventario != "unique" ?
+                    <button className="btn btn-success text-light" onClick={() => changeInventario(null, null, null, "add")}>Nuevo (f2) <i className="fa fa-plus"></i></button>
+                    :
+                    <button className="btn btn-sinapsis mr-1" onClick={setNewProducto}>Nuevo <i className="fa fa-plus"></i></button>
+                  }
 
-            inpInvbarras={inpInvbarras}
-            setinpInvbarras={setinpInvbarras}
-            inpInvcantidad={inpInvcantidad}
-            setinpInvcantidad={setinpInvcantidad}
-            inpInvalterno={inpInvalterno}
-            setinpInvalterno={setinpInvalterno}
-            inpInvunidad={inpInvunidad}
-            setinpInvunidad={setinpInvunidad}
-            inpInvcategoria={inpInvcategoria}
-            setinpInvcategoria={setinpInvcategoria}
-            inpInvdescripcion={inpInvdescripcion}
-            setinpInvdescripcion={setinpInvdescripcion}
-            inpInvbase={inpInvbase}
-            setinpInvbase={setinpInvbase}
-            inpInvventa={inpInvventa}
-            setinpInvventa={setinpInvventa}
-            inpInviva={inpInviva}
-            setinpInviva={setinpInviva}
-            inpInvLotes={inpInvLotes}
+                  <button className={(modViewInventario == "list" ? "btn-success text-light" : "") + (" ms-2 btn")} onClick={() => setmodViewInventario("list")}><i className="fa fa-list"></i></button>
+                  <button className={(modViewInventario == "unique" ? "btn-sinapsis" : "") + (" btn")} onClick={() => setmodViewInventario("unique")}><i className="fa fa-columns"></i></button>
+                  <button className="btn btn-warning ms-2" onClick={reporteInventario}><i className="fa fa-print"></i></button>
+                </div>
 
-            number={number}
+                {factSelectIndex == null ? null
+                  :
+                  <div className="input-group w-25">
+                    <span className="input-group-text" >{facturas[factSelectIndex] ? facturas[factSelectIndex].proveedor.descripcion : null}</span>
 
-            guardarNuevoProducto={guardarNuevoProducto}
-
-            setProveedor={setProveedor}
-            proveedordescripcion={proveedordescripcion}
-            setproveedordescripcion={setproveedordescripcion}
-            proveedorrif={proveedorrif}
-            setproveedorrif={setproveedorrif}
-            proveedordireccion={proveedordireccion}
-            setproveedordireccion={setproveedordireccion}
-            proveedortelefono={proveedortelefono}
-            setproveedortelefono={setproveedortelefono}
-
-            subViewInventario={subViewInventario}
-            setsubViewInventario={setsubViewInventario}
-
-            setIndexSelectProveedores={setIndexSelectProveedores}
-            indexSelectProveedores={indexSelectProveedores}
-            qBuscarProveedor={qBuscarProveedor}
-            setQBuscarProveedor={setQBuscarProveedor}
-            proveedoresList={proveedoresList}
-
-            delProveedor={delProveedor}
-            delProducto={delProducto}
-
-            inpInvid_proveedor={inpInvid_proveedor}
-            setinpInvid_proveedor={setinpInvid_proveedor}
-            inpInvid_marca={inpInvid_marca}
-            setinpInvid_marca={setinpInvid_marca}
-            inpInvid_deposito={inpInvid_deposito}
-            setinpInvid_deposito={setinpInvid_deposito}
-            
-            Invnum={Invnum}
-            setInvnum={setInvnum}
-            InvorderColumn={InvorderColumn}
-            setInvorderColumn={setInvorderColumn}
-            InvorderBy={InvorderBy}
-            setInvorderBy={setInvorderBy}
-
-            addNewLote={addNewLote}
-            changeModLote={changeModLote}
-            
-          />
-          : <InventarioForzado
-              proveedoresList={proveedoresList}
-              guardarNuevoProductoLote={guardarNuevoProductoLote}
-              inputBuscarInventario={inputBuscarInventario}
+                    <button className="btn btn-outline-secondary"
+                      onClick={() => { setshowModalFacturas(true); setfactsubView("detalles") }}>{facturas[factSelectIndex] ? facturas[factSelectIndex].numfact : null}</button>
+                    <button className="btn btn-outline-danger" onClick={() => setfactSelectIndex(null)}>
+                      <i className="fa fa-times"></i>
+                    </button>
+                  </div>
+                }
+              </div>
+              <hr/>
+            </div>
+            {modViewInventario=="unique"?
+            <CargarProducto 
               type={type}
-              number={number}
+              setNewProducto={setNewProducto}
               productosInventario={productosInventario}
               qBuscarInventario={qBuscarInventario}
               setQBuscarInventario={setQBuscarInventario}
 
-              changeInventario={changeInventario}
+              setIndexSelectInventario={setIndexSelectInventario}
+              indexSelectInventario={indexSelectInventario}
+              inputBuscarInventario={inputBuscarInventario}
 
+              inpInvbarras={inpInvbarras}
+              setinpInvbarras={setinpInvbarras}
+              inpInvcantidad={inpInvcantidad}
+              setinpInvcantidad={setinpInvcantidad}
+              inpInvalterno={inpInvalterno}
+              setinpInvalterno={setinpInvalterno}
+              inpInvunidad={inpInvunidad}
+              setinpInvunidad={setinpInvunidad}
+              inpInvcategoria={inpInvcategoria}
+              setinpInvcategoria={setinpInvcategoria}
+              inpInvdescripcion={inpInvdescripcion}
+              setinpInvdescripcion={setinpInvdescripcion}
+              inpInvbase={inpInvbase}
+              setinpInvbase={setinpInvbase}
+              inpInvventa={inpInvventa}
+              setinpInvventa={setinpInvventa}
+              inpInviva={inpInviva}
+              setinpInviva={setinpInviva}
+              inpInvLotes={inpInvLotes}
+
+              number={number}
+
+              guardarNuevoProducto={guardarNuevoProducto}
+
+              setProveedor={setProveedor}
+              proveedordescripcion={proveedordescripcion}
+              setproveedordescripcion={setproveedordescripcion}
+              proveedorrif={proveedorrif}
+              setproveedorrif={setproveedorrif}
+              proveedordireccion={proveedordireccion}
+              setproveedordireccion={setproveedordireccion}
+              proveedortelefono={proveedortelefono}
+              setproveedortelefono={setproveedortelefono}
+
+              subViewInventario={subViewInventario}
+              setsubViewInventario={setsubViewInventario}
+
+              setIndexSelectProveedores={setIndexSelectProveedores}
+              indexSelectProveedores={indexSelectProveedores}
+              qBuscarProveedor={qBuscarProveedor}
+              setQBuscarProveedor={setQBuscarProveedor}
+              proveedoresList={proveedoresList}
+
+              delProveedor={delProveedor}
+              delProducto={delProducto}
+
+              inpInvid_proveedor={inpInvid_proveedor}
+              setinpInvid_proveedor={setinpInvid_proveedor}
+              inpInvid_marca={inpInvid_marca}
+              setinpInvid_marca={setinpInvid_marca}
+              inpInvid_deposito={inpInvid_deposito}
+              setinpInvid_deposito={setinpInvid_deposito}
+              
               Invnum={Invnum}
               setInvnum={setInvnum}
               InvorderColumn={InvorderColumn}
               setInvorderColumn={setInvorderColumn}
               InvorderBy={InvorderBy}
               setInvorderBy={setInvorderBy}
+
+              addNewLote={addNewLote}
+              changeModLote={changeModLote}
+              
             />
+            : <InventarioForzado
+                refsInpInvList={refsInpInvList}
+                proveedoresList={proveedoresList}
+                guardarNuevoProductoLote={guardarNuevoProductoLote}
+                inputBuscarInventario={inputBuscarInventario}
+                type={type}
+                number={number}
+                productosInventario={productosInventario}
+                qBuscarInventario={qBuscarInventario}
+                setQBuscarInventario={setQBuscarInventario}
+
+                changeInventario={changeInventario}
+
+                Invnum={Invnum}
+                setInvnum={setInvnum}
+                InvorderColumn={InvorderColumn}
+                setInvorderColumn={setInvorderColumn}
+                InvorderBy={InvorderBy}
+                setInvorderBy={setInvorderBy}
+              />}
+          </>
         :null
       }
       {subViewInventario=="proveedores"?<Proveedores 

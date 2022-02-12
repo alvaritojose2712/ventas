@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Response;
 
 class admin
 {
@@ -16,15 +17,11 @@ class admin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!session()->has('role')) {
-            return redirect()->route("login");
-        }
-        
-        if (session('role') == 1) {
+
+        if (session('tipo_usuario') == 1) {
             return $next($request);
-        }
-        if (session('role') == 2) {
-            return redirect()->route("caja");
+        }else{
+            return Response::json(["msj"=>"Error: Sin permisos","estado"=>false]);
         }
     }
 }

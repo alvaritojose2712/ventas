@@ -3,23 +3,20 @@ import '../../css/modal.css'
 import { useHotkeys } from 'react-hotkeys-hook';
 
 
-import {useState,useEffect, useRef,StrictMode} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {cloneDeep} from 'lodash';
-import {render} from 'react-dom';
 import db from '../database/database';
 
 
 
+import { moneda, number } from './assets';
 import ProductosList from '../components/productoslist';
 import ModalAddCarrito from '../components/modaladdcarrito';
 import ModalMovimientos from '../components/ModalMovimientos';
 
-import Login from '../components/login';
 import Pagar from '../components/pagar';
 import Header from '../components/header';
 
-import Notificacion from '../components/notificacion';
-import Cargando from '../components/cargando';
 
 import Pedidos from '../components/pedidos';
 
@@ -36,15 +33,14 @@ import Cajagastos from '../components/cajagastos';
 import Ventas from '../components/ventas';
 import Usuarios from '../components/usuarios';
 
+import ViewPedidoVendedor from '../components/viewPedidoVendedor';
 
 
 
 
-function Facturar() {
-  const [msj,setMsj] = useState("")
-  const [loginActive,setLoginActive] = useState(false)
-  const [loading,setLoading] = useState(false)
 
+export default function Facturar({user,notificar,setLoading}) {
+  
   const [num,setNum] = useState(50)
   const [itemCero,setItemCero] = useState(true)
   const [qProductosMain,setQProductosMain] = useState("")
@@ -53,10 +49,6 @@ function Facturar() {
   const [orderBy, setOrderBy] = useState("asc")
   
   const [inputaddCarritoFast, setinputaddCarritoFast] = useState("")
-
-
-
-
 
 
   const [view,setView] = useState("seleccionar")
@@ -139,7 +131,8 @@ function Facturar() {
   const [movimientosCaja,setMovimientosCaja] = useState([])
   const [movimientos,setMovimientos] = useState([])
 
-
+  
+  const [vendedor, setVendedor] = useState([])
   const [tipobusquedapedido,setTipoBusqueda] = useState("fact")
 
   const [tipoestadopedido,setTipoestadopedido] = useState("todos")
@@ -298,6 +291,7 @@ function Facturar() {
   const [modViewInventario, setmodViewInventario] = useState("unique")
   
   const [loteIdCarrito, setLoteIdCarrito] = useState(null)
+  const refsInpInvList = useRef(null)
   
 
   const [valheaderpedidocentral, setvalheaderpedidocentral] = useState("12340005ARAMCAL")
@@ -310,26 +304,6 @@ function Facturar() {
 // 1234123412345612345612345
 // 12341234ARAMCAL
 
-  const moneda = (value, decimals=2, separators=['.',".",',']) => {
-    decimals = decimals >= 0 ? parseInt(decimals, 0) : 2;
-    separators = separators || ['.', "'", ','];
-    var number = (parseFloat(value) || 0).toFixed(decimals);
-    if (number.length <= (4 + decimals))
-        return number.replace('.', separators[separators.length - 1]);
-    var parts = number.split(/[-.]/);
-    value = parts[parts.length > 1 ? parts.length - 2 : 0];
-    var result = value.substr(value.length - 3, 3) + (parts.length > 1 ?
-        separators[separators.length - 1] + parts[parts.length - 1] : '');
-    var start = value.length - 6;
-    var idx = 0;
-    while (start > -3) {
-        result = (start > 0 ? value.substr(start, 3) : value.substr(0, 3 + start))
-            + separators[idx] + result;
-        idx = (++idx) % 2;
-        start -= 3;
-    }
-    return (parts.length == 3 ? '-' : '') + result;
-  }
 
   useHotkeys('f1', () => {
     if(selectItem!==null&&view=="seleccionar"){
@@ -346,6 +320,8 @@ function Facturar() {
       getPedido("ultimo",()=>{
         setView("pagar")
       })
+    } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list"){
+      guardarNuevoProductoLote()
     }
 
   },{
@@ -363,6 +339,8 @@ function Facturar() {
 
         inputmodaladdpersonacarritoref.current.focus()
       })
+    } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
+      changeInventario(null, null, null, "add")
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
@@ -430,8 +408,6 @@ function Facturar() {
     filter:false,
   },[view,selectItem]);
 
-  
-
   useHotkeys('d', () => {
     if (view=="pagar") {
       getDebito() 
@@ -469,7 +445,7 @@ function Facturar() {
     enableOnTags:["INPUT", "SELECT"],
     filter:false,
   },[view]);
-  useHotkeys('down', () => {
+  useHotkeys('down', event => {
     if(view=="seleccionar"){
         try{
           let index = counterListProductos+1
@@ -504,12 +480,14 @@ function Facturar() {
 
       }
 
+    } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
+      focusInputSibli(event.target, "down")
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
 
-  },[view,counterListProductos,countListInter,countListPersoInter]);
-  useHotkeys('up', () => {
+  }, [view, counterListProductos, countListInter, countListPersoInter, subViewInventario, modViewInventario]);
+  useHotkeys('up', event => {
     if(view=="seleccionar"){
       if (counterListProductos>0) {
         try{
@@ -547,12 +525,14 @@ function Facturar() {
 
 
       }
+    } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
+      focusInputSibli(event.target, "up")
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
 
-  },[view,counterListProductos,countListInter,countListPersoInter]);
-  useHotkeys('enter', () => {
+  }, [view, counterListProductos, countListInter, countListPersoInter, subViewInventario, modViewInventario]);
+  useHotkeys('enter', event => {
     if(selectItem===null&&view=="seleccionar"){
       try{
         if (tbodyproductosref.current) {
@@ -593,12 +573,32 @@ function Facturar() {
       }else{
         facturar_pedido()
       }
+    } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
+      focusInputSibli(event.target,1)
     }
   },{
     filterPreventDefault:false,
     enableOnTags:["INPUT", "SELECT"],
-  },[view,counterListProductos,selectItem]);
+  }, [view, counterListProductos, selectItem, subViewInventario, modViewInventario]);
 
+
+  useHotkeys('right', event => {
+    if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
+      focusInputSibli(event.target, 1)
+    }
+  }, {
+    filterPreventDefault: false,
+    enableOnTags: ["INPUT", "SELECT"],
+  }, [view, subViewInventario, modViewInventario]);
+  
+  useHotkeys('left', event => {
+    if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
+      focusInputSibli(event.target, -1)
+    }
+  }, {
+    filterPreventDefault: false,
+    enableOnTags: ["INPUT", "SELECT"],
+  }, [view, subViewInventario, modViewInventario]);
 
 
 
@@ -692,7 +692,7 @@ function Facturar() {
       getDeudores()
       getDeudor()
     }
-  }, [qDeudores]);
+  }, [view,qDeudores]);
 
   useEffect(()=>{
     getProductos()
@@ -712,8 +712,6 @@ function Facturar() {
     getVentas()
   },[fechaventas])
 
-  
-
   useEffect(()=>{
     setInputsProveedores()
   },[indexSelectProveedores])
@@ -729,13 +727,6 @@ function Facturar() {
     billete100,
   ])
 
-  
-  
-  
-  
-  
-  
-  
 
   let total_caja_calc = ( parseFloat(caja_usd?caja_usd:0) + (parseFloat(caja_cop?caja_cop:0)/parseFloat(peso)) + (parseFloat(caja_bs?caja_bs:0)/parseFloat(dolar)) ).toFixed(2)
   let total_caja_neto = !total_caja_calc||total_caja_calc=="NaN"?0:total_caja_calc
@@ -743,1296 +734,1244 @@ function Facturar() {
   let total_dejar_caja_calc = ( parseFloat(dejar_usd?dejar_usd:0) + (parseFloat(dejar_cop?dejar_cop:0)/parseFloat(peso)) + (parseFloat(dejar_bs?dejar_bs:0)/parseFloat(dolar)) ).toFixed(2)
   let total_dejar_caja_neto = !total_dejar_caja_calc||total_dejar_caja_calc=="NaN"?0:total_dejar_caja_calc
 
-
   let total_punto = dolar&&caja_punto?(caja_punto/dolar).toFixed(2):0
 
-  const cerrar_dia = (e) => {
-    e.preventDefault()
-    setLoading(true)
-    db.cerrar({
-    fechaCierre,
-    total_caja_neto,
-    total_punto,
-    dejar_usd,
-    dejar_cop,
-    dejar_bs,}).then(res=>{
+const focusInputSibli = (tar, mov) => {
+  let inputs = [].slice.call(refsInpInvList.current.elements)
+  let index;
+  if (tar.tagName == "INPUT") {
 
-      let cierreData = res.data
-      if (res.data) {
-        setguardar_usd(cierreData["efectivo_guardado"])
-
-        if (cierreData["match_cierre"]) {
-
-
-          setDejar_usd(cierreData["match_cierre"]["dejar_dolar"])
-          setDejar_cop(cierreData["match_cierre"]["dejar_peso"])
-          setDejar_bs(cierreData["match_cierre"]["dejar_bss"])
-          setNotaCierre(cierreData["match_cierre"]["nota"])
-
-
-          setguardar_usd(cierreData["match_cierre"]["efectivo_guardado"])
-          setguardar_cop(cierreData["match_cierre"]["efectivo_guardado_cop"])
-          setguardar_bs(cierreData["match_cierre"]["efectivo_guardado_bs"])
-          
-        }
+    if (mov == "down") {
+      mov = 11
+    } else if (mov == "up") {
+      mov = -11
+    }
+  }
+  for (let i in inputs) {
+    if (tar == inputs[i]) {
+      index = parseInt(i) + mov
+      if (refsInpInvList.current[index]) {
+        refsInpInvList.current[index].focus()
       }
-      setCierre(cierreData)
-
-      setLoading(false)
-    })
-  }
-
-  const focusCtMain = () => {
-    if (inputCantidadCarritoref.current) {
-      inputCantidadCarritoref.current.focus()
-
+      break
     }
   }
-
-  function getBuscarDevolucion() {
-    setLoading(true)
-    db.getBuscarDevolucion({
-      qProductosMain:buscarDevolucion,
-      num:25,
-      itemCero:true,
-      orderColumn:"descripcion",
-      orderBy:"asc"
-    }).then(res=>{
-      setProductosDevulucionSelect(res.data)
-      setLoading(false)
-    })
-  }
-  const setToggleAddPersonaFun = (prop,callback=null)=> {
-    setToggleAddPersona(prop)
-    if (callback) {callback()}
-  }
-  
-  const getMovimientos = () =>{
-    setLoading(true)
-    db.getMovimientos({fechaMovimientos}).then(res=>{
-      setMovimientos(res.data)
-
-      if (!res.data.length) {
-        setIdMovSelect("nuevo")
-      }else{
-        if (res.data[0]) {
-          setIdMovSelect(res.data[0].id)
-        }
-      }
-      setLoading(false)
-    })
-  }
-  const getDeudor = () => {
-    try{
-      if (deudoresList[selectDeudor]) {
-          setLoading(true)
-        db.getDeudor({onlyVueltos,id:deudoresList[selectDeudor].id}).then(res=>{
-          // detallesDeudor
-          setDetallesDeudor(res.data)
-          setLoading(false)
-        })
-      }
-    }catch(err){}
-  }
-
-  const entregarVuelto = () => {
-      let monto = window.prompt("Monto a entregar")
-      if (pedidoData.id&&number(monto)) {
-          setLoading(true)
-
-        db.entregarVuelto({id_pedido:pedidoData.id,monto}).then(res=>{
-          notificar(res)
-          getPedido()
-          getMovimientosCaja()
-          setLoading(false)
-
-        })
-      }
-  }
-
-  const getDebito = () =>{
-    setDebito(pedidoData.clean_total)
-    setEfectivo("")
-    setTransferencia("")
-    setCredito("")
-  }
-  const getCredito = () =>{
-    setCredito(pedidoData.clean_total)
-    setEfectivo("")
-    setDebito("")
-    setTransferencia("")
-  }
-  const getTransferencia = () =>{
-    setTransferencia(pedidoData.clean_total)
-    setEfectivo("")
-    setDebito("")
-    setCredito("")
-  }
-  const getEfectivo = () =>{
-    setEfectivo(pedidoData.clean_total)
-    setDebito("")
-    setTransferencia("")
-    setCredito("")
-  }
-  
-
-  const getToday = () =>{
-    db.today({}).then(res=>{
-      let today = res.data
-      setToday(today)
-      setFechaCierre(today)
-      setFecha1pedido(today)
-      setFecha2pedido(today)
-      setFechaMovimientos(today)
-      setMovCajaFecha(today)
-      setfechaventas(today)
-
-    })
-  }
-
-  const getMovimientosCaja = () =>{
-    setLoading(true)
-    db.getMovimientosCaja({fecha:movCajaFecha}).then(res=>{
-      setMovimientosCaja(res.data)
-      setLoading(false)
-    })
-  }
-
-  const setMovimientoCaja = e =>{
-    e.preventDefault()
-    setLoading(true)
-    db.setMovimientoCaja({
-      descripcion:movCajadescripcion,
-      tipo:movCajatipo,
-      categoria:movCajacategoria,
-      monto:movCajamonto,
-      fecha:movCajaFecha
-
-    }).then(res=>{
-      getMovimientosCaja()
-      notificar(res)
-      setLoading(false)
-      setMovCajatipo(null)
-
-      setMovCajadescripcion("")
-      setMovCajamonto("")
-
-    })
-  }
-  const filterMetodoPago = e => {
-    let type = e.currentTarget.attributes["data-type"].value
-
-    setFilterMetodoPagoToggle(type)
-  }
-  const number = (val,len=null) =>{
-    if (val=="") return ""
-
-    if (len) {
-      val = val.substr(0,len)
-    }
-    return val.replace(/[^\d|\.]+/g,'')
-  }
-
-  const onchangecaja = e => {
-    let name = e.currentTarget.attributes["name"].value
-    let val
-    if (name=="notaCierre"||name=="tipo_pago_deudor"||name=="qDeudores") {
-      val = e.currentTarget.value
-    }else{
-      val = number(e.currentTarget.value)
-      val = val=="NaN"||!val?"":val
-    }
-
-    switch(name){
-      case 'caja_usd':
-        setCaja_usd(val)
-      break;
-
-      case 'caja_cop':
-        setCaja_cop(val)
-      break;
-
-      case 'caja_bs':
-        setCaja_bs(val)
-      break;
-
-      case 'dejar_usd':
-        setDejar_usd(val)
-      break;
-
-      case 'dejar_cop':
-        setDejar_cop(val)
-      break;
-
-      case 'dejar_bs':
-        setDejar_bs(val)
-      break;
-
-      case 'caja_punto':
-        setCaja_punto(val)
-      break;
-
-      case 'notaCierre':
-        setNotaCierre(val)
-      break;
-
-      case 'tipo_pago_deudor':
-        setTipo_pago_deudor(val)
-      break;
-      case 'monto_pago_deudor':
-        setMonto_pago_deudor(val)
-      break;
-      case 'qDeudores':
-        setQDeudores(val)
-      break;
-
-
-
-      
+  if (typeof (index) === "undefined") {
+    if (refsInpInvList.current[0]) {
+      refsInpInvList.current[0].focus()
     }
   }
-  const filter = e => {
-    if ( e.descripcion.toString().toLowerCase().indexOf(q.toLowerCase())>=0
-      || e.codigo_proveedor.toString().toLowerCase().indexOf(q.toLowerCase())>=0) {
-      return true
-    }
-    return false 
-  }
-  const notificar = (msj,fixed=true) => {
-    if (fixed) {
-      setTimeout(()=>{
-        setMsj("")
-      },3000)
-    }
-    if (msj=="") {
-      setMsj("")
-    }else{
-      if (msj.data) {
-        if (msj.data.msj) {
-          setMsj(msj.data.msj)
+}
+const cerrar_dia = (e) => {
+  e.preventDefault()
+  setLoading(true)
+  db.cerrar({
+  fechaCierre,
+  total_caja_neto,
+  total_punto,
+  dejar_usd,
+  dejar_cop,
+  dejar_bs,}).then(res=>{
 
-        }else{
-
-          setMsj(JSON.stringify(msj.data))
-        }
-      }
-
-    }
-  }
-  const loginRes = res => {
-    notificar(res)
+    let cierreData = res.data
     if (res.data) {
-      setLoginActive(res.data.estado)
-      getProductos()
-      getPedidosList()
-    }
-  } 
-  const setMoneda = e => {
-    const tipo = e.currentTarget.attributes["data-type"].value
-    let valor = window.prompt("Nuevo valor")
-    if (valor) {
-      db.setMoneda({tipo,valor}).then(res=>{
-        getMoneda()
-        getProductos()
-      })
-    }
-  }
-  const getMoneda = () => {
-    setLoading(true)
-    db.getMoneda().then(res=>{
-      setPeso(res.data.peso.valor)
-      setDolar(res.data.dolar.valor)
-      setLoading(false)
-    })
-  }
-  const toggleModalProductos = (prop,callback=null) => {
-    setModaladdproductocarritoToggle(prop)
-    if (inputaddcarritointernoref) {
-      if (inputaddcarritointernoref.current){
-        inputaddcarritointernoref.current.focus()
+      setguardar_usd(cierreData["efectivo_guardado"])
 
+      if (cierreData["match_cierre"]) {
+
+
+        setDejar_usd(cierreData["match_cierre"]["dejar_dolar"])
+        setDejar_cop(cierreData["match_cierre"]["dejar_peso"])
+        setDejar_bs(cierreData["match_cierre"]["dejar_bss"])
+        setNotaCierre(cierreData["match_cierre"]["nota"])
+
+
+        setguardar_usd(cierreData["match_cierre"]["efectivo_guardado"])
+        setguardar_cop(cierreData["match_cierre"]["efectivo_guardado_cop"])
+        setguardar_bs(cierreData["match_cierre"]["efectivo_guardado_bs"])
+        
       }
-      
     }
-    if (callback) {callback()}
+    setCierre(cierreData)
+
+    setLoading(false)
+  })
+}
+const focusCtMain = () => {
+  if (inputCantidadCarritoref.current) {
+    inputCantidadCarritoref.current.focus()
+
   }
-  const toggleImprimirTicket = () => {
-    if (pedidoData) {
-      let identificacion = window.prompt("Identificación",pedidoData.cliente.identificacion)
+}
+function getBuscarDevolucion() {
+  setLoading(true)
+  db.getBuscarDevolucion({
+    qProductosMain:buscarDevolucion,
+    num:25,
+    itemCero:true,
+    orderColumn:"descripcion",
+    orderBy:"asc"
+  }).then(res=>{
+    setProductosDevulucionSelect(res.data)
+    setLoading(false)
+  })
+}
+const setToggleAddPersonaFun = (prop,callback=null)=> {
+  setToggleAddPersona(prop)
+  if (callback) {callback()}
+}
+const getMovimientos = () =>{
+  setLoading(true)
+  db.getMovimientos({fechaMovimientos}).then(res=>{
+    setMovimientos(res.data)
 
-      if (identificacion) {
-        let nombres = window.prompt("Nombre y Apellido",pedidoData.cliente.nombre)
-        if (nombres) {
-
-          db.imprimirTicked({
-            id: pedidoData.id,
-            identificacion,
-            nombres
-          }).then(res=>{
-            notificar(res)
-          })
-        }
+    if (!res.data.length) {
+      setIdMovSelect("nuevo")
+    }else{
+      if (res.data[0]) {
+        setIdMovSelect(res.data[0].id)
       }
-      
     }
-  }
-  const onChangePedidos = e =>{
-    const type = e.currentTarget.attributes["data-type"].value
-    const value = e.currentTarget.value
-    switch(type){
-      case "busquedaPedido":
-        setBusquedaPedido(value)
-      break;
-      case "fecha1pedido":
-        setFecha1pedido(value)
-      break;
-      case "fecha2pedido":
-        setFecha2pedido(value)
-      break;
-    }
-  }
-  const getPedidos = e => {
-    setLoading(true)
-    db.getPedidos({busquedaPedido,fecha1pedido,fecha2pedido,tipobusquedapedido,tipoestadopedido,filterMetodoPagoToggle}).then(res=>{
-      setPedidos(res.data)
-      setLoading(false)
-    })
-  }
-  const getProductos = () => {
-
-    setpermisoExecuteEnter(false)
-    setLoading(true)
-
-    if (time!=0) {
-      clearTimeout(typingTimeout)
-    }
-
-    let time = window.setTimeout(()=>{
-      db.getinventario({num,itemCero,qProductosMain,orderColumn,orderBy}).then(res=>{
-        setProductos(res.data)
-        if (!res.data[counterListProductos]) {
-          setCounterListProductos(0)
-          setCountListInter(0)
-        }
+    setLoading(false)
+  })
+}
+const getDeudor = () => {
+  try{
+    if (deudoresList[selectDeudor]) {
+        setLoading(true)
+      db.getDeudor({onlyVueltos,id:deudoresList[selectDeudor].id}).then(res=>{
+        // detallesDeudor
+        setDetallesDeudor(res.data)
         setLoading(false)
       })
-      setpermisoExecuteEnter(true)
-
-    },150)
-    setTypingTimeout(time)
-
-
-  }
-  const getPersona = q => {
-    setLoading(true)
-    db.getpersona({q}).then(res=>{
-      setPersona(res.data)
-      if (!res.data.length) {
-        setclienteInpidentificacion(q)
-      }
-      setLoading(false)
-    })
-  }
-  const setPersonaFast = e => {
-    e.preventDefault()
-    db.setClienteCrud({
-      id:null,
-      clienteInpidentificacion,
-      clienteInpnombre,
-      clienteInpdireccion,
-      clienteInptelefono,
-    }).then(res=>{
-      notificar(res)
-      if (res.data.estado) {
-        if (res.data.id) {
-          setPersonas(res.data.id)
-        }
-
-      }
-      setLoading(false)
-    })
-  }
-  const printCreditos = () => {
-    db.openPrintCreditos("")
-  }
-  const getPedidosList = ()=>{
-    db.getPedidosList().then(res=>{
-      setPedidoList(res.data)
-      if (res.data[0]) {
-        setNumero_factura(res.data[0].id)
-      }
-    })
-  }
-  const getPedido = (id,callback=null) => {
-    setLoading(true)
-    if (!id) {
-      id = pedidoSelect
-    }else{
-      setPedidoSelect(id)
     }
-    db.getPedido({id}).then(res=>{
-      setLoading(false)
-      setPedidoData(res.data)
-      setTransferencia("")
-      setDebito("")
-      setEfectivo("")
-      setCredito("")
-      setVuelto("")
+  }catch(err){}
+}
+const entregarVuelto = () => {
+    let monto = window.prompt("Monto a entregar")
+    if (pedidoData.id&&number(monto)) {
+        setLoading(true)
 
-      getPedidosFast()
+      db.entregarVuelto({id_pedido:pedidoData.id,monto}).then(res=>{
+        notificar(res)
+        getPedido()
+        getMovimientosCaja()
+        setLoading(false)
 
-      if (res.data.pagos) {
-        let d = res.data.pagos
-        if (d.filter(e=>e.tipo==1)[0]) {
-          let var_setTransferencia = d.filter(e=>e.tipo==1)[0].monto
-          if (var_setTransferencia=="0.00") {
-            setTransferencia("")
-
-          }else{
-            setTransferencia(d.filter(e=>e.tipo==1)[0].monto)
-
-          }
-
-        }
-        if (d.filter(e=>e.tipo==2)[0]) {
-          let var_setDebito = d.filter(e=>e.tipo==2)[0].monto
-          if (var_setDebito=="0.00") {
-            setDebito("")
-
-          }else{
-            setDebito(d.filter(e=>e.tipo==2)[0].monto)
-
-          }
-
-        }
-        if (d.filter(e=>e.tipo==3)[0]) {
-          let var_setEfectivo = d.filter(e=>e.tipo==3)[0].monto
-          if (var_setEfectivo=="0.00") {
-            setEfectivo("")
-
-          }else{
-            setEfectivo(d.filter(e=>e.tipo==3)[0].monto)
-
-          }
-
-        }
-        if (d.filter(e=>e.tipo==4)[0]) {
-          let var_setCredito = d.filter(e=>e.tipo==4)[0].monto
-          if (var_setCredito=="0.00") {
-            setCredito("")
-
-          }else{
-            setCredito(d.filter(e=>e.tipo==4)[0].monto)
-
-          }
-
-        }
-        if (d.filter(e=>e.tipo==6)[0]) {
-          let var_setVuelto = d.filter(e=>e.tipo==6)[0].monto
-          if (var_setVuelto=="0.00") {
-            setVuelto("")
-
-          }else{
-            setVuelto(d.filter(e=>e.tipo==6)[0].monto)
-
-          }
-
-        }
-      }else{
-        alert("Sin pagos registrados")
-      }
-      if (callback) { callback() }
-
-    })
-  }
-  const addCarrito = (e,callback=null) => {
-    let index, loteid;
-    if (e.currentTarget) {
-      let attr = e.currentTarget.attributes 
-      index = attr["data-index"].value
-      
-      if (attr["data-loteid"]) {
-        loteid = attr["data-loteid"].value
-      }
-      
-    }else{
-      index = e
+      })
     }
+}
+const getDebito = () =>{
+  setDebito(pedidoData.clean_total)
+  setEfectivo("")
+  setTransferencia("")
+  setCredito("")
+}
+const getCredito = () =>{
+  setCredito(pedidoData.clean_total)
+  setEfectivo("")
+  setDebito("")
+  setTransferencia("")
+}
+const getTransferencia = () =>{
+  setTransferencia(pedidoData.clean_total)
+  setEfectivo("")
+  setDebito("")
+  setCredito("")
+}
+const getEfectivo = () =>{
+  setEfectivo(pedidoData.clean_total)
+  setDebito("")
+  setTransferencia("")
+  setCredito("")
+}
+const getToday = () =>{
+  db.today({}).then(res=>{
+    let today = res.data
+    setToday(today)
+    setFechaCierre(today)
+    setFecha1pedido(today)
+    setFecha2pedido(today)
+    setFechaMovimientos(today)
+    setMovCajaFecha(today)
+    setfechaventas(today)
 
-    setLoteIdCarrito(loteid)
+  })
+}
+const getMovimientosCaja = () =>{
+  setLoading(true)
+  db.getMovimientosCaja({fecha:movCajaFecha}).then(res=>{
+    setMovimientosCaja(res.data)
+    setLoading(false)
+  })
+}
+const setMovimientoCaja = e =>{
+  e.preventDefault()
+  setLoading(true)
+  db.setMovimientoCaja({
+    descripcion:movCajadescripcion,
+    tipo:movCajatipo,
+    categoria:movCajacategoria,
+    monto:movCajamonto,
+    fecha:movCajaFecha
+
+  }).then(res=>{
+    getMovimientosCaja()
+    notificar(res)
+    setLoading(false)
+    setMovCajatipo(null)
+
+    setMovCajadescripcion("")
+    setMovCajamonto("")
+
+  })
+}
+const filterMetodoPago = e => {
+  let type = e.currentTarget.attributes["data-type"].value
+
+  setFilterMetodoPagoToggle(type)
+}
+const onchangecaja = e => {
+  let name = e.currentTarget.attributes["name"].value
+  let val
+  if (name=="notaCierre"||name=="tipo_pago_deudor"||name=="qDeudores") {
+    val = e.currentTarget.value
+  }else{
+    val = number(e.currentTarget.value)
+    val = val=="NaN"||!val?"":val
+  }
+
+  switch(name){
+    case 'caja_usd':
+      setCaja_usd(val)
+    break;
+
+    case 'caja_cop':
+      setCaja_cop(val)
+    break;
+
+    case 'caja_bs':
+      setCaja_bs(val)
+    break;
+
+    case 'dejar_usd':
+      setDejar_usd(val)
+    break;
+
+    case 'dejar_cop':
+      setDejar_cop(val)
+    break;
+
+    case 'dejar_bs':
+      setDejar_bs(val)
+    break;
+
+    case 'caja_punto':
+      setCaja_punto(val)
+    break;
+
+    case 'notaCierre':
+      setNotaCierre(val)
+    break;
+
+    case 'tipo_pago_deudor':
+      setTipo_pago_deudor(val)
+    break;
+    case 'monto_pago_deudor':
+      setMonto_pago_deudor(val)
+    break;
+    case 'qDeudores':
+      setQDeudores(val)
+    break;
+
+
 
     
-    if (index != counterListProductos && productos[index].lotes.length) {
-      setCounterListProductos(index)
-    }else{
-      if (pedidoList[0]) {
-        setNumero_factura(pedidoList[0].id)
-      }else{
-        setNumero_factura("nuevo")
-      }
-      setSelectItem(index)
-      if (callback) {callback()}
-
-    }
   }
-  const addCarritoRequest = e =>{
-    try{
-      setLoading(true)
-      let type
-      if (e.currentTarget) {
-        type = e.currentTarget.attributes["data-type"].value
-        e.preventDefault()
-      }else{
-        type = e
-      }
-      const id = productos[selectItem].id
-
-      db.setCarrito({ id, type, cantidad, numero_factura, loteIdCarrito}).then(res=>{
-        getPedidosList()
-        getProductos()
-        notificar(res)
-
-        switch(res.data.type){
-          case "agregar":
-            setSelectItem(null)
-          break;
-          case "agregar_procesar":
-            getPedido(res.data.num_pedido,()=>{
-              setView("pagar")
-              setSelectItem(null)
-            })
-          break;
-        }
-        setCantidad("")
-        inputbusquedaProductosref.current.value = ""
-        setLoading(false)
-      })
-
-    }catch(err){
-      console.log(err)
-    }
-  }
-  const onClickEditPedido = e =>{
-    const id = e.currentTarget.attributes["data-id"].value
-    getPedido(id,()=>{
-      setView("pagar")
+}
+const setMoneda = e => {
+  const tipo = e.currentTarget.attributes["data-type"].value
+  let valor = window.prompt("Nuevo valor")
+  if (valor) {
+    db.setMoneda({tipo,valor}).then(res=>{
+      getMoneda()
+      getProductos()
     })
   }
-  const onCLickDelPedido = e => {
-    if (confirm("¿Seguro de eliminar?")) {
-      const current = e.currentTarget.attributes
-      const id = current["data-id"].value
-      db.delpedido({id}).then(res=>{
-        notificar(res)
-        
-        
-        switch(current["data-type"].value){
-          case 'getDeudor':
-            getDeudor()
-
-          break;
-
-          case 'getPedidos':
-            getPedidos()
-            getPedidosList()
-
-          break;
-        }
-      })
+}
+const getMoneda = () => {
+  setLoading(true)
+  db.getMoneda().then(res=>{
+    if (res.data.peso){
+      setPeso(res.data.peso.valor)
     }
+
+    if (res.data.dolar) {
+      setDolar(res.data.dolar.valor)
+    }
+    setLoading(false)
+  })
+}
+const toggleModalProductos = (prop,callback=null) => {
+  setModaladdproductocarritoToggle(prop)
+  if (inputaddcarritointernoref) {
+    if (inputaddcarritointernoref.current){
+      inputaddcarritointernoref.current.focus()
+
+    }
+    
+  }
+  if (callback) {callback()}
+}
+const toggleImprimirTicket = () => {
+  if (pedidoData) {
+    let identificacion = window.prompt("Identificación",pedidoData.cliente.identificacion)
+
+    if (identificacion) {
+      let nombres = window.prompt("Nombre y Apellido",pedidoData.cliente.nombre)
+      if (nombres) {
+
+        db.imprimirTicked({
+          id: pedidoData.id,
+          identificacion,
+          nombres
+        }).then(res=>{
+          notificar(res)
+        })
+      }
+    }
+    
+  }
+}
+const onChangePedidos = e =>{
+  const type = e.currentTarget.attributes["data-type"].value
+  const value = e.currentTarget.value
+  switch(type){
+    case "busquedaPedido":
+      setBusquedaPedido(value)
+    break;
+    case "fecha1pedido":
+      setFecha1pedido(value)
+    break;
+    case "fecha2pedido":
+      setFecha2pedido(value)
+    break;
+  }
+}
+const getPedidos = e => {
+  setLoading(true)
+  db.getPedidos({busquedaPedido,fecha1pedido,fecha2pedido,tipobusquedapedido,tipoestadopedido,filterMetodoPagoToggle}).then(res=>{
+    setPedidos(res.data)
+    setLoading(false)
+  })
+}
+const getProductos = () => {
+
+  setpermisoExecuteEnter(false)
+  setLoading(true)
+
+  if (time!=0) {
+    clearTimeout(typingTimeout)
   }
 
-  const delItemPedido = (e) => {
+  let time = window.setTimeout(()=>{
+    db.getinventario({vendedor,num,itemCero,qProductosMain,orderColumn,orderBy}).then(res=>{
+      if (res.data.length) {
+        
+        setProductos(res.data)
+      }
+      if (!res.data[counterListProductos]) {
+        setCounterListProductos(0)
+        setCountListInter(0)
+      }
+      setLoading(false)
+    })
+    setpermisoExecuteEnter(true)
+
+  },150)
+  setTypingTimeout(time)
+
+
+}
+const getPersona = q => {
+  setLoading(true)
+  db.getpersona({q}).then(res=>{
+    setPersona(res.data)
+    if (!res.data.length) {
+      setclienteInpidentificacion(q)
+    }
+    setLoading(false)
+  })
+}
+const setPersonaFast = e => {
+  e.preventDefault()
+  db.setClienteCrud({
+    id:null,
+    clienteInpidentificacion,
+    clienteInpnombre,
+    clienteInpdireccion,
+    clienteInptelefono,
+  }).then(res=>{
+    notificar(res)
+    if (res.data.estado) {
+      if (res.data.id) {
+        setPersonas(res.data.id)
+      }
+
+    }
+    setLoading(false)
+  })
+}
+const printCreditos = () => {
+  db.openPrintCreditos("")
+}
+const getPedidosList = ()=>{
+  db.getPedidosList().then(res=>{
+    setPedidoList(res.data)
+    if (res.data[0]) {
+      setNumero_factura(res.data[0].id)
+    }
+  })
+}
+const getPedido = (id,callback=null) => {
+  setLoading(true)
+  if (!id) {
+    id = pedidoSelect
+  }else{
+    setPedidoSelect(id)
+  }
+  db.getPedido({id}).then(res=>{
+    setLoading(false)
+    setPedidoData(res.data)
+    setTransferencia("")
+    setDebito("")
+    setEfectivo("")
+    setCredito("")
+    setVuelto("")
+
+    getPedidosFast()
+
+    if (res.data.pagos) {
+      let d = res.data.pagos
+      if (d.filter(e=>e.tipo==1)[0]) {
+        let var_setTransferencia = d.filter(e=>e.tipo==1)[0].monto
+        if (var_setTransferencia=="0.00") {
+          setTransferencia("")
+
+        }else{
+          setTransferencia(d.filter(e=>e.tipo==1)[0].monto)
+
+        }
+
+      }
+      if (d.filter(e=>e.tipo==2)[0]) {
+        let var_setDebito = d.filter(e=>e.tipo==2)[0].monto
+        if (var_setDebito=="0.00") {
+          setDebito("")
+
+        }else{
+          setDebito(d.filter(e=>e.tipo==2)[0].monto)
+
+        }
+
+      }
+      if (d.filter(e=>e.tipo==3)[0]) {
+        let var_setEfectivo = d.filter(e=>e.tipo==3)[0].monto
+        if (var_setEfectivo=="0.00") {
+          setEfectivo("")
+
+        }else{
+          setEfectivo(d.filter(e=>e.tipo==3)[0].monto)
+
+        }
+
+      }
+      if (d.filter(e=>e.tipo==4)[0]) {
+        let var_setCredito = d.filter(e=>e.tipo==4)[0].monto
+        if (var_setCredito=="0.00") {
+          setCredito("")
+
+        }else{
+          setCredito(d.filter(e=>e.tipo==4)[0].monto)
+
+        }
+
+      }
+      if (d.filter(e=>e.tipo==6)[0]) {
+        let var_setVuelto = d.filter(e=>e.tipo==6)[0].monto
+        if (var_setVuelto=="0.00") {
+          setVuelto("")
+
+        }else{
+          setVuelto(d.filter(e=>e.tipo==6)[0].monto)
+
+        }
+
+      }
+    }else{
+      alert("Sin pagos registrados")
+    }
+    if (callback) { callback() }
+
+  })
+}
+const addCarrito = (e,callback=null) => {
+  let index, loteid;
+  if (e.currentTarget) {
+    let attr = e.currentTarget.attributes 
+    index = attr["data-index"].value
+    
+    if (attr["data-loteid"]) {
+      loteid = attr["data-loteid"].value
+    }
+    
+  }else{
+    index = e
+  }
+
+  setLoteIdCarrito(loteid)
+
+  
+  if (index != counterListProductos && productos[index].lotes.length) {
+    setCounterListProductos(index)
+  }else{
+    if (pedidoList[0]) {
+      setNumero_factura(pedidoList[0].id)
+    }else{
+      setNumero_factura("nuevo")
+    }
+    setSelectItem(index)
+    if (callback) {callback()}
+
+  }
+}
+const addCarritoRequest = e =>{
+  try{
     setLoading(true)
+    let type
+    if (e.currentTarget) {
+      type = e.currentTarget.attributes["data-type"].value
+      e.preventDefault()
+    }else{
+      type = e
+    }
+    const id = productos[selectItem].id
+
+    db.setCarrito({ id, type, cantidad, numero_factura, loteIdCarrito}).then(res=>{
+      getPedidosList()
+      getProductos()
+      notificar(res)
+
+      switch(res.data.type){
+        case "agregar":
+          setSelectItem(null)
+        break;
+        case "agregar_procesar":
+          getPedido(res.data.num_pedido,()=>{
+            setView("pagar")
+            setSelectItem(null)
+          })
+        break;
+      }
+      setCantidad("")
+      inputbusquedaProductosref.current.value = ""
+      setLoading(false)
+    })
+
+  }catch(err){
+    console.log(err)
+  }
+}
+const onClickEditPedido = e =>{
+  const id = e.currentTarget.attributes["data-id"].value
+  getPedido(id,()=>{
+    setView("pagar")
+  })
+}
+const onCLickDelPedido = e => {
+  if (confirm("¿Seguro de eliminar?")) {
+    const current = e.currentTarget.attributes
+    const id = current["data-id"].value
+    db.delpedido({id}).then(res=>{
+      notificar(res)
+      
+      
+      switch(current["data-type"].value){
+        case 'getDeudor':
+          getDeudor()
+
+        break;
+
+        case 'getPedidos':
+          getPedidos()
+          getPedidosList()
+
+        break;
+      }
+    })
+  }
+}
+const delItemPedido = (e) => {
+  setLoading(true)
+  const index = e.currentTarget.attributes["data-index"].value
+  db.delItemPedido({index}).then(res=>{
+    getPedido()
+    setLoading(false)
+    notificar(res)
+  })
+}
+const setDescuentoTotal = (e) => {
+  // setLoading(true)
+
+  let descuento = window.prompt("Descuento Total *0 para eliminar*")
+  let index = e.currentTarget.attributes["data-index"].value
+  if (descuento=="0") {
+    db.setDescuentoTotal({index,descuento:0}).then(res=>{
+      getPedido()
+      setLoading(false)
+      notificar(res)
+
+    })
+  }else{
+    if (typeof parseFloat(descuento) == "number" && pedidoData.clean_subtotal) {
+
+      let total = parseFloat(pedidoData.clean_subtotal)
+
+      descuento = (100-((parseFloat(descuento)*100)/total).toFixed(3))
+
+
+      db.setDescuentoTotal({index,descuento}).then(res=>{
+        getPedido()
+        setLoading(false)
+        notificar(res)
+
+      })
+    }
+
+  }
+
+}
+const setDescuentoUnitario = (e) => {
+  setLoading(true)
+  const descuento = window.prompt("Descuento unitario")
+  if (descuento) {
     const index = e.currentTarget.attributes["data-index"].value
-    db.delItemPedido({index}).then(res=>{
+    db.setDescuentoUnitario({index,descuento}).then(res=>{
       getPedido()
       setLoading(false)
       notificar(res)
     })
   }
-  const setDescuentoTotal = (e) => {
-    // setLoading(true)
-
-    let descuento = window.prompt("Descuento Total *0 para eliminar*")
-    let index = e.currentTarget.attributes["data-index"].value
-    if (descuento=="0") {
-      db.setDescuentoTotal({index,descuento:0}).then(res=>{
-        getPedido()
-        setLoading(false)
-        notificar(res)
-
-      })
-    }else{
-      if (typeof parseFloat(descuento) == "number" && pedidoData.clean_subtotal) {
-
-        let total = parseFloat(pedidoData.clean_subtotal)
-
-        descuento = (100-((parseFloat(descuento)*100)/total).toFixed(3))
-
-
-        db.setDescuentoTotal({index,descuento}).then(res=>{
-          getPedido()
-          setLoading(false)
-          notificar(res)
-
-        })
-      }
-
-    }
-
-  }
-  const setDescuentoUnitario = (e) => {
+}
+const setCantidadCarrito = (e) => {
+  const cantidad = window.prompt("Cantidad")
+  if (cantidad) {
+    const index = e.currentTarget.attributes["data-index"].value
     setLoading(true)
-    const descuento = window.prompt("Descuento unitario")
-    if (descuento) {
-      const index = e.currentTarget.attributes["data-index"].value
-      db.setDescuentoUnitario({index,descuento}).then(res=>{
+    db.setCantidad({index,cantidad}).then(res=>{
+      getPedido()
+      setLoading(false)
+      notificar(res)
+    })
+  }
+} 
+const setProductoCarritoInterno = (e) => {
+  const cantidad = window.prompt("Cantidad")
+  if (cantidad&&pedidoData.id) {
+    setLoading(true)
+    let id;
+    if (e.currentTarget) {
+      id = e.currentTarget.attributes["data-index"].value
+
+    }else{
+      id = e
+    }
+    const type = "agregar"
+    db.setCarrito({id,type,cantidad,numero_factura:pedidoData.id}).then(res=>{
+      getPedido()
+      setModaladdproductocarritoToggle(false)
+      setLoading(false)
+
+    })
+  }
+}
+const setPersonas = (e) => {
+    setLoading(true)
+    let id_cliente;
+
+    if (e.currentTarget) {
+
+      id_cliente = e.currentTarget.attributes["data-index"].value
+    }else{
+      id_cliente = e
+
+    }
+    if (pedidoData.id) {
+      db.setpersonacarrito({numero_factura:pedidoData.id,id_cliente}).then(res=>{
         getPedido()
+        setToggleAddPersona(false)
         setLoading(false)
         notificar(res)
       })
+
     }
-  }
-  const setCantidadCarrito = (e) => {
-    const cantidad = window.prompt("Cantidad")
-    if (cantidad) {
-      const index = e.currentTarget.attributes["data-index"].value
-      setLoading(true)
-      db.setCantidad({index,cantidad}).then(res=>{
-        getPedido()
-        setLoading(false)
+}
+const facturar_pedido = () => {
+  if (refinputaddcarritofast.current !== document.activeElement) {
+    setLoading(true)
+    if (pedidoData.id) {
+      db.setPagoPedido({
+        id:pedidoData.id,
+        debito,
+        efectivo,
+        transferencia,
+        credito,
+        vuelto,
+      }).then(res=>{
         notificar(res)
-      })
-    }
-  } 
-
-
-  const setProductoCarritoInterno = (e) => {
-    const cantidad = window.prompt("Cantidad")
-    if (cantidad&&pedidoData.id) {
-      setLoading(true)
-      let id;
-      if (e.currentTarget) {
-        id = e.currentTarget.attributes["data-index"].value
-
-      }else{
-        id = e
-      }
-      const type = "agregar"
-      db.setCarrito({id,type,cantidad,numero_factura:pedidoData.id}).then(res=>{
-        getPedido()
-        setModaladdproductocarritoToggle(false)
         setLoading(false)
-
-      })
-    }
-  }
-  const setPersonas = (e) => {
-      setLoading(true)
-      let id_cliente;
-
-      if (e.currentTarget) {
-
-        id_cliente = e.currentTarget.attributes["data-index"].value
-      }else{
-        id_cliente = e
-
-      }
-      if (pedidoData.id) {
-        db.setpersonacarrito({numero_factura:pedidoData.id,id_cliente}).then(res=>{
-          getPedido()
-          setToggleAddPersona(false)
-          setLoading(false)
-          notificar(res)
-        })
-
-      }
-  }
-
-  const facturar_pedido = () => {
-    if (refinputaddcarritofast.current !== document.activeElement) {
-      setLoading(true)
-      if (pedidoData.id) {
-        db.setPagoPedido({
-          id:pedidoData.id,
-          debito,
-          efectivo,
-          transferencia,
-          credito,
-          vuelto,
-        }).then(res=>{
-          notificar(res)
-          setLoading(false)
-          
-          if (res.data.estado) {
-            setView("seleccionar")
-            getPedidos()
-            getPedidosList()
-            getProductos()
-
-            setSelectItem(null)
-
-          }
-        })
-
-      }
-    }
-
-  }
-
-  const del_pedido = () =>{
-    if (confirm("¿Seguro de eliminar?")) {
-      if (pedidoData.id) {
-        db.delpedido({id:pedidoData.id}).then(res=>{
-          notificar(res)
-          getPedidosList()
+        
+        if (res.data.estado) {
           setView("seleccionar")
-        })
+          getPedidos()
+          getPedidosList()
+          getProductos()
 
-      }else{
-        alert("No hay pedido seleccionado")
-      }
-    }
-  }
+          setSelectItem(null)
 
-  const guardar_cierre = (e,callback=null) => {
-    let type = e.currentTarget.attributes["data-type"].value
-    setLoading(true)
-    db.guardarCierre({
-      fechaCierre,
-      
-      total_caja_neto,
-
-      dejar_usd,
-      dejar_cop,
-      dejar_bs,
-
-      total_dejar_caja_neto,
-      total_punto,
-
-      guardar_usd,
-      guardar_cop,
-      guardar_bs,
-      
-      efectivo: cierre["total_caja"],
-      transferencia: cierre[1],
-      entregadomenospend: cierre["entregadomenospend"],
-      caja_inicial:cierre["caja_inicial"],
-
-      notaCierre,
-    }).then(res=>{
-      
-      setLoading(false)
-      notificar(res,false)
-      
-      if (res.data.estado) {
-        if (type=="ver") {
-          db.openVerCierre({type,fechaCierre})
-        }else{
-          setLoading(true)
-          db.sendCierre({type,fecha:fechaCierre}).then(res=>{
-            notificar(res,false)
-            setLoading(false)
-          })
         }
-
-      }     
-
-    })
-  }
-
-  const setPagoCredito = e =>{
-    e.preventDefault()
-
-    if (deudoresList[selectDeudor]) {
-      let id_cliente = deudoresList[selectDeudor].id
-      setLoading(true)
-      db.setPagoCredito({
-        id_cliente,
-        tipo_pago_deudor,
-        monto_pago_deudor,
-      }).then(res=>{
-        notificar(res)
-        setLoading(false)
-        getDeudor(id_cliente)
       })
+
     }
   }
 
-  const getDeudores = e =>{
-    setLoading(true)
-    db.getDeudores({qDeudores,view}).then(res=>{
-      setDeudoresList(res.data)
-      setLoading(false)
-    })
-  }
-  const clickSetOrderColumn = e => {
-    let valor = e.currentTarget.attributes["data-valor"].value
+}
+const del_pedido = () =>{
+  if (confirm("¿Seguro de eliminar?")) {
+    if (pedidoData.id) {
+      db.delpedido({id:pedidoData.id}).then(res=>{
+        notificar(res)
+        getPedidosList()
+        setView("seleccionar")
+      })
 
-    if (valor==orderColumn) {
-      if (orderBy=="desc") {
-        setOrderBy("asc")
-      }else{
-        setOrderBy("desc")
-
-      }
     }else{
-      setOrderColumn(valor)
-    }
-
-  }
-
-  const onchangeinputmain = e => {
-    let val = e.currentTarget.value
-    setQProductosMain(val)
-
-  }
-  const delMovCaja = e =>{
-    if (confirm("¿Seguro de eliminar?")) {
-      setLoading(true)
-      const id = e.currentTarget.attributes["data-id"].value
-
-
-      db.delMovCaja({id}).then(res=>{
-        setLoading(false)
-        getMovimientosCaja()
-        notificar(res)
-      })
-
+      alert("No hay pedido seleccionado")
     }
   }
-  const delMov = e =>{
-    if (confirm("¿Seguro de eliminar?")) {
-      setLoading(true)
-      const id = e.currentTarget.attributes["data-id"].value
-
-
-      db.delMov({id}).then(res=>{
-        setLoading(false)
-        notificar(res)
-        getMovimientos()
-      })
-
-    }
-  }
-
-  const setDevolucion = e => {
-    setLoading(true)
-    let id = e.currentTarget.attributes["data-id"].value
-
-    let cantidad = window.prompt("Cantidad")
-
-    if (cantidad) {
-      db.setDevolucion({
-        id,
-        idMovSelect,
-        cantidad,
-        tipoMovMovimientos,
-        tipoCatMovimientos,
-        fechaMovimientos,
-      }).then(res=>{
-        setLoading(false)
-        getMovimientos()
-        setBuscarDevolucion("")
-        notificar(res)
-      })
-
-    }
-  }
-   
-
-  const buscarInventario = e => {
-    setLoading(true)
-    db.getinventario({
-      num:Invnum,
-      itemCero:true,
-      qProductosMain:qBuscarInventario,
-      orderColumn:InvorderColumn,
-      orderBy:InvorderBy
-    }).then(res=>{
-      setProductosInventario(res.data)
-      setLoading(false)
-      setIndexSelectInventario(null)
-      if (res.data.length===1) {
-        setIndexSelectInventario(0)
-      }else if(res.data.length==0){
-        setinpInvbarras(qBuscarInventario)
-      }
-    })
-  }
-  const getProveedores = e => {
-    setLoading(true)
-    db.getProveedores({
-      q:qBuscarProveedor
-    }).then(res=>{
-      setProveedoresList(res.data)
-      setLoading(false)
-      if (res.data.length===1) {
-        setIndexSelectProveedores(0)
-      }
-    })
-
-    db.getMarcas({
-      q:qBuscarProveedor
-    }).then(res=>{
-      setmarcasList(res.data)
-    })
-
-    db.getDepositos({
-      q:qBuscarProveedor
-    }).then(res=>{
-      setdepositosList(res.data)
-    })
-
-
-  }
-
-  
-  const setInputsInventario = () =>{
-    if (productosInventario[indexSelectInventario]) {
-      let obj = productosInventario[indexSelectInventario]
-      setinpInvbarras(obj.codigo_barras?obj.codigo_barras:"")
-      setinpInvcantidad(obj.cantidad?obj.cantidad:"")
-      setinpInvalterno(obj.codigo_proveedor?obj.codigo_proveedor:"")
-      setinpInvunidad(obj.unidad?obj.unidad:"")
-      setinpInvdescripcion(obj.descripcion?obj.descripcion:"")
-      setinpInvbase(obj.precio_base?obj.precio_base:"")
-      setinpInvventa(obj.precio?obj.precio:"")
-      setinpInviva(obj.iva?obj.iva:"")
-
-      setinpInvcategoria(obj.id_categoria?obj.id_categoria:"")
-      setinpInvid_proveedor(obj.id_proveedor?obj.id_proveedor:"")
-      setinpInvid_marca(obj.id_marca?obj.id_marca:"")
-      setinpInvid_deposito(obj.id_deposito?obj.id_deposito:"")
-
-      setinpInvLotes(obj.lotes ? obj.lotes : [])
-
-    }
-  }
-
-  const setNewProducto = () => {
-    setIndexSelectInventario(null)
-    setinpInvbarras("")
-    setinpInvcantidad("")
-    setinpInvalterno("")
-    setinpInvunidad("UND")
-    setinpInvdescripcion("")
-    setinpInvbase("")
-    setinpInvventa("")
-    setinpInviva("0")
-
-    setinpInvLotes([])
-
-    if (facturas[factSelectIndex]) {
-      setinpInvid_proveedor(facturas[factSelectIndex].proveedor.id)
-    }
+}
+const guardar_cierre = (e,callback=null) => {
+  let type = e.currentTarget.attributes["data-type"].value
+  setLoading(true)
+  db.guardarCierre({
+    fechaCierre,
     
+    total_caja_neto,
 
-    setinpInvid_marca("GENÉRICO")
-    setinpInvid_deposito(1)
-  }
-  const setInputsProveedores = () =>{
-    if (proveedoresList[indexSelectProveedores]) {
-      let obj = proveedoresList[indexSelectProveedores]
+    dejar_usd,
+    dejar_cop,
+    dejar_bs,
 
-      setproveedordescripcion(obj.descripcion)
-      setproveedorrif(obj.rif)
-      setproveedordireccion(obj.direccion)
-      setproveedortelefono(obj.telefono)
+    total_dejar_caja_neto,
+    total_punto,
+
+    guardar_usd,
+    guardar_cop,
+    guardar_bs,
     
+    efectivo: cierre["total_caja"],
+    transferencia: cierre[1],
+    entregadomenospend: cierre["entregadomenospend"],
+    caja_inicial:cierre["caja_inicial"],
 
-    }
-  }
+    notaCierre,
+  }).then(res=>{
+    
+    setLoading(false)
+    notificar(res,false)
+    
+    if (res.data.estado) {
+      if (type=="ver") {
+        db.openVerCierre({type,fechaCierre})
+      }else{
+        setLoading(true)
+        db.sendCierre({type,fecha:fechaCierre}).then(res=>{
+          notificar(res,false)
+          setLoading(false)
+        })
+      }
 
-  
-  const guardarNuevoProducto = e => {
-    e.preventDefault()
+    }     
+
+  })
+}
+const setPagoCredito = e =>{
+  e.preventDefault()
+
+  if (deudoresList[selectDeudor]) {
+    let id_cliente = deudoresList[selectDeudor].id
     setLoading(true)
-
-    let id = null
-
-    if (indexSelectInventario!=null) {
-      if (productosInventario[indexSelectInventario]) {
-        id = productosInventario[indexSelectInventario].id
-      }
-    }
-
-    let id_factura = null
-
-    if (factSelectIndex!=null) {
-      if (facturas[factSelectIndex]) {
-        id_factura = facturas[factSelectIndex].id
-      }
-    }
-
-    db.guardarNuevoProducto({
-      id,
-      inpInvbarras,
-      inpInvcantidad,
-      inpInvalterno,
-      inpInvunidad,
-      inpInvcategoria,
-      inpInvdescripcion,
-      inpInvbase,
-      inpInvventa,
-      inpInviva,
-      inpInvid_proveedor,
-      inpInvid_marca,
-      inpInvid_deposito,
-      inpInvporcentaje_ganancia,
-      id_factura,
-
-      inpInvLotes,
-
+    db.setPagoCredito({
+      id_cliente,
+      tipo_pago_deudor,
+      monto_pago_deudor,
     }).then(res=>{
       notificar(res)
-      buscarInventario()
-      getFacturas(null)
-
       setLoading(false)
+      getDeudor(id_cliente)
+    })
+  }
+}
+const getDeudores = e =>{
+  setLoading(true)
+  db.getDeudores({qDeudores,view}).then(res=>{
+    setDeudoresList(res.data)
+    setLoading(false)
+  })
+}
+const clickSetOrderColumn = e => {
+  let valor = e.currentTarget.attributes["data-valor"].value
+
+  if (valor==orderColumn) {
+    if (orderBy=="desc") {
+      setOrderBy("asc")
+    }else{
+      setOrderBy("desc")
+
+    }
+  }else{
+    setOrderColumn(valor)
+  }
+
+}
+const onchangeinputmain = e => {
+  let val = e.currentTarget.value
+  setQProductosMain(val)
+
+}
+const delMovCaja = e =>{
+  if (confirm("¿Seguro de eliminar?")) {
+    setLoading(true)
+    const id = e.currentTarget.attributes["data-id"].value
+
+
+    db.delMovCaja({id}).then(res=>{
+      setLoading(false)
+      getMovimientosCaja()
+      notificar(res)
+    })
+
+  }
+}
+const delMov = e =>{
+  if (confirm("¿Seguro de eliminar?")) {
+    setLoading(true)
+    const id = e.currentTarget.attributes["data-id"].value
+
+
+    db.delMov({id}).then(res=>{
+      setLoading(false)
+      notificar(res)
+      getMovimientos()
+    })
+
+  }
+}
+const setDevolucion = e => {
+  setLoading(true)
+  let id = e.currentTarget.attributes["data-id"].value
+
+  let cantidad = window.prompt("Cantidad")
+
+  if (cantidad) {
+    db.setDevolucion({
+      id,
+      idMovSelect,
+      cantidad,
+      tipoMovMovimientos,
+      tipoCatMovimientos,
+      fechaMovimientos,
+    }).then(res=>{
+      setLoading(false)
+      getMovimientos()
+      setBuscarDevolucion("")
+      notificar(res)
+    })
+
+  }
+}
+const buscarInventario = e => {
+  setLoading(true)
+  db.getinventario({
+    num:Invnum,
+    itemCero:true,
+    qProductosMain:qBuscarInventario,
+    orderColumn:InvorderColumn,
+    orderBy:InvorderBy
+  }).then(res=>{
+    setProductosInventario(res.data)
+    setLoading(false)
+    setIndexSelectInventario(null)
+    if (res.data.length===1) {
+      setIndexSelectInventario(0)
+    }else if(res.data.length==0){
+      setinpInvbarras(qBuscarInventario)
+    }
+  })
+}
+const getProveedores = e => {
+  setLoading(true)
+  db.getProveedores({
+    q:qBuscarProveedor
+  }).then(res=>{
+    setProveedoresList(res.data)
+    setLoading(false)
+    if (res.data.length===1) {
+      setIndexSelectProveedores(0)
+    }
+  })
+
+  db.getMarcas({
+    q:qBuscarProveedor
+  }).then(res=>{
+    setmarcasList(res.data)
+  })
+
+  db.getDepositos({
+    q:qBuscarProveedor
+  }).then(res=>{
+    setdepositosList(res.data)
+  })
+
+
+}
+const setInputsInventario = () =>{
+  if (productosInventario[indexSelectInventario]) {
+    let obj = productosInventario[indexSelectInventario]
+    setinpInvbarras(obj.codigo_barras?obj.codigo_barras:"")
+    setinpInvcantidad(obj.cantidad?obj.cantidad:"")
+    setinpInvalterno(obj.codigo_proveedor?obj.codigo_proveedor:"")
+    setinpInvunidad(obj.unidad?obj.unidad:"")
+    setinpInvdescripcion(obj.descripcion?obj.descripcion:"")
+    setinpInvbase(obj.precio_base?obj.precio_base:"")
+    setinpInvventa(obj.precio?obj.precio:"")
+    setinpInviva(obj.iva?obj.iva:"")
+
+    setinpInvcategoria(obj.id_categoria?obj.id_categoria:"")
+    setinpInvid_proveedor(obj.id_proveedor?obj.id_proveedor:"")
+    setinpInvid_marca(obj.id_marca?obj.id_marca:"")
+    setinpInvid_deposito(obj.id_deposito?obj.id_deposito:"")
+
+    setinpInvLotes(obj.lotes ? obj.lotes : [])
+
+  }
+}
+const setNewProducto = () => {
+  setIndexSelectInventario(null)
+  setinpInvbarras("")
+  setinpInvcantidad("")
+  setinpInvalterno("")
+  setinpInvunidad("UND")
+  setinpInvdescripcion("")
+  setinpInvbase("")
+  setinpInvventa("")
+  setinpInviva("0")
+
+  setinpInvLotes([])
+
+  if (facturas[factSelectIndex]) {
+    setinpInvid_proveedor(facturas[factSelectIndex].proveedor.id)
+  }
+  
+
+  setinpInvid_marca("GENÉRICO")
+  setinpInvid_deposito(1)
+}
+const setInputsProveedores = () =>{
+  if (proveedoresList[indexSelectProveedores]) {
+    let obj = proveedoresList[indexSelectProveedores]
+
+    setproveedordescripcion(obj.descripcion)
+    setproveedorrif(obj.rif)
+    setproveedordireccion(obj.direccion)
+    setproveedortelefono(obj.telefono)
+  
+
+  }
+}
+const guardarNuevoProducto = e => {
+  e.preventDefault()
+  setLoading(true)
+
+  let id = null
+
+  if (indexSelectInventario!=null) {
+    if (productosInventario[indexSelectInventario]) {
+      id = productosInventario[indexSelectInventario].id
+    }
+  }
+
+  let id_factura = null
+
+  if (factSelectIndex!=null) {
+    if (facturas[factSelectIndex]) {
+      id_factura = facturas[factSelectIndex].id
+    }
+  }
+
+  db.guardarNuevoProducto({
+    id,
+    inpInvbarras,
+    inpInvcantidad,
+    inpInvalterno,
+    inpInvunidad,
+    inpInvcategoria,
+    inpInvdescripcion,
+    inpInvbase,
+    inpInvventa,
+    inpInviva,
+    inpInvid_proveedor,
+    inpInvid_marca,
+    inpInvid_deposito,
+    inpInvporcentaje_ganancia,
+    id_factura,
+
+    inpInvLotes,
+
+  }).then(res=>{
+    notificar(res)
+    buscarInventario()
+    getFacturas(null)
+
+    setLoading(false)
+
+    if (res.data.estado) {
+
+      setinpInvbarras("")
+      setinpInvcantidad("")
+      setinpInvalterno("")
+      setinpInvunidad("UND")
+      setinpInvcategoria("24")
+      setinpInvdescripcion("")
+      setinpInvbase("")
+      setinpInvventa("")
+      setinpInviva("0")
+      setinpInvid_marca("")
+    }
+  })
+}
+const getPedidosFast = () => {
+
+  db.getPedidosFast({vendedor,fecha1pedido}).then(res=>{
+    setpedidosFast(res.data)
+    
+  })
+}
+const setProveedor = e =>{
+  setLoading(true)
+  e.preventDefault()
+
+  let id = null
+
+  if (indexSelectProveedores!=null) {
+    if (proveedoresList[indexSelectProveedores]) {
+      id = proveedoresList[indexSelectProveedores].id
+    }
+  }
+  db.setProveedor({
+    proveedordescripcion,
+    proveedorrif,
+    proveedordireccion,
+    proveedortelefono,
+    id
+  }).then(res=>{
+    notificar(res)
+    getProveedores()
+    setLoading(false)
+
+  })
+} 
+const delProveedor = e => {
+  let id;
+  if (indexSelectProveedores!=null) {
+    if (proveedoresList[indexSelectProveedores]) {
+      id = proveedoresList[indexSelectProveedores].id
+    }
+  }
+  if (confirm("¿Desea Eliminar?")) {
+    setLoading(true)
+    db.delProveedor({id}).then(res=>{
+      setLoading(false)
+      getProveedores()
+      notificar(res)
 
       if (res.data.estado) {
-
-        setinpInvbarras("")
-        setinpInvcantidad("")
-        setinpInvalterno("")
-        setinpInvunidad("UND")
-        setinpInvcategoria("24")
-        setinpInvdescripcion("")
-        setinpInvbase("")
-        setinpInvventa("")
-        setinpInviva("0")
-        setinpInvid_marca("")
+        setIndexSelectProveedores(null)
       }
     })
+
   }
 
-  const getPedidosFast = () => {
-
-    db.getPedidosFast({fecha1pedido}).then(res=>{
-      setpedidosFast(res.data)
-      
-    })
-  }
-  
-  const setProveedor = e =>{
-    setLoading(true)
-    e.preventDefault()
-
-    let id = null
-
-    if (indexSelectProveedores!=null) {
-      if (proveedoresList[indexSelectProveedores]) {
-        id = proveedoresList[indexSelectProveedores].id
-      }
+}
+const delProducto = e => {
+  let id;
+  if (indexSelectInventario!=null) {
+    if (productosInventario[indexSelectInventario]) {
+      id = productosInventario[indexSelectInventario].id
     }
-    db.setProveedor({
-      proveedordescripcion,
-      proveedorrif,
-      proveedordireccion,
-      proveedortelefono,
-      id
-    }).then(res=>{
-      notificar(res)
-      getProveedores()
+  }
+  if (confirm("¿Desea Eliminar?")) {
+    setLoading(true)
+    db.delProducto({id}).then(res=>{
       setLoading(false)
-
-    })
-  } 
-  const delProveedor = e => {
-    let id;
-    if (indexSelectProveedores!=null) {
-      if (proveedoresList[indexSelectProveedores]) {
-        id = proveedoresList[indexSelectProveedores].id
-      }
-    }
-    if (confirm("¿Desea Eliminar?")) {
-      setLoading(true)
-      db.delProveedor({id}).then(res=>{
-        setLoading(false)
-        getProveedores()
-        notificar(res)
-
-        if (res.data.estado) {
-          setIndexSelectProveedores(null)
-        }
-      })
-
-    }
-
-  }
-  const delProducto = e => {
-    let id;
-    if (indexSelectInventario!=null) {
-      if (productosInventario[indexSelectInventario]) {
-        id = productosInventario[indexSelectInventario].id
-      }
-    }
-    if (confirm("¿Desea Eliminar?")) {
-      setLoading(true)
-      db.delProducto({id}).then(res=>{
-        setLoading(false)
-        buscarInventario()
-        notificar(res)
-        if (res.data.estado) {
-          setIndexSelectInventario(null)
-        }
-      })
-      
-    }
-  }
-
-  const getFacturas = (clean = true) =>{
-    setLoading(true)
-    db.getFacturas({
-      factqBuscar,
-      factqBuscarDate,
-      factOrderBy,
-      factOrderDescAsc
-    }).then(res=>{
-      setLoading(false)
-      setfacturas(res.data)
-
-      if (clean) {
-        setfactSelectIndex(null)
-
-      }
-    })
-  }
-
-  const setFactura = e => {
-    e.preventDefault()
-    setLoading(true)
-
-    let id = null
-
-    if (factSelectIndex!=null) {
-      if (facturas[factSelectIndex]) {
-        id = facturas[factSelectIndex].id
-      }
-    }
-    db.setFactura({
-      factInpid_proveedor,
-      factInpnumfact,
-      factInpdescripcion,
-      factInpmonto,
-      factInpfechavencimiento,
-      factInpestatus,
-      id
-    }).then(res=>{
+      buscarInventario()
       notificar(res)
+      if (res.data.estado) {
+        setIndexSelectInventario(null)
+      }
+    })
+    
+  }
+}
+const getFacturas = (clean = true) =>{
+  setLoading(true)
+  db.getFacturas({
+    factqBuscar,
+    factqBuscarDate,
+    factOrderBy,
+    factOrderDescAsc
+  }).then(res=>{
+    setLoading(false)
+    setfacturas(res.data)
+
+    if (clean) {
+      setfactSelectIndex(null)
+
+    }
+  })
+}
+const setFactura = e => {
+  e.preventDefault()
+  setLoading(true)
+
+  let id = null
+
+  if (factSelectIndex!=null) {
+    if (facturas[factSelectIndex]) {
+      id = facturas[factSelectIndex].id
+    }
+  }
+  db.setFactura({
+    factInpid_proveedor,
+    factInpnumfact,
+    factInpdescripcion,
+    factInpmonto,
+    factInpfechavencimiento,
+    factInpestatus,
+    id
+  }).then(res=>{
+    notificar(res)
+    getFacturas()
+    setLoading(false)
+    if (res.data.estado) {
+      setfactsubView("buscar")
+      setfactSelectIndex(null)
+    }
+
+  })
+}
+const delFactura = e => {
+  let id = null
+
+  if (factSelectIndex!=null) {
+    if (facturas[factSelectIndex]) {
+      id = facturas[factSelectIndex].id
+    }
+  }
+  if (confirm("¿Desea Eliminar?")) {
+    setLoading(true)
+    db.delFactura({id}).then(res=>{
+      setLoading(false)
       getFacturas()
-      setLoading(false)
+      notificar(res)
       if (res.data.estado) {
         setfactsubView("buscar")
         setfactSelectIndex(null)
       }
-
     })
+    
   }
+}
+const delItemFact = e =>{
+  let id = e.currentTarget.attributes["data-id"].value
 
-  const delFactura = e => {
-    let id = null
-
-    if (factSelectIndex!=null) {
-      if (facturas[factSelectIndex]) {
-        id = facturas[factSelectIndex].id
-      }
-    }
-    if (confirm("¿Desea Eliminar?")) {
-      setLoading(true)
-      db.delFactura({id}).then(res=>{
-        setLoading(false)
-        getFacturas()
-        notificar(res)
-        if (res.data.estado) {
-          setfactsubView("buscar")
-          setfactSelectIndex(null)
-        }
-      })
-      
-    }
-  }
-
-  const delItemFact = e =>{
-    let id = e.currentTarget.attributes["data-id"].value
-
-    if (confirm("¿Desea Eliminar?")) {
-      setLoading(true)
-      db.delItemFact({id}).then(res=>{
-        setLoading(false)
-        notificar(res)
-        if (res.data.estado) {
-          getFacturas(false)
-          buscarInventario()
-        }
-      })
-    }
-  }
-
-
-  const setClienteCrud = e => {
-    e.preventDefault()
+  if (confirm("¿Desea Eliminar?")) {
     setLoading(true)
-    let id = null
-
-    if (indexSelectCliente!=null) {
-      if (clientesCrud[indexSelectCliente]) {
-        id = clientesCrud[indexSelectCliente].id
-      }
-    }
-
-    db.setClienteCrud({
-      id,
-      clienteInpidentificacion,
-      clienteInpnombre,
-      clienteInpcorreo,
-      clienteInpdireccion,
-      clienteInptelefono,
-      clienteInpestado,
-      clienteInpciudad
-    }).then(res=>{
+    db.delItemFact({id}).then(res=>{
+      setLoading(false)
       notificar(res)
-      getClienteCrud()
-      setLoading(false)
-    })
-  }
-  const getClienteCrud = () => {
-    setLoading(true)
-    db.getClienteCrud({q:qBuscarCliente,num:numclientesCrud}).then(res=>{
-      setLoading(false)
-      setclientesCrud(res.data)
-      setindexSelectCliente(null)
-    })
-  }
-  const delCliente = () => {
-    let id = null
-
-    if (indexSelectCliente!=null) {
-      if (clientesCrud[indexSelectCliente]) {
-        id = clientesCrud[indexSelectCliente].id
+      if (res.data.estado) {
+        getFacturas(false)
+        buscarInventario()
       }
-    }
-    if (confirm("¿Desea Eliminar?")) {
-      setLoading(true)
-      db.delCliente({id}).then(res=>{
-        setLoading(false)
-        getClienteCrud()
-        notificar(res)
-        if (res.data.estado) {
-          setindexSelectCliente(null)
-        }
-      })
-      
+    })
+  }
+}
+const setClienteCrud = e => {
+  e.preventDefault()
+  setLoading(true)
+  let id = null
+
+  if (indexSelectCliente!=null) {
+    if (clientesCrud[indexSelectCliente]) {
+      id = clientesCrud[indexSelectCliente].id
     }
   }
 
-  
+  db.setClienteCrud({
+    id,
+    clienteInpidentificacion,
+    clienteInpnombre,
+    clienteInpcorreo,
+    clienteInpdireccion,
+    clienteInptelefono,
+    clienteInpestado,
+    clienteInpciudad
+  }).then(res=>{
+    notificar(res)
+    getClienteCrud()
+    setLoading(false)
+  })
+}
+const getClienteCrud = () => {
+  setLoading(true)
+  db.getClienteCrud({q:qBuscarCliente,num:numclientesCrud}).then(res=>{
+    setLoading(false)
+    setclientesCrud(res.data)
+    setindexSelectCliente(null)
+  })
+}
+const delCliente = () => {
+  let id = null
 
-
-
-
+  if (indexSelectCliente!=null) {
+    if (clientesCrud[indexSelectCliente]) {
+      id = clientesCrud[indexSelectCliente].id
+    }
+  }
+  if (confirm("¿Desea Eliminar?")) {
+    setLoading(true)
+    db.delCliente({id}).then(res=>{
+      setLoading(false)
+      getClienteCrud()
+      notificar(res)
+      if (res.data.estado) {
+        setindexSelectCliente(null)
+      }
+    })
+    
+  }
+}
 const sumPedidos = e => {
   let tipo = e.currentTarget.attributes["data-tipo"].value
   let id = e.currentTarget.attributes["data-id"].value
@@ -2075,7 +2014,6 @@ const addCarritoFast = () => {
   }
   
 } 
- 
 const getFallas = () => {
   setLoading(true)
   db.getFallas({qFallas,orderCatFallas,orderSubCatFallas,ascdescFallas}).then(res=>{
@@ -2100,12 +2038,10 @@ const delFalla = e => {
     })
   }
 }
-
 const viewReportPedido = () =>{
   db.openNotaentregapedido({ id: pedidoData.id})
   
 }
-
 const getPedidosCentral = () => {
   setLoading(true)
   db.getPedidosCentral({}).then(res=>{
@@ -2120,9 +2056,6 @@ const getPedidosCentral = () => {
     }
   })
 }
-
-
-
 const procesarImportPedidoCentral = () => {
   // console.log(valbodypedidocentral)
   // Id pedido 4
@@ -2262,8 +2195,6 @@ const procesarImportPedidoCentral = () => {
     alert(err)
   }
 }
-
-
 const selectPedidosCentral = e => {
 
   try{
@@ -2317,7 +2248,6 @@ const checkPedidosCentral = () => {
     }
   }
 }
-
 const verDetallesFactura = (e=null) => {
   let id = facturas[factSelectIndex]
   if (e) {
@@ -2328,7 +2258,6 @@ const verDetallesFactura = (e=null) => {
   }
   
 }
-
 const getVentas = () => {
   setLoading(true)
   db.getVentas({fechaventas}).then(res=>{
@@ -2336,20 +2265,15 @@ const getVentas = () => {
     setLoading(false)
   })
 }
-
 const getVentasClick = () => {
   getVentas()
 }
-
- 
-
 const setBilletes = () => {
 
   let total = 0
   total = (parseInt(!billete1?0:billete1)*1) + (parseInt(!billete5?0:billete5)*5) + (parseInt(!billete10?0:billete10)*10) + (parseInt(!billete20?0:billete20)*20) + (parseInt(!billete50?0:billete50)*50) + (parseInt(!billete100?0:billete100)*100)
   setCaja_usd(total)
 }
-
 const addNewUsuario = e => {
 
   let id = null
@@ -2373,7 +2297,6 @@ const addNewUsuario = e => {
     })
   }
 }
-
 const getUsuarios = () => {
   setLoading(true)
   db.getUsuarios({}).then(res=>{
@@ -2381,7 +2304,6 @@ const getUsuarios = () => {
     setusuariosData(res.data)
   })
 }
-
 const delUsuario = () => {
   setLoading(true)
   let id = e.currentTarget.attributes["data-id"].value
@@ -2390,7 +2312,6 @@ const delUsuario = () => {
     notificar(res)
   })
 }
-
 const selectProductoFast = e => {
   let id = e.currentTarget.attributes["data-id"].value
   let val = e.currentTarget.attributes["data-val"].value
@@ -2400,7 +2321,6 @@ const selectProductoFast = e => {
   setView("inventario")
   setsubViewInventario("inventario")
 }
-
 const addNewLote = e => {
   let addObj = {
     lote: "",
@@ -2412,7 +2332,7 @@ const addNewLote = e => {
   }
   setinpInvLotes(inpInvLotes.concat(addObj))
 }
-  const changeModLote = (val, i, id, type, name = null) => {
+const changeModLote = (val, i, id, type, name = null) => {
   
     let lote = cloneDeep(inpInvLotes)
 
@@ -2440,92 +2360,122 @@ const addNewLote = e => {
     }
     setinpInvLotes(lote)
 }
+const reporteInventario = () => {
+  db.openReporteInventario()
+}
+const guardarNuevoProductoLote = () => {
+  setLoading(true)
+  let id_factura = null
 
-  const reporteInventario = () => {
-    db.openReporteInventario()
-  }
-  const guardarNuevoProductoLote = () => {
-    setLoading(true)
-    let id_factura = null
-
-    if (factSelectIndex != null) {
-      if (facturas[factSelectIndex]) {
-        id_factura = facturas[factSelectIndex].id
-      }
+  if (factSelectIndex != null) {
+    if (facturas[factSelectIndex]) {
+      id_factura = facturas[factSelectIndex].id
     }
+  }
+  let lotesFil = productosInventario.filter(e => e.type)
 
-    db.guardarNuevoProductoLote({ lotes: productosInventario, id_factura}).then(res=>{
+  if (lotesFil.length) {
+    
+    db.guardarNuevoProductoLote({ lotes: lotesFil, id_factura}).then(res=>{
       notificar(res)
       setLoading(false)
-      buscarInventario()
-
+      try{
+        if (res.data.estado) {
+          buscarInventario()
+          
+        }
+      }catch(err){}
     })
+  }else{
+    alert("Sin Datos")
   }
-  const changeInventario = (val, i, id, type, name = null) => {
-    let obj = cloneDeep(productosInventario)
 
-    switch (type) {
-      case "update":
-        if (obj[i].type != "new") {
-          obj[i].type = "update"
-        }
-        break;
-      case "delModeUpdateDelete":
-        delete obj[i].type
-        break;
-      case "delNew":
-        obj = obj.filter((e, ii) => ii !== i)
-        break;
-      case "changeInput":
-        obj[i][name] = val
-        break;
-      case "add":
-        let pro = ""
+}
+const changeInventario = (val, i, id, type, name = null) => {
+  let obj = cloneDeep(productosInventario)
 
-        if (facturas[factSelectIndex]) {
-          pro = facturas[factSelectIndex].proveedor.id
-        }
-        let newObj = [{
-          id:null,
-          codigo_proveedor: "",
-          codigo_barras: "",
-          descripcion: "",
-          id_categoria: "1",
-          id_marca: "",
-          unidad: "UND",
-          id_proveedor: pro,
-          cantidad: "",
-          precio_base: "",
-          precio: "",
-          iva: "0",
-          type: "new",
-
-        }] 
-
-        obj = newObj.concat(obj)
+  switch (type) {
+    case "update":
+      if (obj[i].type != "new") {
+        obj[i].type = "update"
+      }
       break;
+    case "delModeUpdateDelete":
+      delete obj[i].type
+      break;
+    case "delNew":
+      obj = obj.filter((e, ii) => ii !== i)
+      break;
+    case "changeInput":
+      obj[i][name] = val
+      break;
+    case "add":
+      let pro = ""
 
-      case "delMode":
-        obj[i].type = "delete"
-        let id_replace = 0
-        obj[i].id_replace = id_replace
-        break;
-    }
-    setProductosInventario(obj)
+      if (facturas[factSelectIndex]) {
+        pro = facturas[factSelectIndex].proveedor.id
+      }
+      let newObj = [{
+        id:null,
+        codigo_proveedor: "",
+        codigo_barras: "",
+        descripcion: "",
+        id_categoria: "1",
+        id_marca: "",
+        unidad: "UND",
+        id_proveedor: pro,
+        cantidad: "",
+        precio_base: "",
+        precio: "",
+        iva: "0",
+        type: "new",
+
+      }] 
+
+      obj = newObj.concat(obj)
+    break;
+
+    case "delMode":
+      obj[i].type = "delete"
+      let id_replace = 0
+      obj[i].id_replace = id_replace
+      break;
   }
-
-
-
-
+  setProductosInventario(obj)
+}
+const logout = () => {
+  db.logout().then(e=>{
+    window.location.href = "/";
+  })
+}
+const auth = permiso => {
+  let nivel = user.nivel
+  if(permiso==1){
+    if (nivel == 1) {
+      return true
+    }
+  }
+  if (permiso == 2) {
+    if (nivel == 1 || nivel == 2) {
+      return true
+    }
+  }
+  if (permiso == 3) {
+    if (nivel == 1 || nivel == 3) {
+      return true
+    }
+  }
+  return false
+}
 
   return (
-    <StrictMode>
-      {msj!=""?<Notificacion msj={msj} notificar={notificar}/>:null}
-      <Cargando active={loading}/>
-      {!loginActive?<Login loginRes={loginRes}/>:
-        <>
+    <>
+      
         <Header 
-        dolar={dolar} 
+        auth={auth}
+        logout={logout}
+        user={user}
+        dolar={dolar}
         peso={peso} 
         setMoneda={setMoneda}
         view={view}
@@ -2535,545 +2485,541 @@ const addNewLote = e => {
         setShowModalMovimientos={setShowModalMovimientos}
         showModalMovimientos={showModalMovimientos}
         getVentasClick={getVentasClick}
-            toggleClientesBtn={toggleClientesBtn}
-            settoggleClientesBtn={settoggleClientesBtn}
-            
-        
+        toggleClientesBtn={toggleClientesBtn}
+        settoggleClientesBtn={settoggleClientesBtn}
         setView={setView}/>
-          {
-          view=="seleccionar"?
-          <div className="container p-0">
-            
-              {selectItem!==null?productos[selectItem]?<ModalAddCarrito 
-                producto={productos[selectItem]} 
-                setSelectItem={setSelectItem}
-                cantidad={cantidad}
-                setCantidad={setCantidad}
-                numero_factura={numero_factura}
-                setNumero_factura={setNumero_factura}
-                pedidoList={pedidoList}
-                setFalla={setFalla}
-                number={number}
-                inputCantidadCarritoref={inputCantidadCarritoref}
-                addCarritoRequest={addCarritoRequest}/>:null:null}
-
-              {showModalMovimientos&&<ModalMovimientos 
-                setShowModalMovimientos={setShowModalMovimientos}
-                showModalMovimientos={showModalMovimientos}
-
-                setBuscarDevolucion={setBuscarDevolucion}
-                buscarDevolucion={buscarDevolucion}
-                setTipoMovMovimientos={setTipoMovMovimientos}
-                tipoMovMovimientos={tipoMovMovimientos}
-                setTipoCatMovimientos={setTipoCatMovimientos}
-                tipoCatMovimientos={tipoCatMovimientos}
-                productosDevulucionSelect={productosDevulucionSelect}
-                setDevolucion={setDevolucion}
-                idMovSelect={idMovSelect}
-                setIdMovSelect={setIdMovSelect}
-                movimientos={movimientos}
-                delMov={delMov}
-                setFechaMovimientos={setFechaMovimientos}
-                fechaMovimientos={fechaMovimientos}
-
-
-                
-              />}
-              <div className="input-group mb-3">
-                  <input type="text" 
-                  className="form-control" 
-                  ref={inputbusquedaProductosref}
-                  placeholder="Buscar... Presiona (ESC)" 
-                  onChange={onchangeinputmain}/>
-                <div className="input-group-append">
-                  <span className="input-group-text pointer" onClick={()=>{
-                    let num = window.prompt("Número de resultados a mostrar")
-                    if (num) {setNum(num)}
-                  }}>Num.({num})</span>
-                </div>
-                <span className="input-group-text pointer" onClick={()=>setItemCero(!itemCero)}>En cero: {itemCero?"Sí":"No"}</span>
-              </div>
-              <ProductosList 
-                productos={productos} 
-                addCarrito={addCarrito}
-
-                clickSetOrderColumn={clickSetOrderColumn}
-
-                orderColumn={orderColumn}
-                orderBy={orderBy}
-
-                counterListProductos={counterListProductos}
-                setCounterListProductos={setCounterListProductos}
-
-                tbodyproductosref={tbodyproductosref}
-                focusCtMain={focusCtMain}
-
-                selectProductoFast={selectProductoFast}
-
-
-              />
-              {productos.length==0?<div className="text-center p-2"><small className="mr-2">Nada para mostrar...</small></div>:null}
-              
-            {viewCaja?
-              <Cajagastos 
-                setMovimientoCaja={setMovimientoCaja}
-                movCajadescripcion={movCajadescripcion}
-                setMovCajadescripcion={setMovCajadescripcion}
-                movCajamonto={movCajamonto}
-                setMovCajamonto={setMovCajamonto}
-                number={number}
-                setMovCajacategoria={setMovCajacategoria}
-                movCajacategoria={movCajacategoria}
-                setMovCajatipo={setMovCajatipo}
-                movimientosCaja={movimientosCaja}
-                delMovCaja={delMovCaja}
-                movCajatipo={movCajatipo}
-
-                movCajaFecha={movCajaFecha}
-                viewCaja={viewCaja}
-                setViewCaja={setViewCaja}
-                setMovCajaFecha={setMovCajaFecha}
-              />
-            :null}
-          </div>
-          :null
-          }
-          {view=="ventas"?<Ventas
-            ventasData={ventasData}
-            getVentasClick={getVentasClick}
-            setfechaventas={setfechaventas}
-            fechaventas={fechaventas}
-            moneda={moneda}
-          />:null}
-
-          {view == "vueltos" ? <Vueltos
-            onchangecaja={onchangecaja}
-            qDeudores={qDeudores}
-            deudoresList={deudoresList}
-            selectDeudor={selectDeudor}
-            setSelectDeudor={setSelectDeudor}
-            tipo_pago_deudor={tipo_pago_deudor}
-            monto_pago_deudor={monto_pago_deudor}
-            setPagoCredito={setPagoCredito}
-            onClickEditPedido={onClickEditPedido}
-            onCLickDelPedido={onCLickDelPedido}
-            detallesDeudor={detallesDeudor}
-            onlyVueltos={onlyVueltos}
-            setOnlyVueltos={setOnlyVueltos}
+        {
+        view=="seleccionar"?
+        <div className="container p-0">
           
-            qBuscarCliente={qBuscarCliente}
-            setqBuscarCliente={setqBuscarCliente}
-            clientesCrud={clientesCrud}
-            setindexSelectCliente={setindexSelectCliente}
-            indexSelectCliente={indexSelectCliente}
-            setClienteCrud={setClienteCrud}
-            delCliente={delCliente}
-            clienteInpidentificacion={clienteInpidentificacion}
-            setclienteInpidentificacion={setclienteInpidentificacion}
-            clienteInpnombre={clienteInpnombre}
-            setclienteInpnombre={setclienteInpnombre}
-            clienteInpcorreo={clienteInpcorreo}
-            setclienteInpcorreo={setclienteInpcorreo}
-            clienteInpdireccion={clienteInpdireccion}
-            setclienteInpdireccion={setclienteInpdireccion}
-            clienteInptelefono={clienteInptelefono}
-            setclienteInptelefono={setclienteInptelefono}
-            clienteInpestado={clienteInpestado}
-            setclienteInpestado={setclienteInpestado}
-            clienteInpciudad={clienteInpciudad}
-            setclienteInpciudad={setclienteInpciudad}
-            sumPedidos={sumPedidos}
+            {selectItem!==null?productos[selectItem]?<ModalAddCarrito 
+              producto={productos[selectItem]} 
+              setSelectItem={setSelectItem}
+              cantidad={cantidad}
+              setCantidad={setCantidad}
+              numero_factura={numero_factura}
+              setNumero_factura={setNumero_factura}
+              pedidoList={pedidoList}
+              setFalla={setFalla}
+              number={number}
+              inputCantidadCarritoref={inputCantidadCarritoref}
+              addCarritoRequest={addCarritoRequest}/>:null:null}
+
+            {showModalMovimientos&&<ModalMovimientos 
+              setShowModalMovimientos={setShowModalMovimientos}
+              showModalMovimientos={showModalMovimientos}
+
+              setBuscarDevolucion={setBuscarDevolucion}
+              buscarDevolucion={buscarDevolucion}
+              setTipoMovMovimientos={setTipoMovMovimientos}
+              tipoMovMovimientos={tipoMovMovimientos}
+              setTipoCatMovimientos={setTipoCatMovimientos}
+              tipoCatMovimientos={tipoCatMovimientos}
+              productosDevulucionSelect={productosDevulucionSelect}
+              setDevolucion={setDevolucion}
+              idMovSelect={idMovSelect}
+              setIdMovSelect={setIdMovSelect}
+              movimientos={movimientos}
+              delMov={delMov}
+              setFechaMovimientos={setFechaMovimientos}
+              fechaMovimientos={fechaMovimientos}
+
+
+              
+            />}
+            <div className="input-group mb-3">
+                <input type="text" 
+                className="form-control" 
+                ref={inputbusquedaProductosref}
+                placeholder="Buscar... Presiona (ESC)" 
+                onChange={onchangeinputmain}/>
+              <div className="input-group-append">
+                <span className="input-group-text pointer" onClick={()=>{
+                  let num = window.prompt("Número de resultados a mostrar")
+                  if (num) {setNum(num)}
+                }}>Num.({num})</span>
+              </div>
+              <span className="input-group-text pointer" onClick={()=>setItemCero(!itemCero)}>En cero: {itemCero?"Sí":"No"}</span>
+            </div>
+            <ProductosList 
+              productos={productos} 
+              addCarrito={addCarrito}
+
+              clickSetOrderColumn={clickSetOrderColumn}
+
+              orderColumn={orderColumn}
+              orderBy={orderBy}
+
+              counterListProductos={counterListProductos}
+              setCounterListProductos={setCounterListProductos}
+
+              tbodyproductosref={tbodyproductosref}
+              focusCtMain={focusCtMain}
+
+              selectProductoFast={selectProductoFast}
+
+
+            />
+            {productos.length==0?<div className="text-center p-2"><small className="mr-2">Nada para mostrar...</small></div>:null}
             
-          />:null}
+          {viewCaja?
+            <Cajagastos 
+              setMovimientoCaja={setMovimientoCaja}
+              movCajadescripcion={movCajadescripcion}
+              setMovCajadescripcion={setMovCajadescripcion}
+              movCajamonto={movCajamonto}
+              setMovCajamonto={setMovCajamonto}
+              number={number}
+              setMovCajacategoria={setMovCajacategoria}
+              movCajacategoria={movCajacategoria}
+              setMovCajatipo={setMovCajatipo}
+              movimientosCaja={movimientosCaja}
+              delMovCaja={delMovCaja}
+              movCajatipo={movCajatipo}
 
-          {view=="clientes_crud"?
-            <Clientes
-            qBuscarCliente={qBuscarCliente}
-            setqBuscarCliente={setqBuscarCliente}
-            clientesCrud={clientesCrud}
-            setindexSelectCliente={setindexSelectCliente}
-            indexSelectCliente={indexSelectCliente}
-            setClienteCrud={setClienteCrud}
-            delCliente={delCliente}
-            clienteInpidentificacion={clienteInpidentificacion}
-            setclienteInpidentificacion={setclienteInpidentificacion}
-            clienteInpnombre={clienteInpnombre}
-            setclienteInpnombre={setclienteInpnombre}
-            clienteInpcorreo={clienteInpcorreo}
-            setclienteInpcorreo={setclienteInpcorreo}
-            clienteInpdireccion={clienteInpdireccion}
-            setclienteInpdireccion={setclienteInpdireccion}
-            clienteInptelefono={clienteInptelefono}
-            setclienteInptelefono={setclienteInptelefono}
-            clienteInpestado={clienteInpestado}
-            setclienteInpestado={setclienteInpestado}
-            clienteInpciudad={clienteInpciudad}
-            setclienteInpciudad={setclienteInpciudad}
-          />
-          :null}
-
-          {view=="cierres"?<Cierres
-            number={number}
-            guardar_usd={guardar_usd}
-            setguardar_usd={setguardar_usd}
-            guardar_cop={guardar_cop}
-            setguardar_cop={setguardar_cop}
-            guardar_bs={guardar_bs}
-            setguardar_bs={setguardar_bs}
-            caja_usd={caja_usd}
-            caja_cop={caja_cop}
-            caja_bs={caja_bs}
-            caja_punto={caja_punto}
-
-            dejar_usd={dejar_usd}
-            dejar_cop={dejar_cop}
-            dejar_bs={dejar_bs}
-
-            setDejar_usd={setDejar_usd}
-            setDejar_cop={setDejar_cop}
-            setDejar_bs={setDejar_bs}
-            
-            cierre={cierre}
-            cerrar_dia={cerrar_dia}
-            total_caja_neto={total_caja_neto}
-            total_punto={total_punto}
-
-            total_dejar_caja_neto={total_dejar_caja_neto}
-
-            viewCierre={viewCierre}
-            setViewCierre={setViewCierre}
-            toggleDetallesCierre={toggleDetallesCierre}
-            setToggleDetallesCierre={setToggleDetallesCierre}
-
-            onchangecaja={onchangecaja}
-            fechaCierre={fechaCierre}
-            setFechaCierre={setFechaCierre}
-            guardar_cierre={guardar_cierre}
-            notaCierre={notaCierre}
-
-            billete1={billete1}
-            setbillete1={setbillete1}
-            billete5={billete5}
-            setbillete5={setbillete5}
-            billete10={billete10}
-            setbillete10={setbillete10}
-            billete20={billete20}
-            setbillete20={setbillete20}
-            billete50={billete50}
-            setbillete50={setbillete50}
-            billete100={billete100}
-            setbillete100={setbillete100}
-          />:null}
-          {view=="pedidos"?<Pedidos
-            tipobusquedapedido={tipobusquedapedido}
-            
-            setTipoBusqueda={setTipoBusqueda}
-            busquedaPedido={busquedaPedido}
-            fecha1pedido={fecha1pedido}
-            fecha2pedido={fecha2pedido}
-            onChangePedidos={onChangePedidos}
-
-            onClickEditPedido={onClickEditPedido}
-            onCLickDelPedido={onCLickDelPedido}
-
-            pedidos={pedidos}
-            getPedidos={getPedidos}
-
-            filterMetodoPago={filterMetodoPago}
-            filterMetodoPagoToggle={filterMetodoPagoToggle}
-            tipoestadopedido={tipoestadopedido}
-            setTipoestadopedido={setTipoestadopedido}
-          />:null}
-
-          {view=="usuarios"?<Usuarios
-
-            usuariosData={usuariosData}
-            addNewUsuario={addNewUsuario}
-            delUsuario={delUsuario}
-            getUsuarios={getUsuarios}
-          />:null}
-          {view=="inventario"?<Inventario
-            guardarNuevoProductoLote={guardarNuevoProductoLote}
-            changeInventario={changeInventario}
-            reporteInventario={reporteInventario}
-            addNewLote={addNewLote}
-            changeModLote={changeModLote}
-            
-            modViewInventario={modViewInventario}
-            setmodViewInventario={setmodViewInventario}
-            setNewProducto={setNewProducto}
-            verDetallesFactura={verDetallesFactura}
-            showaddpedidocentral={showaddpedidocentral}
-            setshowaddpedidocentral={setshowaddpedidocentral}
-            valheaderpedidocentral={valheaderpedidocentral}
-            setvalheaderpedidocentral={setvalheaderpedidocentral}
-            valbodypedidocentral={valbodypedidocentral}
-            setvalbodypedidocentral={setvalbodypedidocentral}
-            procesarImportPedidoCentral={procesarImportPedidoCentral}
-            moneda={moneda}
-            productosInventario={productosInventario}
-            qBuscarInventario={qBuscarInventario}
-            setQBuscarInventario={setQBuscarInventario}
-
-            setIndexSelectInventario={setIndexSelectInventario}
-            indexSelectInventario={indexSelectInventario}
-
-            inputBuscarInventario={inputBuscarInventario}
-
-            inpInvbarras={inpInvbarras}
-            setinpInvbarras={setinpInvbarras}
-            inpInvcantidad={inpInvcantidad}
-            setinpInvcantidad={setinpInvcantidad}
-            inpInvalterno={inpInvalterno}
-            setinpInvalterno={setinpInvalterno}
-            inpInvunidad={inpInvunidad}
-            setinpInvunidad={setinpInvunidad}
-            inpInvcategoria={inpInvcategoria}
-            setinpInvcategoria={setinpInvcategoria}
-            inpInvdescripcion={inpInvdescripcion}
-            setinpInvdescripcion={setinpInvdescripcion}
-            inpInvbase={inpInvbase}
-            setinpInvbase={setinpInvbase}
-            inpInvventa={inpInvventa}
-            setinpInvventa={setinpInvventa}
-            inpInviva={inpInviva}
-            setinpInviva={setinpInviva}
-            inpInvLotes={inpInvLotes}
-
-            number={number}
-            guardarNuevoProducto={guardarNuevoProducto}
-
-            setProveedor={setProveedor}
-            proveedordescripcion={proveedordescripcion}
-            setproveedordescripcion={setproveedordescripcion}
-            proveedorrif={proveedorrif}
-            setproveedorrif={setproveedorrif}
-            proveedordireccion={proveedordireccion}
-            setproveedordireccion={setproveedordireccion}
-            proveedortelefono={proveedortelefono}
-            setproveedortelefono={setproveedortelefono}
-
-            subViewInventario={subViewInventario}
-            setsubViewInventario={setsubViewInventario}
-
-            setIndexSelectProveedores={setIndexSelectProveedores}
-            indexSelectProveedores={indexSelectProveedores}
-            qBuscarProveedor={qBuscarProveedor}
-            setQBuscarProveedor={setQBuscarProveedor}
-            proveedoresList={proveedoresList}
-
-            delProveedor={delProveedor}
-            delProducto={delProducto}
-
-            inpInvid_proveedor={inpInvid_proveedor}
-            setinpInvid_proveedor={setinpInvid_proveedor}
-            inpInvid_marca={inpInvid_marca}
-            setinpInvid_marca={setinpInvid_marca}
-            inpInvid_deposito={inpInvid_deposito}
-            setinpInvid_deposito={setinpInvid_deposito}
-
-            depositosList={depositosList}
-            marcasList={marcasList}
-            
-            setshowModalFacturas={setshowModalFacturas}
-            showModalFacturas={showModalFacturas}
-
-            facturas={facturas}
-
-            factqBuscar={factqBuscar}
-            setfactqBuscar={setfactqBuscar}
-            factqBuscarDate={factqBuscarDate}
-            setfactqBuscarDate={setfactqBuscarDate}
-            factsubView={factsubView}
-            setfactsubView={setfactsubView}
-            factSelectIndex={factSelectIndex}
-            setfactSelectIndex={setfactSelectIndex}
-            factOrderBy={factOrderBy}
-            setfactOrderBy={setfactOrderBy}
-            factOrderDescAsc={factOrderDescAsc}
-            setfactOrderDescAsc={setfactOrderDescAsc}
-            factInpid_proveedor={factInpid_proveedor}
-            setfactInpid_proveedor={setfactInpid_proveedor}
-            factInpnumfact={factInpnumfact}
-            setfactInpnumfact={setfactInpnumfact}
-            factInpdescripcion={factInpdescripcion}
-            setfactInpdescripcion={setfactInpdescripcion}
-            factInpmonto={factInpmonto}
-            setfactInpmonto={setfactInpmonto}
-            factInpfechavencimiento={factInpfechavencimiento}
-            setfactInpfechavencimiento={setfactInpfechavencimiento}
-
-            factInpestatus={factInpestatus}
-            setfactInpestatus={setfactInpestatus}
-
-            setFactura={setFactura}
-            delFactura={delFactura}
-
-            Invnum={Invnum}
-            setInvnum={setInvnum}
-            InvorderColumn={InvorderColumn}
-            setInvorderColumn={setInvorderColumn}
-            InvorderBy={InvorderBy}
-            setInvorderBy={setInvorderBy}
-            delItemFact={delItemFact}
-
-            qFallas={qFallas}
-            setqFallas={setqFallas}
-            orderCatFallas={orderCatFallas}
-            setorderCatFallas={setorderCatFallas}
-            orderSubCatFallas={orderSubCatFallas}
-            setorderSubCatFallas={setorderSubCatFallas}
-            ascdescFallas={ascdescFallas}
-            setascdescFallas={setascdescFallas}
-            fallas={fallas}
-            delFalla={delFalla}
-
-            getPedidosCentral={getPedidosCentral}
-            selectPedidosCentral={selectPedidosCentral}
-            checkPedidosCentral={checkPedidosCentral}
-            pedidosCentral={pedidosCentral}
-            setIndexPedidoCentral={setIndexPedidoCentral}
-            indexPedidoCentral={indexPedidoCentral}
-
-          />:null}
-          {view=="pagar"?<Pagar 
-            pedidosFast={pedidosFast}
-            onClickEditPedido={onClickEditPedido}
-            tipobusquedapedido={tipobusquedapedido}
-            pedidos={pedidos}
-            pedidoData={pedidoData} 
-            getPedido={getPedido} 
-            debito={debito}
-            setDebito={setDebito}
-            efectivo={efectivo}
-            setEfectivo={setEfectivo}
-            transferencia={transferencia}
-            setTransferencia={setTransferencia}
-            vuelto={vuelto}
-            setVuelto={setVuelto}
-            number={number}
-            credito={credito}
-            inputmodaladdpersonacarritoref={inputmodaladdpersonacarritoref}
-            inputaddcarritointernoref={inputaddcarritointernoref}
-
-            viewReportPedido={viewReportPedido}
-
-            delItemPedido={delItemPedido}
-            setDescuento={setDescuento}
-            setDescuentoUnitario={setDescuentoUnitario}
-            setDescuentoTotal={setDescuentoTotal}
-            setCantidadCarrito={setCantidadCarrito}
-
-            ModaladdproductocarritoToggle={ModaladdproductocarritoToggle}
-            setModaladdproductocarritoToggle={setModaladdproductocarritoToggle}
-
-            toggleModalProductos={toggleModalProductos}
-
-            toggleAddPersona={toggleAddPersona}
-            setToggleAddPersona={setToggleAddPersona}
-            personas={personas}
-            getPersona={getPersona}
-            setPersonas={setPersonas}
-
-            setProductoCarritoInterno={setProductoCarritoInterno}
-
-            del_pedido={del_pedido}
-
-            toggleImprimirTicket={toggleImprimirTicket}
-
-            productos={productos}
-            getProductos={getProductos}
-            facturar_pedido={facturar_pedido}
-
-            setCredito={setCredito}
-
-            tbodyproducInterref={tbodyproducInterref}
-            tbodypersoInterref={tbodypersoInterref}
-            
-            countListInter={countListInter}
-            countListPersoInter={countListPersoInter}
-
-            onchangeinputmain={onchangeinputmain}
-
-            clickSetOrderColumn={clickSetOrderColumn}
-            orderColumn={orderColumn}
-            orderBy={orderBy}
-            entregarVuelto={entregarVuelto}
-
-            setPersonaFast={setPersonaFast}
-            clienteInpidentificacion={clienteInpidentificacion}
-            setclienteInpidentificacion={setclienteInpidentificacion}
-            clienteInpnombre={clienteInpnombre}
-            setclienteInpnombre={setclienteInpnombre}
-            clienteInptelefono={clienteInptelefono}
-            setclienteInptelefono={setclienteInptelefono}
-            clienteInpdireccion={clienteInpdireccion}
-            setclienteInpdireccion={setclienteInpdireccion}
-            
-            inputaddCarritoFast={inputaddCarritoFast}
-            setinputaddCarritoFast={setinputaddCarritoFast}
-            addCarritoFast={addCarritoFast}
-            refinputaddcarritofast={refinputaddcarritofast}
-
-            autoCorrector={autoCorrector}
-            setautoCorrector={setautoCorrector}
-
-            getDebito={getDebito}
-            getCredito={getCredito}
-            getTransferencia={getTransferencia}
-            getEfectivo={getEfectivo}
+              movCajaFecha={movCajaFecha}
+              viewCaja={viewCaja}
+              setViewCaja={setViewCaja}
+              setMovCajaFecha={setMovCajaFecha}
             />
           :null}
-          {view=="credito"?<Credito
-            printCreditos={printCreditos}
-            onchangecaja={onchangecaja}
-            qDeudores={qDeudores}
-            deudoresList={deudoresList}
-            tipo_pago_deudor={tipo_pago_deudor}
-            monto_pago_deudor={monto_pago_deudor}
+        </div>
+        :null
+        }
+        {view=="ventas"?<Ventas
+          ventasData={ventasData}
+          getVentasClick={getVentasClick}
+          setfechaventas={setfechaventas}
+          fechaventas={fechaventas}
+          moneda={moneda}
+        />:null}
 
-            selectDeudor={selectDeudor}
-            setSelectDeudor={setSelectDeudor}
-            setPagoCredito={setPagoCredito}
-            detallesDeudor={detallesDeudor}
-            onClickEditPedido={onClickEditPedido}
-            onCLickDelPedido={onCLickDelPedido}
-            onlyVueltos={onlyVueltos}
-            setOnlyVueltos={setOnlyVueltos}
+        {view == "vueltos" ? <Vueltos
+          onchangecaja={onchangecaja}
+          qDeudores={qDeudores}
+          deudoresList={deudoresList}
+          selectDeudor={selectDeudor}
+          setSelectDeudor={setSelectDeudor}
+          tipo_pago_deudor={tipo_pago_deudor}
+          monto_pago_deudor={monto_pago_deudor}
+          setPagoCredito={setPagoCredito}
+          onClickEditPedido={onClickEditPedido}
+          onCLickDelPedido={onCLickDelPedido}
+          detallesDeudor={detallesDeudor}
+          onlyVueltos={onlyVueltos}
+          setOnlyVueltos={setOnlyVueltos}
+        
+          qBuscarCliente={qBuscarCliente}
+          setqBuscarCliente={setqBuscarCliente}
+          clientesCrud={clientesCrud}
+          setindexSelectCliente={setindexSelectCliente}
+          indexSelectCliente={indexSelectCliente}
+          setClienteCrud={setClienteCrud}
+          delCliente={delCliente}
+          clienteInpidentificacion={clienteInpidentificacion}
+          setclienteInpidentificacion={setclienteInpidentificacion}
+          clienteInpnombre={clienteInpnombre}
+          setclienteInpnombre={setclienteInpnombre}
+          clienteInpcorreo={clienteInpcorreo}
+          setclienteInpcorreo={setclienteInpcorreo}
+          clienteInpdireccion={clienteInpdireccion}
+          setclienteInpdireccion={setclienteInpdireccion}
+          clienteInptelefono={clienteInptelefono}
+          setclienteInptelefono={setclienteInptelefono}
+          clienteInpestado={clienteInpestado}
+          setclienteInpestado={setclienteInpestado}
+          clienteInpciudad={clienteInpciudad}
+          setclienteInpciudad={setclienteInpciudad}
+          sumPedidos={sumPedidos}
+        />:null}
 
-            qBuscarCliente={qBuscarCliente}
-            setqBuscarCliente={setqBuscarCliente}
-            clientesCrud={clientesCrud}
-            setindexSelectCliente={setindexSelectCliente}
-            indexSelectCliente={indexSelectCliente}
-            setClienteCrud={setClienteCrud}
-            delCliente={delCliente}
-            clienteInpidentificacion={clienteInpidentificacion}
-            setclienteInpidentificacion={setclienteInpidentificacion}
-            clienteInpnombre={clienteInpnombre}
-            setclienteInpnombre={setclienteInpnombre}
-            clienteInpcorreo={clienteInpcorreo}
-            setclienteInpcorreo={setclienteInpcorreo}
-            clienteInpdireccion={clienteInpdireccion}
-            setclienteInpdireccion={setclienteInpdireccion}
-            clienteInptelefono={clienteInptelefono}
-            setclienteInptelefono={setclienteInptelefono}
-            clienteInpestado={clienteInpestado}
-            setclienteInpestado={setclienteInpestado}
-            clienteInpciudad={clienteInpciudad}
-            setclienteInpciudad={setclienteInpciudad}
+        {view=="clientes_crud"?
+          <Clientes
+          qBuscarCliente={qBuscarCliente}
+          setqBuscarCliente={setqBuscarCliente}
+          clientesCrud={clientesCrud}
+          setindexSelectCliente={setindexSelectCliente}
+          indexSelectCliente={indexSelectCliente}
+          setClienteCrud={setClienteCrud}
+          delCliente={delCliente}
+          clienteInpidentificacion={clienteInpidentificacion}
+          setclienteInpidentificacion={setclienteInpidentificacion}
+          clienteInpnombre={clienteInpnombre}
+          setclienteInpnombre={setclienteInpnombre}
+          clienteInpcorreo={clienteInpcorreo}
+          setclienteInpcorreo={setclienteInpcorreo}
+          clienteInpdireccion={clienteInpdireccion}
+          setclienteInpdireccion={setclienteInpdireccion}
+          clienteInptelefono={clienteInptelefono}
+          setclienteInptelefono={setclienteInptelefono}
+          clienteInpestado={clienteInpestado}
+          setclienteInpestado={setclienteInpestado}
+          clienteInpciudad={clienteInpciudad}
+          setclienteInpciudad={setclienteInpciudad}
+        />
+        :null}
 
-            sumPedidos={sumPedidos}
-            sumPedidosArr={sumPedidosArr}
-            setsumPedidosArr={setsumPedidosArr}
-            
-            
+        {view=="cierres"?<Cierres
+          number={number}
+          guardar_usd={guardar_usd}
+          setguardar_usd={setguardar_usd}
+          guardar_cop={guardar_cop}
+          setguardar_cop={setguardar_cop}
+          guardar_bs={guardar_bs}
+          setguardar_bs={setguardar_bs}
+          caja_usd={caja_usd}
+          caja_cop={caja_cop}
+          caja_bs={caja_bs}
+          caja_punto={caja_punto}
+
+          dejar_usd={dejar_usd}
+          dejar_cop={dejar_cop}
+          dejar_bs={dejar_bs}
+
+          setDejar_usd={setDejar_usd}
+          setDejar_cop={setDejar_cop}
+          setDejar_bs={setDejar_bs}
+          
+          cierre={cierre}
+          cerrar_dia={cerrar_dia}
+          total_caja_neto={total_caja_neto}
+          total_punto={total_punto}
+
+          total_dejar_caja_neto={total_dejar_caja_neto}
+
+          viewCierre={viewCierre}
+          setViewCierre={setViewCierre}
+          toggleDetallesCierre={toggleDetallesCierre}
+          setToggleDetallesCierre={setToggleDetallesCierre}
+
+          onchangecaja={onchangecaja}
+          fechaCierre={fechaCierre}
+          setFechaCierre={setFechaCierre}
+          guardar_cierre={guardar_cierre}
+          notaCierre={notaCierre}
+
+          billete1={billete1}
+          setbillete1={setbillete1}
+          billete5={billete5}
+          setbillete5={setbillete5}
+          billete10={billete10}
+          setbillete10={setbillete10}
+          billete20={billete20}
+          setbillete20={setbillete20}
+          billete50={billete50}
+          setbillete50={setbillete50}
+          billete100={billete100}
+          setbillete100={setbillete100}
+        />:null}
+        {view=="pedidos"?<Pedidos
+          tipobusquedapedido={tipobusquedapedido}
+          
+          setTipoBusqueda={setTipoBusqueda}
+          busquedaPedido={busquedaPedido}
+          fecha1pedido={fecha1pedido}
+          fecha2pedido={fecha2pedido}
+          onChangePedidos={onChangePedidos}
+
+          onClickEditPedido={onClickEditPedido}
+          onCLickDelPedido={onCLickDelPedido}
+
+          pedidos={pedidos}
+          getPedidos={getPedidos}
+
+          filterMetodoPago={filterMetodoPago}
+          filterMetodoPagoToggle={filterMetodoPagoToggle}
+          tipoestadopedido={tipoestadopedido}
+          setTipoestadopedido={setTipoestadopedido}
+        />:null}
+
+        {view=="usuarios"?<Usuarios
+          usuariosData={usuariosData}
+          addNewUsuario={addNewUsuario}
+          delUsuario={delUsuario}
+          getUsuarios={getUsuarios}
+        />:null}
+        {view=="inventario"?<Inventario
+          refsInpInvList={refsInpInvList}
+          guardarNuevoProductoLote={guardarNuevoProductoLote}
+          changeInventario={changeInventario}
+          reporteInventario={reporteInventario}
+          addNewLote={addNewLote}
+          changeModLote={changeModLote}
+          
+          modViewInventario={modViewInventario}
+          setmodViewInventario={setmodViewInventario}
+          setNewProducto={setNewProducto}
+          verDetallesFactura={verDetallesFactura}
+          showaddpedidocentral={showaddpedidocentral}
+          setshowaddpedidocentral={setshowaddpedidocentral}
+          valheaderpedidocentral={valheaderpedidocentral}
+          setvalheaderpedidocentral={setvalheaderpedidocentral}
+          valbodypedidocentral={valbodypedidocentral}
+          setvalbodypedidocentral={setvalbodypedidocentral}
+          procesarImportPedidoCentral={procesarImportPedidoCentral}
+          moneda={moneda}
+          productosInventario={productosInventario}
+          qBuscarInventario={qBuscarInventario}
+          setQBuscarInventario={setQBuscarInventario}
+
+          setIndexSelectInventario={setIndexSelectInventario}
+          indexSelectInventario={indexSelectInventario}
+
+          inputBuscarInventario={inputBuscarInventario}
+
+          inpInvbarras={inpInvbarras}
+          setinpInvbarras={setinpInvbarras}
+          inpInvcantidad={inpInvcantidad}
+          setinpInvcantidad={setinpInvcantidad}
+          inpInvalterno={inpInvalterno}
+          setinpInvalterno={setinpInvalterno}
+          inpInvunidad={inpInvunidad}
+          setinpInvunidad={setinpInvunidad}
+          inpInvcategoria={inpInvcategoria}
+          setinpInvcategoria={setinpInvcategoria}
+          inpInvdescripcion={inpInvdescripcion}
+          setinpInvdescripcion={setinpInvdescripcion}
+          inpInvbase={inpInvbase}
+          setinpInvbase={setinpInvbase}
+          inpInvventa={inpInvventa}
+          setinpInvventa={setinpInvventa}
+          inpInviva={inpInviva}
+          setinpInviva={setinpInviva}
+          inpInvLotes={inpInvLotes}
+
+          number={number}
+          guardarNuevoProducto={guardarNuevoProducto}
+
+          setProveedor={setProveedor}
+          proveedordescripcion={proveedordescripcion}
+          setproveedordescripcion={setproveedordescripcion}
+          proveedorrif={proveedorrif}
+          setproveedorrif={setproveedorrif}
+          proveedordireccion={proveedordireccion}
+          setproveedordireccion={setproveedordireccion}
+          proveedortelefono={proveedortelefono}
+          setproveedortelefono={setproveedortelefono}
+
+          subViewInventario={subViewInventario}
+          setsubViewInventario={setsubViewInventario}
+
+          setIndexSelectProveedores={setIndexSelectProveedores}
+          indexSelectProveedores={indexSelectProveedores}
+          qBuscarProveedor={qBuscarProveedor}
+          setQBuscarProveedor={setQBuscarProveedor}
+          proveedoresList={proveedoresList}
+
+          delProveedor={delProveedor}
+          delProducto={delProducto}
+
+          inpInvid_proveedor={inpInvid_proveedor}
+          setinpInvid_proveedor={setinpInvid_proveedor}
+          inpInvid_marca={inpInvid_marca}
+          setinpInvid_marca={setinpInvid_marca}
+          inpInvid_deposito={inpInvid_deposito}
+          setinpInvid_deposito={setinpInvid_deposito}
+
+          depositosList={depositosList}
+          marcasList={marcasList}
+          
+          setshowModalFacturas={setshowModalFacturas}
+          showModalFacturas={showModalFacturas}
+
+          facturas={facturas}
+
+          factqBuscar={factqBuscar}
+          setfactqBuscar={setfactqBuscar}
+          factqBuscarDate={factqBuscarDate}
+          setfactqBuscarDate={setfactqBuscarDate}
+          factsubView={factsubView}
+          setfactsubView={setfactsubView}
+          factSelectIndex={factSelectIndex}
+          setfactSelectIndex={setfactSelectIndex}
+          factOrderBy={factOrderBy}
+          setfactOrderBy={setfactOrderBy}
+          factOrderDescAsc={factOrderDescAsc}
+          setfactOrderDescAsc={setfactOrderDescAsc}
+          factInpid_proveedor={factInpid_proveedor}
+          setfactInpid_proveedor={setfactInpid_proveedor}
+          factInpnumfact={factInpnumfact}
+          setfactInpnumfact={setfactInpnumfact}
+          factInpdescripcion={factInpdescripcion}
+          setfactInpdescripcion={setfactInpdescripcion}
+          factInpmonto={factInpmonto}
+          setfactInpmonto={setfactInpmonto}
+          factInpfechavencimiento={factInpfechavencimiento}
+          setfactInpfechavencimiento={setfactInpfechavencimiento}
+
+          factInpestatus={factInpestatus}
+          setfactInpestatus={setfactInpestatus}
+
+          setFactura={setFactura}
+          delFactura={delFactura}
+
+          Invnum={Invnum}
+          setInvnum={setInvnum}
+          InvorderColumn={InvorderColumn}
+          setInvorderColumn={setInvorderColumn}
+          InvorderBy={InvorderBy}
+          setInvorderBy={setInvorderBy}
+          delItemFact={delItemFact}
+
+          qFallas={qFallas}
+          setqFallas={setqFallas}
+          orderCatFallas={orderCatFallas}
+          setorderCatFallas={setorderCatFallas}
+          orderSubCatFallas={orderSubCatFallas}
+          setorderSubCatFallas={setorderSubCatFallas}
+          ascdescFallas={ascdescFallas}
+          setascdescFallas={setascdescFallas}
+          fallas={fallas}
+          delFalla={delFalla}
+
+          getPedidosCentral={getPedidosCentral}
+          selectPedidosCentral={selectPedidosCentral}
+          checkPedidosCentral={checkPedidosCentral}
+          pedidosCentral={pedidosCentral}
+          setIndexPedidoCentral={setIndexPedidoCentral}
+          indexPedidoCentral={indexPedidoCentral}
+
+        />:null}
+        {view =="ViewPedidoVendedor"?<ViewPedidoVendedor
+        
+        />:null}
+        {view=="pagar"?<Pagar 
+          pedidosFast={pedidosFast}
+          onClickEditPedido={onClickEditPedido}
+          tipobusquedapedido={tipobusquedapedido}
+          pedidos={pedidos}
+          pedidoData={pedidoData} 
+          getPedido={getPedido} 
+          debito={debito}
+          setDebito={setDebito}
+          efectivo={efectivo}
+          setEfectivo={setEfectivo}
+          transferencia={transferencia}
+          setTransferencia={setTransferencia}
+          vuelto={vuelto}
+          setVuelto={setVuelto}
+          number={number}
+          credito={credito}
+          inputmodaladdpersonacarritoref={inputmodaladdpersonacarritoref}
+          inputaddcarritointernoref={inputaddcarritointernoref}
+
+          viewReportPedido={viewReportPedido}
+
+          delItemPedido={delItemPedido}
+          setDescuento={setDescuento}
+          setDescuentoUnitario={setDescuentoUnitario}
+          setDescuentoTotal={setDescuentoTotal}
+          setCantidadCarrito={setCantidadCarrito}
+
+          ModaladdproductocarritoToggle={ModaladdproductocarritoToggle}
+          setModaladdproductocarritoToggle={setModaladdproductocarritoToggle}
+
+          toggleModalProductos={toggleModalProductos}
+
+          toggleAddPersona={toggleAddPersona}
+          setToggleAddPersona={setToggleAddPersona}
+          personas={personas}
+          getPersona={getPersona}
+          setPersonas={setPersonas}
+
+          setProductoCarritoInterno={setProductoCarritoInterno}
+
+          del_pedido={del_pedido}
+
+          toggleImprimirTicket={toggleImprimirTicket}
+
+          productos={productos}
+          getProductos={getProductos}
+          facturar_pedido={facturar_pedido}
+
+          setCredito={setCredito}
+
+          tbodyproducInterref={tbodyproducInterref}
+          tbodypersoInterref={tbodypersoInterref}
+          
+          countListInter={countListInter}
+          countListPersoInter={countListPersoInter}
+
+          onchangeinputmain={onchangeinputmain}
+
+          clickSetOrderColumn={clickSetOrderColumn}
+          orderColumn={orderColumn}
+          orderBy={orderBy}
+          entregarVuelto={entregarVuelto}
+
+          setPersonaFast={setPersonaFast}
+          clienteInpidentificacion={clienteInpidentificacion}
+          setclienteInpidentificacion={setclienteInpidentificacion}
+          clienteInpnombre={clienteInpnombre}
+          setclienteInpnombre={setclienteInpnombre}
+          clienteInptelefono={clienteInptelefono}
+          setclienteInptelefono={setclienteInptelefono}
+          clienteInpdireccion={clienteInpdireccion}
+          setclienteInpdireccion={setclienteInpdireccion}
+          
+          inputaddCarritoFast={inputaddCarritoFast}
+          setinputaddCarritoFast={setinputaddCarritoFast}
+          addCarritoFast={addCarritoFast}
+          refinputaddcarritofast={refinputaddcarritofast}
+
+          autoCorrector={autoCorrector}
+          setautoCorrector={setautoCorrector}
+
+          getDebito={getDebito}
+          getCredito={getCredito}
+          getTransferencia={getTransferencia}
+          getEfectivo={getEfectivo}
           />
-          :null}
-        </>
-      }
-    </StrictMode>
+        :null}
+        {view=="credito"?<Credito
+          printCreditos={printCreditos}
+          onchangecaja={onchangecaja}
+          qDeudores={qDeudores}
+          deudoresList={deudoresList}
+          tipo_pago_deudor={tipo_pago_deudor}
+          monto_pago_deudor={monto_pago_deudor}
+
+          selectDeudor={selectDeudor}
+          setSelectDeudor={setSelectDeudor}
+          setPagoCredito={setPagoCredito}
+          detallesDeudor={detallesDeudor}
+          onClickEditPedido={onClickEditPedido}
+          onCLickDelPedido={onCLickDelPedido}
+          onlyVueltos={onlyVueltos}
+          setOnlyVueltos={setOnlyVueltos}
+
+          qBuscarCliente={qBuscarCliente}
+          setqBuscarCliente={setqBuscarCliente}
+          clientesCrud={clientesCrud}
+          setindexSelectCliente={setindexSelectCliente}
+          indexSelectCliente={indexSelectCliente}
+          setClienteCrud={setClienteCrud}
+          delCliente={delCliente}
+          clienteInpidentificacion={clienteInpidentificacion}
+          setclienteInpidentificacion={setclienteInpidentificacion}
+          clienteInpnombre={clienteInpnombre}
+          setclienteInpnombre={setclienteInpnombre}
+          clienteInpcorreo={clienteInpcorreo}
+          setclienteInpcorreo={setclienteInpcorreo}
+          clienteInpdireccion={clienteInpdireccion}
+          setclienteInpdireccion={setclienteInpdireccion}
+          clienteInptelefono={clienteInptelefono}
+          setclienteInptelefono={setclienteInptelefono}
+          clienteInpestado={clienteInpestado}
+          setclienteInpestado={setclienteInpestado}
+          clienteInpciudad={clienteInpciudad}
+          setclienteInpciudad={setclienteInpciudad}
+
+          sumPedidos={sumPedidos}
+          sumPedidosArr={sumPedidosArr}
+          setsumPedidosArr={setsumPedidosArr}
+        />
+        :null}
+      
+    </>
   );
 }
-render(<Facturar/>,document.getElementById('app'));
 

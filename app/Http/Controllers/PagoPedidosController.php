@@ -142,7 +142,7 @@ class PagoPedidosController extends Controller
         // if ($pedido_total[1] && $pedido_total[0]) {
         // $diferencia = ;
         // }
-        $pedido_total["diferencia"] = $pedido_total[0] - $pedido_total[1];
+        $pedido_total["diferencia"] = number_format($pedido_total[0] - $pedido_total[1],2);
         return [
             "pedido" => $pedidos,
             "pedido_total" => $pedido_total,
@@ -207,9 +207,9 @@ class PagoPedidosController extends Controller
                     return $q->pagos->where("tipo",6)->sum("monto")-$sum_entregado;
                 })->sum();
             }else if($view==="credito"){
-                $q->saldo = $q->pedidos->map(function($q){
+                $q->saldo = number_format($q->pedidos->map(function($q){
                     return $q->pagos->where("cuenta",0)->sum("monto")-$q->pagos->where("tipo",4)->sum("monto");
-                })->sum();
+                })->sum(),2);
 
             }
 

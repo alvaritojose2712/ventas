@@ -42,7 +42,8 @@ function Proveedores({
       <div className="container">
         <div className="row">
           <div className="col">
-            
+              <h1>Proveedores</h1>
+
               <div className="">
                 <div className="input-group ">
                   <input type="text" 
@@ -90,7 +91,6 @@ function Proveedores({
           <div className="col">
             
               <form onSubmit={setProveedor}>
-                <h3>Registrar Proveedores</h3>
                 <div className="form-group">
                   <label htmlFor="">
                     Descripción

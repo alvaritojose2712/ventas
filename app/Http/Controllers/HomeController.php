@@ -67,6 +67,48 @@ class HomeController extends Controller
         $request->session()->flush();
 
     }
+    public function role($tipo)
+    {
+        switch ($tipo) {
+            case '1':
+                return "Administrador";
+                break;
+            case '2':
+                return "Cajero";
+                break;
+            case '3':
+                return "Vendedor";
+                break;
+            case '4':
+                return "Cajero Vendedor";
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }
+    public function nivel($tipo)
+    {
+        if ($tipo == 1) {
+            return 1;
+            //Admin
+        }
+        
+        if ($tipo == 1 || 
+        $tipo == 2 ||
+        $tipo == 4) {
+            //Caja
+            return 2;
+        }
+        
+        if ($tipo == 1 || 
+        $tipo == 3 ||
+        $tipo == 4) {
+            //Vendedor
+            return 3;
+        }
+    }
     public function login(Request $req)
     {
         try {
@@ -77,12 +119,15 @@ class HomeController extends Controller
             ->first();
             
             if ($d&&Hash::check($req->clave, $d->clave)) {
-                 session([
+                $arr_session =  [
                     "id_usuario" => $d->id,
                     "tipo_usuario" => $d->tipo_usuario,
+                    "nivel" => $this->nivel($d->tipo_usuario),
+                    "role" => $this->role($d->tipo_usuario),
                     "usuario" => $d->usuario,
                     "nombre" => $d->nombre,
-                ]);
+                ];
+                session($arr_session);
                 
                 $estado = $this->selectRedirect();
             }else{
@@ -90,7 +135,7 @@ class HomeController extends Controller
                 
             } 
             
-            return Response::json( ["estado"=>true,"msj"=>"¡Inicio exitoso! Bienvenido/a, ".$d->nombre] );
+            return Response::json( ["user"=>$arr_session,"estado"=>true,"msj"=>"¡Inicio exitoso! Bienvenido/a, ".$d->nombre] );
         } catch (\Exception $e) {
             return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
         }

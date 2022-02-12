@@ -41,7 +41,7 @@ function Credito({
       {
         selectDeudor===null?
         <div>
-          <input type="text" className="form-control" value={qDeudores} name="qDeudores" onChange={onchangecaja}/>
+          <input type="text" className="form-control" placeholder='Buscar...' value={qDeudores} name="qDeudores" onChange={onchangecaja}/>
           <table className="table table-hoverable">
             <thead>
               <tr>
@@ -66,7 +66,9 @@ function Credito({
                 :null
               )}
             </tbody>
+
           </table>
+            {!deudoresList.length ? <div className='h3 text-center text-dark mt-2'><i>¡Sin resultados!</i></div> : null}
         </div>:
         <div className="p-4">
           <h3 className="text-center"><i className="fa fa-times text-danger pointer" onClick={()=>{

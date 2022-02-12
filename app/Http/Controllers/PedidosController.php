@@ -26,8 +26,19 @@ class PedidosController extends Controller
     public function getPedidosFast(Request $req)
     {
         $fecha = $req->fecha1pedido;
+        $vendedor = $req->vendedor;
+        
+        $ret = pedidos::whereBetween("created_at",["$fecha 00:00:01","$fecha 23:59:59"]);
 
-        return pedidos::whereBetween("created_at",["$fecha 00:00:01","$fecha 23:59:59"])->limit(7)->orderBy("id","desc")->get();
+        if (count($vendedor)) {
+            $ret->whereIn("id_vendedor",$vendedor);
+        }
+
+        return $ret->limit(7)
+        ->orderBy("id","desc")
+        ->get();
+
+        
     }
     public function get_moneda()
     {
@@ -120,6 +131,7 @@ class PedidosController extends Controller
         $prod = [];
 
 
+        $vendedor = $req->vendedor;
         $tipobusquedapedido = $req->tipobusquedapedido;
         $busquedaPedido = $req->busquedaPedido;
         $fecha1pedido = $req->fecha1pedido;
@@ -165,12 +177,12 @@ class PedidosController extends Controller
                 ->orWhere("codigo_proveedor","LIKE","%$busquedaPedido%");
                 
             })
-            ->whereIn("id",function($q) use ($fecha1pedido,$fecha2pedido,$tipoestadopedido){
+            ->whereIn("id",function($q) use ($vendedor,$fecha1pedido,$fecha2pedido,$tipoestadopedido){
                 $q->from("items_pedidos")
-                ->whereIn("id_pedido",function($q) use ($fecha1pedido,$fecha2pedido,$tipoestadopedido){
+                ->whereIn("id_pedido",function($q) use ($vendedor,$fecha1pedido,$fecha2pedido,$tipoestadopedido){
                     $q->from("pedidos")
                     ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
-                    ->where(function($q) use ( $tipoestadopedido){
+                    ->where(function($q) use ($tipoestadopedido, $vendedor){
 
                         if (!$tipoestadopedido) {
                             $q->where("estado",false);
@@ -178,10 +190,8 @@ class PedidosController extends Controller
                         if($tipoestadopedido==1){
                             $q->where("estado",true);
                         }
-
-                        if($tipoestadopedido=="todos"){
-
-                            // $q->where("estado",true);
+                        if (count($vendedor)) {
+                            $q->whereIn("id_vendedor",$vendedor);
                         }
                     })
                     ->select("id");
@@ -190,8 +200,13 @@ class PedidosController extends Controller
 
             })
             ->get()
-            ->map(function($q)use ($fecha1pedido,$fecha2pedido){
-                $items = items_pedidos::whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])->where("id_producto",$q->id);
+            ->map(function($q)use ($fecha1pedido,$fecha2pedido,$vendedor){
+                $items = items_pedidos::whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
+                ->where("id_producto",$q->id);
+                if (count($vendedor)) {
+                    $items->whereIn("id_pedido",pedidos::whereIn("id_vendedor",$vendedor)->select("id"));
+                }
+
                 $q->cantidadtotal = $items->sum("cantidad");
                 $q->items = $items->get();
 
@@ -216,8 +231,12 @@ class PedidosController extends Controller
                     // $q->where("estado",true);
                 }
             })
-            ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
-            ->orderBy("created_at","desc")
+            ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"]);
+            if (count($vendedor)) {
+                # code...
+                $fact->whereIn("id_vendedor",$vendedor);
+            }
+            $fact = $fact->orderBy("created_at","desc")
             ->limit($limit)
             ->get()
             ->map(function($q) use (&$subtotal, &$desctotal, &$totaltotal,&$porctotal,&$itemstotal,&$totalventas,$filterMetodoPagoToggle){
@@ -260,8 +279,12 @@ class PedidosController extends Controller
                     // $q->where("estado",true);
                 }
             })
-            ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
-            ->orderBy("created_at","desc")
+            ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"]);
+
+            if (count($vendedor)) {
+                $fact->whereIn("id_vendedor",$vendedor);
+            }
+            $fact = $fact->orderBy("created_at","desc")
             ->limit($limit)
             ->get()
             ->map(function($q) use (&$subtotal, &$desctotal, &$totaltotal,&$porctotal,&$itemstotal,&$totalventas,$filterMetodoPagoToggle){

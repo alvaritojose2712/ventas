@@ -46,7 +46,7 @@ function ProductosList({
           </tr>
         </thead>
         <tbody ref={tbodyproductosref}>
-          {productos.map((e,i)=>
+          {productos?productos.map((e,i)=>
             
               <tr data-index={i} tabIndex="-1" className={(counterListProductos == i ?"bg-sinapsis-light":null)+(' tr-producto')} key={e.id}>
                 <td data-index={i} onClick={event=>{
@@ -92,7 +92,7 @@ function ProductosList({
                 </td>
               </tr>
               
-            )}
+            ):null}
         </tbody>
       </table>
 

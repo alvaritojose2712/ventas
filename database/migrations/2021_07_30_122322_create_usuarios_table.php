@@ -20,6 +20,10 @@ class CreateUsuariosTable extends Migration
             $table->string('usuario')->unique();
             $table->string('clave');
             $table->integer('tipo_usuario');
+            //1 Administrador
+            //2 Caja
+            //3 Vendedor
+            //4 Cajero Vendedor
             $table->timestamps();
         });
         DB::table("usuarios")->insert([
@@ -28,6 +32,27 @@ class CreateUsuariosTable extends Migration
             "usuario" => "admin",
             "clave" => Hash::make("1234"),
             "tipo_usuario" => "1",
+            ],
+
+            [
+            "nombre" => "Perez",
+            "usuario" => "caja",
+            "clave" => Hash::make("1234"),
+            "tipo_usuario" => "2",
+            ],
+
+            [
+            "nombre" => "Rodiguez",
+            "usuario" => "vendedor",
+            "clave" => Hash::make("1234"),
+            "tipo_usuario" => "3",
+            ],
+
+            [
+            "nombre" => "Alfonzo",
+            "usuario" => "cajero_vendedor",
+            "clave" => Hash::make("1234"),
+            "tipo_usuario" => "4",
             ],
         ]);
     }

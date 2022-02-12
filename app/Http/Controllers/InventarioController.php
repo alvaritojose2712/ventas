@@ -727,14 +727,16 @@ class InventarioController extends Controller
     }
     public function checkFalla($id,$ct)
     {   
-        if ($ct>1) {
-            $f = fallas::where("id_producto",$id);
-            if ($f) {
-                $f->delete();
+        if ($id) {
+            if ($ct>1) {
+                $f = fallas::where("id_producto",$id);
+                if ($f) {
+                    $f->delete();
+                }
+            }else if($ct<=0){
+    
+                fallas::updateOrCreate(["id_producto"=>$id],["id_producto"=>$id]);
             }
-        }else if($ct<=1){
-
-            fallas::updateOrCreate(["id_producto"=>$id],["id_producto"=>$id]);
         }
     }
 

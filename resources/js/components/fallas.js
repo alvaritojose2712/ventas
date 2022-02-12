@@ -39,11 +39,11 @@ function Fallas({
 									<table className="table m-3">
 										<thead>
 											<tr>
-												<th>ID</th>
-												<th>Descripción</th>
-												<th>Proveedor</th>
-												<th>Ct.</th>
-												<th>Fecha</th>
+												<th className="cell1">ID</th>
+												<th className="cell4">Descripción</th>
+												<th className="cell2">Proveedor</th>
+												<th className="cell1">Ct.</th>
+												<th className="cell2">Fecha</th>
 											</tr>
 										</thead>
 										<tbody>

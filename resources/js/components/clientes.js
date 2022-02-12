@@ -52,10 +52,10 @@ setclienteInpciudad
     }
 	}
 	return (
-    <div className="container-fluid">
+    <div className="container">
       <div className="row">
         <div className="col">
-          <h3>Administrar Clientes</h3> 
+          <h1>Administrar Clientes</h1> 
         </div>
       </div> 
       <div className="row">

@@ -16,7 +16,9 @@ const db = {
   setCarrito: data=>axios.post(host+"setCarrito",data),
   getPedido: data=>axios.post(host+"getPedido",data),
   getPedidosList: ()=>axios.post(host+"getPedidosList"),
-  verificarLogin: ()=>axios.post(host+"verificarLogin"),
+  verificarLogin: () => axios.post(host + "verificarLogin"),
+  logout: ()=>axios.get(host+"logout"),
+  
   guardarCierre: data=>axios.post(host+"guardarCierre",data),
 
   setMoneda: data=>axios.post(host+"setMoneda",data),

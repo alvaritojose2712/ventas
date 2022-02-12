@@ -6,7 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Response;
 
-class caja
+
+class vendedor
 {
     /**
      * Handle an incoming request.
@@ -19,11 +20,11 @@ class caja
     {
         $se = session('tipo_usuario');
 
-        if ($se == 1 || 
-        $se == 2 ||
-        $se == 4) {
-            return $next($request);
-        }else{
+         if ($se == 1 || 
+         $se == 3 ||
+         $se == 4) {
+             return $next($request);
+            }else{
             return Response::json(["msj"=>"Error: Sin permisos","estado"=>false]);
         }
     }
