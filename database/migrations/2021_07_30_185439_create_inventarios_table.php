@@ -33,7 +33,7 @@ class CreateInventariosTable extends Migration
 
             $table->string("unidad")->default("UND");
 
-            $table->string("id_deposito")->default(1);
+            $table->string("id_deposito")->nullable()->default(1);
 
             
             

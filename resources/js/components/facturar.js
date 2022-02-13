@@ -1757,12 +1757,12 @@ const guardarNuevoProducto = e => {
 
   }).then(res=>{
     notificar(res)
-    buscarInventario()
-    getFacturas(null)
 
     setLoading(false)
 
     if (res.data.estado) {
+      buscarInventario()
+      getFacturas(null)
 
       setinpInvbarras("")
       setinpInvcantidad("")
@@ -2398,6 +2398,8 @@ const guardarNuevoProductoLote = () => {
       setLoading(false)
       try{
         if (res.data.estado) {
+          getFacturas(null)
+
           buscarInventario()
           
         }
