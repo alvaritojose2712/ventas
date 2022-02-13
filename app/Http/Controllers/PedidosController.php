@@ -26,7 +26,14 @@ class PedidosController extends Controller
     public function getPedidosFast(Request $req)
     {
         $fecha = $req->fecha1pedido;
-        $vendedor = $req->vendedor;
+
+        if(isset($req->vendedor)) {
+            // code...
+            $vendedor = $req->vendedor;
+        }else{
+
+            $vendedor = [];
+        }
         
         $ret = pedidos::whereBetween("created_at",["$fecha 00:00:01","$fecha 23:59:59"]);
 
@@ -130,8 +137,12 @@ class PedidosController extends Controller
         $fact = [];
         $prod = [];
 
+        if(isset($req->vendedor)){
+            $vendedor = $req->vendedor;
 
-        $vendedor = $req->vendedor;
+        }else{
+            $vendedor = [];
+        }
         $tipobusquedapedido = $req->tipobusquedapedido;
         $busquedaPedido = $req->busquedaPedido;
         $fecha1pedido = $req->fecha1pedido;
