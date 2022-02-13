@@ -2473,14 +2473,14 @@ const auth = permiso => {
     }
   }
   if (permiso == 2) {
-    if (nivel == 1 || nivel == 2) {
+    //if (nivel == 1 || nivel == 2) {
       return true
-    }
+    //}
   }
   if (permiso == 3) {
-    if (nivel == 1 || nivel == 3) {
+    //if (nivel == 1 || nivel == 3) {
       return true
-    }
+    //}
   }
   return false
 }
