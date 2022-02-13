@@ -210,9 +210,9 @@ export default function InventarioForzado({
                                     </td>
                                     <td>
                                         <div className="input-group">
-                                            <button type="button" className="btn" onClick={()=>setporcenganancia("list",e.precio_base,(precio)=>{
+                                            <span className="btn" onClick={()=>setporcenganancia("list",e.precio_base,(precio)=>{
                                                     changeInventario(precio, i, e.id, "changeInput", "precio")
-                                                })}>%</button>
+                                                })}>%</span>
                                             <input type="text"
                                                 disabled={type(e.type)} className="form-control form-control-sm"
                                                 value={e.precio}
