@@ -14,6 +14,7 @@ use App\Models\proveedores;
 use App\Models\lotes;
 use App\Models\sucursal;
 use App\Models\categorias;
+use App\Models\clientes;
 
             
 
@@ -412,7 +413,15 @@ class InventarioController extends Controller
             if ($id=="nuevo") {
 
               //Crea Pedido
+                $check_cli = clientes::find(1);
 
+                if (!$check_cli) {
+                    $cli = new clientes;
+                    $cli->identificacion = "CF";
+                    $cli->nombre = "CF";
+                    $cli->direccion = "CF";
+                    $cli->save();
+                }
                 $new_pedido = new pedidos;
 
                 $new_pedido->estado = 0;

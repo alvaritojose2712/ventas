@@ -29,9 +29,9 @@ class CreateInventariosTable extends Migration
             $table->integer("id_categoria")->unsigned();
             $table->foreign('id_categoria')->references('id')->on('categorias');
 
-            $table->string("id_marca")->default("GENÉRICO");
+            $table->string("id_marca")->nullable()->default("GENÉRICO");
 
-            $table->string("unidad")->default("UND");
+            $table->string("unidad")->nullable()->default("UND");
 
             $table->string("id_deposito")->nullable()->default(1);
 
@@ -39,15 +39,15 @@ class CreateInventariosTable extends Migration
             
             $table->string("descripcion");
 
-            $table->decimal("iva",5,2)->default(0);
+            $table->decimal("iva",5,2)->nullable()->default(0);
 
-            $table->decimal("porcentaje_ganancia",3,2)->default(0);
+            $table->decimal("porcentaje_ganancia",3,2)->nullable()->default(0);
             $table->decimal("precio_base",8,2)->default(0);
             $table->decimal("precio",8,2)->default(0);
 
             $table->decimal("cantidad",9,2)->default(0);
 
-            $table->boolean("push")->default(0);
+            $table->boolean("push")->nullable()->default(0);
 
 
 

@@ -77,6 +77,10 @@ Route::group(['middleware' => ['login']], function () {
 		
 		Route::post('imprimirTicked', [tickera::class,"imprimir"]);
 		Route::get('getProductosSerial', [InventarioController::class,"getProductosSerial"]);
+
+		Route::post('guardarCierre', [PedidosController::class,"guardarCierre"]);
+		Route::get('verCierre', [PedidosController::class,"verCierre"]);
+		Route::post('cerrar', [PedidosController::class,"cerrar"]);
 		
 	});
 	Route::group(['middleware' => ['vendedor']], function () {
@@ -87,10 +91,6 @@ Route::group(['middleware' => ['login']], function () {
 	
 	Route::group(['middleware' => ['admin']], function () {
 		Route::post('getVentas', [PedidosController::class,"getVentas"]);
-		
-		Route::post('guardarCierre', [PedidosController::class,"guardarCierre"]);
-		Route::get('verCierre', [PedidosController::class,"verCierre"]);
-		Route::post('cerrar', [PedidosController::class,"cerrar"]);
 		
 		Route::post('delMovCaja', [MovimientosCajaController::class,"delMovCaja"]);
 		Route::post('delMov', [MovimientosController::class,"delMov"]);

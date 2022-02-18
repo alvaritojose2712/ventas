@@ -171,8 +171,8 @@ function Inventario({
           <div className="btn-group mb-2">              
               <button className={("btn ")+(subViewInventario=="inventario"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("inventario")}>Inventario</button>
               
-              <button className={("btn ") + (subViewInventario=="fallas"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("fallas")}>Fallas</button>
               <button className={("btn ")+(subViewInventario=="proveedores"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("proveedores")}>Proveedores</button>
+              <button className={("btn ") + (subViewInventario=="fallas"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("fallas")}>Fallas</button>
           </div>
         </div>
           {subViewInventario == "inventario" ?<div className="col text-right d-flex align-items-center justify-content-between">

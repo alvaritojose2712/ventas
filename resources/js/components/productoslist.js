@@ -1,6 +1,7 @@
 import React from "react"
 
 function ProductosList({
+  auth,
   productos,
   addCarrito,
 
@@ -76,9 +77,13 @@ function ProductosList({
                   </div>
                 </td>
                 <td className="cell1">
+                {auth(1)?
                   <button onClick={selectProductoFast} data-id={e.id} data-val={e.codigo_barras} className='formShowProductos btn btn-sinapsis btn-sm w-50'>
                   {e.lotes.length?e.lotes_ct:e.cantidad.replace(".00","")}
                     </button>         
+                  : <button className='formShowProductos btn btn-sinapsis btn-sm w-50'>
+                    {e.lotes.length ? e.lotes_ct : e.cantidad.replace(".00", "")}
+                  </button>}
                 </td>
                 <td className="cell1">{e.unidad}</td>
                 <td className="cell2">

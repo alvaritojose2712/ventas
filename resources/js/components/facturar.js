@@ -1094,8 +1094,10 @@ const getProductos = () => {
   let time = window.setTimeout(()=>{
     db.getinventario({vendedor,num,itemCero,qProductosMain,orderColumn,orderBy}).then(res=>{
       if (res.data.length) {
-        
         setProductos(res.data)
+      }
+      if (!res.data.length) {
+        setProductos([])
       }
       if (!res.data[counterListProductos]) {
         setCounterListProductos(0)
@@ -2561,6 +2563,7 @@ const auth = permiso => {
               <span className="input-group-text pointer" onClick={()=>setItemCero(!itemCero)}>En cero: {itemCero?"Sí":"No"}</span>
             </div>
             <ProductosList 
+              auth={auth}
               productos={productos} 
               addCarrito={addCarrito}
 

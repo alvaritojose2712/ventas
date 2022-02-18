@@ -2958,7 +2958,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Cargarproducto(_ref) {
-  var productosInventario = _ref.productosInventario,
+  var setporcenganancia = _ref.setporcenganancia,
+      productosInventario = _ref.productosInventario,
       qBuscarInventario = _ref.qBuscarInventario,
       setQBuscarInventario = _ref.setQBuscarInventario,
       setIndexSelectInventario = _ref.setIndexSelectInventario,
@@ -3443,7 +3444,13 @@ function Cargarproducto(_ref) {
                       return setinpInvventa(number(e.target.value));
                     },
                     placeholder: "Venta."
-                  }), " Venta."]
+                  }), " Venta ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "btn pointer",
+                    onClick: function onClick() {
+                      return setporcenganancia("unique");
+                    },
+                    children: "%"
+                  }), "."]
                 })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -6029,6 +6036,25 @@ function Facturar(_ref) {
   var total_dejar_caja_neto = !total_dejar_caja_calc || total_dejar_caja_calc == "NaN" ? 0 : total_dejar_caja_calc;
   var total_punto = dolar && caja_punto ? (caja_punto / dolar).toFixed(2) : 0;
 
+  var setporcenganancia = function setporcenganancia(tipo) {
+    var base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var fun = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var insert = window.prompt("Porcentaje");
+
+    if (insert) {
+      if ((0,_assets__WEBPACK_IMPORTED_MODULE_5__.number)(insert)) {
+        if (tipo == "unique") {
+          var re = Math.round(parseFloat(inpInvbase) + parseFloat(inpInvbase) * (parseFloat(insert) / 100));
+          setinpInvventa(re);
+        } else if (true) {
+          var _re = Math.round(parseFloat(base) + parseFloat(base) * (parseFloat(insert) / 100));
+
+          fun(_re);
+        }
+      }
+    }
+  };
+
   var focusInputSibli = function focusInputSibli(tar, mov) {
     var inputs = [].slice.call(refsInpInvList.current.elements);
     var index;
@@ -6424,6 +6450,10 @@ function Facturar(_ref) {
       }).then(function (res) {
         if (res.data.length) {
           setProductos(res.data);
+        }
+
+        if (!res.data.length) {
+          setProductos([]);
         }
 
         if (!res.data[counterListProductos]) {
@@ -7156,11 +7186,11 @@ function Facturar(_ref) {
       inpInvLotes: inpInvLotes
     }).then(function (res) {
       notificar(res);
-      buscarInventario();
-      getFacturas(null);
       setLoading(false);
 
       if (res.data.estado) {
+        buscarInventario();
+        getFacturas(null);
         setinpInvbarras("");
         setinpInvcantidad("");
         setinpInvalterno("");
@@ -7855,6 +7885,7 @@ function Facturar(_ref) {
 
         try {
           if (res.data.estado) {
+            getFacturas(null);
             buscarInventario();
           }
         } catch (err) {}
@@ -7941,15 +7972,13 @@ function Facturar(_ref) {
     }
 
     if (permiso == 2) {
-      if (nivel == 1 || nivel == 2) {
-        return true;
-      }
+      //if (nivel == 1 || nivel == 2) {
+      return true; //}
     }
 
     if (permiso == 3) {
-      if (nivel == 1 || nivel == 3) {
-        return true;
-      }
+      //if (nivel == 1 || nivel == 3) {
+      return true; //}
     }
 
     return false;
@@ -8033,6 +8062,7 @@ function Facturar(_ref) {
           children: ["En cero: ", itemCero ? "Sí" : "No"]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_productoslist__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        auth: auth,
         productos: productos,
         addCarrito: addCarrito,
         clickSetOrderColumn: clickSetOrderColumn,
@@ -8196,6 +8226,7 @@ function Facturar(_ref) {
       delUsuario: delUsuario,
       getUsuarios: getUsuarios
     }) : null, view == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_inventario__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      setporcenganancia: setporcenganancia,
       refsInpInvList: refsInpInvList,
       guardarNuevoProductoLote: guardarNuevoProductoLote,
       changeInventario: changeInventario,
@@ -8877,7 +8908,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Inventario(_ref) {
-  var changeInventario = _ref.changeInventario,
+  var setporcenganancia = _ref.setporcenganancia,
+      changeInventario = _ref.changeInventario,
       showaddpedidocentral = _ref.showaddpedidocentral,
       setshowaddpedidocentral = _ref.setshowaddpedidocentral,
       valheaderpedidocentral = _ref.valheaderpedidocentral,
@@ -9019,17 +9051,17 @@ function Inventario(_ref) {
               },
               children: "Inventario"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-              className: "btn " + (subViewInventario == "fallas" ? "btn-dark" : "btn-outline-success"),
-              onClick: function onClick() {
-                return setsubViewInventario("fallas");
-              },
-              children: "Fallas"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: "btn " + (subViewInventario == "proveedores" ? "btn-dark" : "btn-outline-success"),
               onClick: function onClick() {
                 return setsubViewInventario("proveedores");
               },
               children: "Proveedores"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+              className: "btn " + (subViewInventario == "fallas" ? "btn-dark" : "btn-outline-success"),
+              onClick: function onClick() {
+                return setsubViewInventario("fallas");
+              },
+              children: "Fallas"
             })]
           })
         }), subViewInventario == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
@@ -9148,6 +9180,7 @@ function Inventario(_ref) {
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("hr", {})]
       }), modViewInventario == "unique" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_cargarproducto__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        setporcenganancia: setporcenganancia,
         type: type,
         setNewProducto: setNewProducto,
         productosInventario: productosInventario,
@@ -9210,6 +9243,7 @@ function Inventario(_ref) {
         addNewLote: addNewLote,
         changeModLote: changeModLote
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_inventarioForzado__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        setporcenganancia: setporcenganancia,
         refsInpInvList: refsInpInvList,
         proveedoresList: proveedoresList,
         guardarNuevoProductoLote: guardarNuevoProductoLote,
@@ -9303,7 +9337,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function InventarioForzado(_ref) {
-  var productosInventario = _ref.productosInventario,
+  var setporcenganancia = _ref.setporcenganancia,
+      productosInventario = _ref.productosInventario,
       qBuscarInventario = _ref.qBuscarInventario,
       setQBuscarInventario = _ref.setQBuscarInventario,
       type = _ref.type,
@@ -9745,15 +9780,26 @@ function InventarioForzado(_ref) {
                     placeholder: "precio_base..."
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                    type: "text",
-                    disabled: type(e.type),
-                    className: "form-control form-control-sm",
-                    value: e.precio,
-                    onChange: function onChange(e) {
-                      return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio");
-                    },
-                    placeholder: "precio..."
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                    className: "input-group",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                      className: "btn",
+                      onClick: function onClick() {
+                        return setporcenganancia("list", e.precio_base, function (precio) {
+                          changeInventario(precio, i, e.id, "changeInput", "precio");
+                        });
+                      },
+                      children: "%"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                      type: "text",
+                      disabled: type(e.type),
+                      className: "form-control form-control-sm",
+                      value: e.precio,
+                      onChange: function onChange(e) {
+                        return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio");
+                      },
+                      placeholder: "Precio... % DoubeClick"
+                    })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
@@ -11966,7 +12012,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ProductosList(_ref) {
-  var productos = _ref.productos,
+  var auth = _ref.auth,
+      productos = _ref.productos,
       addCarrito = _ref.addCarrito,
       clickSetOrderColumn = _ref.clickSetOrderColumn,
       orderColumn = _ref.orderColumn,
@@ -12063,10 +12110,13 @@ function ProductosList(_ref) {
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
               className: "cell1",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+              children: auth(1) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                 onClick: selectProductoFast,
                 "data-id": e.id,
                 "data-val": e.codigo_barras,
+                className: "formShowProductos btn btn-sinapsis btn-sm w-50",
+                children: e.lotes.length ? e.lotes_ct : e.cantidad.replace(".00", "")
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                 className: "formShowProductos btn btn-sinapsis btn-sm w-50",
                 children: e.lotes.length ? e.lotes_ct : e.cantidad.replace(".00", "")
               })
