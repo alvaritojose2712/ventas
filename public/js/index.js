@@ -3356,6 +3356,9 @@ function Cargarproducto(_ref) {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
                     value: "39",
                     children: "ACEITES"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "40",
+                    children: "COSMETICOS"
                   })]
                 })
               })]
@@ -5839,7 +5842,7 @@ function Facturar(_ref) {
         }
       }
     } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, "down");
+      focusInputSibli(event.target, 1);
     }
   }, {
     enableOnTags: ["INPUT", "SELECT"]
@@ -5879,7 +5882,7 @@ function Facturar(_ref) {
         }
       }
     } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, "up");
+      focusInputSibli(event.target, -1);
     }
   }, {
     enableOnTags: ["INPUT", "SELECT"]
@@ -5928,22 +5931,6 @@ function Facturar(_ref) {
     filterPreventDefault: false,
     enableOnTags: ["INPUT", "SELECT"]
   }, [view, counterListProductos, selectItem, subViewInventario, modViewInventario]);
-  (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('right', function (event) {
-    if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, 1);
-    }
-  }, {
-    filterPreventDefault: false,
-    enableOnTags: ["INPUT", "SELECT"]
-  }, [view, subViewInventario, modViewInventario]);
-  (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('left', function (event) {
-    if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, -1);
-    }
-  }, {
-    filterPreventDefault: false,
-    enableOnTags: ["INPUT", "SELECT"]
-  }, [view, subViewInventario, modViewInventario]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     // let isMounted = true;  
     getMoneda(); // ya invoca getProductos()
@@ -7933,7 +7920,7 @@ function Facturar(_ref) {
           codigo_proveedor: "",
           codigo_barras: "",
           descripcion: "",
-          id_categoria: "1",
+          id_categoria: "40",
           id_marca: "",
           unidad: "UND",
           id_proveedor: pro,
@@ -9449,24 +9436,6 @@ function InventarioForzado(_ref) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
               className: "pointer",
               onClick: function onClick() {
-                return setInvorderColumn("id_categoria");
-              },
-              children: "Categor\xEDa"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-              className: "pointer",
-              onClick: function onClick() {
-                return setInvorderColumn("id_marca");
-              },
-              children: "Marca"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-              className: "pointer",
-              onClick: function onClick() {
-                return setInvorderColumn("id_proveedor");
-              },
-              children: "Preveedor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-              className: "pointer",
-              onClick: function onClick() {
                 return setInvorderColumn("cantidad");
               },
               children: "Ct."
@@ -9482,6 +9451,18 @@ function InventarioForzado(_ref) {
                 return setInvorderColumn("precio");
               },
               children: "Venta"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+              className: "pointer",
+              onClick: function onClick() {
+                return setInvorderColumn("id_categoria");
+              },
+              children: "Categor\xEDa"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+              className: "pointer",
+              onClick: function onClick() {
+                return setInvorderColumn("id_proveedor");
+              },
+              children: "Preveedor"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
               className: "pointer",
               onClick: function onClick() {
@@ -9508,18 +9489,16 @@ function InventarioForzado(_ref) {
                   children: e.unidad
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   children: e.descripcion
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                  children: e.id_categoria
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                  children: e.id_marca
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                  children: e.id_proveedor
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                   children: e.cantidad
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   children: e.precio_base
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   children: e.precio
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  children: e.id_categoria
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  children: e.id_proveedor
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   children: e.iva
                 })]
@@ -9596,6 +9575,50 @@ function InventarioForzado(_ref) {
                       return changeInventario(e.target.value, i, e.id, "changeInput", "descripcion");
                     },
                     placeholder: "descripcion..."
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    disabled: type(e.type),
+                    className: "form-control form-control-sm",
+                    value: e.cantidad,
+                    onChange: function onChange(e) {
+                      return changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad");
+                    },
+                    placeholder: "cantidad..."
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    disabled: type(e.type),
+                    className: "form-control form-control-sm",
+                    value: e.precio_base,
+                    onChange: function onChange(e) {
+                      return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio_base");
+                    },
+                    placeholder: "precio_base..."
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                    className: "input-group",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                      className: "btn",
+                      onClick: function onClick() {
+                        return setporcenganancia("list", e.precio_base, function (precio) {
+                          changeInventario(precio, i, e.id, "changeInput", "precio");
+                        });
+                      },
+                      children: "%"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                      type: "text",
+                      disabled: type(e.type),
+                      className: "form-control form-control-sm",
+                      value: e.precio,
+                      onChange: function onChange(e) {
+                        return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio");
+                      },
+                      placeholder: "Precio... % DoubeClick"
+                    })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
@@ -9725,18 +9748,10 @@ function InventarioForzado(_ref) {
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
                       value: "39",
                       children: "ACEITES"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                      value: "40",
+                      children: "COSMETICOS"
                     })]
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                    type: "text",
-                    disabled: type(e.type),
-                    className: "form-control form-control-sm",
-                    value: e.id_marca,
-                    onChange: function onChange(e) {
-                      return changeInventario(e.target.value, i, e.id, "changeInput", "id_marca");
-                    },
-                    placeholder: "Marca..."
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
@@ -9755,50 +9770,6 @@ function InventarioForzado(_ref) {
                         value: e.id,
                         children: e.descripcion
                       }, e.id);
-                    })]
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                    type: "text",
-                    disabled: type(e.type),
-                    className: "form-control form-control-sm",
-                    value: e.cantidad,
-                    onChange: function onChange(e) {
-                      return changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad");
-                    },
-                    placeholder: "cantidad..."
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                    type: "text",
-                    disabled: type(e.type),
-                    className: "form-control form-control-sm",
-                    value: e.precio_base,
-                    onChange: function onChange(e) {
-                      return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio_base");
-                    },
-                    placeholder: "precio_base..."
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                    className: "input-group",
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                      className: "btn",
-                      onClick: function onClick() {
-                        return setporcenganancia("list", e.precio_base, function (precio) {
-                          changeInventario(precio, i, e.id, "changeInput", "precio");
-                        });
-                      },
-                      children: "%"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                      type: "text",
-                      disabled: type(e.type),
-                      className: "form-control form-control-sm",
-                      value: e.precio,
-                      onChange: function onChange(e) {
-                        return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio");
-                      },
-                      placeholder: "Precio... % DoubeClick"
                     })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {

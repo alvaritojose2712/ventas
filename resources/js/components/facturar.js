@@ -472,16 +472,12 @@ export default function Facturar({user,notificar,setLoading}) {
         if (tbodypersoInterref.current.rows[index]) {
           setCountListPersoInter(index)
           tbodypersoInterref.current.rows[index].focus()
-        }
-
-
-        
-        
+        } 
 
       }
 
     } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, "down")
+      focusInputSibli(event.target, 1)
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
@@ -525,8 +521,8 @@ export default function Facturar({user,notificar,setLoading}) {
 
 
       }
-    } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, "up")
+    }else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
+      focusInputSibli(event.target, -1)
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
@@ -580,26 +576,6 @@ export default function Facturar({user,notificar,setLoading}) {
     filterPreventDefault:false,
     enableOnTags:["INPUT", "SELECT"],
   }, [view, counterListProductos, selectItem, subViewInventario, modViewInventario]);
-
-
-  useHotkeys('right', event => {
-    if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, 1)
-    }
-  }, {
-    filterPreventDefault: false,
-    enableOnTags: ["INPUT", "SELECT"],
-  }, [view, subViewInventario, modViewInventario]);
-  
-  useHotkeys('left', event => {
-    if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, -1)
-    }
-  }, {
-    filterPreventDefault: false,
-    enableOnTags: ["INPUT", "SELECT"],
-  }, [view, subViewInventario, modViewInventario]);
-
 
 
   useEffect(()=>{
@@ -2441,7 +2417,7 @@ const changeInventario = (val, i, id, type, name = null) => {
         codigo_proveedor: "",
         codigo_barras: "",
         descripcion: "",
-        id_categoria: "1",
+        id_categoria: "40",
         id_marca: "",
         unidad: "UND",
         id_proveedor: pro,

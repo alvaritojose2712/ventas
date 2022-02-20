@@ -225,6 +225,7 @@ function Cargarproducto({
                     <option value="37">ALAMBRE</option>
                     <option value="38">AGRICOLA</option>
                     <option value="39">ACEITES</option>
+                    <option value="40">COSMETICOS</option>
                   </select>
                 </div>
               </div>

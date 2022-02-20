@@ -58,7 +58,8 @@ class CreateCategoriasTable extends Migration
             ["descripcion"=>"BATERIA"],
             ["descripcion"=>"ALAMBRE"],
             ["descripcion"=>"AGRICOLA"],
-            ["descripcion"=>"ACEITES"]
+            ["descripcion"=>"ACEITES"],
+            ["descripcion"=>"COSMETICOS"],
         ]);
     }
 

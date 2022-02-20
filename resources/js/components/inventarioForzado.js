@@ -48,12 +48,11 @@ export default function InventarioForzado({
                             <th className="pointer" onClick={() => setInvorderColumn("codigo_barras")}>C. Barras</th>
                             <th className="pointer" onClick={() => setInvorderColumn("unidad")}>Unidad</th>
                             <th className="pointer" onClick={() => setInvorderColumn("descripcion")}>Descripción</th>
-                            <th className="pointer" onClick={() => setInvorderColumn("id_categoria")}>Categoría</th>
-                            <th className="pointer" onClick={() => setInvorderColumn("id_marca")}>Marca</th>
-                            <th className="pointer" onClick={() => setInvorderColumn("id_proveedor")}>Preveedor</th>
                             <th className="pointer" onClick={() => setInvorderColumn("cantidad")}>Ct.</th>
                             <th className="pointer" onClick={() => setInvorderColumn("precio_base")}>Base</th>
                             <th className="pointer" onClick={() => setInvorderColumn("precio")}>Venta</th>
+                            <th className="pointer" onClick={() => setInvorderColumn("id_categoria")}>Categoría</th>
+                            <th className="pointer" onClick={() => setInvorderColumn("id_proveedor")}>Preveedor</th>
                             <th className="pointer" onClick={() => setInvorderColumn("iva")}>IVA</th>
                         </tr>
                     </thead>
@@ -69,12 +68,11 @@ export default function InventarioForzado({
                                     <td>{e.codigo_barras}</td>
                                     <td>{e.unidad}</td>
                                     <td>{e.descripcion}</td>
-                                    <td>{e.id_categoria}</td>
-                                    <td>{e.id_marca}</td>
-                                    <td>{e.id_proveedor}</td>
                                     <th>{e.cantidad}</th>
                                     <td>{e.precio_base}</td>
                                     <td>{e.precio}</td>
+                                    <td>{e.id_categoria}</td>
+                                    <td>{e.id_proveedor}</td>
                                     <td>{e.iva}</td>
                                 </>
 
@@ -124,6 +122,35 @@ export default function InventarioForzado({
 
                                     </td>
                                     <td>
+                                        <input type="text"
+                                            disabled={type(e.type)} className="form-control form-control-sm"
+                                            value={e.cantidad}
+                                            onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad")}
+                                            placeholder="cantidad..." />
+
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                            disabled={type(e.type)} className="form-control form-control-sm"
+                                            value={e.precio_base}
+                                            onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio_base")}
+                                            placeholder="precio_base..." />
+
+                                    </td>
+                                    <td>
+                                        <div className="input-group">
+                                            <span className="btn" onClick={()=>setporcenganancia("list",e.precio_base,(precio)=>{
+                                                    changeInventario(precio, i, e.id, "changeInput", "precio")
+                                                })}>%</span>
+                                            <input type="text"
+                                                disabled={type(e.type)} className="form-control form-control-sm"
+                                                value={e.precio}
+                                                onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio")}
+                                                placeholder="Precio... % DoubeClick" />
+                                        </div>
+
+                                    </td>
+                                    <td>
                                         <select
                                             disabled={type(e.type)} 
                                             className="form-control form-control-sm"
@@ -170,14 +197,8 @@ export default function InventarioForzado({
                                             <option value="37">ALAMBRE</option>
                                             <option value="38">AGRICOLA</option>
                                             <option value="39">ACEITES</option>
+                                            <option value="40">COSMETICOS</option>
                                         </select>
-                                    </td>
-                                    <td>
-                                        <input type="text"
-                                            disabled={type(e.type)} className="form-control form-control-sm"
-                                            value={e.id_marca}
-                                            onChange={e => changeInventario((e.target.value), i, e.id, "changeInput", "id_marca")}
-                                            placeholder="Marca..." />
                                     </td>
                                     <td>
                                         <select
@@ -192,35 +213,7 @@ export default function InventarioForzado({
 
                                         </select>
                                     </td>
-                                    <td>
-                                        <input type="text"
-                                            disabled={type(e.type)} className="form-control form-control-sm"
-                                            value={e.cantidad}
-                                            onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad")}
-                                            placeholder="cantidad..." />
-
-                                    </td>
-                                    <td>
-                                        <input type="text"
-                                            disabled={type(e.type)} className="form-control form-control-sm"
-                                            value={e.precio_base}
-                                            onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio_base")}
-                                            placeholder="precio_base..." />
-
-                                    </td>
-                                    <td>
-                                        <div className="input-group">
-                                            <span className="btn" onClick={()=>setporcenganancia("list",e.precio_base,(precio)=>{
-                                                    changeInventario(precio, i, e.id, "changeInput", "precio")
-                                                })}>%</span>
-                                            <input type="text"
-                                                disabled={type(e.type)} className="form-control form-control-sm"
-                                                value={e.precio}
-                                                onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio")}
-                                                placeholder="Precio... % DoubeClick" />
-                                        </div>
-
-                                    </td>
+                                    
                                     <td>
                                         <input type="text"
                                             disabled={type(e.type)} className="form-control form-control-sm"
