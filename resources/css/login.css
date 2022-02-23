@@ -1,8 +1,12 @@
 
 :root{
-  --sinapsis-color : #118bec;
+  /*--sinapsis-color : #118bec;
   --sinapsis-color-light : #deedfd;
-  --sinapsis-color-select : #84bcf3;
+  --sinapsis-color-select : #84bcf3;*/
+
+  --sinapsis-color : rgba(242,109,10);
+  --sinapsis-color-light : rgba(255,177,113,0.75);
+  --sinapsis-color-select : rgba(221,143,79,0.75);
 
   
 }
