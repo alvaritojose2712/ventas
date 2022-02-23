@@ -125,7 +125,7 @@
                       <td class="text-right">{{$pedido->gravable}}</td>
                     </tr>
                     <tr class='hover'>
-                      <th colspan="5" class="text-right">IVA <span>({ivas})</span></th>
+                      <th colspan="5" class="text-right">IVA <span>({{$pedido->ivas}})</span></th>
                       <td class="text-right">{{$pedido->monto_iva}}</td>
                     </tr>
                     <tr class="hover h4">
