@@ -78,6 +78,9 @@
 							P/U
 						</th>
 						<th>
+							BASE
+						</th>
+						<th>
 							Descuento
 						</th>
 						<th class="text-right">
@@ -97,6 +100,9 @@
 							</td>
 							<td>
 								{{$val->producto->precio}}
+							</td>
+							<td>
+								{{$val->producto->precio_base}}
 							</td>
 							<td>
 								{{$val->total_des}} ({{$val->descuento}}%)
