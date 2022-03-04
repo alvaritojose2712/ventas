@@ -29,7 +29,7 @@ function ModalAddCarrito({
 
   const retTipoMov = () => (
    
-    movimientos.map(e=>
+    movimientos.length?movimientos.map(e=>
       <tr key={e.id}>
         <td className="align-middle">
             <h2>{e.id}</h2>
@@ -41,7 +41,7 @@ function ModalAddCarrito({
         <td className="w-50">
           {retTipoSubMov(e.items,0)}
         </td>
-      </tr>)
+      </tr>):""
     
          
   )
@@ -119,10 +119,10 @@ function ModalAddCarrito({
                     onChange={e=>setIdMovSelect(e.target.value)}
                     className="form-control" 
                     value={idMovSelect}>
-                      {movimientos.map(e=>
+                      {movimientos.length?movimientos.map(e=>
                         <option key={e.id} value={e.id}>{e.id}</option>
 
-                      )}
+                      ):null}
                       <option value="nuevo">nuevo</option>
                     </select>
 
@@ -148,12 +148,12 @@ function ModalAddCarrito({
                 <td>
                   <table className="table">
                     <tbody>
-                      {productosDevulucionSelect.map(e=>
+                      {productosDevulucionSelect?.length?productosDevulucionSelect.map(e=>
                         <tr key={e.id} onClick={setDevolucion} data-id={e.id}>
                           <td>{e.codigo_proveedor}</td>
                           <td>{e.descripcion}</td>
                         </tr>
-                      )}
+                      ):null}
                     </tbody>
                   </table>
                 </td>

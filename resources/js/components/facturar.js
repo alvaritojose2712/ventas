@@ -67,6 +67,8 @@ export default function Facturar({user,notificar,setLoading}) {
 
   
   const [productos,setProductos] = useState([])
+  const [categorias,setcategorias] = useState([])
+
   const [productosInventario,setProductosInventario] = useState([])
 
   const [qBuscarInventario,setQBuscarInventario] = useState("")
@@ -1024,6 +1026,8 @@ const toggleImprimirTicket = () => {
       let nombres = window.prompt("Nombre y Apellido",pedidoData.cliente.nombre)
       if (nombres) {
 
+        console.log("Imprimiendo...")
+
         db.imprimirTicked({
           id: pedidoData.id,
           identificacion,
@@ -1090,13 +1094,22 @@ const getProductos = () => {
 }
 const getPersona = q => {
   setLoading(true)
-  db.getpersona({q}).then(res=>{
-    setPersona(res.data)
-    if (!res.data.length) {
-      setclienteInpidentificacion(q)
-    }
-    setLoading(false)
-  })
+  if (time!=0) {
+    clearTimeout(typingTimeout)
+  }
+
+  let time = window.setTimeout(()=>{
+    db.getpersona({q}).then(res=>{
+      setPersona(res.data)
+      if (!res.data.length) {
+        setclienteInpidentificacion(q)
+      }
+      setLoading(false)
+    })
+    
+  },150)
+  setTypingTimeout(time)
+
 }
 const setPersonaFast = e => {
   e.preventDefault()
@@ -1411,6 +1424,10 @@ const setPersonas = (e) => {
 
     }
 }
+const facturar_e_imprimir = () => {
+  toggleImprimirTicket();
+  facturar_pedido();
+}
 const facturar_pedido = () => {
   if (refinputaddcarritofast.current !== document.activeElement) {
     setLoading(true)
@@ -1596,23 +1613,37 @@ const setDevolucion = e => {
   }
 }
 const buscarInventario = e => {
+
+
   setLoading(true)
-  db.getinventario({
-    num:Invnum,
-    itemCero:true,
-    qProductosMain:qBuscarInventario,
-    orderColumn:InvorderColumn,
-    orderBy:InvorderBy
-  }).then(res=>{
-    setProductosInventario(res.data)
-    setLoading(false)
-    setIndexSelectInventario(null)
-    if (res.data.length===1) {
-      setIndexSelectInventario(0)
-    }else if(res.data.length==0){
-      setinpInvbarras(qBuscarInventario)
-    }
-  })
+
+
+  if (time!=0) {
+    clearTimeout(typingTimeout)
+  }
+
+  let time = window.setTimeout(()=>{
+    db.getinventario({
+      num:Invnum,
+      itemCero:true,
+      qProductosMain:qBuscarInventario,
+      orderColumn:InvorderColumn,
+      orderBy:InvorderBy
+    }).then(res=>{
+      setProductosInventario(res.data)
+      setLoading(false)
+      setIndexSelectInventario(null)
+      if (res.data.length===1) {
+        setIndexSelectInventario(0)
+      }else if(res.data.length==0){
+        setinpInvbarras(qBuscarInventario)
+      }
+    })
+  },150)
+  setTypingTimeout(time)
+
+
+
 }
 const getProveedores = e => {
   setLoading(true)
@@ -1630,6 +1661,11 @@ const getProveedores = e => {
     q:qBuscarProveedor
   }).then(res=>{
     setmarcasList(res.data)
+  })
+
+  db.getCategorias({
+  }).then(res=>{
+    setcategorias(res.data)
   })
 
   db.getDepositos({
@@ -2359,7 +2395,6 @@ const reporteInventario = () => {
   db.openReporteInventario()
 }
 const guardarNuevoProductoLote = () => {
-  setLoading(true)
   let id_factura = null
 
   if (factSelectIndex != null) {
@@ -2369,8 +2404,20 @@ const guardarNuevoProductoLote = () => {
   }
   let lotesFil = productosInventario.filter(e => e.type)
 
-  if (lotesFil.length) {
+
+  let checkempty = lotesFil.filter(e=>
+    !e.codigo_barras.length||
+    !e.descripcion.length||
+    !e.id_categoria.length||
+    !e.unidad.length||
+    !e.id_proveedor.length||
+    !e.cantidad.length||
+    !e.precio_base.length||
+    !e.precio.length)
+
+  if (lotesFil.length && !checkempty.length) {
     
+    setLoading(true)
     db.guardarNuevoProductoLote({ lotes: lotesFil, id_factura}).then(res=>{
       notificar(res)
       setLoading(false)
@@ -2384,7 +2431,7 @@ const guardarNuevoProductoLote = () => {
       }catch(err){}
     })
   }else{
-    alert("Sin Datos")
+    alert("¡Error con los campos! Algunos pueden estar vacíos"+JSON.stringify(checkempty))
   }
 
 }
@@ -2737,6 +2784,8 @@ const auth = permiso => {
           getUsuarios={getUsuarios}
         />:null}
         {view=="inventario"?<Inventario
+
+          categorias={categorias}
           setporcenganancia={setporcenganancia}
           refsInpInvList={refsInpInvList}
           guardarNuevoProductoLote={guardarNuevoProductoLote}
@@ -2886,6 +2935,11 @@ const auth = permiso => {
         
         />:null}
         {view=="pagar"?<Pagar 
+
+          dolar={dolar}
+          peso={peso}
+          moneda={moneda}
+          facturar_e_imprimir={facturar_e_imprimir}
           pedidosFast={pedidosFast}
           onClickEditPedido={onClickEditPedido}
           tipobusquedapedido={tipobusquedapedido}

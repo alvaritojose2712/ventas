@@ -54,6 +54,11 @@ class tickera extends Controller
             /* Print a "Hello world" receipt" */
             $printer = new Printer($connector);
 
+            $printer->setEmphasis(true);
+
+            // $printer->text("\n");
+            
+
             $nombres = "";
             $identificacion = "";
             if (isset($req->nombres)) {
@@ -78,11 +83,17 @@ class tickera extends Controller
                         ];
                     }
                 }
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
                
                 foreach ($items as $item) {
 
                     //Current item ROW 1
 
+                    $printer->setEmphasis(true);
+                    $printer->text($sucursal->nombre_registro);
+
+                    $printer->setEmphasis(false);
+                    $printer->text("\n");
                     $printer->text($item['codigo_barras']);
                    $printer->text("\n");
                    $printer->text($item['descripcion']);
@@ -90,28 +101,41 @@ class tickera extends Controller
 
                     $printer->setEmphasis(true);
 
-                   $printer->text(addSpaces("",6).$item['pu']);
-                $printer->setEmphasis(false);
+                   $printer->text($item['pu']);
+                   $printer->setEmphasis(false);
                    
-                   $printer->text("\n");
                    $printer->text("\n");
 
                     $printer->feed();
                 }
             }else{
+
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer -> setTextSize(1,1);
+
+                $tux = EscposImage::load(resource_path() . "/images/logo.jpg", false);
+                $printer -> bitImage($tux, Printer::IMG_DOUBLE_WIDTH | Printer::IMG_DOUBLE_HEIGHT);
+
+                $printer -> text("\n");
+                $printer -> text($sucursal->nombre_registro);
+                $printer -> text("\n");
+                $printer -> text($sucursal->rif);
+                $printer -> text("\n");
+                $printer -> text($sucursal->telefono1." | ".$sucursal->telefono2);
+                $printer -> text("\n");
+                $printer->setEmphasis(false);
+
+
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
 
                 $printer -> setTextSize(1,1);
 
-                $printer->setEmphasis(true);
-
                 
-                $printer->text("\n");
-                $printer->text("Creado: ".$pedido->created_at);
-                $printer->text("\n");
                 
 
                 $printer->text("NOTA DE ENTREGA #".$pedido->id);
+                $printer -> text("\n");
+
                 $printer->setEmphasis(false);
 
                 $printer -> text("\n");
@@ -191,20 +215,28 @@ class tickera extends Controller
                 $printer->text("Total: ".$pedido->total);
                 $printer->text("\n");
 
-               
-
                 $printer->setEmphasis(true);
 
-                // $printer->text("\n");
+                $printer->text("\n");
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->text($pedido->created_at);
+                $printer->text("\n");
 
-                $printer -> text("\n");
-                $printer -> text($sucursal->nombre_registro);
-                $printer -> text("\n");
-                $printer -> text($sucursal->rif);
-                $printer -> text("\n");
-                $printer -> text($sucursal->telefono1." | ".$sucursal->telefono2);
-                $printer -> text("\n");
+                $printer->text("Gracias por su compra! :D");
+                $printer->text("\n");
+
+                $printer->text("Despues de 24 horas");
+                $printer->text("\n");
+
+                $printer->text("No se aceptan devoluciones");
+                $printer->text("\n");
+
+                $printer->text("Ni se devuelve el dinero");
+                $printer->text("\n");
+                $printer->text("\n");
+                
+              
+
 
             }
 

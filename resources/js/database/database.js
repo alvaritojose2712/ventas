@@ -99,6 +99,9 @@ const db = {
   getPedidosCentral: data=>axios.post(host+"getPedidosCentral",data),
 
   getSucursal: data=>axios.get(host+"getSucursal",{params:data}),
+  getCategorias: data=>axios.get(host+"getCategorias",{params:data}),
+
+
 
   getProductosSerial: data=>axios.get(host+"getProductosSerial",{params:data}),
   checkPedidosCentral: data=>axios.post(host+"checkPedidosCentral",data),

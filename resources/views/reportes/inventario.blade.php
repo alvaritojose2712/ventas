@@ -249,10 +249,12 @@
 						
 						<th>Marca</th>
 					@endif
+
                     @if ($view_cantidad)
 						
 						<th>Ct.</th>
 					@endif
+					<th>UND</th>
                     @if ($view_precio_base)
 						
 						<th>Costo</th>
@@ -281,6 +283,7 @@
                         @if ($view_categoria)<th>{{$e->categoria->descripcion}}</th> @endif
                         @if ($view_id_marca)<th>{{$e->id_marca}}</th> @endif
 						@if ($view_cantidad)<td>{{$e->cantidad}}</td> @endif
+						<td>{{$e->unidad}}</td> 
                         @if ($view_precio_base)<td>{{$e->precio_base}}</td> @endif
 						@if ($view_t_costo)<td>{{$e->t_costo}}</td> @endif
                         @if ($view_precio)<td>{{$e->precio}}</td> @endif

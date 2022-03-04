@@ -56,6 +56,7 @@ function Cargarproducto({
   addNewLote,
   changeModLote,
   type,
+  categorias,
 
 }) {
 
@@ -185,47 +186,7 @@ function Cargarproducto({
                   value={inpInvcategoria} 
                   onChange={e=>setinpInvcategoria(e.target.value)}
                   >
-                  
-                    <option value="1">VETERINARIA</option>
-                    <option value="2">TORNILLERIA</option>
-                    <option value="3">TERMOS</option>
-                    <option value="4">TELEFONIA</option>
-                    <option value="5">TECNOLOGIA</option>
-                    <option value="6">REPUESTOS</option>
-                    <option value="7">REFRIGERACION</option>
-                    <option value="8">QUINCALLERIA</option>
-                    <option value="9">PLOMERIA</option>
-                    <option value="10">PLANTAS</option>
-                    <option value="11">PINTURA</option>
-                    <option value="12">PESCA</option>
-                    <option value="13">PEGAS</option>
-                    <option value="14">NAILOS</option>
-                    <option value="15">MOTOS</option>
-                    <option value="16">MECANICA</option>
-                    <option value="17">MALLAS</option>
-                    <option value="18">LENTES</option>
-                    <option value="19">JARDINERIA</option>
-                    <option value="20">INTERNET</option>
-                    <option value="21">ILUMINACIÓN</option>
-                    <option value="22">HOGAR</option>
-                    <option value="23">HERRERIA</option>
-                    <option value="24">HERRAMIENTAS</option>
-                    <option value="25">GRIFERIA</option>
-                    <option value="26">GAS</option>
-                    <option value="27">FONTANERIA</option>
-                    <option value="28">ELECTRONICA</option>
-                    <option value="29">ELECTRODOMESTICO</option>
-                    <option value="30">ELECTRICIDAD</option>
-                    <option value="31">DISCO</option>
-                    <option value="32">CORDONES</option>
-                    <option value="33">CONSTRUCCION</option>
-                    <option value="34">CERRADURA</option>
-                    <option value="35">CERAMICA</option>
-                    <option value="36">BATERIA</option>
-                    <option value="37">ALAMBRE</option>
-                    <option value="38">AGRICOLA</option>
-                    <option value="39">ACEITES</option>
-                    <option value="40">COSMETICOS</option>
+                    {categorias.map(e => <option value={e.id} key={e.id}>{e.descripcion}</option>)}
                   </select>
                 </div>
               </div>

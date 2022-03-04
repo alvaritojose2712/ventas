@@ -22,9 +22,18 @@ class ClientesController extends Controller
     public function setClienteCrud(Request $req)
     {   
         try{
-            $cli = clientes::updateOrCreate([
-                "id" => $req->id
-            ],[
+            $arr_sea = [];
+
+            if (!$req->id) {
+                $arr_sea = [
+                    "identificacion" => $req->clienteInpidentificacion
+                ];
+            }else{
+                $arr_sea = [
+                    "id" => $req->id
+                ];
+            }
+            $cli = clientes::updateOrCreate($arr_sea,[
                 "identificacion" => $req->clienteInpidentificacion,
                 "nombre" => $req->clienteInpnombre,
                 "correo" => $req->clienteInpcorreo,

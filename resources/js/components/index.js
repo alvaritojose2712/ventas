@@ -16,8 +16,12 @@ function Index() {
     const loginRes = res => {
         notificar(res)
         if (res.data) {
-            setLoginActive(res.data.estado)
-            setUser(res.data.user)
+            
+
+            if (res.data.user) {
+                setUser(res.data.user)
+                setLoginActive(res.data.estado)
+            }
         }
     } 
     const notificar = (msj, fixed = true) => {
@@ -49,7 +53,7 @@ function Index() {
 
             {msj != "" ? <Notificacion msj={msj} notificar={notificar} /> : null}
 
-            {loginActive?<Facturar 
+            {loginActive&&user?<Facturar 
                 setLoading={setLoading}
                 user={user}
                 notificar={notificar}

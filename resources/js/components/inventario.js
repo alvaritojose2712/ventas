@@ -156,6 +156,7 @@ function Inventario({
 
   guardarNuevoProductoLote,
   refsInpInvList,
+  categorias,
   
 }) {
 
@@ -260,6 +261,7 @@ function Inventario({
             </div>
             {modViewInventario=="unique"?
             <CargarProducto
+              categorias={categorias}
               setporcenganancia={setporcenganancia}
               type={type}
               setNewProducto={setNewProducto}
@@ -336,6 +338,7 @@ function Inventario({
               
             />
             : <InventarioForzado
+                categorias={categorias}
                 setporcenganancia={setporcenganancia}
 
                 refsInpInvList={refsInpInvList}

@@ -83,8 +83,47 @@ getCredito,
 getTransferencia,
 getEfectivo,
 onClickEditPedido,
+
+facturar_e_imprimir,
+
+moneda,
+
+dolar,
+peso,
 }) {
 
+  const debitoBs = (met) =>{
+    try{
+      if (met=="debito") {
+        if (debito=="") {
+          return ""
+        }
+       return "Bs."+moneda(dolar*debito)
+
+      }
+
+      if (met=="transferencia") {
+        if (transferencia=="") {
+          return ""
+        }
+       return "Bs."+moneda(dolar*transferencia)
+        
+      }
+
+    }catch(err){
+      return ""
+      console.log()
+    }
+  }
+
+  const showTittlePrice = (pu,total) => {
+    try{
+      return "P/U. Bs."+moneda(number(pu)*dolar)+"\n"+"Total Bs."+moneda(number(total)*dolar)
+
+    }catch(err){
+      return ""
+    }
+  }
   
   const syncPago = (val,type)=>{
     val = number(val)
@@ -218,7 +257,7 @@ onClickEditPedido,
                 clienteInpdireccion={clienteInpdireccion}
                 setclienteInpdireccion={setclienteInpdireccion}
               />}
-              <table className="table table-bordered text-center">
+              <table className="table table-striped text-center">
                 <thead>
                   <tr>
                     <th className="text-sinapsis cell2">Código</th>
@@ -230,7 +269,7 @@ onClickEditPedido,
                     {/*<th className="text-sinapsis">Tot.Desc.</th>*/}
                     <th className="text-sinapsis cell2">Total</th>
                     {editable?
-                    <th className='cell1'><button className="btn btn-circle text-white btn-sinapsis btn-sm mb-3" onClick={toggleModalProductos}>F1 <i className="fa fa-plus"></i></button></th>
+                    <th className='cell1'><button className="btn btn-circle text-white btn-sinapsis btn-sm" onClick={toggleModalProductos}>F1 <i className="fa fa-plus"></i></button></th>
                     :null}
                   </tr>
                 </thead>
@@ -249,9 +288,9 @@ onClickEditPedido,
                       <th className="font-weight-bold">{e.total}</th>
                       <td> </td>
                     </tr>
-                    :<tr key={e.id}>
-                      <td>{e.producto.codigo_barras}</td>
-                      <td>
+                    :<tr key={e.id} title={showTittlePrice(e.producto.precio,e.total)}>
+                      <td className="align-middle">{e.producto.codigo_barras}</td>
+                      <td className="align-middle">
                         {e.producto.descripcion}
                         <div className='fst-italic fs-6 text-success'>
                             {e.lotedata?<>
@@ -259,17 +298,17 @@ onClickEditPedido,
                             </>:null} 
                         </div>
                       </td>
-                      <td onClick={setCantidadCarrito} data-index={e.id} className="pointer clickme">{e.cantidad.replace(".00","")} </td>
-                      <td>{e.producto.precio}</td>
+                      <td onClick={setCantidadCarrito} data-index={e.id} className="pointer clickme align-middle">{e.cantidad.replace(".00","")} </td>
+                      <td className="align-middle">{e.producto.precio}</td>
 
-                      <th className="font-weight-bold">{e.total}</th>
+                      <th className="font-weight-bold align-middle">{e.total}</th>
                       {editable?
-                      <td> <i onClick={delItemPedido} data-index={e.id} className="fa fa-times text-danger"></i> </td>
+                      <td className="align-middle"> <i onClick={delItemPedido} data-index={e.id} className="fa fa-times text-danger"></i> </td>
                       :null}
                     </tr>
                   ):null}
                   <tr>
-                    <td><button className="btn btn-outline-success fs-5">{items.length}</button></td>
+                    <td><button className="btn btn-outline-success fs-5">{items?items.length:null}</button></td>
                     <td colSpan="5" className="align-middle">
                       {editable?
                       <input className="form-control form-control-sm" ref={refinputaddcarritofast} value={inputaddCarritoFast} 
@@ -302,7 +341,7 @@ onClickEditPedido,
                           <div className="card-body">
                             <div className="card-title pointer" onClick={getDebito}>Déb.</div>
                             <div className="card-text pago-numero"><input type="text" value={debito} onChange={(e)=>syncPago(e.target.value,"Debito")} placeholder="D"/></div>
-                            
+                            <small className="text-muted">{debitoBs("debito")}</small>
                           </div>
                         </div>
                       </div>
@@ -323,6 +362,7 @@ onClickEditPedido,
                           <div className="card-body">
                             <div className="card-title pointer" onClick={getTransferencia}>Tran.</div>
                             <div className="card-text pago-numero"><input type="text" value={transferencia} onChange={(e)=>syncPago(e.target.value,"Transferencia")} placeholder="T"/></div>
+                            <small className="text-muted">{debitoBs("transferencia")}</small>
                             
                           </div>
                         </div>
@@ -401,10 +441,10 @@ onClickEditPedido,
                               {vuelto}
                             </div>
                             <small className="text-success fst-italic " className="pointer">Entregar</small><br/>
-                            {vuelto_entregado.map(e=><div title={e.created_at} key={e.id}>
+                            {vuelto_entregado?vuelto_entregado.map(e=><div title={e.created_at} key={e.id}>
                               Entregado = <b>{e.monto}</b>
                               
-                            </div>)}
+                            </div>):null}
                           </div>
                         }
                       </div>
@@ -413,7 +453,7 @@ onClickEditPedido,
                 </div>
 
               </div>
-              {!editable?
+              {editable?
                 <div className="text-right">
                   
 
@@ -467,13 +507,20 @@ onClickEditPedido,
                 
                 <div className="">
                   {editable?
-                  <button className="btn btn-circle text-white btn-success btn-xl me-5" onClick={facturar_pedido}>ENTER <i className="fa fa-paper-plane"></i></button>
+                    <>
+                    <button className="btn btn-circle text-white btn-success btn-xl me-1" onClick={facturar_pedido}>ENTER <i className="fa fa-paper-plane"></i></button>
+
+                    <button className="btn btn-circle btn-warning btn-xl me-5" onClick={facturar_e_imprimir}> 
+                      <i className="fa fa-paper-plane"></i>
+                      <i className="fa fa-print"></i>
+                    </button>
+                    </>
                   :null}
                   {editable?
                   <button className="btn btn-circle text-white btn-primary btn-xl me-4" onClick={()=>setToggleAddPersona(true)}>F2 <i className="fa fa-user"></i></button>
                   :null}
-                  <button className="btn btn-circle text-white btn-sinapsis btn-xl me-1" onClick={toggleImprimirTicket}>F3 <i className="fa fa-print"></i></button>
-                  <button className="btn btn-circle text-white btn-sinapsis btn-xl me-4" onClick={viewReportPedido}>F4 <i className="fa fa-eye"></i></button>
+                  <button className="btn btn-circle text-white btn-primary btn-xl me-1" onClick={toggleImprimirTicket}>F3 <i className="fa fa-print"></i></button>
+                  <button className="btn btn-circle text-white btn-primary btn-xl me-4" onClick={viewReportPedido}>F4 <i className="fa fa-eye"></i></button>
                   {editable?
                   <button className="btn btn-circle text-white btn-danger btn-sm" onClick={del_pedido}>F5 <i className="fa fa-times"></i></button>
                   :null}

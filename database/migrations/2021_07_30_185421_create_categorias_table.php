@@ -60,6 +60,18 @@ class CreateCategoriasTable extends Migration
             ["descripcion"=>"AGRICOLA"],
             ["descripcion"=>"ACEITES"],
             ["descripcion"=>"COSMETICOS"],
+
+            ["descripcion"=>"BISUTERIA"],
+            ["descripcion"=>"PERFUMES"],
+            ["descripcion"=>"SUPLEMENTOS ALIMENTICIOS"],
+            ["descripcion"=>"COMESTIBLES"],
+            ["descripcion"=>"DULCES"],
+            ["descripcion"=>"CUIDADO PERSONAL"],
+            ["descripcion"=>"CUIDADO DEL HOGAR"],
+            ["descripcion"=>"FITNESS"],
+            ["descripcion"=>"ROPA"],
+            ["descripcion"=>"CALZADO"],
+
         ]);
     }
 

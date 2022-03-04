@@ -41,12 +41,12 @@ function Modaladdproductocarrito({
               </tr>
             </thead>
             <tbody ref={tbodypersoInterref}>
-              {personas.map((e,i)=>
+              {personas?personas.map((e,i)=>
                 <tr tabIndex="-1" className={(countListPersoInter==i?"bg-select":null)+(' tr-producto')} key={e.id} onClick={setPersonas} data-index={e.id}>
                   <td>{e.identificacion}</td>
                   <td data-index={i}>{e.nombre}</td>
                 </tr>
-                )}
+                ):null}
 
               {!personas.length?<tr>
                 <td colSpan="2">

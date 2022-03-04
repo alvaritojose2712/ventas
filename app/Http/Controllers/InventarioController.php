@@ -335,7 +335,7 @@ class InventarioController extends Controller
                 }
 
             })
-            ->limit(20)
+            ->limit($num)
             ->orderBy($orderColumn,$orderBy)
             ->get();
         }else{

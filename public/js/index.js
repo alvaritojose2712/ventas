@@ -2107,7 +2107,7 @@ function ModalAddCarrito(_ref) {
       fechaMovimientos = _ref.fechaMovimientos;
 
   var retTipoMov = function retTipoMov() {
-    return movimientos.map(function (e) {
+    return movimientos.length ? movimientos.map(function (e) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
           className: "align-middle",
@@ -2122,7 +2122,7 @@ function ModalAddCarrito(_ref) {
           children: retTipoSubMov(e.items, 0)
         })]
       }, e.id);
-    });
+    }) : "";
   };
 
   var retCat = function retCat(cat) {
@@ -2246,12 +2246,12 @@ function ModalAddCarrito(_ref) {
                     },
                     className: "form-control",
                     value: idMovSelect,
-                    children: [movimientos.map(function (e) {
+                    children: [movimientos.length ? movimientos.map(function (e) {
                       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
                         value: e.id,
                         children: e.id
                       }, e.id);
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
                       value: "nuevo",
                       children: "nuevo"
                     })]
@@ -2281,7 +2281,7 @@ function ModalAddCarrito(_ref) {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("table", {
                   className: "table",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
-                    children: productosDevulucionSelect.map(function (e) {
+                    children: productosDevulucionSelect !== null && productosDevulucionSelect !== void 0 && productosDevulucionSelect.length ? productosDevulucionSelect.map(function (e) {
                       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
                         onClick: setDevolucion,
                         "data-id": e.id,
@@ -2291,7 +2291,7 @@ function ModalAddCarrito(_ref) {
                           children: e.descripcion
                         })]
                       }, e.id);
-                    })
+                    }) : null
                   })
                 })
               })
@@ -2385,7 +2385,7 @@ function Modaladdproductocarrito(_ref) {
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", {
             ref: tbodypersoInterref,
-            children: [personas.map(function (e, i) {
+            children: [personas ? personas.map(function (e, i) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
                 tabIndex: "-1",
                 className: (countListPersoInter == i ? "bg-select" : null) + ' tr-producto',
@@ -2398,7 +2398,7 @@ function Modaladdproductocarrito(_ref) {
                   children: e.nombre
                 })]
               }, e.id);
-            }), !personas.length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
+            }) : null, !personas.length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                 colSpan: "2",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
@@ -3002,7 +3002,8 @@ function Cargarproducto(_ref) {
       setInvorderBy = _ref.setInvorderBy,
       addNewLote = _ref.addNewLote,
       changeModLote = _ref.changeModLote,
-      type = _ref.type;
+      type = _ref.type,
+      categorias = _ref.categorias;
 
   var setIndexSelectInventarioFun = function setIndexSelectInventarioFun(e) {
     var index = e.currentTarget.attributes["data-index"].value;
@@ -3233,133 +3234,18 @@ function Cargarproducto(_ref) {
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "col",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("select", {
                   className: "form-control",
                   value: inpInvcategoria,
                   onChange: function onChange(e) {
                     return setinpInvcategoria(e.target.value);
                   },
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "1",
-                    children: "VETERINARIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "2",
-                    children: "TORNILLERIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "3",
-                    children: "TERMOS"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "4",
-                    children: "TELEFONIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "5",
-                    children: "TECNOLOGIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "6",
-                    children: "REPUESTOS"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "7",
-                    children: "REFRIGERACION"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "8",
-                    children: "QUINCALLERIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "9",
-                    children: "PLOMERIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "10",
-                    children: "PLANTAS"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "11",
-                    children: "PINTURA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "12",
-                    children: "PESCA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "13",
-                    children: "PEGAS"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "14",
-                    children: "NAILOS"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "15",
-                    children: "MOTOS"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "16",
-                    children: "MECANICA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "17",
-                    children: "MALLAS"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "18",
-                    children: "LENTES"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "19",
-                    children: "JARDINERIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "20",
-                    children: "INTERNET"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "21",
-                    children: "ILUMINACI\xD3N"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "22",
-                    children: "HOGAR"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "23",
-                    children: "HERRERIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "24",
-                    children: "HERRAMIENTAS"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "25",
-                    children: "GRIFERIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "26",
-                    children: "GAS"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "27",
-                    children: "FONTANERIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "28",
-                    children: "ELECTRONICA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "29",
-                    children: "ELECTRODOMESTICO"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "30",
-                    children: "ELECTRICIDAD"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "31",
-                    children: "DISCO"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "32",
-                    children: "CORDONES"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "33",
-                    children: "CONSTRUCCION"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "34",
-                    children: "CERRADURA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "35",
-                    children: "CERAMICA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "36",
-                    children: "BATERIA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "37",
-                    children: "ALAMBRE"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "38",
-                    children: "AGRICOLA"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "39",
-                    children: "ACEITES"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: "40",
-                    children: "COSMETICOS"
-                  })]
+                  children: categorias.map(function (e) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                      value: e.id,
+                      children: e.descripcion
+                    }, e.id);
+                  })
                 })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -4973,393 +4859,398 @@ function Facturar(_ref) {
 
   var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState34 = _slicedToArray(_useState33, 2),
-      productosInventario = _useState34[0],
-      setProductosInventario = _useState34[1];
+      categorias = _useState34[0],
+      setcategorias = _useState34[1];
 
-  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState36 = _slicedToArray(_useState35, 2),
-      qBuscarInventario = _useState36[0],
-      setQBuscarInventario = _useState36[1];
+      productosInventario = _useState36[0],
+      setProductosInventario = _useState36[1];
 
-  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState38 = _slicedToArray(_useState37, 2),
-      indexSelectInventario = _useState38[0],
-      setIndexSelectInventario = _useState38[1];
+      qBuscarInventario = _useState38[0],
+      setQBuscarInventario = _useState38[1];
 
-  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
       _useState40 = _slicedToArray(_useState39, 2),
-      inpInvbarras = _useState40[0],
-      setinpInvbarras = _useState40[1];
+      indexSelectInventario = _useState40[0],
+      setIndexSelectInventario = _useState40[1];
 
   var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState42 = _slicedToArray(_useState41, 2),
-      inpInvcantidad = _useState42[0],
-      setinpInvcantidad = _useState42[1];
+      inpInvbarras = _useState42[0],
+      setinpInvbarras = _useState42[1];
 
   var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState44 = _slicedToArray(_useState43, 2),
-      inpInvalterno = _useState44[0],
-      setinpInvalterno = _useState44[1];
+      inpInvcantidad = _useState44[0],
+      setinpInvcantidad = _useState44[1];
 
-  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("UND"),
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState46 = _slicedToArray(_useState45, 2),
-      inpInvunidad = _useState46[0],
-      setinpInvunidad = _useState46[1];
+      inpInvalterno = _useState46[0],
+      setinpInvalterno = _useState46[1];
 
-  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("24"),
+  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("UND"),
       _useState48 = _slicedToArray(_useState47, 2),
-      inpInvcategoria = _useState48[0],
-      setinpInvcategoria = _useState48[1];
+      inpInvunidad = _useState48[0],
+      setinpInvunidad = _useState48[1];
 
-  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("24"),
       _useState50 = _slicedToArray(_useState49, 2),
-      inpInvdescripcion = _useState50[0],
-      setinpInvdescripcion = _useState50[1];
+      inpInvcategoria = _useState50[0],
+      setinpInvcategoria = _useState50[1];
 
   var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState52 = _slicedToArray(_useState51, 2),
-      inpInvbase = _useState52[0],
-      setinpInvbase = _useState52[1];
+      inpInvdescripcion = _useState52[0],
+      setinpInvdescripcion = _useState52[1];
 
   var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState54 = _slicedToArray(_useState53, 2),
-      inpInvventa = _useState54[0],
-      setinpInvventa = _useState54[1];
+      inpInvbase = _useState54[0],
+      setinpInvbase = _useState54[1];
 
-  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("0"),
+  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState56 = _slicedToArray(_useState55, 2),
-      inpInviva = _useState56[0],
-      setinpInviva = _useState56[1];
+      inpInvventa = _useState56[0],
+      setinpInvventa = _useState56[1];
 
   var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("0"),
       _useState58 = _slicedToArray(_useState57, 2),
-      inpInvporcentaje_ganancia = _useState58[0],
-      setinpInvporcentaje_ganancia = _useState58[1];
+      inpInviva = _useState58[0],
+      setinpInviva = _useState58[1];
 
-  var _useState59 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState59 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("0"),
       _useState60 = _slicedToArray(_useState59, 2),
-      inpInvLotes = _useState60[0],
-      setinpInvLotes = _useState60[1];
+      inpInvporcentaje_ganancia = _useState60[0],
+      setinpInvporcentaje_ganancia = _useState60[1];
 
-  var _useState61 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState61 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState62 = _slicedToArray(_useState61, 2),
-      inpInvid_proveedor = _useState62[0],
-      setinpInvid_proveedor = _useState62[1];
+      inpInvLotes = _useState62[0],
+      setinpInvLotes = _useState62[1];
 
   var _useState63 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState64 = _slicedToArray(_useState63, 2),
-      inpInvid_marca = _useState64[0],
-      setinpInvid_marca = _useState64[1];
+      inpInvid_proveedor = _useState64[0],
+      setinpInvid_proveedor = _useState64[1];
 
   var _useState65 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState66 = _slicedToArray(_useState65, 2),
-      inpInvid_deposito = _useState66[0],
-      setinpInvid_deposito = _useState66[1];
+      inpInvid_marca = _useState66[0],
+      setinpInvid_marca = _useState66[1];
 
-  var _useState67 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState67 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState68 = _slicedToArray(_useState67, 2),
-      depositosList = _useState68[0],
-      setdepositosList = _useState68[1];
+      inpInvid_deposito = _useState68[0],
+      setinpInvid_deposito = _useState68[1];
 
   var _useState69 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState70 = _slicedToArray(_useState69, 2),
-      marcasList = _useState70[0],
-      setmarcasList = _useState70[1];
+      depositosList = _useState70[0],
+      setdepositosList = _useState70[1];
 
-  var _useState71 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(25),
+  var _useState71 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState72 = _slicedToArray(_useState71, 2),
-      Invnum = _useState72[0],
-      setInvnum = _useState72[1];
+      marcasList = _useState72[0],
+      setmarcasList = _useState72[1];
 
-  var _useState73 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("id"),
+  var _useState73 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(25),
       _useState74 = _slicedToArray(_useState73, 2),
-      InvorderColumn = _useState74[0],
-      setInvorderColumn = _useState74[1];
+      Invnum = _useState74[0],
+      setInvnum = _useState74[1];
 
-  var _useState75 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("desc"),
+  var _useState75 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("id"),
       _useState76 = _slicedToArray(_useState75, 2),
-      InvorderBy = _useState76[0],
-      setInvorderBy = _useState76[1];
+      InvorderColumn = _useState76[0],
+      setInvorderColumn = _useState76[1];
 
-  var _useState77 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState77 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("desc"),
       _useState78 = _slicedToArray(_useState77, 2),
-      proveedordescripcion = _useState78[0],
-      setproveedordescripcion = _useState78[1];
+      InvorderBy = _useState78[0],
+      setInvorderBy = _useState78[1];
 
   var _useState79 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState80 = _slicedToArray(_useState79, 2),
-      proveedorrif = _useState80[0],
-      setproveedorrif = _useState80[1];
+      proveedordescripcion = _useState80[0],
+      setproveedordescripcion = _useState80[1];
 
   var _useState81 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState82 = _slicedToArray(_useState81, 2),
-      proveedordireccion = _useState82[0],
-      setproveedordireccion = _useState82[1];
+      proveedorrif = _useState82[0],
+      setproveedorrif = _useState82[1];
 
   var _useState83 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState84 = _slicedToArray(_useState83, 2),
-      proveedortelefono = _useState84[0],
-      setproveedortelefono = _useState84[1];
+      proveedordireccion = _useState84[0],
+      setproveedordireccion = _useState84[1];
 
-  var _useState85 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("inventario"),
+  var _useState85 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState86 = _slicedToArray(_useState85, 2),
-      subViewInventario = _useState86[0],
-      setsubViewInventario = _useState86[1];
+      proveedortelefono = _useState86[0],
+      setproveedortelefono = _useState86[1];
 
-  var _useState87 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
+  var _useState87 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("inventario"),
       _useState88 = _slicedToArray(_useState87, 2),
-      indexSelectProveedores = _useState88[0],
-      setIndexSelectProveedores = _useState88[1];
+      subViewInventario = _useState88[0],
+      setsubViewInventario = _useState88[1];
 
-  var _useState89 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState89 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
       _useState90 = _slicedToArray(_useState89, 2),
-      qBuscarProveedor = _useState90[0],
-      setQBuscarProveedor = _useState90[1];
+      indexSelectProveedores = _useState90[0],
+      setIndexSelectProveedores = _useState90[1];
 
-  var _useState91 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState91 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState92 = _slicedToArray(_useState91, 2),
-      proveedoresList = _useState92[0],
-      setProveedoresList = _useState92[1];
+      qBuscarProveedor = _useState92[0],
+      setQBuscarProveedor = _useState92[1];
 
   var _useState93 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState94 = _slicedToArray(_useState93, 2),
-      pedidoList = _useState94[0],
-      setPedidoList = _useState94[1];
+      proveedoresList = _useState94[0],
+      setProveedoresList = _useState94[1];
 
-  var _useState95 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState95 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState96 = _slicedToArray(_useState95, 2),
-      debito = _useState96[0],
-      setDebito = _useState96[1];
+      pedidoList = _useState96[0],
+      setPedidoList = _useState96[1];
 
   var _useState97 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState98 = _slicedToArray(_useState97, 2),
-      efectivo = _useState98[0],
-      setEfectivo = _useState98[1];
+      debito = _useState98[0],
+      setDebito = _useState98[1];
 
   var _useState99 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState100 = _slicedToArray(_useState99, 2),
-      transferencia = _useState100[0],
-      setTransferencia = _useState100[1];
+      efectivo = _useState100[0],
+      setEfectivo = _useState100[1];
 
   var _useState101 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState102 = _slicedToArray(_useState101, 2),
-      credito = _useState102[0],
-      setCredito = _useState102[1];
+      transferencia = _useState102[0],
+      setTransferencia = _useState102[1];
 
   var _useState103 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState104 = _slicedToArray(_useState103, 2),
-      vuelto = _useState104[0],
-      setVuelto = _useState104[1];
+      credito = _useState104[0],
+      setCredito = _useState104[1];
 
-  var _useState105 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
+  var _useState105 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState106 = _slicedToArray(_useState105, 2),
-      descuento = _useState106[0],
-      setDescuento = _useState106[1];
+      vuelto = _useState106[0],
+      setVuelto = _useState106[1];
 
-  var _useState107 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+  var _useState107 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
       _useState108 = _slicedToArray(_useState107, 2),
-      ModaladdproductocarritoToggle = _useState108[0],
-      setModaladdproductocarritoToggle = _useState108[1];
+      descuento = _useState108[0],
+      setDescuento = _useState108[1];
 
   var _useState109 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
       _useState110 = _slicedToArray(_useState109, 2),
-      toggleAddPersona = _useState110[0],
-      setToggleAddPersona = _useState110[1];
+      ModaladdproductocarritoToggle = _useState110[0],
+      setModaladdproductocarritoToggle = _useState110[1];
 
-  var _useState111 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState111 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
       _useState112 = _slicedToArray(_useState111, 2),
-      personas = _useState112[0],
-      setPersona = _useState112[1];
+      toggleAddPersona = _useState112[0],
+      setToggleAddPersona = _useState112[1];
 
   var _useState113 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState114 = _slicedToArray(_useState113, 2),
-      pedidos = _useState114[0],
-      setPedidos = _useState114[1];
+      personas = _useState114[0],
+      setPersona = _useState114[1];
 
   var _useState115 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState116 = _slicedToArray(_useState115, 2),
-      movimientosCaja = _useState116[0],
-      setMovimientosCaja = _useState116[1];
+      pedidos = _useState116[0],
+      setPedidos = _useState116[1];
 
   var _useState117 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState118 = _slicedToArray(_useState117, 2),
-      movimientos = _useState118[0],
-      setMovimientos = _useState118[1];
+      movimientosCaja = _useState118[0],
+      setMovimientosCaja = _useState118[1];
 
   var _useState119 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState120 = _slicedToArray(_useState119, 2),
-      vendedor = _useState120[0],
-      setVendedor = _useState120[1];
+      movimientos = _useState120[0],
+      setMovimientos = _useState120[1];
 
-  var _useState121 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("fact"),
+  var _useState121 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState122 = _slicedToArray(_useState121, 2),
-      tipobusquedapedido = _useState122[0],
-      setTipoBusqueda = _useState122[1];
+      vendedor = _useState122[0],
+      setVendedor = _useState122[1];
 
-  var _useState123 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("todos"),
+  var _useState123 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("fact"),
       _useState124 = _slicedToArray(_useState123, 2),
-      tipoestadopedido = _useState124[0],
-      setTipoestadopedido = _useState124[1];
+      tipobusquedapedido = _useState124[0],
+      setTipoBusqueda = _useState124[1];
 
-  var _useState125 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState125 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("todos"),
       _useState126 = _slicedToArray(_useState125, 2),
-      busquedaPedido = _useState126[0],
-      setBusquedaPedido = _useState126[1];
+      tipoestadopedido = _useState126[0],
+      setTipoestadopedido = _useState126[1];
 
   var _useState127 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState128 = _slicedToArray(_useState127, 2),
-      fecha1pedido = _useState128[0],
-      setFecha1pedido = _useState128[1];
+      busquedaPedido = _useState128[0],
+      setBusquedaPedido = _useState128[1];
 
   var _useState129 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState130 = _slicedToArray(_useState129, 2),
-      fecha2pedido = _useState130[0],
-      setFecha2pedido = _useState130[1];
+      fecha1pedido = _useState130[0],
+      setFecha1pedido = _useState130[1];
 
   var _useState131 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState132 = _slicedToArray(_useState131, 2),
-      caja_usd = _useState132[0],
-      setCaja_usd = _useState132[1];
+      fecha2pedido = _useState132[0],
+      setFecha2pedido = _useState132[1];
 
   var _useState133 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState134 = _slicedToArray(_useState133, 2),
-      caja_cop = _useState134[0],
-      setCaja_cop = _useState134[1];
+      caja_usd = _useState134[0],
+      setCaja_usd = _useState134[1];
 
   var _useState135 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState136 = _slicedToArray(_useState135, 2),
-      caja_bs = _useState136[0],
-      setCaja_bs = _useState136[1];
+      caja_cop = _useState136[0],
+      setCaja_cop = _useState136[1];
 
   var _useState137 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState138 = _slicedToArray(_useState137, 2),
-      caja_punto = _useState138[0],
-      setCaja_punto = _useState138[1];
+      caja_bs = _useState138[0],
+      setCaja_bs = _useState138[1];
 
   var _useState139 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState140 = _slicedToArray(_useState139, 2),
-      dejar_usd = _useState140[0],
-      setDejar_usd = _useState140[1];
+      caja_punto = _useState140[0],
+      setCaja_punto = _useState140[1];
 
   var _useState141 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState142 = _slicedToArray(_useState141, 2),
-      dejar_cop = _useState142[0],
-      setDejar_cop = _useState142[1];
+      dejar_usd = _useState142[0],
+      setDejar_usd = _useState142[1];
 
   var _useState143 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState144 = _slicedToArray(_useState143, 2),
-      dejar_bs = _useState144[0],
-      setDejar_bs = _useState144[1];
+      dejar_cop = _useState144[0],
+      setDejar_cop = _useState144[1];
 
-  var _useState145 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)({}),
+  var _useState145 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState146 = _slicedToArray(_useState145, 2),
-      cierre = _useState146[0],
-      setCierre = _useState146[1];
+      dejar_bs = _useState146[0],
+      setDejar_bs = _useState146[1];
 
-  var _useState147 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState147 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)({}),
       _useState148 = _slicedToArray(_useState147, 2),
-      today = _useState148[0],
-      setToday = _useState148[1];
+      cierre = _useState148[0],
+      setCierre = _useState148[1];
 
   var _useState149 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState150 = _slicedToArray(_useState149, 2),
-      fechaCierre = _useState150[0],
-      setFechaCierre = _useState150[1];
+      today = _useState150[0],
+      setToday = _useState150[1];
 
-  var _useState151 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("cuadre"),
+  var _useState151 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState152 = _slicedToArray(_useState151, 2),
-      viewCierre = _useState152[0],
-      setViewCierre = _useState152[1];
+      fechaCierre = _useState152[0],
+      setFechaCierre = _useState152[1];
 
-  var _useState153 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
+  var _useState153 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("cuadre"),
       _useState154 = _slicedToArray(_useState153, 2),
-      toggleDetallesCierre = _useState154[0],
-      setToggleDetallesCierre = _useState154[1];
+      viewCierre = _useState154[0],
+      setViewCierre = _useState154[1];
 
-  var _useState155 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("todos"),
+  var _useState155 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
       _useState156 = _slicedToArray(_useState155, 2),
-      filterMetodoPagoToggle = _useState156[0],
-      setFilterMetodoPagoToggle = _useState156[1];
+      toggleDetallesCierre = _useState156[0],
+      setToggleDetallesCierre = _useState156[1];
 
-  var _useState157 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState157 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("todos"),
       _useState158 = _slicedToArray(_useState157, 2),
-      notaCierre = _useState158[0],
-      setNotaCierre = _useState158[1];
+      filterMetodoPagoToggle = _useState158[0],
+      setFilterMetodoPagoToggle = _useState158[1];
 
   var _useState159 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState160 = _slicedToArray(_useState159, 2),
-      qDeudores = _useState160[0],
-      setQDeudores = _useState160[1];
+      notaCierre = _useState160[0],
+      setNotaCierre = _useState160[1];
 
-  var _useState161 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState161 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState162 = _slicedToArray(_useState161, 2),
-      deudoresList = _useState162[0],
-      setDeudoresList = _useState162[1];
+      qDeudores = _useState162[0],
+      setQDeudores = _useState162[1];
 
-  var _useState163 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
+  var _useState163 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState164 = _slicedToArray(_useState163, 2),
-      selectDeudor = _useState164[0],
-      setSelectDeudor = _useState164[1];
+      deudoresList = _useState164[0],
+      setDeudoresList = _useState164[1];
 
-  var _useState165 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("3"),
+  var _useState165 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
       _useState166 = _slicedToArray(_useState165, 2),
-      tipo_pago_deudor = _useState166[0],
-      setTipo_pago_deudor = _useState166[1];
+      selectDeudor = _useState166[0],
+      setSelectDeudor = _useState166[1];
 
-  var _useState167 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState167 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("3"),
       _useState168 = _slicedToArray(_useState167, 2),
-      monto_pago_deudor = _useState168[0],
-      setMonto_pago_deudor = _useState168[1];
+      tipo_pago_deudor = _useState168[0],
+      setTipo_pago_deudor = _useState168[1];
 
-  var _useState169 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState169 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState170 = _slicedToArray(_useState169, 2),
-      detallesDeudor = _useState170[0],
-      setDetallesDeudor = _useState170[1];
+      monto_pago_deudor = _useState170[0],
+      setMonto_pago_deudor = _useState170[1];
 
-  var _useState171 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
+  var _useState171 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState172 = _slicedToArray(_useState171, 2),
-      counterListProductos = _useState172[0],
-      setCounterListProductos = _useState172[1];
+      detallesDeudor = _useState172[0],
+      setDetallesDeudor = _useState172[1];
 
   var _useState173 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
       _useState174 = _slicedToArray(_useState173, 2),
-      countListInter = _useState174[0],
-      setCountListInter = _useState174[1];
+      counterListProductos = _useState174[0],
+      setCounterListProductos = _useState174[1];
 
   var _useState175 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
       _useState176 = _slicedToArray(_useState175, 2),
-      countListPersoInter = _useState176[0],
-      setCountListPersoInter = _useState176[1];
+      countListInter = _useState176[0],
+      setCountListInter = _useState176[1];
 
-  var _useState177 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+  var _useState177 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
       _useState178 = _slicedToArray(_useState177, 2),
-      viewCaja = _useState178[0],
-      setViewCaja = _useState178[1];
+      countListPersoInter = _useState178[0],
+      setCountListPersoInter = _useState178[1];
 
-  var _useState179 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState179 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
       _useState180 = _slicedToArray(_useState179, 2),
-      movCajadescripcion = _useState180[0],
-      setMovCajadescripcion = _useState180[1];
+      viewCaja = _useState180[0],
+      setViewCaja = _useState180[1];
 
-  var _useState181 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
+  var _useState181 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState182 = _slicedToArray(_useState181, 2),
-      movCajatipo = _useState182[0],
-      setMovCajatipo = _useState182[1];
+      movCajadescripcion = _useState182[0],
+      setMovCajadescripcion = _useState182[1];
 
-  var _useState183 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(3),
+  var _useState183 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
       _useState184 = _slicedToArray(_useState183, 2),
-      movCajacategoria = _useState184[0],
-      setMovCajacategoria = _useState184[1];
+      movCajatipo = _useState184[0],
+      setMovCajatipo = _useState184[1];
 
-  var _useState185 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState185 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(3),
       _useState186 = _slicedToArray(_useState185, 2),
-      movCajamonto = _useState186[0],
-      setMovCajamonto = _useState186[1];
+      movCajacategoria = _useState186[0],
+      setMovCajacategoria = _useState186[1];
 
   var _useState187 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState188 = _slicedToArray(_useState187, 2),
-      movCajaFecha = _useState188[0],
-      setMovCajaFecha = _useState188[1];
+      movCajamonto = _useState188[0],
+      setMovCajamonto = _useState188[1];
+
+  var _useState189 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState190 = _slicedToArray(_useState189, 2),
+      movCajaFecha = _useState190[0],
+      setMovCajaFecha = _useState190[1];
 
   var tbodyproductosref = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(null);
   var inputBuscarInventario = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(null);
@@ -5371,317 +5262,317 @@ function Facturar(_ref) {
   var inputaddcarritointernoref = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(null);
   var refinputaddcarritofast = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(null);
 
-  var _useState189 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
-      _useState190 = _slicedToArray(_useState189, 2),
-      typingTimeout = _useState190[0],
-      setTypingTimeout = _useState190[1];
-
-  var _useState191 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState191 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
       _useState192 = _slicedToArray(_useState191, 2),
-      fechaMovimientos = _useState192[0],
-      setFechaMovimientos = _useState192[1];
+      typingTimeout = _useState192[0],
+      setTypingTimeout = _useState192[1];
 
-  var _useState193 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+  var _useState193 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState194 = _slicedToArray(_useState193, 2),
-      showModalMovimientos = _useState194[0],
-      setShowModalMovimientos = _useState194[1];
+      fechaMovimientos = _useState194[0],
+      setFechaMovimientos = _useState194[1];
 
-  var _useState195 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState195 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
       _useState196 = _slicedToArray(_useState195, 2),
-      buscarDevolucion = _useState196[0],
-      setBuscarDevolucion = _useState196[1];
+      showModalMovimientos = _useState196[0],
+      setShowModalMovimientos = _useState196[1];
 
-  var _useState197 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("1"),
+  var _useState197 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState198 = _slicedToArray(_useState197, 2),
-      tipoMovMovimientos = _useState198[0],
-      setTipoMovMovimientos = _useState198[1];
+      buscarDevolucion = _useState198[0],
+      setBuscarDevolucion = _useState198[1];
 
-  var _useState199 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("2"),
+  var _useState199 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("1"),
       _useState200 = _slicedToArray(_useState199, 2),
-      tipoCatMovimientos = _useState200[0],
-      setTipoCatMovimientos = _useState200[1];
+      tipoMovMovimientos = _useState200[0],
+      setTipoMovMovimientos = _useState200[1];
 
-  var _useState201 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState201 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("2"),
       _useState202 = _slicedToArray(_useState201, 2),
-      productosDevulucionSelect = _useState202[0],
-      setProductosDevulucionSelect = _useState202[1];
+      tipoCatMovimientos = _useState202[0],
+      setTipoCatMovimientos = _useState202[1];
 
-  var _useState203 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("nuevo"),
+  var _useState203 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState204 = _slicedToArray(_useState203, 2),
-      idMovSelect = _useState204[0],
-      setIdMovSelect = _useState204[1];
+      productosDevulucionSelect = _useState204[0],
+      setProductosDevulucionSelect = _useState204[1];
 
-  var _useState205 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+  var _useState205 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("nuevo"),
       _useState206 = _slicedToArray(_useState205, 2),
-      showModalFacturas = _useState206[0],
-      setshowModalFacturas = _useState206[1];
+      idMovSelect = _useState206[0],
+      setIdMovSelect = _useState206[1];
 
-  var _useState207 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState207 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
       _useState208 = _slicedToArray(_useState207, 2),
-      facturas = _useState208[0],
-      setfacturas = _useState208[1];
+      showModalFacturas = _useState208[0],
+      setshowModalFacturas = _useState208[1];
 
-  var _useState209 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState209 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState210 = _slicedToArray(_useState209, 2),
-      factqBuscar = _useState210[0],
-      setfactqBuscar = _useState210[1];
+      facturas = _useState210[0],
+      setfacturas = _useState210[1];
 
   var _useState211 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState212 = _slicedToArray(_useState211, 2),
-      factqBuscarDate = _useState212[0],
-      setfactqBuscarDate = _useState212[1];
+      factqBuscar = _useState212[0],
+      setfactqBuscar = _useState212[1];
 
-  var _useState213 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("id"),
+  var _useState213 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState214 = _slicedToArray(_useState213, 2),
-      factOrderBy = _useState214[0],
-      setfactOrderBy = _useState214[1];
+      factqBuscarDate = _useState214[0],
+      setfactqBuscarDate = _useState214[1];
 
-  var _useState215 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("desc"),
+  var _useState215 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("id"),
       _useState216 = _slicedToArray(_useState215, 2),
-      factOrderDescAsc = _useState216[0],
-      setfactOrderDescAsc = _useState216[1];
+      factOrderBy = _useState216[0],
+      setfactOrderBy = _useState216[1];
 
-  var _useState217 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("buscar"),
+  var _useState217 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("desc"),
       _useState218 = _slicedToArray(_useState217, 2),
-      factsubView = _useState218[0],
-      setfactsubView = _useState218[1];
+      factOrderDescAsc = _useState218[0],
+      setfactOrderDescAsc = _useState218[1];
 
-  var _useState219 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
+  var _useState219 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("buscar"),
       _useState220 = _slicedToArray(_useState219, 2),
-      factSelectIndex = _useState220[0],
-      setfactSelectIndex = _useState220[1];
+      factsubView = _useState220[0],
+      setfactsubView = _useState220[1];
 
-  var _useState221 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState221 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
       _useState222 = _slicedToArray(_useState221, 2),
-      factInpid_proveedor = _useState222[0],
-      setfactInpid_proveedor = _useState222[1];
+      factSelectIndex = _useState222[0],
+      setfactSelectIndex = _useState222[1];
 
   var _useState223 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState224 = _slicedToArray(_useState223, 2),
-      factInpnumfact = _useState224[0],
-      setfactInpnumfact = _useState224[1];
+      factInpid_proveedor = _useState224[0],
+      setfactInpid_proveedor = _useState224[1];
 
   var _useState225 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState226 = _slicedToArray(_useState225, 2),
-      factInpdescripcion = _useState226[0],
-      setfactInpdescripcion = _useState226[1];
+      factInpnumfact = _useState226[0],
+      setfactInpnumfact = _useState226[1];
 
   var _useState227 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState228 = _slicedToArray(_useState227, 2),
-      factInpmonto = _useState228[0],
-      setfactInpmonto = _useState228[1];
+      factInpdescripcion = _useState228[0],
+      setfactInpdescripcion = _useState228[1];
 
   var _useState229 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState230 = _slicedToArray(_useState229, 2),
-      factInpfechavencimiento = _useState230[0],
-      setfactInpfechavencimiento = _useState230[1];
+      factInpmonto = _useState230[0],
+      setfactInpmonto = _useState230[1];
 
-  var _useState231 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
+  var _useState231 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState232 = _slicedToArray(_useState231, 2),
-      factInpestatus = _useState232[0],
-      setfactInpestatus = _useState232[1];
+      factInpfechavencimiento = _useState232[0],
+      setfactInpfechavencimiento = _useState232[1];
 
-  var _useState233 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState233 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(0),
       _useState234 = _slicedToArray(_useState233, 2),
-      qBuscarCliente = _useState234[0],
-      setqBuscarCliente = _useState234[1];
+      factInpestatus = _useState234[0],
+      setfactInpestatus = _useState234[1];
 
-  var _useState235 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(25),
+  var _useState235 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState236 = _slicedToArray(_useState235, 2),
-      numclientesCrud = _useState236[0],
-      setnumclientesCrud = _useState236[1];
+      qBuscarCliente = _useState236[0],
+      setqBuscarCliente = _useState236[1];
 
-  var _useState237 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState237 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(25),
       _useState238 = _slicedToArray(_useState237, 2),
-      clientesCrud = _useState238[0],
-      setclientesCrud = _useState238[1];
+      numclientesCrud = _useState238[0],
+      setnumclientesCrud = _useState238[1];
 
-  var _useState239 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
+  var _useState239 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState240 = _slicedToArray(_useState239, 2),
-      indexSelectCliente = _useState240[0],
-      setindexSelectCliente = _useState240[1];
+      clientesCrud = _useState240[0],
+      setclientesCrud = _useState240[1];
 
-  var _useState241 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState241 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
       _useState242 = _slicedToArray(_useState241, 2),
-      clienteInpidentificacion = _useState242[0],
-      setclienteInpidentificacion = _useState242[1];
+      indexSelectCliente = _useState242[0],
+      setindexSelectCliente = _useState242[1];
 
   var _useState243 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState244 = _slicedToArray(_useState243, 2),
-      clienteInpnombre = _useState244[0],
-      setclienteInpnombre = _useState244[1];
+      clienteInpidentificacion = _useState244[0],
+      setclienteInpidentificacion = _useState244[1];
 
   var _useState245 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState246 = _slicedToArray(_useState245, 2),
-      clienteInpcorreo = _useState246[0],
-      setclienteInpcorreo = _useState246[1];
+      clienteInpnombre = _useState246[0],
+      setclienteInpnombre = _useState246[1];
 
   var _useState247 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState248 = _slicedToArray(_useState247, 2),
-      clienteInpdireccion = _useState248[0],
-      setclienteInpdireccion = _useState248[1];
+      clienteInpcorreo = _useState248[0],
+      setclienteInpcorreo = _useState248[1];
 
   var _useState249 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState250 = _slicedToArray(_useState249, 2),
-      clienteInptelefono = _useState250[0],
-      setclienteInptelefono = _useState250[1];
+      clienteInpdireccion = _useState250[0],
+      setclienteInpdireccion = _useState250[1];
 
   var _useState251 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState252 = _slicedToArray(_useState251, 2),
-      clienteInpestado = _useState252[0],
-      setclienteInpestado = _useState252[1];
+      clienteInptelefono = _useState252[0],
+      setclienteInptelefono = _useState252[1];
 
   var _useState253 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState254 = _slicedToArray(_useState253, 2),
-      clienteInpciudad = _useState254[0],
-      setclienteInpciudad = _useState254[1];
+      clienteInpestado = _useState254[0],
+      setclienteInpestado = _useState254[1];
 
-  var _useState255 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState255 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState256 = _slicedToArray(_useState255, 2),
-      sumPedidosArr = _useState256[0],
-      setsumPedidosArr = _useState256[1];
+      clienteInpciudad = _useState256[0],
+      setclienteInpciudad = _useState256[1];
 
-  var _useState257 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState257 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState258 = _slicedToArray(_useState257, 2),
-      qFallas = _useState258[0],
-      setqFallas = _useState258[1];
+      sumPedidosArr = _useState258[0],
+      setsumPedidosArr = _useState258[1];
 
-  var _useState259 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("proveedor"),
+  var _useState259 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState260 = _slicedToArray(_useState259, 2),
-      orderCatFallas = _useState260[0],
-      setorderCatFallas = _useState260[1];
+      qFallas = _useState260[0],
+      setqFallas = _useState260[1];
 
-  var _useState261 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("todos"),
+  var _useState261 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("proveedor"),
       _useState262 = _slicedToArray(_useState261, 2),
-      orderSubCatFallas = _useState262[0],
-      setorderSubCatFallas = _useState262[1];
+      orderCatFallas = _useState262[0],
+      setorderCatFallas = _useState262[1];
 
-  var _useState263 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState263 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("todos"),
       _useState264 = _slicedToArray(_useState263, 2),
-      ascdescFallas = _useState264[0],
-      setascdescFallas = _useState264[1];
+      orderSubCatFallas = _useState264[0],
+      setorderSubCatFallas = _useState264[1];
 
-  var _useState265 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState265 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState266 = _slicedToArray(_useState265, 2),
-      fallas = _useState266[0],
-      setfallas = _useState266[1];
+      ascdescFallas = _useState266[0],
+      setascdescFallas = _useState266[1];
 
-  var _useState267 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(true),
+  var _useState267 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState268 = _slicedToArray(_useState267, 2),
-      autoCorrector = _useState268[0],
-      setautoCorrector = _useState268[1];
+      fallas = _useState268[0],
+      setfallas = _useState268[1];
 
-  var _useState269 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState269 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(true),
       _useState270 = _slicedToArray(_useState269, 2),
-      pedidosCentral = _useState270[0],
-      setpedidoCentral = _useState270[1];
+      autoCorrector = _useState270[0],
+      setautoCorrector = _useState270[1];
 
-  var _useState271 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
+  var _useState271 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState272 = _slicedToArray(_useState271, 2),
-      indexPedidoCentral = _useState272[0],
-      setIndexPedidoCentral = _useState272[1];
+      pedidosCentral = _useState272[0],
+      setpedidoCentral = _useState272[1];
 
-  var _useState273 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+  var _useState273 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
       _useState274 = _slicedToArray(_useState273, 2),
-      showaddpedidocentral = _useState274[0],
-      setshowaddpedidocentral = _useState274[1];
+      indexPedidoCentral = _useState274[0],
+      setIndexPedidoCentral = _useState274[1];
 
-  var _useState275 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(true),
+  var _useState275 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
       _useState276 = _slicedToArray(_useState275, 2),
-      permisoExecuteEnter = _useState276[0],
-      setpermisoExecuteEnter = _useState276[1];
+      showaddpedidocentral = _useState276[0],
+      setshowaddpedidocentral = _useState276[1];
 
-  var _useState277 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState277 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(true),
       _useState278 = _slicedToArray(_useState277, 2),
-      guardar_usd = _useState278[0],
-      setguardar_usd = _useState278[1];
+      permisoExecuteEnter = _useState278[0],
+      setpermisoExecuteEnter = _useState278[1];
 
   var _useState279 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState280 = _slicedToArray(_useState279, 2),
-      guardar_cop = _useState280[0],
-      setguardar_cop = _useState280[1];
+      guardar_usd = _useState280[0],
+      setguardar_usd = _useState280[1];
 
   var _useState281 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState282 = _slicedToArray(_useState281, 2),
-      guardar_bs = _useState282[0],
-      setguardar_bs = _useState282[1];
+      guardar_cop = _useState282[0],
+      setguardar_cop = _useState282[1];
 
-  var _useState283 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState283 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState284 = _slicedToArray(_useState283, 2),
-      ventasData = _useState284[0],
-      setventasData = _useState284[1];
+      guardar_bs = _useState284[0],
+      setguardar_bs = _useState284[1];
 
-  var _useState285 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState285 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState286 = _slicedToArray(_useState285, 2),
-      fechaventas = _useState286[0],
-      setfechaventas = _useState286[1];
+      ventasData = _useState286[0],
+      setventasData = _useState286[1];
 
-  var _useState287 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState287 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState288 = _slicedToArray(_useState287, 2),
-      pedidosFast = _useState288[0],
-      setpedidosFast = _useState288[1];
+      fechaventas = _useState288[0],
+      setfechaventas = _useState288[1];
 
-  var _useState289 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+  var _useState289 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState290 = _slicedToArray(_useState289, 2),
-      billete1 = _useState290[0],
-      setbillete1 = _useState290[1];
+      pedidosFast = _useState290[0],
+      setpedidosFast = _useState290[1];
 
   var _useState291 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState292 = _slicedToArray(_useState291, 2),
-      billete5 = _useState292[0],
-      setbillete5 = _useState292[1];
+      billete1 = _useState292[0],
+      setbillete1 = _useState292[1];
 
   var _useState293 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState294 = _slicedToArray(_useState293, 2),
-      billete10 = _useState294[0],
-      setbillete10 = _useState294[1];
+      billete5 = _useState294[0],
+      setbillete5 = _useState294[1];
 
   var _useState295 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState296 = _slicedToArray(_useState295, 2),
-      billete20 = _useState296[0],
-      setbillete20 = _useState296[1];
+      billete10 = _useState296[0],
+      setbillete10 = _useState296[1];
 
   var _useState297 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState298 = _slicedToArray(_useState297, 2),
-      billete50 = _useState298[0],
-      setbillete50 = _useState298[1];
+      billete20 = _useState298[0],
+      setbillete20 = _useState298[1];
 
   var _useState299 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState300 = _slicedToArray(_useState299, 2),
-      billete100 = _useState300[0],
-      setbillete100 = _useState300[1];
+      billete50 = _useState300[0],
+      setbillete50 = _useState300[1];
 
-  var _useState301 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState301 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState302 = _slicedToArray(_useState301, 2),
-      usuariosData = _useState302[0],
-      setusuariosData = _useState302[1];
+      billete100 = _useState302[0],
+      setbillete100 = _useState302[1];
 
-  var _useState303 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+  var _useState303 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
       _useState304 = _slicedToArray(_useState303, 2),
-      toggleClientesBtn = _useState304[0],
-      settoggleClientesBtn = _useState304[1];
+      usuariosData = _useState304[0],
+      setusuariosData = _useState304[1];
 
-  var _useState305 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("unique"),
+  var _useState305 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
       _useState306 = _slicedToArray(_useState305, 2),
-      modViewInventario = _useState306[0],
-      setmodViewInventario = _useState306[1];
+      toggleClientesBtn = _useState306[0],
+      settoggleClientesBtn = _useState306[1];
 
-  var _useState307 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
+  var _useState307 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("unique"),
       _useState308 = _slicedToArray(_useState307, 2),
-      loteIdCarrito = _useState308[0],
-      setLoteIdCarrito = _useState308[1];
+      modViewInventario = _useState308[0],
+      setmodViewInventario = _useState308[1];
+
+  var _useState309 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(null),
+      _useState310 = _slicedToArray(_useState309, 2),
+      loteIdCarrito = _useState310[0],
+      setLoteIdCarrito = _useState310[1];
 
   var refsInpInvList = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(null);
 
-  var _useState309 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("12340005ARAMCAL"),
-      _useState310 = _slicedToArray(_useState309, 2),
-      valheaderpedidocentral = _useState310[0],
-      setvalheaderpedidocentral = _useState310[1];
-
-  var _useState311 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345"),
+  var _useState311 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("12340005ARAMCAL"),
       _useState312 = _slicedToArray(_useState311, 2),
-      valbodypedidocentral = _useState312[0],
-      setvalbodypedidocentral = _useState312[1]; // 1234123812345612345612345
+      valheaderpedidocentral = _useState312[0],
+      setvalheaderpedidocentral = _useState312[1];
+
+  var _useState313 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345"),
+      _useState314 = _slicedToArray(_useState313, 2),
+      valbodypedidocentral = _useState314[0],
+      setvalbodypedidocentral = _useState314[1]; // 1234123812345612345612345
   // 1234123712345612345612345
   // 1234123612345612345612345
   // 1234123512345612345612345
@@ -6372,6 +6263,7 @@ function Facturar(_ref) {
         var nombres = window.prompt("Nombre y Apellido", pedidoData.cliente.nombre);
 
         if (nombres) {
+          console.log("Imprimiendo...");
           _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].imprimirTicked({
             id: pedidoData.id,
             identificacion: identificacion,
@@ -6457,17 +6349,25 @@ function Facturar(_ref) {
 
   var getPersona = function getPersona(q) {
     setLoading(true);
-    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getpersona({
-      q: q
-    }).then(function (res) {
-      setPersona(res.data);
 
-      if (!res.data.length) {
-        setclienteInpidentificacion(q);
-      }
+    if (time != 0) {
+      clearTimeout(typingTimeout);
+    }
 
-      setLoading(false);
-    });
+    var time = window.setTimeout(function () {
+      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getpersona({
+        q: q
+      }).then(function (res) {
+        setPersona(res.data);
+
+        if (!res.data.length) {
+          setclienteInpidentificacion(q);
+        }
+
+        setLoading(false);
+      });
+    }, 150);
+    setTypingTimeout(time);
   };
 
   var setPersonaFast = function setPersonaFast(e) {
@@ -6855,6 +6755,11 @@ function Facturar(_ref) {
     }
   };
 
+  var facturar_e_imprimir = function facturar_e_imprimir() {
+    toggleImprimirTicket();
+    facturar_pedido();
+  };
+
   var facturar_pedido = function facturar_pedido() {
     if (refinputaddcarritofast.current !== document.activeElement) {
       setLoading(true);
@@ -7043,23 +6948,31 @@ function Facturar(_ref) {
 
   var buscarInventario = function buscarInventario(e) {
     setLoading(true);
-    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getinventario({
-      num: Invnum,
-      itemCero: true,
-      qProductosMain: qBuscarInventario,
-      orderColumn: InvorderColumn,
-      orderBy: InvorderBy
-    }).then(function (res) {
-      setProductosInventario(res.data);
-      setLoading(false);
-      setIndexSelectInventario(null);
 
-      if (res.data.length === 1) {
-        setIndexSelectInventario(0);
-      } else if (res.data.length == 0) {
-        setinpInvbarras(qBuscarInventario);
-      }
-    });
+    if (time != 0) {
+      clearTimeout(typingTimeout);
+    }
+
+    var time = window.setTimeout(function () {
+      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getinventario({
+        num: Invnum,
+        itemCero: true,
+        qProductosMain: qBuscarInventario,
+        orderColumn: InvorderColumn,
+        orderBy: InvorderBy
+      }).then(function (res) {
+        setProductosInventario(res.data);
+        setLoading(false);
+        setIndexSelectInventario(null);
+
+        if (res.data.length === 1) {
+          setIndexSelectInventario(0);
+        } else if (res.data.length == 0) {
+          setinpInvbarras(qBuscarInventario);
+        }
+      });
+    }, 150);
+    setTypingTimeout(time);
   };
 
   var getProveedores = function getProveedores(e) {
@@ -7078,6 +6991,9 @@ function Facturar(_ref) {
       q: qBuscarProveedor
     }).then(function (res) {
       setmarcasList(res.data);
+    });
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getCategorias({}).then(function (res) {
+      setcategorias(res.data);
     });
     _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getDepositos({
       q: qBuscarProveedor
@@ -7849,7 +7765,6 @@ function Facturar(_ref) {
   };
 
   var guardarNuevoProductoLote = function guardarNuevoProductoLote() {
-    setLoading(true);
     var id_factura = null;
 
     if (factSelectIndex != null) {
@@ -7861,8 +7776,12 @@ function Facturar(_ref) {
     var lotesFil = productosInventario.filter(function (e) {
       return e.type;
     });
+    var checkempty = lotesFil.filter(function (e) {
+      return !e.codigo_barras.length || !e.descripcion.length || !e.id_categoria.length || !e.unidad.length || !e.id_proveedor.length || !e.cantidad.length || !e.precio_base.length || !e.precio.length;
+    });
 
-    if (lotesFil.length) {
+    if (lotesFil.length && !checkempty.length) {
+      setLoading(true);
       _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].guardarNuevoProductoLote({
         lotes: lotesFil,
         id_factura: id_factura
@@ -7878,7 +7797,7 @@ function Facturar(_ref) {
         } catch (err) {}
       });
     } else {
-      alert("Sin Datos");
+      alert("¡Error con los campos! Algunos pueden estar vacíos" + JSON.stringify(checkempty));
     }
   };
 
@@ -8213,6 +8132,7 @@ function Facturar(_ref) {
       delUsuario: delUsuario,
       getUsuarios: getUsuarios
     }) : null, view == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_inventario__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      categorias: categorias,
       setporcenganancia: setporcenganancia,
       refsInpInvList: refsInpInvList,
       guardarNuevoProductoLote: guardarNuevoProductoLote,
@@ -8338,6 +8258,10 @@ function Facturar(_ref) {
       setIndexPedidoCentral: setIndexPedidoCentral,
       indexPedidoCentral: indexPedidoCentral
     }) : null, view == "ViewPedidoVendedor" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)((_components_viewPedidoVendedor__WEBPACK_IMPORTED_MODULE_20___default()), {}) : null, view == "pagar" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_pagar__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      dolar: dolar,
+      peso: peso,
+      moneda: _assets__WEBPACK_IMPORTED_MODULE_5__.moneda,
+      facturar_e_imprimir: facturar_e_imprimir,
       pedidosFast: pedidosFast,
       onClickEditPedido: onClickEditPedido,
       tipobusquedapedido: tipobusquedapedido,
@@ -9016,7 +8940,8 @@ function Inventario(_ref) {
       changeModLote = _ref.changeModLote,
       reporteInventario = _ref.reporteInventario,
       guardarNuevoProductoLote = _ref.guardarNuevoProductoLote,
-      refsInpInvList = _ref.refsInpInvList;
+      refsInpInvList = _ref.refsInpInvList,
+      categorias = _ref.categorias;
 
   var type = function type(_type) {
     return !_type || _type === "delete" ? true : false;
@@ -9167,6 +9092,7 @@ function Inventario(_ref) {
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("hr", {})]
       }), modViewInventario == "unique" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_cargarproducto__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        categorias: categorias,
         setporcenganancia: setporcenganancia,
         type: type,
         setNewProducto: setNewProducto,
@@ -9230,6 +9156,7 @@ function Inventario(_ref) {
         addNewLote: addNewLote,
         changeModLote: changeModLote
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_inventarioForzado__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        categorias: categorias,
         setporcenganancia: setporcenganancia,
         refsInpInvList: refsInpInvList,
         proveedoresList: proveedoresList,
@@ -9340,7 +9267,8 @@ function InventarioForzado(_ref) {
       guardarNuevoProductoLote = _ref.guardarNuevoProductoLote,
       proveedoresList = _ref.proveedoresList,
       number = _ref.number,
-      refsInpInvList = _ref.refsInpInvList;
+      refsInpInvList = _ref.refsInpInvList,
+      categorias = _ref.categorias;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "container-fluid",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -9631,126 +9559,11 @@ function InventarioForzado(_ref) {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
                       value: "",
                       children: "--Select--"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "1",
-                      children: "VETERINARIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "2",
-                      children: "TORNILLERIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "3",
-                      children: "TERMOS"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "4",
-                      children: "TELEFONIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "5",
-                      children: "TECNOLOGIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "6",
-                      children: "REPUESTOS"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "7",
-                      children: "REFRIGERACION"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "8",
-                      children: "QUINCALLERIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "9",
-                      children: "PLOMERIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "10",
-                      children: "PLANTAS"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "11",
-                      children: "PINTURA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "12",
-                      children: "PESCA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "13",
-                      children: "PEGAS"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "14",
-                      children: "NAILOS"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "15",
-                      children: "MOTOS"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "16",
-                      children: "MECANICA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "17",
-                      children: "MALLAS"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "18",
-                      children: "LENTES"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "19",
-                      children: "JARDINERIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "20",
-                      children: "INTERNET"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "21",
-                      children: "ILUMINACI\xD3N"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "22",
-                      children: "HOGAR"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "23",
-                      children: "HERRERIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "24",
-                      children: "HERRAMIENTAS"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "25",
-                      children: "GRIFERIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "26",
-                      children: "GAS"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "27",
-                      children: "FONTANERIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "28",
-                      children: "ELECTRONICA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "29",
-                      children: "ELECTRODOMESTICO"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "30",
-                      children: "ELECTRICIDAD"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "31",
-                      children: "DISCO"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "32",
-                      children: "CORDONES"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "33",
-                      children: "CONSTRUCCION"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "34",
-                      children: "CERRADURA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "35",
-                      children: "CERAMICA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "36",
-                      children: "BATERIA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "37",
-                      children: "ALAMBRE"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "38",
-                      children: "AGRICOLA"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "39",
-                      children: "ACEITES"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                      value: "40",
-                      children: "COSMETICOS"
+                    }), categorias.map(function (e) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                        value: e.id,
+                        children: e.descripcion
+                      }, e.id);
                     })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
@@ -9789,7 +9602,7 @@ function InventarioForzado(_ref) {
                   className: "d-flex justify-content-between",
                   children: [!e.type ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                      className: "btn btn-danger",
+                      className: "btn-sm btn btn-danger",
                       onClick: function onClick() {
                         return changeInventario(null, i, e.id, "delMode");
                       },
@@ -9797,7 +9610,7 @@ function InventarioForzado(_ref) {
                         className: "fa fa-trash"
                       })
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                      className: "btn btn-warning",
+                      className: "btn-sm btn btn-warning",
                       onClick: function onClick() {
                         return changeInventario(null, i, e.id, "update");
                       },
@@ -9806,7 +9619,7 @@ function InventarioForzado(_ref) {
                       })
                     })]
                   }) : null, e.type === "new" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                    className: "btn btn-danger",
+                    className: "btn-sm btn btn-danger",
                     onClick: function onClick() {
                       return changeInventario(null, i, e.id, "delNew");
                     },
@@ -9814,7 +9627,7 @@ function InventarioForzado(_ref) {
                       className: "fa fa-times"
                     })
                   }) : null, e.type === "update" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                    className: "btn btn-warning",
+                    className: "btn-sm btn btn-warning",
                     onClick: function onClick() {
                       return changeInventario(null, i, e.id, "delModeUpdateDelete");
                     },
@@ -9822,7 +9635,7 @@ function InventarioForzado(_ref) {
                       className: "fa fa-times"
                     })
                   }) : null, e.type === "delete" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                    className: "btn btn-danger",
+                    className: "btn-sm btn btn-danger",
                     onClick: function onClick() {
                       return changeInventario(null, i, e.id, "delModeUpdateDelete");
                     },
@@ -10031,7 +9844,7 @@ var Login = /*#__PURE__*/function (_Component) {
           children: ["Ao Systems", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
             src: _images_logo_png__WEBPACK_IMPORTED_MODULE_1__["default"],
             alt: "logo ao",
-            height: "50px"
+            height: "80px"
           })]
         })]
       });
@@ -10762,7 +10575,42 @@ function Pagar(_ref) {
       getCredito = _ref.getCredito,
       getTransferencia = _ref.getTransferencia,
       getEfectivo = _ref.getEfectivo,
-      onClickEditPedido = _ref.onClickEditPedido;
+      onClickEditPedido = _ref.onClickEditPedido,
+      facturar_e_imprimir = _ref.facturar_e_imprimir,
+      moneda = _ref.moneda,
+      dolar = _ref.dolar,
+      peso = _ref.peso;
+
+  var debitoBs = function debitoBs(met) {
+    try {
+      if (met == "debito") {
+        if (debito == "") {
+          return "";
+        }
+
+        return "Bs." + moneda(dolar * debito);
+      }
+
+      if (met == "transferencia") {
+        if (transferencia == "") {
+          return "";
+        }
+
+        return "Bs." + moneda(dolar * transferencia);
+      }
+    } catch (err) {
+      return "";
+      console.log();
+    }
+  };
+
+  var showTittlePrice = function showTittlePrice(pu, total) {
+    try {
+      return "P/U. Bs." + moneda(number(pu) * dolar) + "\n" + "Total Bs." + moneda(number(total) * dolar);
+    } catch (err) {
+      return "";
+    }
+  };
 
   var syncPago = function syncPago(val, type) {
     val = number(val);
@@ -10906,7 +10754,7 @@ function Pagar(_ref) {
               clienteInpdireccion: clienteInpdireccion,
               setclienteInpdireccion: setclienteInpdireccion
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("table", {
-              className: "table table-bordered text-center",
+              className: "table table-striped text-center",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("thead", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
@@ -10927,7 +10775,7 @@ function Pagar(_ref) {
                   }), editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                     className: "cell1",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                      className: "btn btn-circle text-white btn-sinapsis btn-sm mb-3",
+                      className: "btn btn-circle text-white btn-sinapsis btn-sm",
                       onClick: toggleModalProductos,
                       children: ["F1 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                         className: "fa fa-plus"
@@ -10953,9 +10801,12 @@ function Pagar(_ref) {
                       children: " "
                     })]
                   }, e.id) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
+                    title: showTittlePrice(e.producto.precio, e.total),
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      className: "align-middle",
                       children: e.producto.codigo_barras
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
+                      className: "align-middle",
                       children: [e.producto.descripcion, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                         className: "fst-italic fs-6 text-success",
                         children: e.lotedata ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
@@ -10965,14 +10816,16 @@ function Pagar(_ref) {
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
                       onClick: setCantidadCarrito,
                       "data-index": e.id,
-                      className: "pointer clickme",
+                      className: "pointer clickme align-middle",
                       children: [e.cantidad.replace(".00", ""), " "]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      className: "align-middle",
                       children: e.producto.precio
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
-                      className: "font-weight-bold",
+                      className: "font-weight-bold align-middle",
                       children: e.total
                     }), editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
+                      className: "align-middle",
                       children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                         onClick: delItemPedido,
                         "data-index": e.id,
@@ -10984,7 +10837,7 @@ function Pagar(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                       className: "btn btn-outline-success fs-5",
-                      children: items.length
+                      children: items ? items.length : null
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                     colSpan: "5",
@@ -11044,6 +10897,9 @@ function Pagar(_ref) {
                             },
                             placeholder: "D"
                           })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
+                          className: "text-muted",
+                          children: debitoBs("debito")
                         })]
                       })
                     })
@@ -11090,6 +10946,9 @@ function Pagar(_ref) {
                             },
                             placeholder: "T"
                           })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
+                          className: "text-muted",
+                          children: debitoBs("transferencia")
                         })]
                       })
                     })
@@ -11205,20 +11064,20 @@ function Pagar(_ref) {
                           children: vuelto
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", (_jsx2 = {
                           className: "text-success fst-italic "
-                        }, _defineProperty(_jsx2, "className", "pointer"), _defineProperty(_jsx2, "children", "Entregar"), _jsx2)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), vuelto_entregado.map(function (e) {
+                        }, _defineProperty(_jsx2, "className", "pointer"), _defineProperty(_jsx2, "children", "Entregar"), _jsx2)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), vuelto_entregado ? vuelto_entregado.map(function (e) {
                           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                             title: e.created_at,
                             children: ["Entregado = ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("b", {
                               children: e.monto
                             })]
                           }, e.id);
-                        })]
+                        }) : null]
                       })]
                     })
                   })
                 })]
               })
-            }), !editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            }), editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "text-right",
               children: autoCorrector ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                 className: "btn btn-outline-success btn-sm pull-right",
@@ -11313,11 +11172,21 @@ function Pagar(_ref) {
               className: "d-flex justify-content-center",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
                 className: "",
-                children: [editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                  className: "btn btn-circle text-white btn-success btn-xl me-5",
-                  onClick: facturar_pedido,
-                  children: ["ENTER ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
-                    className: "fa fa-paper-plane"
+                children: [editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+                    className: "btn btn-circle text-white btn-success btn-xl me-1",
+                    onClick: facturar_pedido,
+                    children: ["ENTER ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                      className: "fa fa-paper-plane"
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+                    className: "btn btn-circle btn-warning btn-xl me-5",
+                    onClick: facturar_e_imprimir,
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                      className: "fa fa-paper-plane"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+                      className: "fa fa-print"
+                    })]
                   })]
                 }) : null, editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
                   className: "btn btn-circle text-white btn-primary btn-xl me-4",
@@ -11328,13 +11197,13 @@ function Pagar(_ref) {
                     className: "fa fa-user"
                   })]
                 }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                  className: "btn btn-circle text-white btn-sinapsis btn-xl me-1",
+                  className: "btn btn-circle text-white btn-primary btn-xl me-1",
                   onClick: toggleImprimirTicket,
                   children: ["F3 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fa fa-print"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                  className: "btn btn-circle text-white btn-sinapsis btn-xl me-4",
+                  className: "btn btn-circle text-white btn-primary btn-xl me-4",
                   onClick: viewReportPedido,
                   children: ["F4 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fa fa-eye"
@@ -13045,6 +12914,11 @@ var db = {
       params: data
     });
   },
+  getCategorias: function getCategorias(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "getCategorias", {
+      params: data
+    });
+  },
   getProductosSerial: function getProductosSerial(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "getProductosSerial", {
       params: data
@@ -13190,7 +13064,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\r\n:root{\r\n  /*--sinapsis-color : #118bec;\r\n  --sinapsis-color-light : #deedfd;\r\n  --sinapsis-color-select : #84bcf3;*/\r\n\r\n  --sinapsis-color : rgba(242,109,10);\r\n  --sinapsis-color-light : rgba(255,177,113,0.75);\r\n  --sinapsis-color-select : rgba(221,143,79,0.75);\r\n\r\n  \r\n}\r\n.login{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n.wraper-panel-pre-inscripcion{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n\r\n.header-register{\r\n  font-size: 2em;\r\n  font-weight:bolder;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n  box-shadow: 5px 5px 5px #adb5bd;\r\n  margin-bottom: 60px; \r\n}\r\n.header-register-logo img{\r\n  height: 150px;\r\n}\r\n\r\n.panel-pre-inscripcion{\r\n  width: auto;\r\n  border-radius: 10px;\r\n\r\n  padding: 55px 55px 37px 55px;\r\n  \r\n \r\n  box-shadow: 0px 10px 8px #e0e0e0;\r\n}\r\n.container-login100 {\r\n  width: 100%;  \r\n  min-height: 100vh;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 15px;\r\n\r\n  background-repeat: no-repeat;\r\n  background-position: center;\r\n  background-size: cover;\r\n  position: relative;\r\n  z-index: 1;  \r\n}\r\n\r\n.container-login100::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  background-color: rgba(255,255,255,0.9);\r\n}\r\n\r\n.wrap-login100 {\r\n  width: 400px;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  padding: 55px 55px 37px 55px;\r\n\r\n  \r\n \r\n  background: linear-gradient(180deg,var(--sinapsis-color-light),var(--sinapsis-color) 12%,rgba(255,255,255,0) 85%)\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Form ]*/\r\n\r\n.login100-form {\r\n  width: 100%;\r\n}\r\n.login100-form-logo{\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n.login100-form-logo img{\r\n  \r\n  \r\n  height: 220px;\r\n \r\n}\r\n\r\n.login100-form-title {\r\n  font-size: 30px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n  text-align: center;\r\n  text-transform: uppercase;\r\n\r\n  display: block;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Input ]*/\r\n\r\n.wrap-input100 {\r\n  width: 100%;\r\n  position: relative;\r\n  border-bottom: 2px solid rgba(255,255,255,0.24);\r\n  margin-bottom: 30px;\r\n}\r\n\r\n.input100 {\r\n  font-size: 16px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  width: 100%;\r\n  height: 45px;\r\n  background: transparent;\r\n  padding: 0 5px 0 38px;\r\n}\r\n\r\n/*---------------------------------------------*/ \r\n.focus-input100 {\r\n  position: absolute;\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  pointer-events: none;\r\n}\r\n\r\n.focus-input100::before {\r\n  font-family: Material-Design-Iconic-Font;\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  bottom: -2px;\r\n  left: 0;\r\n  width: 0;\r\n  height: 2px;\r\n  transition: all 0.4s;\r\n\r\n  background: #fff;\r\n}\r\n\r\n.focus-input100::after {\r\n  font-family: Material-Design-Iconic-Font;\r\n  font-size: 22px;\r\n  color: #fff;\r\n\r\n  content: attr(data-placeholder);\r\n  display: block;\r\n  width: 100%;\r\n  position: absolute;\r\n  top: 6px;\r\n  left: 0px;\r\n  padding-left: 5px;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.input100:focus {\r\n  padding-left: 5px;\r\n  transition: all .5s;\r\n}\r\n\r\n.input100:focus + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.input100:focus + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 {\r\n  padding-left: 5px;\r\n}\r\n\r\n\r\n/*==================================================================\r\n[ Restyle Checkbox ]*/\r\n\r\n.contact100-form-checkbox {\r\n  padding-left: 5px;\r\n  padding-top: 5px;\r\n  padding-bottom: 35px;\r\n}\r\n\r\n.input-checkbox100 {\r\n  display: none;\r\n}\r\n\r\n.label-checkbox100 {\r\n  font-size: 13px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  position: relative;\r\n  padding-left: 26px;\r\n  cursor: pointer;\r\n}\r\n\r\n.label-checkbox100::before {\r\n  content: \"\\F26B\";\r\n  font-size: 13px;\r\n  color: transparent;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  position: absolute;\r\n  width: 16px;\r\n  height: 16px;\r\n  border-radius: 2px;\r\n  background: #fff;\r\n  left: 0;\r\n  top: 50%;\r\n  transform: translateY(-50%);\r\n}\r\n\r\n.input-checkbox100:checked + .label-checkbox100::before {\r\n  color: #555555;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Button ]*/\r\n.container-login100-form-btn {\r\n  width: 100%;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n}\r\n\r\n.login100-form-btn {\r\n  border: none;\r\n  font-size: 16px;\r\n  color: #555555;\r\n  line-height: 1.2;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 0 20px;\r\n  min-width: 120px;\r\n  height: 50px;\r\n  border-radius: 25px;\r\n\r\n  \r\n \r\n  background: linear-gradient(0deg, var(--sinapsis-color) 0%, var(--sinapsis-color-select) 22%, rgba(255,255,255,0) 100%);\r\n\r\n  position: relative;\r\n  z-index: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  border-radius: 25px;\r\n  background-color: #fff;\r\n  top: 0;\r\n  left: 0;\r\n  opacity: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn:hover {\r\n  color: #fff;\r\n}\r\n\r\n.login100-form-btn:hover:before {\r\n  opacity: 0;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n:root{\r\n  --sinapsis-color : #e511ec;\r\n  --sinapsis-color-light : #ffaefa;\r\n  --sinapsis-color-select : #f9bcfb;\r\n\r\n  /*\r\n    Sinapsis Azul\r\n  --sinapsis-color : #118bec;\r\n  --sinapsis-color-light : #deedfd;\r\n  --sinapsis-color-select : #84bcf3;*/\r\n\r\n /* --sinapsis-color : rgba(242,109,10);\r\n  --sinapsis-color-light : rgba(255,177,113,0.75);\r\n  --sinapsis-color-select : rgba(221,143,79,0.75);\r\n*/\r\n  \r\n}\r\n.login{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n.wraper-panel-pre-inscripcion{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n\r\n.header-register{\r\n  font-size: 2em;\r\n  font-weight:bolder;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n  box-shadow: 5px 5px 5px #adb5bd;\r\n  margin-bottom: 60px; \r\n}\r\n.header-register-logo img{\r\n  height: 150px;\r\n}\r\n\r\n.panel-pre-inscripcion{\r\n  width: auto;\r\n  border-radius: 10px;\r\n\r\n  padding: 55px 55px 37px 55px;\r\n  \r\n \r\n  box-shadow: 0px 10px 8px #e0e0e0;\r\n}\r\n.container-login100 {\r\n  width: 100%;  \r\n  min-height: 100vh;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 15px;\r\n\r\n  background-repeat: no-repeat;\r\n  background-position: center;\r\n  background-size: cover;\r\n  position: relative;\r\n  z-index: 1;  \r\n}\r\n\r\n.container-login100::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  background-color: rgba(255,255,255,0.9);\r\n}\r\n\r\n.wrap-login100 {\r\n  width: 400px;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  padding: 55px 55px 37px 55px;\r\n\r\n  \r\n \r\n  background: linear-gradient(180deg,var(--sinapsis-color-light),var(--sinapsis-color) 12%,rgba(255,255,255,0) 85%)\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Form ]*/\r\n\r\n.login100-form {\r\n  width: 100%;\r\n}\r\n.login100-form-logo{\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n.login100-form-logo img{\r\n  \r\n  \r\n  height: 220px;\r\n \r\n}\r\n\r\n.login100-form-title {\r\n  font-size: 30px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n  text-align: center;\r\n  text-transform: uppercase;\r\n\r\n  display: block;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Input ]*/\r\n\r\n.wrap-input100 {\r\n  width: 100%;\r\n  position: relative;\r\n  border-bottom: 2px solid rgba(255,255,255,0.24);\r\n  margin-bottom: 30px;\r\n}\r\n\r\n.input100 {\r\n  font-size: 16px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  width: 100%;\r\n  height: 45px;\r\n  background: transparent;\r\n  padding: 0 5px 0 38px;\r\n}\r\n\r\n/*---------------------------------------------*/ \r\n.focus-input100 {\r\n  position: absolute;\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  pointer-events: none;\r\n}\r\n\r\n.focus-input100::before {\r\n  font-family: Material-Design-Iconic-Font;\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  bottom: -2px;\r\n  left: 0;\r\n  width: 0;\r\n  height: 2px;\r\n  transition: all 0.4s;\r\n\r\n  background: #fff;\r\n}\r\n\r\n.focus-input100::after {\r\n  font-family: Material-Design-Iconic-Font;\r\n  font-size: 22px;\r\n  color: #fff;\r\n\r\n  content: attr(data-placeholder);\r\n  display: block;\r\n  width: 100%;\r\n  position: absolute;\r\n  top: 6px;\r\n  left: 0px;\r\n  padding-left: 5px;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.input100:focus {\r\n  padding-left: 5px;\r\n  transition: all .5s;\r\n}\r\n\r\n.input100:focus + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.input100:focus + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 {\r\n  padding-left: 5px;\r\n}\r\n\r\n\r\n/*==================================================================\r\n[ Restyle Checkbox ]*/\r\n\r\n.contact100-form-checkbox {\r\n  padding-left: 5px;\r\n  padding-top: 5px;\r\n  padding-bottom: 35px;\r\n}\r\n\r\n.input-checkbox100 {\r\n  display: none;\r\n}\r\n\r\n.label-checkbox100 {\r\n  font-size: 13px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  position: relative;\r\n  padding-left: 26px;\r\n  cursor: pointer;\r\n}\r\n\r\n.label-checkbox100::before {\r\n  content: \"\\F26B\";\r\n  font-size: 13px;\r\n  color: transparent;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  position: absolute;\r\n  width: 16px;\r\n  height: 16px;\r\n  border-radius: 2px;\r\n  background: #fff;\r\n  left: 0;\r\n  top: 50%;\r\n  transform: translateY(-50%);\r\n}\r\n\r\n.input-checkbox100:checked + .label-checkbox100::before {\r\n  color: #555555;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Button ]*/\r\n.container-login100-form-btn {\r\n  width: 100%;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n}\r\n\r\n.login100-form-btn {\r\n  border: none;\r\n  font-size: 16px;\r\n  color: #555555;\r\n  line-height: 1.2;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 0 20px;\r\n  min-width: 120px;\r\n  height: 50px;\r\n  border-radius: 25px;\r\n\r\n  \r\n \r\n  background: linear-gradient(0deg, var(--sinapsis-color) 0%, var(--sinapsis-color-select) 22%, rgba(255,255,255,0) 100%);\r\n\r\n  position: relative;\r\n  z-index: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  border-radius: 25px;\r\n  background-color: #fff;\r\n  top: 0;\r\n  left: 0;\r\n  opacity: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn:hover {\r\n  color: #fff;\r\n}\r\n\r\n.login100-form-btn:hover:before {\r\n  opacity: 0;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22972,7 +22846,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.png?1a0e2ec5bbad4517a2d8e03628760126");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.png?0a8b2f6b9970ad4b02415b91931850d5");
 
 /***/ }),
 
@@ -101107,8 +100981,10 @@ function Index() {
     notificar(res);
 
     if (res.data) {
-      setLoginActive(res.data.estado);
-      setUser(res.data.user);
+      if (res.data.user) {
+        setUser(res.data.user);
+        setLoginActive(res.data.estado);
+      }
     }
   };
 
@@ -101140,7 +101016,7 @@ function Index() {
     }), msj != "" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_notificacion__WEBPACK_IMPORTED_MODULE_4__["default"], {
       msj: msj,
       notificar: notificar
-    }) : null, loginActive ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_facturar__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }) : null, loginActive && user ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_facturar__WEBPACK_IMPORTED_MODULE_2__["default"], {
       setLoading: setLoading,
       user: user,
       notificar: notificar
