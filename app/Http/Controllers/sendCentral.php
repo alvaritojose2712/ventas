@@ -16,7 +16,8 @@ ini_set('max_execution_time', 300);
 class sendCentral extends Controller
 {
     // public $path = "sinapsisnline.com";
-    public $path = "http://127.0.0.1:3000";
+    public $path = "http://192.168.0.110";
+    // public $path = "http://127.0.0.1:3000";
 
     public function index()
     {
