@@ -20,10 +20,18 @@ export const moneda = (value, decimals = 2, separators = ['.', ".", ',']) => {
 }
 
 export const number = (val, len = null) => {
-    if (val == "") return ""
+    if (typeof(val)=="string") {
 
-    if (len) {
-        val = val.substr(0, len)
+        if (val == "") return ""
+
+        if (len) {
+            val = val.substr(0, len)
+        }
+        return val.replace(/[^\d|\.]+/g, '')
+    }else if(typeof(val)=="number"){
+        return val
+    }else{
+
+        return "Error: Esto no es un número. "+ typeof(val)
     }
-    return val.replace(/[^\d|\.]+/g, '')
 }

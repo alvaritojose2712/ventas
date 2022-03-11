@@ -169,6 +169,8 @@ export default function Facturar({user,notificar,setLoading}) {
 
   const [qDeudores,setQDeudores] = useState("")
   const [deudoresList,setDeudoresList] = useState([])
+  const [cierres,setCierres] = useState([])
+
 
   const [selectDeudor,setSelectDeudor] = useState(null)
 
@@ -299,6 +301,8 @@ export default function Facturar({user,notificar,setLoading}) {
   const [valheaderpedidocentral, setvalheaderpedidocentral] = useState("12340005ARAMCAL")
   const [valbodypedidocentral, setvalbodypedidocentral] = useState("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345")
 
+  const [fechaGetCierre,setfechaGetCierre] = useState("")
+  
 // 1234123812345612345612345
 // 1234123712345612345612345
 // 1234123612345612345612345
@@ -479,7 +483,7 @@ export default function Facturar({user,notificar,setLoading}) {
       }
 
     } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, 1)
+      // focusInputSibli(event.target, 1)
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
@@ -524,7 +528,7 @@ export default function Facturar({user,notificar,setLoading}) {
 
       }
     }else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
-      focusInputSibli(event.target, -1)
+      // focusInputSibli(event.target, -1)
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
@@ -635,6 +639,7 @@ export default function Facturar({user,notificar,setLoading}) {
     Invnum,
     InvorderColumn,
     InvorderBy,
+    qBuscarInventario,
   ]);
 
   useEffect(()=>{
@@ -643,9 +648,7 @@ export default function Facturar({user,notificar,setLoading}) {
   useEffect(()=>{
     getMovimientos()
   },[showModalMovimientos,fechaMovimientos])
-  useEffect(()=>{
-    buscarInventario()
-  },[qBuscarInventario])
+  
 
   useEffect(()=>{
     getProveedores()
@@ -720,10 +723,16 @@ const setporcenganancia = (tipo,base=0,fun=null) => {
     if (number(insert)) {
       if (tipo=="unique") {
         let re = Math.round(parseFloat(inpInvbase) + (parseFloat(inpInvbase)*(parseFloat(insert)/100)))
-        setinpInvventa(re)
+        if (re) {
+          setinpInvventa(re)
+
+        }
       }else if("list"){
         let re = Math.round(parseFloat(base) + (parseFloat(base)*(parseFloat(insert)/100)))
-        fun(re)
+        if (re) {
+          fun(re)
+
+        }
       }
     }
 
@@ -757,6 +766,11 @@ const focusInputSibli = (tar, mov) => {
     }
   }
 }
+const getCierres = () => {
+  db.getCierres({fechaGetCierre}).then(res=>{
+    setCierres(res.data)
+  })
+}
 const cerrar_dia = (e) => {
   e.preventDefault()
   setLoading(true)
@@ -771,21 +785,23 @@ const cerrar_dia = (e) => {
     let cierreData = res.data
     if (res.data) {
       setguardar_usd(cierreData["efectivo_guardado"])
+      setguardar_cop("")
+      setguardar_bs("")
 
-      if (cierreData["match_cierre"]) {
-
-
-        setDejar_usd(cierreData["match_cierre"]["dejar_dolar"])
-        setDejar_cop(cierreData["match_cierre"]["dejar_peso"])
-        setDejar_bs(cierreData["match_cierre"]["dejar_bss"])
-        setNotaCierre(cierreData["match_cierre"]["nota"])
+      // if (cierreData["match_cierre"]) {
 
 
-        setguardar_usd(cierreData["match_cierre"]["efectivo_guardado"])
-        setguardar_cop(cierreData["match_cierre"]["efectivo_guardado_cop"])
-        setguardar_bs(cierreData["match_cierre"]["efectivo_guardado_bs"])
+      //   setDejar_usd(cierreData["match_cierre"]["dejar_dolar"])
+      //   setDejar_cop(cierreData["match_cierre"]["dejar_peso"])
+      //   setDejar_bs(cierreData["match_cierre"]["dejar_bss"])
+      //   setNotaCierre(cierreData["match_cierre"]["nota"])
+
+
+      //   setguardar_usd(cierreData["match_cierre"]["efectivo_guardado"])
+      //   setguardar_cop(cierreData["match_cierre"]["efectivo_guardado_cop"])
+      //   setguardar_bs(cierreData["match_cierre"]["efectivo_guardado_bs"])
         
-      }
+      // }
     }
     setCierre(cierreData)
 
@@ -1504,7 +1520,7 @@ const guardar_cierre = (e,callback=null) => {
     
     if (res.data.estado) {
       if (type=="ver") {
-        db.openVerCierre({type,fechaCierre})
+        verCierreReq(fechaCierre,type)
       }else{
         setLoading(true)
         db.sendCierre({type,fecha:fechaCierre}).then(res=>{
@@ -1516,6 +1532,10 @@ const guardar_cierre = (e,callback=null) => {
     }     
 
   })
+}
+const verCierreReq = (fechaCierre,type="ver") => {
+  // console.log(fecha)
+  db.openVerCierre({fechaCierre,type})
 }
 const setPagoCredito = e =>{
   e.preventDefault()
@@ -1614,33 +1634,46 @@ const setDevolucion = e => {
 }
 const buscarInventario = e => {
 
+  let checkempty = productosInventario.filter(e => e.type).filter(e=>
+    e.codigo_barras == ""||
+    e.descripcion == ""||
+    e.id_categoria == ""||
+    e.unidad == ""||
+    e.id_proveedor == ""||
+    e.cantidad == ""||
+    e.precio_base == ""||
+    e.precio == "")
 
-  setLoading(true)
+  if (!checkempty.length) {
+    setLoading(true)
 
+    if (time!=0) {
+      clearTimeout(typingTimeout)
+    }
 
-  if (time!=0) {
-    clearTimeout(typingTimeout)
+    let time = window.setTimeout(()=>{
+      db.getinventario({
+        num:Invnum,
+        itemCero:true,
+        qProductosMain:qBuscarInventario,
+        orderColumn:InvorderColumn,
+        orderBy:InvorderBy
+      }).then(res=>{
+        setProductosInventario(res.data)
+        setLoading(false)
+        setIndexSelectInventario(null)
+        if (res.data.length===1) {
+          setIndexSelectInventario(0)
+        }else if(res.data.length==0){
+          setinpInvbarras(qBuscarInventario)
+        }
+      })
+    },150)
+    setTypingTimeout(time)
+
+  }else{
+    alert("Hay productos pendientes en carga de Inventario List!")
   }
-
-  let time = window.setTimeout(()=>{
-    db.getinventario({
-      num:Invnum,
-      itemCero:true,
-      qProductosMain:qBuscarInventario,
-      orderColumn:InvorderColumn,
-      orderBy:InvorderBy
-    }).then(res=>{
-      setProductosInventario(res.data)
-      setLoading(false)
-      setIndexSelectInventario(null)
-      if (res.data.length===1) {
-        setIndexSelectInventario(0)
-      }else if(res.data.length==0){
-        setinpInvbarras(qBuscarInventario)
-      }
-    })
-  },150)
-  setTypingTimeout(time)
 
 
 
@@ -1865,21 +1898,31 @@ const delProducto = e => {
   }
 }
 const getFacturas = (clean = true) =>{
-  setLoading(true)
-  db.getFacturas({
-    factqBuscar,
-    factqBuscarDate,
-    factOrderBy,
-    factOrderDescAsc
-  }).then(res=>{
-    setLoading(false)
-    setfacturas(res.data)
 
-    if (clean) {
-      setfactSelectIndex(null)
-
+  if (time!=0) {
+      clearTimeout(typingTimeout)
     }
-  })
+
+    let time = window.setTimeout(()=>{
+      setLoading(true)
+      db.getFacturas({
+        factqBuscar,
+        factqBuscarDate,
+        factOrderBy,
+        factOrderDescAsc
+      }).then(res=>{
+        setLoading(false)
+        setfacturas(res.data)
+
+        if (clean) {
+          setfactSelectIndex(null)
+
+        }
+      })
+
+    },100)
+    setTypingTimeout(time)
+
 }
 const setFactura = e => {
   e.preventDefault()
@@ -2406,14 +2449,14 @@ const guardarNuevoProductoLote = () => {
 
 
   let checkempty = lotesFil.filter(e=>
-    !e.codigo_barras.length||
-    !e.descripcion.length||
-    !e.id_categoria.length||
-    !e.unidad.length||
-    !e.id_proveedor.length||
-    !e.cantidad.length||
-    !e.precio_base.length||
-    !e.precio.length)
+    e.codigo_barras == ""||
+    e.descripcion == ""||
+    e.id_categoria == ""||
+    e.unidad == ""||
+    e.id_proveedor == ""||
+    e.cantidad == ""||
+    e.precio_base == ""||
+    e.precio == "")
 
   if (lotesFil.length && !checkempty.length) {
     
@@ -2705,6 +2748,11 @@ const auth = permiso => {
         :null}
 
         {view=="cierres"?<Cierres
+          verCierreReq={verCierreReq}
+          fechaGetCierre={fechaGetCierre}
+          setfechaGetCierre={setfechaGetCierre}
+          getCierres={getCierres}
+          cierres={cierres}
           number={number}
           guardar_usd={guardar_usd}
           setguardar_usd={setguardar_usd}
@@ -2755,6 +2803,9 @@ const auth = permiso => {
           setbillete50={setbillete50}
           billete100={billete100}
           setbillete100={setbillete100}
+
+          dolar={dolar}
+          peso={peso} 
         />:null}
         {view=="pedidos"?<Pedidos
           tipobusquedapedido={tipobusquedapedido}

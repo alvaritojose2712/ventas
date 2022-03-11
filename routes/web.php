@@ -83,6 +83,8 @@ Route::group(['middleware' => ['login']], function () {
 		Route::post('guardarCierre', [PedidosController::class,"guardarCierre"]);
 		Route::get('verCierre', [PedidosController::class,"verCierre"]);
 		Route::post('cerrar', [PedidosController::class,"cerrar"]);
+		Route::get('getCierres', [PedidosController::class,"getCierres"]);
+
 		
 	});
 	Route::group(['middleware' => ['vendedor']], function () {

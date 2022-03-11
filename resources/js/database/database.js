@@ -109,6 +109,8 @@ const db = {
   setUsuario: data=>axios.post(host+"setUsuario",data),
   delUsuario: data => axios.post(host + "delUsuario", data),
   getUsuarios: data=>axios.get(host+"getUsuarios"),
+  getCierres: data=>axios.get(host+"getCierres",{params:data}),
+  
   
   removeLote: data=>axios.post(host+"removeLote",data),
   

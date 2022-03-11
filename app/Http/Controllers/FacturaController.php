@@ -34,21 +34,34 @@ class FacturaController extends Controller
         $factOrderBy = $req->factOrderBy;
         $factOrderDescAsc = $req->factOrderDescAsc;
 
+        $fa = [];
         if ($factqBuscarDate=="") {
-            return factura::with(["proveedor","items"=>function($q){
+            $fa = factura::with(["proveedor","items"=>function($q){
                 $q->with("producto");
             }])
             ->where("descripcion","LIKE","$factqBuscar%")
             ->orWhere("numfact","LIKE","$factqBuscar%")
                 ->orderBy($factOrderBy,$factOrderDescAsc)
+                ->limit(20)
                 ->get();
         }else{
-            return factura::with(["proveedor","items"=>function($q){
+            $fa = factura::with(["proveedor","items"=>function($q){
                 $q->with("producto");
             }])->where("descripcion","LIKE","$factqBuscar%")->where("created_at","LIKE","$factqBuscarDate%")
                 ->orderBy($factOrderBy,$factOrderDescAsc)
+                ->limit(20)
                 ->get();
         }
+
+        return $fa->map(function($q){
+            $sub = $q->items->map(function($q)
+            {   
+                $q->subtotal = $q->producto->precio*$q->cantidad;
+                return $q;
+            })->sum("subtotal");
+            $q->monto = number_format($sub,2); 
+            return $q;
+        });
     }
 
     public function setFactura(Request $req)

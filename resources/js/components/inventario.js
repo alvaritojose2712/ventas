@@ -157,6 +157,7 @@ function Inventario({
   guardarNuevoProductoLote,
   refsInpInvList,
   categorias,
+
   
 }) {
 
@@ -170,62 +171,63 @@ function Inventario({
         <div className="row">
         <div className="col">
           <div className="btn-group mb-2">              
-              <button className={("btn ")+(subViewInventario=="inventario"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("inventario")}>Inventario</button>
+              <button className={("btn ")+(subViewInventario=="inventario"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("inventario")}>Inventario</button>
               
-              <button className={("btn ")+(subViewInventario=="proveedores"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("proveedores")}>Proveedores</button>
-              <button className={("btn ") + (subViewInventario=="fallas"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("fallas")}>Fallas</button>
+              <button className={("btn ")+(subViewInventario=="proveedores"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("proveedores")}>Proveedores</button>
+              <>
+                {/* <button className={("btn ")+(subViewInventario=="pedidosCentral"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("pedidosCentral")}>Pedidos Central</button> */}
+                <button className={("btn ") + (subViewInventario=="facturas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("facturas")}>Facturas</button>
+              </>
+              <button className={("btn ") + (subViewInventario=="fallas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("fallas")}>Fallas</button>
           </div>
         </div>
-          {subViewInventario == "inventario" ?<div className="col text-right d-flex align-items-center justify-content-between">
-            {/* <button className={("btn ")+(subViewInventario=="pedidosCentral"?"btn-dark":"btn-outline-success")} onClick={()=>setsubViewInventario("pedidosCentral")}>Pedidos Central</button> */}
-            <div className="btn-group mb-2">
-              <button className="btn btn-sinapsis" onClick={()=>setshowModalFacturas(!showModalFacturas)}>Seleccionar Factura</button>
-            </div>
-          </div>
-          :null}
           
         </div>
       </div>
       <hr/>
-     
-      <Facturas
-        setshowModalFacturas={setshowModalFacturas}
-        showModalFacturas={showModalFacturas}
-        facturas={facturas}
-        verDetallesFactura={verDetallesFactura}
+      {
+        subViewInventario=="facturas"?
+          <Facturas
+            setsubViewInventario={setsubViewInventario}
+            setshowModalFacturas={setshowModalFacturas}
+            showModalFacturas={showModalFacturas}
+            facturas={facturas}
+            verDetallesFactura={verDetallesFactura}
 
-        factqBuscar={factqBuscar}
-        setfactqBuscar={setfactqBuscar}
-        factqBuscarDate={factqBuscarDate}
-        setfactqBuscarDate={setfactqBuscarDate}
-        factsubView={factsubView}
-        setfactsubView={setfactsubView}
-        factSelectIndex={factSelectIndex}
-        setfactSelectIndex={setfactSelectIndex}
-        factOrderBy={factOrderBy}
-        setfactOrderBy={setfactOrderBy}
-        factOrderDescAsc={factOrderDescAsc}
-        setfactOrderDescAsc={setfactOrderDescAsc}
-        factInpid_proveedor={factInpid_proveedor}
-        setfactInpid_proveedor={setfactInpid_proveedor}
-        factInpnumfact={factInpnumfact}
-        setfactInpnumfact={setfactInpnumfact}
-        factInpdescripcion={factInpdescripcion}
-        setfactInpdescripcion={setfactInpdescripcion}
-        factInpmonto={factInpmonto}
-        setfactInpmonto={setfactInpmonto}
-        factInpfechavencimiento={factInpfechavencimiento}
-        setfactInpfechavencimiento={setfactInpfechavencimiento}
-        setFactura={setFactura}
-        proveedoresList={proveedoresList}
+            factqBuscar={factqBuscar}
+            setfactqBuscar={setfactqBuscar}
+            factqBuscarDate={factqBuscarDate}
+            setfactqBuscarDate={setfactqBuscarDate}
+            factsubView={factsubView}
+            setfactsubView={setfactsubView}
+            factSelectIndex={factSelectIndex}
+            setfactSelectIndex={setfactSelectIndex}
+            factOrderBy={factOrderBy}
+            setfactOrderBy={setfactOrderBy}
+            factOrderDescAsc={factOrderDescAsc}
+            setfactOrderDescAsc={setfactOrderDescAsc}
+            factInpid_proveedor={factInpid_proveedor}
+            setfactInpid_proveedor={setfactInpid_proveedor}
+            factInpnumfact={factInpnumfact}
+            setfactInpnumfact={setfactInpnumfact}
+            factInpdescripcion={factInpdescripcion}
+            setfactInpdescripcion={setfactInpdescripcion}
+            factInpmonto={factInpmonto}
+            setfactInpmonto={setfactInpmonto}
+            factInpfechavencimiento={factInpfechavencimiento}
+            setfactInpfechavencimiento={setfactInpfechavencimiento}
+            setFactura={setFactura}
+            proveedoresList={proveedoresList}
 
-        number={number}
-        
-        factInpestatus={factInpestatus}
-        setfactInpestatus={setfactInpestatus}
-        delFactura={delFactura}
-        delItemFact={delItemFact}
-      />
+            number={number}
+            
+            factInpestatus={factInpestatus}
+            setfactInpestatus={setfactInpestatus}
+            delFactura={delFactura}
+            delItemFact={delItemFact}
+          />
+        :null
+      }
       {
         subViewInventario=="inventario"?
           <>

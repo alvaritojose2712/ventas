@@ -598,10 +598,11 @@ class PedidosController extends Controller
         }
         $pedido = pedidos::where("created_at","LIKE",$fecha."%");
 
-        $match_cierre = cierres::where("fecha",$fecha)->first();
+        // $match_cierre = cierres::where("fecha",$fecha)->first();
+
 
         $arr_pagos = [
-            "match_cierre" => $match_cierre,
+            // "match_cierre" => $match_cierre,
             "total"=>0,
             "fecha"=>$fecha,
             "caja_inicial"=>$caja_inicial,
@@ -690,6 +691,15 @@ class PedidosController extends Controller
         $arr_pagos["efectivo_guardado"] = round($efectivo_guardado,2);
 
         return $arr_pagos;
+    }
+    public function getCierres(Request $req)
+    {
+        if ($req->fechaGetCierre=="") {
+            return cierres::orderBy("id","desc")->get();
+            // code...
+        }else{
+            return cierres::where("fecha",$req->fechaGetCierre)->orderBy("id","desc")->limit(10)->get();
+        }
     }
     public function cerrar(Request $req)
     {
@@ -847,9 +857,9 @@ class PedidosController extends Controller
         }else{
             //Enviar Central
 
-            (new sendCentral)->setGastos();
-            (new sendCentral)->setCentralData();
-            (new sendCentral)->setVentas();
+            // (new sendCentral)->setGastos();
+            // (new sendCentral)->setCentralData();
+            // (new sendCentral)->setVentas();
 
             //Enviar Cierre
 

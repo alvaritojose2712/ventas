@@ -1,18 +1,18 @@
 :root{
-  --sinapsis-color : #e511ec;
+ /* --sinapsis-color : #e511ec;
   --sinapsis-color-light : #ffaefa;
-  --sinapsis-color-select : #f9bcfb;
+  --sinapsis-color-select : #f9bcfb;*/
 
-  /*
-    Sinapsis Azul
-  --sinapsis-color : #118bec;
+  
+    /*Sinapsis Azul*/
+ /* --sinapsis-color : #118bec;
   --sinapsis-color-light : #deedfd;
   --sinapsis-color-select : #84bcf3;*/
 
- /* --sinapsis-color : rgba(242,109,10);
+  --sinapsis-color : rgba(242,109,10);
   --sinapsis-color-light : rgba(255,177,113,0.75);
   --sinapsis-color-select : rgba(221,143,79,0.75);
-*/
+
   
 }
 body *::-webkit-scrollbar {
@@ -70,6 +70,12 @@ td,th{
 
 .cell1{
   width: 10% !important;
+}
+.cell15{
+  width: 15% !important;
+}
+.cell05{
+  width: 5% !important;
 }
 
 .cell2{
@@ -142,6 +148,11 @@ td,th{
   vertical-align: middle;
   background-color: #777;
   border-radius: 10px;
+}
+.closeModal{
+  background-color: white;
+  border-radius: 50px;
+  padding: 2px;
 }
 .notificacion{
   z-index: 9999999;
