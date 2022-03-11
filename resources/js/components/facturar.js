@@ -2680,6 +2680,7 @@ const auth = permiso => {
           setfechaventas={setfechaventas}
           fechaventas={fechaventas}
           moneda={moneda}
+          onClickEditPedido={onClickEditPedido}
         />:null}
 
         {view == "vueltos" ? <Vueltos

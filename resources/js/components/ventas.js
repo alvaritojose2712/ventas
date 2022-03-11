@@ -5,12 +5,17 @@ export default function VentasComponet({
 	getVentasClick,
 	setfechaventas,
 	fechaventas,
-	moneda
+	moneda,
+	onClickEditPedido
 }) {
 	
 	let dataGrafica = ventasData.grafica ? ventasData.grafica:[]
-	
+	let ventas = []
 
+	try{
+		ventas = ventasData["ventas"].map(e=>e)
+
+	}catch(err){}
 	return (
 		<div className="container">
 			<div className="input-group mb-4">
@@ -52,6 +57,26 @@ export default function VentasComponet({
 					<YAxis />
 					<Tooltip />
 				</LineChart>
+			</div>
+			<div>
+				<table className="table text-center">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Monto</th>
+							<th>Hora</th>
+						</tr>
+					</thead>
+					<tbody>
+						{ventas.map((e,i)=>
+								<tr key={e.id_pedido}>
+									<td><span className="btn btn-sinapsis" data-id={e.id_pedido} onClick={onClickEditPedido}>{e.id_pedido}</span></td>
+									<td>{e.monto}</td>
+									<td>{e.hora}</td>
+								</tr>
+							)}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	)

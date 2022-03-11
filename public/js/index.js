@@ -8068,7 +8068,8 @@ function Facturar(_ref) {
       getVentasClick: getVentasClick,
       setfechaventas: setfechaventas,
       fechaventas: fechaventas,
-      moneda: _assets__WEBPACK_IMPORTED_MODULE_5__.moneda
+      moneda: _assets__WEBPACK_IMPORTED_MODULE_5__.moneda,
+      onClickEditPedido: onClickEditPedido
     }) : null, view == "vueltos" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_vueltos__WEBPACK_IMPORTED_MODULE_13__["default"], {
       onchangecaja: onchangecaja,
       qDeudores: qDeudores,
@@ -9165,6 +9166,12 @@ function Inventario(_ref) {
                 return setsubViewInventario("fallas");
               },
               children: "Fallas"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+              className: "btn " + (subViewInventario == "pedidosCentral" ? "btn-success" : "btn-outline-success"),
+              onClick: function onClick() {
+                return setsubViewInventario("pedidosCentral");
+              },
+              children: "Pedidos Central"
             })]
           })
         })
@@ -12578,8 +12585,17 @@ function VentasComponet(_ref) {
       getVentasClick = _ref.getVentasClick,
       setfechaventas = _ref.setfechaventas,
       fechaventas = _ref.fechaventas,
-      moneda = _ref.moneda;
+      moneda = _ref.moneda,
+      onClickEditPedido = _ref.onClickEditPedido;
   var dataGrafica = ventasData.grafica ? ventasData.grafica : [];
+  var ventas = [];
+
+  try {
+    ventas = ventasData["ventas"].map(function (e) {
+      return e;
+    });
+  } catch (err) {}
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -12650,6 +12666,38 @@ function VentasComponet(_ref) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_4__.XAxis, {
           dataKey: "hora"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_5__.YAxis, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(recharts__WEBPACK_IMPORTED_MODULE_6__.Tooltip, {})]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
+        className: "table text-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+              children: "ID"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+              children: "Monto"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+              children: "Hora"
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
+          children: ventas.map(function (e, i) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "btn btn-sinapsis",
+                  "data-id": e.id_pedido,
+                  onClick: onClickEditPedido,
+                  children: e.id_pedido
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                children: e.monto
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                children: e.hora
+              })]
+            }, e.id_pedido);
+          })
+        })]
       })
     })]
   });

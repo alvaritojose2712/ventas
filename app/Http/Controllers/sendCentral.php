@@ -15,8 +15,8 @@ use Response;
 ini_set('max_execution_time', 300);
 class sendCentral extends Controller
 {
-    public $path = "sinapsisnline.com";
-    // public $path = "http://127.0.0.1:8001";
+    // public $path = "sinapsisnline.com";
+    public $path = "http://127.0.0.1:3000";
 
     public function index()
     {
@@ -299,6 +299,34 @@ class sendCentral extends Controller
             
         } catch (\Exception $e) {
             return Response::json(["estado"=>false,"msj"=>"Error de sucursal: Conexión rechazada"]);
+        }
+    }
+
+    public function sendInventario()
+    {
+        try {
+            $inventario = InventarioController::all(); 
+            
+
+
+            $response = Http::post($this->path.'/sendInventario', [
+                "sucursal_code"=>$sucursal->codigo,
+                "inventario"=>$inventario
+            ]);
+
+            //ids_ok => id de movimiento 
+
+            if ($response->ok()) {
+                $res = $response->json();
+                if ($res["estado"]) {
+                   return $res["msj"];
+                }
+            }else{
+                return $response->body();
+            }            
+        } catch (\Exception $e) {
+            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: ".$e->getMessage()]);
+            
         }
     }
 

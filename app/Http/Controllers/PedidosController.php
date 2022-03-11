@@ -609,6 +609,7 @@ class PedidosController extends Controller
 
             "numventas"=>0,
             "grafica"=>[],
+            "ventas"=>[],
 
             "entregadomenospend"=>0,
             "entregado" => $entregado_fun["entregado"],
@@ -644,7 +645,7 @@ class PedidosController extends Controller
             if ($q->tipo!=4&&$q->tipo!=6) {
                 $hora = date("h:i",strtotime($q->updated_at));
                 if (!array_key_exists($q->id_pedido,$numventas_arr)) {
-                    $numventas_arr[$q->id_pedido] = ["hora"=>$hora,"monto"=>$q->monto];
+                    $numventas_arr[$q->id_pedido] = ["hora"=>$hora,"monto"=>$q->monto,"id_pedido"=>$q->id_pedido];
                 }else {
                     $numventas_arr[$q->id_pedido]["monto"] = $numventas_arr[$q->id_pedido]["monto"]+$q->monto;
                 }
@@ -652,6 +653,7 @@ class PedidosController extends Controller
             }
         });
         $arr_pagos["numventas"] = count($numventas_arr);
+        $arr_pagos["ventas"] = array_values($numventas_arr);
         if ($grafica) {
             $arr_pagos["grafica"] = array_values($numventas_arr);
         }
