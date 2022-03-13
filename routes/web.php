@@ -130,6 +130,8 @@ Route::group(['middleware' => ['login']], function () {
 		Route::get('getUsuarios', [UsuariosController::class,"getUsuarios"]);
 		Route::get('verCreditos', [PagoPedidosController::class,"verCreditos"]);
 		Route::get('reporteInventario', [InventarioController::class,"reporteInventario"]);
+		Route::post('getEstaInventario', [InventarioController::class,"getEstaInventario"]);
+
 	});
 
 

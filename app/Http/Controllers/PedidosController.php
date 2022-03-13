@@ -12,6 +12,7 @@ use App\Models\clientes;
 
 use App\Models\movimientos_caja;
 use App\Models\sucursal;
+use App\Models\movimientos;
 
 
 use Illuminate\Http\Request;
@@ -44,8 +45,6 @@ class PedidosController extends Controller
         return $ret->limit(7)
         ->orderBy("id","desc")
         ->get();
-
-        
     }
     public function get_moneda()
     {
@@ -210,6 +209,8 @@ class PedidosController extends Controller
                 ->select("id_producto");
 
             })
+            ->selectRaw("*,@cantidadtotal := (SELECT sum(cantidad) FROM items_pedidos WHERE id_producto=inventarios.id AND created_at BETWEEN '$fecha1pedido 00:00:01' AND '$fecha2pedido 23:59:59') as cantidadtotal,(@cantidadtotal*inventarios.precio) as totalventa")
+            ->orderBy("cantidadtotal","desc")
             ->get()
             ->map(function($q)use ($fecha1pedido,$fecha2pedido,$vendedor){
                 $items = items_pedidos::whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
@@ -217,8 +218,6 @@ class PedidosController extends Controller
                 if (count($vendedor)) {
                     $items->whereIn("id_pedido",pedidos::whereIn("id_vendedor",$vendedor)->select("id"));
                 }
-
-                $q->cantidadtotal = $items->sum("cantidad");
                 $q->items = $items->get();
 
                 return $q;
@@ -379,9 +378,19 @@ class PedidosController extends Controller
 
         try {
             $id = $req->id;
+            $motivo = $req->motivo;
             $this->checkPedidoAuth($id);
             if ($id) {
+                $mov = new movimientos;
+
                $items = items_pedidos::where("id_pedido",$id)->get();
+               $monto_pedido = pago_pedidos::where("id_pedido",$id)->get()->sum("monto");
+                
+                $mov->tipo = "Eliminación de Pedido"; 
+                $mov->tipo_pago = ""; 
+                $mov->monto = $monto_pedido; 
+                $mov->items = count($items); 
+                $mov->codigos = ""; 
 
                 foreach ($items as $key => $value) {
                    (new InventarioController)->hacer_pedido($value->id,null,99,"del");

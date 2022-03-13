@@ -309,6 +309,14 @@ export default function Facturar({user,notificar,setLoading}) {
 // 1234123512345612345612345
 // 1234123412345612345612345
 // 12341234ARAMCAL
+
+
+const [fechaQEstaInve, setfechaQEstaInve] = useState("")
+const [fechaFromEstaInve, setfechaFromEstaInve] = useState("")
+const [fechaToEstaInve, setfechaToEstaInve] = useState("")
+const [orderByEstaInv, setorderByEstaInv] = useState("desc")
+const [orderByColumEstaInv, setorderByColumEstaInv] = useState("cantidadtotal")
+const [dataEstaInven, setdataEstaInven] = useState([])
   
 
   useHotkeys('f1', () => {
@@ -707,6 +715,14 @@ export default function Facturar({user,notificar,setLoading}) {
     billete50,
     billete100,
   ])
+  useEffect(()=>{
+    getEstaInventario()
+  },[
+fechaQEstaInve,
+fechaFromEstaInve,
+fechaToEstaInve,
+orderByEstaInv,
+orderByColumEstaInv])
 
 
   let total_caja_calc = ( parseFloat(caja_usd?caja_usd:0) + (parseFloat(caja_cop?caja_cop:0)/parseFloat(peso)) + (parseFloat(caja_bs?caja_bs:0)/parseFloat(dolar)) ).toFixed(2)
@@ -717,6 +733,28 @@ export default function Facturar({user,notificar,setLoading}) {
 
   let total_punto = dolar&&caja_punto?(caja_punto/dolar).toFixed(2):0
 
+const getEstaInventario = () => {
+
+  if (time!=0) {
+    clearTimeout(typingTimeout)
+  }
+
+  let time = window.setTimeout(()=>{
+    setLoading(true)
+    db.getEstaInventario({
+      fechaQEstaInve,
+      fechaFromEstaInve,
+      fechaToEstaInve,
+      orderByEstaInv,
+      orderByColumEstaInv})
+    .then(e=>{
+      setdataEstaInven(e.data)
+      setLoading(false)
+    })
+  },150)
+  setTypingTimeout(time)
+
+}
 const setporcenganancia = (tipo,base=0,fun=null) => {
   let insert = window.prompt("Porcentaje")
   if (insert) {
@@ -1316,23 +1354,27 @@ const onCLickDelPedido = e => {
   if (confirm("¿Seguro de eliminar?")) {
     const current = e.currentTarget.attributes
     const id = current["data-id"].value
-    db.delpedido({id}).then(res=>{
-      notificar(res)
-      
-      
-      switch(current["data-type"].value){
-        case 'getDeudor':
-          getDeudor()
+    let motivo = window.prompt("¿Cuál es el Motivo de eliminación?")
+    if (motivo) {
+      db.delpedido({id,motivo}).then(res=>{
+        notificar(res)
+        
+        
+        switch(current["data-type"].value){
+          case 'getDeudor':
+            getDeudor()
 
-        break;
+          break;
 
-        case 'getPedidos':
-          getPedidos()
-          getPedidosList()
+          case 'getPedidos':
+            getPedidos()
+            getPedidosList()
 
-        break;
-      }
-    })
+          break;
+        }
+      })
+
+    }
   }
 }
 const delItemPedido = (e) => {
@@ -1477,11 +1519,14 @@ const facturar_pedido = () => {
 const del_pedido = () =>{
   if (confirm("¿Seguro de eliminar?")) {
     if (pedidoData.id) {
-      db.delpedido({id:pedidoData.id}).then(res=>{
-        notificar(res)
-        getPedidosList()
-        setView("seleccionar")
-      })
+      let motivo = window.prompt("¿Cuál es el Motivo de eliminación?")
+      if (motivo) {
+        db.delpedido({id:pedidoData.id,motivo}).then(res=>{
+          notificar(res)
+          getPedidosList()
+          setView("seleccionar")
+        })
+      }
 
     }else{
       alert("No hay pedido seleccionado")
@@ -2981,6 +3026,19 @@ const auth = permiso => {
           pedidosCentral={pedidosCentral}
           setIndexPedidoCentral={setIndexPedidoCentral}
           indexPedidoCentral={indexPedidoCentral}
+
+          fechaQEstaInve={fechaQEstaInve}
+          setfechaQEstaInve={setfechaQEstaInve}
+          fechaFromEstaInve={fechaFromEstaInve}
+          setfechaFromEstaInve={setfechaFromEstaInve}
+          fechaToEstaInve={fechaToEstaInve}
+          setfechaToEstaInve={setfechaToEstaInve}
+          orderByEstaInv={orderByEstaInv}
+          setorderByEstaInv={setorderByEstaInv}
+          orderByColumEstaInv={orderByColumEstaInv}
+          setorderByColumEstaInv={setorderByColumEstaInv}
+
+          dataEstaInven={dataEstaInven}
 
         />:null}
         {view =="ViewPedidoVendedor"?<ViewPedidoVendedor

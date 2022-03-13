@@ -24,6 +24,58 @@ use Response;
 
 class InventarioController extends Controller
 {
+    public function getEstaInventario(Request $req)
+    {
+        $fechaQEstaInve = $req->fechaQEstaInve;
+
+        $fecha1pedido = $req->fechaFromEstaInve;
+        $fecha2pedido = $req->fechaToEstaInve;
+        
+        $orderByEstaInv = $req->orderByEstaInv;
+        $orderByColumEstaInv = $req->orderByColumEstaInv;
+        
+        $tipoestadopedido = 1;
+
+        
+        return inventario::with([
+            "proveedor",
+            "categoria",
+            "marca",
+            "deposito",
+        ])
+        ->whereIn("id",function($q) use ($fecha1pedido,$fecha2pedido,$tipoestadopedido){
+            $q->from("items_pedidos")
+            ->whereIn("id_pedido",function($q) use ($fecha1pedido,$fecha2pedido,$tipoestadopedido){
+                $q->from("pedidos")
+                ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
+                
+                ->select("id");
+            })
+            ->select("id_producto");
+
+        })
+         ->where(function($q) use ($fechaQEstaInve)
+        {
+            $q->orWhere("descripcion","LIKE","%$fechaQEstaInve%")
+            ->orWhere("codigo_proveedor","LIKE","%$fechaQEstaInve%");
+            
+        })
+        ->selectRaw("*,@cantidadtotal := (SELECT sum(cantidad) FROM items_pedidos WHERE id_producto=inventarios.id AND created_at BETWEEN '$fecha1pedido 00:00:01' AND '$fecha2pedido 23:59:59') as cantidadtotal,(@cantidadtotal*inventarios.precio) as totalventa")
+        ->orderByRaw(" $orderByColumEstaInv"." ".$orderByEstaInv)
+        ->get();
+        // ->map(function($q)use ($fecha1pedido,$fecha2pedido){
+        //     $items = items_pedidos::whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"])
+        //     ->where("id_producto",$q->id)->sum("cantidad");
+
+        //     $q->cantidadtotal = $items
+        //     // $q->items = $items->get();
+
+        //     return $q;
+        // })->sortBy("cantidadtotal");
+
+
+
+    }
     public function hacer_pedido($id,$id_pedido,$cantidad,$type,$lote=null)
     {   
         try {

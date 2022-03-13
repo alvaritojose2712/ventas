@@ -138,6 +138,8 @@ filterMetodoPagoToggle,
 											<span className="text-muted text-left">
 									    		{e.pedido.vendedor.nombre} 
 									    </span>
+									    <br/>
+									    <small className="text-muted font-size-12">{e.created_at}</small>
 										</div>
 										<div className="cell5 pointer" data-id={e.pedido.id} onClick={onClickEditPedido}>
 					    				<div className="d-flex justify-content-center">

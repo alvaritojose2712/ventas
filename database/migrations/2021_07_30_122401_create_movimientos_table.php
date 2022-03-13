@@ -15,6 +15,14 @@ class CreateMovimientosTable extends Migration
     {
         Schema::create('movimientos', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('tipo');
+            $table->text('tipo_pago')->nullable();
+            $table->text('monto')->nullable();
+            $table->text('items')->nullable();
+            $table->text('codigos')->nullable();
+
+
+
             
             $table->timestamps();
         });

@@ -4719,6 +4719,153 @@ function Credito(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/estadisticainventario.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/estadisticainventario.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ EstadisticaInventario)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function EstadisticaInventario(_ref) {
+  var fechaQEstaInve = _ref.fechaQEstaInve,
+      setfechaQEstaInve = _ref.setfechaQEstaInve,
+      fechaFromEstaInve = _ref.fechaFromEstaInve,
+      setfechaFromEstaInve = _ref.setfechaFromEstaInve,
+      fechaToEstaInve = _ref.fechaToEstaInve,
+      setfechaToEstaInve = _ref.setfechaToEstaInve,
+      orderByEstaInv = _ref.orderByEstaInv,
+      setorderByEstaInv = _ref.setorderByEstaInv,
+      orderByColumEstaInv = _ref.orderByColumEstaInv,
+      setorderByColumEstaInv = _ref.setorderByColumEstaInv,
+      dataEstaInven = _ref.dataEstaInven,
+      moneda = _ref.moneda;
+  var data = [];
+
+  try {
+    data = Object.values(dataEstaInven);
+  } catch (err) {}
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+    className: "container",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      className: "input-group",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+        type: "text",
+        className: "form-control",
+        placeholder: "Buscar...",
+        value: fechaQEstaInve,
+        onChange: function onChange(e) {
+          return setfechaQEstaInve(e.target.value);
+        }
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+        type: "date",
+        className: "form-control",
+        value: fechaFromEstaInve,
+        onChange: function onChange(e) {
+          return setfechaFromEstaInve(e.target.value);
+        }
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+        type: "date",
+        className: "form-control",
+        value: fechaToEstaInve,
+        onChange: function onChange(e) {
+          return setfechaToEstaInve(e.target.value);
+        }
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+        className: "form-control",
+        value: orderByEstaInv,
+        onChange: function onChange(e) {
+          return setorderByEstaInv(e.target.value);
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+          value: "asc",
+          children: "ASC"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+          value: "desc",
+          children: "DESC"
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
+      className: "table",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+            children: "ID"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+            className: "pointer",
+            onClick: function onClick() {
+              return setorderByColumEstaInv("codigo");
+            },
+            children: "C\xF3digo"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+            className: "pointer",
+            onClick: function onClick() {
+              return setorderByColumEstaInv("descripcion");
+            },
+            children: "Descripci\xF3n"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+            className: "pointer",
+            onClick: function onClick() {
+              return setorderByColumEstaInv("cantidad");
+            },
+            children: "Stock"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+            className: "pointer",
+            onClick: function onClick() {
+              return setorderByColumEstaInv("precio");
+            },
+            children: "Precio"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+            className: "pointer",
+            onClick: function onClick() {
+              return setorderByColumEstaInv("cantidadtotal");
+            },
+            children: "Total Ventas Unitarias"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+            className: "pointer",
+            onClick: function onClick() {
+              return setorderByColumEstaInv("totalventa");
+            },
+            children: "Total Monto Venta"
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
+        children: data ? data.map(function (e) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+              children: e.id
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+              children: e.codigo_barras
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+              children: e.descripcion
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+              children: e.cantidad
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+              className: "text-success",
+              children: moneda(e.precio)
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+              className: "text-sinapsis",
+              children: e.cantidadtotal
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+              className: "text-success",
+              children: moneda(e.totalventa)
+            })]
+          }, e.id);
+        }) : null
+      })]
+    })]
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/facturar.js":
 /*!*********************************************!*\
   !*** ./resources/js/components/facturar.js ***!
@@ -5608,6 +5755,36 @@ function Facturar(_ref) {
   // 12341234ARAMCAL
 
 
+  var _useState319 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState320 = _slicedToArray(_useState319, 2),
+      fechaQEstaInve = _useState320[0],
+      setfechaQEstaInve = _useState320[1];
+
+  var _useState321 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState322 = _slicedToArray(_useState321, 2),
+      fechaFromEstaInve = _useState322[0],
+      setfechaFromEstaInve = _useState322[1];
+
+  var _useState323 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState324 = _slicedToArray(_useState323, 2),
+      fechaToEstaInve = _useState324[0],
+      setfechaToEstaInve = _useState324[1];
+
+  var _useState325 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("desc"),
+      _useState326 = _slicedToArray(_useState325, 2),
+      orderByEstaInv = _useState326[0],
+      setorderByEstaInv = _useState326[1];
+
+  var _useState327 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("cantidadtotal"),
+      _useState328 = _slicedToArray(_useState327, 2),
+      orderByColumEstaInv = _useState328[0],
+      setorderByColumEstaInv = _useState328[1];
+
+  var _useState329 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+      _useState330 = _slicedToArray(_useState329, 2),
+      dataEstaInven = _useState330[0],
+      setdataEstaInven = _useState330[1];
+
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('f1', function () {
     if (selectItem !== null && view == "seleccionar") {
       addCarritoRequest("agregar_procesar");
@@ -5931,11 +6108,35 @@ function Facturar(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     setBilletes();
   }, [billete1, billete5, billete10, billete20, billete50, billete100]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    getEstaInventario();
+  }, [fechaQEstaInve, fechaFromEstaInve, fechaToEstaInve, orderByEstaInv, orderByColumEstaInv]);
   var total_caja_calc = (parseFloat(caja_usd ? caja_usd : 0) + parseFloat(caja_cop ? caja_cop : 0) / parseFloat(peso) + parseFloat(caja_bs ? caja_bs : 0) / parseFloat(dolar)).toFixed(2);
   var total_caja_neto = !total_caja_calc || total_caja_calc == "NaN" ? 0 : total_caja_calc;
   var total_dejar_caja_calc = (parseFloat(dejar_usd ? dejar_usd : 0) + parseFloat(dejar_cop ? dejar_cop : 0) / parseFloat(peso) + parseFloat(dejar_bs ? dejar_bs : 0) / parseFloat(dolar)).toFixed(2);
   var total_dejar_caja_neto = !total_dejar_caja_calc || total_dejar_caja_calc == "NaN" ? 0 : total_dejar_caja_calc;
   var total_punto = dolar && caja_punto ? (caja_punto / dolar).toFixed(2) : 0;
+
+  var getEstaInventario = function getEstaInventario() {
+    if (time != 0) {
+      clearTimeout(typingTimeout);
+    }
+
+    var time = window.setTimeout(function () {
+      setLoading(true);
+      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getEstaInventario({
+        fechaQEstaInve: fechaQEstaInve,
+        fechaFromEstaInve: fechaFromEstaInve,
+        fechaToEstaInve: fechaToEstaInve,
+        orderByEstaInv: orderByEstaInv,
+        orderByColumEstaInv: orderByColumEstaInv
+      }).then(function (e) {
+        setdataEstaInven(e.data);
+        setLoading(false);
+      });
+    }, 150);
+    setTypingTimeout(time);
+  };
 
   var setporcenganancia = function setporcenganancia(tipo) {
     var base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -6646,22 +6847,27 @@ function Facturar(_ref) {
     if (confirm("¿Seguro de eliminar?")) {
       var current = e.currentTarget.attributes;
       var id = current["data-id"].value;
-      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].delpedido({
-        id: id
-      }).then(function (res) {
-        notificar(res);
+      var motivo = window.prompt("¿Cuál es el Motivo de eliminación?");
 
-        switch (current["data-type"].value) {
-          case 'getDeudor':
-            getDeudor();
-            break;
+      if (motivo) {
+        _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].delpedido({
+          id: id,
+          motivo: motivo
+        }).then(function (res) {
+          notificar(res);
 
-          case 'getPedidos':
-            getPedidos();
-            getPedidosList();
-            break;
-        }
-      });
+          switch (current["data-type"].value) {
+            case 'getDeudor':
+              getDeudor();
+              break;
+
+            case 'getPedidos':
+              getPedidos();
+              getPedidosList();
+              break;
+          }
+        });
+      }
     }
   };
 
@@ -6827,13 +7033,18 @@ function Facturar(_ref) {
   var del_pedido = function del_pedido() {
     if (confirm("¿Seguro de eliminar?")) {
       if (pedidoData.id) {
-        _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].delpedido({
-          id: pedidoData.id
-        }).then(function (res) {
-          notificar(res);
-          getPedidosList();
-          setView("seleccionar");
-        });
+        var motivo = window.prompt("¿Cuál es el Motivo de eliminación?");
+
+        if (motivo) {
+          _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].delpedido({
+            id: pedidoData.id,
+            motivo: motivo
+          }).then(function (res) {
+            notificar(res);
+            getPedidosList();
+            setView("seleccionar");
+          });
+        }
       } else {
         alert("No hay pedido seleccionado");
       }
@@ -8324,7 +8535,18 @@ function Facturar(_ref) {
       checkPedidosCentral: checkPedidosCentral,
       pedidosCentral: pedidosCentral,
       setIndexPedidoCentral: setIndexPedidoCentral,
-      indexPedidoCentral: indexPedidoCentral
+      indexPedidoCentral: indexPedidoCentral,
+      fechaQEstaInve: fechaQEstaInve,
+      setfechaQEstaInve: setfechaQEstaInve,
+      fechaFromEstaInve: fechaFromEstaInve,
+      setfechaFromEstaInve: setfechaFromEstaInve,
+      fechaToEstaInve: fechaToEstaInve,
+      setfechaToEstaInve: setfechaToEstaInve,
+      orderByEstaInv: orderByEstaInv,
+      setorderByEstaInv: setorderByEstaInv,
+      orderByColumEstaInv: orderByColumEstaInv,
+      setorderByColumEstaInv: setorderByColumEstaInv,
+      dataEstaInven: dataEstaInven
     }) : null, view == "ViewPedidoVendedor" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)((_components_viewPedidoVendedor__WEBPACK_IMPORTED_MODULE_20___default()), {}) : null, view == "pagar" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_pagar__WEBPACK_IMPORTED_MODULE_9__["default"], {
       dolar: dolar,
       peso: peso,
@@ -8991,7 +9213,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_fallas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/fallas */ "./resources/js/components/fallas.js");
 /* harmony import */ var _components_pedidosCentral__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/pedidosCentral */ "./resources/js/components/pedidosCentral.js");
 /* harmony import */ var _components_inventarioForzado__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/inventarioForzado */ "./resources/js/components/inventarioForzado.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _components_estadisticainventario__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/estadisticainventario */ "./resources/js/components/estadisticainventario.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -9125,58 +9349,81 @@ function Inventario(_ref) {
       reporteInventario = _ref.reporteInventario,
       guardarNuevoProductoLote = _ref.guardarNuevoProductoLote,
       refsInpInvList = _ref.refsInpInvList,
-      categorias = _ref.categorias;
+      categorias = _ref.categorias,
+      fechaQEstaInve = _ref.fechaQEstaInve,
+      setfechaQEstaInve = _ref.setfechaQEstaInve,
+      fechaFromEstaInve = _ref.fechaFromEstaInve,
+      setfechaFromEstaInve = _ref.setfechaFromEstaInve,
+      fechaToEstaInve = _ref.fechaToEstaInve,
+      setfechaToEstaInve = _ref.setfechaToEstaInve,
+      orderByEstaInv = _ref.orderByEstaInv,
+      setorderByEstaInv = _ref.setorderByEstaInv,
+      orderByColumEstaInv = _ref.orderByColumEstaInv,
+      setorderByColumEstaInv = _ref.setorderByColumEstaInv,
+      dataEstaInven = _ref.dataEstaInven;
 
   var type = function type(_type) {
     return !_type || _type === "delete" ? true : false;
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "container",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "row",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-          className: "col",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "btn-group mb-2",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "col mb-2 d-flex justify-content-between",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            className: "btn-group",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn " + (subViewInventario == "inventario" ? "btn-success" : "btn-outline-success"),
               onClick: function onClick() {
                 return setsubViewInventario("inventario");
               },
               children: "Inventario"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn " + (subViewInventario == "proveedores" ? "btn-success" : "btn-outline-success"),
               onClick: function onClick() {
                 return setsubViewInventario("proveedores");
               },
               children: "Proveedores"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
                 className: "btn " + (subViewInventario == "facturas" ? "btn-success" : "btn-outline-success"),
                 onClick: function onClick() {
                   return setsubViewInventario("facturas");
                 },
                 children: "Facturas"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn " + (subViewInventario == "fallas" ? "btn-success" : "btn-outline-success"),
               onClick: function onClick() {
                 return setsubViewInventario("fallas");
               },
               children: "Fallas"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+            className: "btn-group",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+              className: "btn " + (subViewInventario == "estadisticas" ? "btn-success" : "btn-outline-success"),
+              onClick: function onClick() {
+                return setsubViewInventario("estadisticas");
+              },
+              children: "Estad\xEDsticas"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+            className: "btn-group",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn " + (subViewInventario == "pedidosCentral" ? "btn-success" : "btn-outline-success"),
               onClick: function onClick() {
                 return setsubViewInventario("pedidosCentral");
               },
               children: "Pedidos Central"
-            })]
-          })
+            })
+          })]
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("hr", {}), subViewInventario == "facturas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_facturas__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("hr", {}), subViewInventario == "facturas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_facturas__WEBPACK_IMPORTED_MODULE_2__["default"], {
       setsubViewInventario: setsubViewInventario,
       setshowModalFacturas: setshowModalFacturas,
       showModalFacturas: showModalFacturas,
@@ -9211,74 +9458,74 @@ function Inventario(_ref) {
       setfactInpestatus: setfactInpestatus,
       delFactura: delFactura,
       delItemFact: delItemFact
-    }) : null, subViewInventario == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    }) : null, subViewInventario == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "d-flex justify-content-between align-items-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "",
-            children: [subViewInventario == "inventario" && modViewInventario != "unique" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
+            children: [subViewInventario == "inventario" && modViewInventario != "unique" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
               className: "btn btn-success text-light",
               onClick: function onClick() {
                 return changeInventario(null, null, null, "add");
               },
-              children: ["Nuevo (f2) ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              children: ["Nuevo (f2) ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fa fa-plus"
               })]
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
               className: "btn btn-sinapsis mr-1",
               onClick: setNewProducto,
-              children: ["Nuevo ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              children: ["Nuevo ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fa fa-plus"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: (modViewInventario == "list" ? "btn-success text-light" : "") + " ms-2 btn",
               onClick: function onClick() {
                 return setmodViewInventario("list");
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fa fa-list"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: (modViewInventario == "unique" ? "btn-sinapsis" : "") + " btn",
               onClick: function onClick() {
                 return setmodViewInventario("unique");
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fa fa-columns"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn btn-warning ms-2",
               onClick: reporteInventario,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fa fa-print"
               })
             })]
-          }), factSelectIndex == null ? null : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), factSelectIndex == null ? null : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "input-group w-25",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
               className: "input-group-text",
               children: facturas[factSelectIndex] ? facturas[factSelectIndex].proveedor.descripcion : null
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn btn-outline-secondary",
               onClick: function onClick() {
                 setshowModalFacturas(true);
                 setfactsubView("detalles");
               },
               children: facturas[factSelectIndex] ? facturas[factSelectIndex].numfact : null
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn btn-outline-danger",
               onClick: function onClick() {
                 return setfactSelectIndex(null);
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fa fa-times"
               })
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("hr", {})]
-      }), modViewInventario == "unique" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_cargarproducto__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("hr", {})]
+      }), modViewInventario == "unique" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_cargarproducto__WEBPACK_IMPORTED_MODULE_1__["default"], {
         categorias: categorias,
         setporcenganancia: setporcenganancia,
         type: type,
@@ -9342,7 +9589,7 @@ function Inventario(_ref) {
         setInvorderBy: setInvorderBy,
         addNewLote: addNewLote,
         changeModLote: changeModLote
-      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_inventarioForzado__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_inventarioForzado__WEBPACK_IMPORTED_MODULE_5__["default"], {
         categorias: categorias,
         setporcenganancia: setporcenganancia,
         refsInpInvList: refsInpInvList,
@@ -9362,7 +9609,7 @@ function Inventario(_ref) {
         InvorderBy: InvorderBy,
         setInvorderBy: setInvorderBy
       })]
-    }) : null, subViewInventario == "proveedores" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_proveedores__WEBPACK_IMPORTED_MODULE_0__["default"], {
+    }) : null, subViewInventario == "proveedores" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_proveedores__WEBPACK_IMPORTED_MODULE_0__["default"], {
       number: number,
       setProveedor: setProveedor,
       proveedordescripcion: proveedordescripcion,
@@ -9388,7 +9635,7 @@ function Inventario(_ref) {
       setinpInvid_marca: setinpInvid_marca,
       inpInvid_deposito: inpInvid_deposito,
       setinpInvid_deposito: setinpInvid_deposito
-    }) : null, subViewInventario == "fallas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_fallas__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }) : null, subViewInventario == "fallas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_fallas__WEBPACK_IMPORTED_MODULE_3__["default"], {
       qFallas: qFallas,
       setqFallas: setqFallas,
       orderCatFallas: orderCatFallas,
@@ -9399,7 +9646,20 @@ function Inventario(_ref) {
       setascdescFallas: setascdescFallas,
       fallas: fallas,
       delFalla: delFalla
-    }) : null, subViewInventario == "pedidosCentral" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_pedidosCentral__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }) : null, subViewInventario == "estadisticas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_estadisticainventario__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      fechaQEstaInve: fechaQEstaInve,
+      setfechaQEstaInve: setfechaQEstaInve,
+      fechaFromEstaInve: fechaFromEstaInve,
+      setfechaFromEstaInve: setfechaFromEstaInve,
+      fechaToEstaInve: fechaToEstaInve,
+      setfechaToEstaInve: setfechaToEstaInve,
+      orderByEstaInv: orderByEstaInv,
+      setorderByEstaInv: setorderByEstaInv,
+      orderByColumEstaInv: orderByColumEstaInv,
+      setorderByColumEstaInv: setorderByColumEstaInv,
+      moneda: moneda,
+      dataEstaInven: dataEstaInven
+    }) : null, subViewInventario == "pedidosCentral" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_pedidosCentral__WEBPACK_IMPORTED_MODULE_4__["default"], {
       getPedidosCentral: getPedidosCentral,
       selectPedidosCentral: selectPedidosCentral,
       checkPedidosCentral: checkPedidosCentral,
@@ -11406,7 +11666,7 @@ function Pagar(_ref) {
                     })]
                   })]
                 }) : null, editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                  className: "btn btn-circle text-white btn-primary btn-xl me-4",
+                  className: "btn btn-circle text-white btn-sinapsis btn-xl me-4",
                   onClick: function onClick() {
                     return setToggleAddPersona(true);
                   },
@@ -11414,13 +11674,13 @@ function Pagar(_ref) {
                     className: "fa fa-user"
                   })]
                 }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                  className: "btn btn-circle text-white btn-primary btn-xl me-1",
+                  className: "btn btn-circle text-white btn-sinapsis btn-xl me-1",
                   onClick: toggleImprimirTicket,
                   children: ["F3 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fa fa-print"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-                  className: "btn btn-circle text-white btn-primary btn-xl me-4",
+                  className: "btn btn-circle text-white btn-sinapsis btn-xl me-4",
                   onClick: viewReportPedido,
                   children: ["F4 ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fa fa-eye"
@@ -11689,6 +11949,9 @@ function Pedidos(_ref) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
                   className: "text-muted text-left",
                   children: e.pedido.vendedor.nombre
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("small", {
+                  className: "text-muted font-size-12",
+                  children: e.created_at
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "cell5 pointer",
@@ -13201,6 +13464,9 @@ var db = {
   },
   removeLote: function removeLote(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "removeLote", data);
+  },
+  getEstaInventario: function getEstaInventario(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "getEstaInventario", data);
   },
   openPrintCreditos: function openPrintCreditos(param) {
     return window.open(host + "verCreditos", "targed=blank");

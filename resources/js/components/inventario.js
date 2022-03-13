@@ -6,6 +6,8 @@ import Fallas from '../components/fallas';
 import PedidosCentralComponent from '../components/pedidosCentral';
 
 import InventarioForzado from '../components/inventarioForzado';
+import EstadisticaInventario from '../components/estadisticainventario';
+
 
 
 
@@ -158,6 +160,17 @@ function Inventario({
   refsInpInvList,
   categorias,
 
+  fechaQEstaInve,
+  setfechaQEstaInve,
+  fechaFromEstaInve,
+  setfechaFromEstaInve,
+  fechaToEstaInve,
+  setfechaToEstaInve,
+  orderByEstaInv,
+  setorderByEstaInv,
+  orderByColumEstaInv,
+  setorderByColumEstaInv,
+  dataEstaInven,
   
 }) {
 
@@ -169,8 +182,8 @@ function Inventario({
     <>
       <div className="container">
         <div className="row">
-        <div className="col">
-          <div className="btn-group mb-2">              
+        <div className="col mb-2 d-flex justify-content-between">
+          <div className="btn-group">              
               <button className={("btn ")+(subViewInventario=="inventario"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("inventario")}>Inventario</button>
               
               <button className={("btn ")+(subViewInventario=="proveedores"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("proveedores")}>Proveedores</button>
@@ -178,7 +191,12 @@ function Inventario({
                 <button className={("btn ") + (subViewInventario=="facturas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("facturas")}>Facturas</button>
               </>
               <button className={("btn ") + (subViewInventario=="fallas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("fallas")}>Fallas</button>
-                 <button className={("btn ")+(subViewInventario=="pedidosCentral"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("pedidosCentral")}>Pedidos Central</button> 
+          </div>
+          <div className="btn-group">
+              <button className={("btn ")+(subViewInventario=="estadisticas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("estadisticas")}>Estadísticas</button> 
+          </div>
+          <div className="btn-group">
+              <button className={("btn ")+(subViewInventario=="pedidosCentral"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("pedidosCentral")}>Pedidos Central</button> 
           </div>
         </div>
           
@@ -406,6 +424,23 @@ function Inventario({
         fallas={fallas}
         delFalla={delFalla}
       />:null}
+      {subViewInventario=="estadisticas"?
+        <EstadisticaInventario
+          fechaQEstaInve={fechaQEstaInve}
+          setfechaQEstaInve={setfechaQEstaInve}
+          fechaFromEstaInve={fechaFromEstaInve}
+          setfechaFromEstaInve={setfechaFromEstaInve}
+          fechaToEstaInve={fechaToEstaInve}
+          setfechaToEstaInve={setfechaToEstaInve}
+          orderByEstaInv={orderByEstaInv}
+          setorderByEstaInv={setorderByEstaInv}
+          orderByColumEstaInv={orderByColumEstaInv}
+          setorderByColumEstaInv={setorderByColumEstaInv}
+          moneda={moneda}
+
+          dataEstaInven={dataEstaInven}
+        />
+      :null}
 
       {subViewInventario=="pedidosCentral"?
         <PedidosCentralComponent
