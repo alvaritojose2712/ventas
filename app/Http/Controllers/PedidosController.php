@@ -387,6 +387,7 @@ class PedidosController extends Controller
                $monto_pedido = pago_pedidos::where("id_pedido",$id)->get()->sum("monto");
                 
                 $mov->tipo = "Eliminación de Pedido"; 
+                $mov->motivo = $motivo; 
                 $mov->tipo_pago = ""; 
                 $mov->monto = $monto_pedido; 
                 $mov->items = count($items); 
@@ -855,7 +856,8 @@ class PedidosController extends Controller
             "porcentaje"=> $porcentaje,
             "desc_total"=> round($desc_total,2),
             "facturado" =>$this->cerrarFun($req->fecha,0,0),
-            "sucursal"=>$sucursal
+            "sucursal"=>$sucursal,
+            "movimientos"=>$movimientos,
         ];
 
 
