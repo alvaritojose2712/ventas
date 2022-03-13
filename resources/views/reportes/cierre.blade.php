@@ -81,9 +81,6 @@
 		.img{
 			filter: sepia(100%);
 		}
-		.bold{
-			font-weight: bold;
-		}
 		
 
 	</style>
@@ -170,19 +167,13 @@
 						<h3>TOTAL FACTURADO:</h3>
 						<h1 class="text-success">{{($facturado[2]+$facturado[3]+$facturado[1])}}</h1>
 					</th>
-					<td colspan="1" class="text-left">
+					<th colspan="1" class="">
 
 						<h3>EFECTIVO GUARDADO:</h3>
-						<span class="">$: </span> 
-						<span class="fs-5 bold">{{($cierre->efectivo_guardado)}}</span>
-						<br>
-						<span class="">COP: </span> 
-						<span class="fs-5 bold">{{($cierre->efectivo_guardado_cop)}}</span>
-						<br>
-						<span class="">BS: </span> 
-						<span class="fs-5 bold">{{($cierre->efectivo_guardado_bs)}}</span>
-						<br>
-					</td>
+						<span class="">$ <span class="fs-3">{{($cierre->efectivo_guardado)}}</span></span><br>
+						<span class="">COP <span class="fs-3">{{($cierre->efectivo_guardado_cop)}}</span></span><br>
+						<span class="">BS <span class="fs-3">{{($cierre->efectivo_guardado_bs)}}</span></span><br>
+					</th>
 					<th class="right d-flex">
 						<table>
 							<tr>
