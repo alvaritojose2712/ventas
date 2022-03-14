@@ -273,10 +273,15 @@ function ModalSelectFactura({
 
               {factsubView=="detalles"?
                 facturas[factSelectIndex]?<>
-                  <div className="p-2 text-right">
-                    <span className="fw-bold">{facturas[factSelectIndex].proveedor.descripcion}</span><br/>
-                    <p>{facturas[factSelectIndex].descripcion}</p>
-                    <span className="text-success h4">{facturas[factSelectIndex].monto}</span>
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <small className="text-muted">Items. {facturas[factSelectIndex].items ? facturas[factSelectIndex].items.length :null}</small>
+                    </div>
+                    <div className="p-2 text-right">
+                      <span className="fw-bold">{facturas[factSelectIndex].proveedor.descripcion}</span><br/>
+                      <p>{facturas[factSelectIndex].descripcion}</p>
+                      <span className="text-success h4">{facturas[factSelectIndex].monto}</span>
+                    </div>
                   </div>
                   <table className="table">
                     <thead>
