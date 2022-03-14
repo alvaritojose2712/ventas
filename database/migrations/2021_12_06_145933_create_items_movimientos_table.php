@@ -16,10 +16,12 @@ class CreateItemsMovimientosTable extends Migration
         Schema::create('items_movimientos', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer("id_producto");
-            $table->decimal("cantidad",10,2);
-            $table->boolean("tipo"); //1 Entrada | 0 Salida
-            $table->enum("categoria",[1,2]); //1 Garantia | 2 Cambio
+            $table->string("id_producto",10)->nullable();
+            $table->string("descripcion")->nullable();
+            $table->string("precio",10)->nullable();
+            $table->string("cantidad",10)->nullable();
+            $table->integer("tipo"); //1 Entrada | 0 Salida | 2 interno
+            $table->string("categoria"); //1 Garantia | 2 Cambio
 
             $table->integer("id_movimiento")->unsigned();
             $table->foreign('id_movimiento')->references('id')->on('movimientos')

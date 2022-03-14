@@ -21,7 +21,7 @@
 
 		table {
 		  border-collapse: collapse;
-		  width: 70%;
+		  width: 100%;
 		}
 
 		th, td {
@@ -69,8 +69,7 @@
 			background-color: #f2f2f2;
 		}
 		.container{
-			display: flex;
-			justify-content: center;
+			width: 100%;
 		}
 		h1{
 			font-size:3em;
@@ -283,6 +282,65 @@
 				
 			</tbody>
 		</table>
+		<hr/>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th colspan="6">MOVIMIENTOS DE PRODUCTOS</th>
+				</tr>
+					@foreach($movimientos as $val)
+						@if ($val->motivo)
+							<tr>
+								<td>{{$val->tipo}}</td>
+								<td><b>Motivo</b><br/>{{$val->motivo}}</td>
+								<td><b>Pago</b><br/>{{$val->tipo_pago}}</td>
+								<td><b>Monto</b><br/>{{$val->monto}}</td>
+								<td><b>Items</b><br/>{{count($val->items)}}</td>
+								<td>{{$val->created_at}}</td>
+							</tr>
+
+						@else	
+							@foreach ($val->items as $e)
+								<tr>
+									<td>
+										@if ($e->tipo==1)
+											Entrada de Producto
+										@endif
+										@if ($e->tipo==0)
+											Salida de Producto
+										@endif
+
+										@if ($e->tipo==2)
+											{{$e->categoria}}
+										@endif
+									</td>
+									<td>
+										<b>Motivo</b><br/>
+										@if ($e->categoria==1)
+											Garantía
+										@elseif ($e->categoria==2)
+											Cambio
+										@else
+										{{$e->categoria}}
+										@endif
+
+									</td>
+									@if (!$e->producto)
+										<td><b>Producto</b><br/> {{$e->descripcion}}</td>
+										<td>P/U. {{$e->precio}}</td>
+									@else
+										<td><b>Producto</b><br/> {{$e->producto->descripcion}}</td>
+										<td>P/U. {{$e->producto->precio}}</td>
+									@endif
+									<td>Ct. {{$e->cantidad}}</td>
+									<td>{{$e->created_at}}</td>
+								</tr>
+							@endforeach
+						@endif
+					@endforeach
+				
+			</tbody>
+		</table>	
 		
 	</div>
 	

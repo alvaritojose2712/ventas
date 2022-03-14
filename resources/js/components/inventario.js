@@ -171,6 +171,8 @@ function Inventario({
   orderByColumEstaInv,
   setorderByColumEstaInv,
   dataEstaInven,
+
+  saveFactura,
   
 }) {
 
@@ -206,6 +208,8 @@ function Inventario({
       {
         subViewInventario=="facturas"?
           <Facturas
+            moneda={moneda}
+            saveFactura={saveFactura}
             setsubViewInventario={setsubViewInventario}
             setshowModalFacturas={setshowModalFacturas}
             showModalFacturas={showModalFacturas}

@@ -854,16 +854,24 @@ const focusCtMain = () => {
 }
 function getBuscarDevolucion() {
   setLoading(true)
-  db.getBuscarDevolucion({
-    qProductosMain:buscarDevolucion,
-    num:25,
-    itemCero:true,
-    orderColumn:"descripcion",
-    orderBy:"asc"
-  }).then(res=>{
-    setProductosDevulucionSelect(res.data)
-    setLoading(false)
-  })
+
+  if (time!=0) {
+    clearTimeout(typingTimeout)
+  }
+
+  let time = window.setTimeout(()=>{
+    db.getBuscarDevolucion({
+      qProductosMain:buscarDevolucion,
+      num:10,
+      itemCero:true,
+      orderColumn:"descripcion",
+      orderBy:"asc"
+    }).then(res=>{
+      setProductosDevulucionSelect(res.data)
+      setLoading(false)
+    })
+  },150)
+  setTypingTimeout(time)
 }
 const setToggleAddPersonaFun = (prop,callback=null)=> {
   setToggleAddPersona(prop)
@@ -2021,6 +2029,16 @@ const delFactura = e => {
     
   }
 }
+const saveFactura = () => {
+
+  if (facturas[factSelectIndex]) {
+    let id = facturas[factSelectIndex].id
+    let monto = facturas[factSelectIndex].summonto_clean
+    db.saveMontoFactura({id,monto}).then(e=>{
+      getFacturas()
+    })
+  }
+}
 const delItemFact = e =>{
   let id = e.currentTarget.attributes["data-id"].value
 
@@ -2881,7 +2899,7 @@ const auth = permiso => {
           getUsuarios={getUsuarios}
         />:null}
         {view=="inventario"?<Inventario
-
+          saveFactura={saveFactura}
           categorias={categorias}
           setporcenganancia={setporcenganancia}
           refsInpInvList={refsInpInvList}

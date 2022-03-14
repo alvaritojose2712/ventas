@@ -1,6 +1,7 @@
 
 
 function ModalSelectFactura({
+  moneda,
   setshowModalFacturas,
   facturas,
 
@@ -41,6 +42,7 @@ function ModalSelectFactura({
 
   verDetallesFactura,
   setsubViewInventario,
+  saveFactura,
 }) {
   const setfactOrderByFun = val => {
     if (val==factOrderBy) {
@@ -280,7 +282,7 @@ function ModalSelectFactura({
                     <div className="p-2 text-right">
                       <span className="fw-bold">{facturas[factSelectIndex].proveedor.descripcion}</span><br/>
                       <p>{facturas[factSelectIndex].descripcion}</p>
-                      <span className="text-success h4">{facturas[factSelectIndex].monto}</span>
+                      <button className="btn" onClick={saveFactura}>Guardar Factura {moneda(facturas[factSelectIndex].monto)}</button> <span className={("text-")+(facturas[factSelectIndex].monto==0?"danger":"success")+(" h4")}>{facturas[factSelectIndex].summonto}</span>
                     </div>
                   </div>
                   <table className="table">

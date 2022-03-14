@@ -30,7 +30,8 @@ function ModalAddCarrito({
   const retTipoMov = () => (
    
     movimientos.length?movimientos.map(e=>
-      <tr key={e.id}>
+      !e.items.length||e.items.filter(e=>e.tipo==2||!e.id_producto).length?null
+      :<tr key={e.id}>
         <td className="align-middle">
             <h2>{e.id}</h2>
             
@@ -87,8 +88,7 @@ function ModalAddCarrito({
       <section className="modal-custom"> 
         <div className="text-danger" onClick={()=>setShowModalMovimientos(!showModalMovimientos)}><span className="closeModal">&#10006;</span></div>
         <div className="modal-content">
-        <h1>Movimientos del día 
-        <input type="date" value={fechaMovimientos} onChange={e=>setFechaMovimientos(e.target.value)} /></h1>
+        <h1>Movimientos del día  <input type="date" className="form-control" value={fechaMovimientos} onChange={e=>setFechaMovimientos(e.target.value)} /></h1>
           <table className="table">
             <thead>
               <tr>
@@ -130,9 +130,9 @@ function ModalAddCarrito({
                 </td>
               </tr>
               <tr>
-                <th><h4>Num. Mov.</h4></th>
-                <th><h3>Entrada</h3></th>
-                <th><h3>Salida</h3></th>
+                <th>Num. Mov.</th>
+                <th>Entrada</th>
+                <th>Salida</th>
               </tr>
             </thead>
             <tbody>
@@ -152,6 +152,8 @@ function ModalAddCarrito({
                         <tr key={e.id} onClick={setDevolucion} data-id={e.id}>
                           <td>{e.codigo_proveedor}</td>
                           <td>{e.descripcion}</td>
+                          <td>Ct. {e.cantidad}</td>
+                          <td>P/U. {e.precio}</td>
                         </tr>
                       ):null}
                     </tbody>

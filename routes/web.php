@@ -132,6 +132,9 @@ Route::group(['middleware' => ['login']], function () {
 		Route::get('reporteInventario', [InventarioController::class,"reporteInventario"]);
 		Route::post('getEstaInventario', [InventarioController::class,"getEstaInventario"]);
 
+		Route::post('saveMontoFactura', [FacturaController::class,"saveMontoFactura"]);
+
+
 	});
 
 

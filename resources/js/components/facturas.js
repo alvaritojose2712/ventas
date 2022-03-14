@@ -1,6 +1,7 @@
 import ModalSelectFactura from '../components/modalSelectFactura';
 
 function Facturas({
+saveFactura,
 setshowModalFacturas,
 showModalFacturas,
 facturas,
@@ -38,11 +39,14 @@ delFactura,
 delItemFact,
 verDetallesFactura,
 setsubViewInventario,
+moneda,
 }) {
 
 	return (
 		<div className="container-fluid">
 			<ModalSelectFactura 
+				moneda={moneda}
+				saveFactura={saveFactura}
 				setsubViewInventario={setsubViewInventario}
 				setshowModalFacturas={setshowModalFacturas}
 				facturas={facturas}

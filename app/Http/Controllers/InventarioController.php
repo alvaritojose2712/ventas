@@ -16,6 +16,12 @@ use App\Models\sucursal;
 use App\Models\categorias;
 use App\Models\clientes;
 
+use App\Models\movimientos;
+use App\Models\items_movimiento;
+
+
+
+
             
 
 
@@ -517,10 +523,33 @@ class InventarioController extends Controller
         }
         
     }
+    public function setMovimientoNotCliente($id_pro,$des,$ct,$precio,$cat)
+    {   
+        $mov = new movimientos;
+            
+            if ($mov->save()) {
+               $items_mov = new items_movimiento;
+               $items_mov->descripcion = $des;
+               $items_mov->id_producto = $id_pro;
+
+               $items_mov->cantidad = $ct;
+               $items_mov->precio = $precio;
+               $items_mov->tipo = 2;
+               $items_mov->categoria = $cat;
+               $items_mov->id_movimiento = $mov->id;
+               $items_mov->save();
+            }
+    }
     public function delProductoFun($id)
     {
         try {
-            inventario::find($id)->delete();
+
+            $i = inventario::find($id);
+            
+            $this->setMovimientoNotCliente(null,$i->descripcion,$i->cantidad,$i->precio,"Eliminación de Producto");
+
+            
+            $i->delete();
             return true;   
         } catch (\Exception $e) {
             throw new \Exception("Error al eliminar. ".$e->getMessage(), 1);
@@ -689,6 +718,7 @@ class InventarioController extends Controller
             }
 
             $this->checkFalla($req_id,$ctInsert);
+            $this->setMovimientoNotCliente($insertOrUpdateInv->id,"",$ctNew,"",$tipo);
             $this->insertItemFact($id_factura,$insertOrUpdateInv,$ctInsert,$beforecantidad,$ctNew,$tipo);
             
 

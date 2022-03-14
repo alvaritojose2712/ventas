@@ -59,11 +59,17 @@ class FacturaController extends Controller
                 $q->subtotal = $q->producto->precio*$q->cantidad;
                 return $q;
             })->sum("subtotal");
-            $q->monto = number_format($sub,2); 
+            $q->summonto = number_format($sub,2); 
+            $q->summonto_clean = $sub; 
             return $q;
         });
     }
-
+    public function saveMontoFactura(Request $req)
+    {
+        $fact = factura::find($req->id);
+        $fact->monto = $req->monto;
+        $fact->save();
+    }
     public function setFactura(Request $req)
     {
         try {

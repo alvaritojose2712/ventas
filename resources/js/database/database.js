@@ -95,6 +95,7 @@ const db = {
   imprimirTicked: data=>axios.post(host+"imprimirTicked",data),
   sendCierre: data=>axios.get(host+"verCierre",{params:data}),
 
+  saveMontoFactura: data=>axios.post(host+"saveMontoFactura",data),
 
   getPedidosCentral: data=>axios.post(host+"getPedidosCentral",data),
 

@@ -13,6 +13,9 @@ use App\Models\clientes;
 use App\Models\movimientos_caja;
 use App\Models\sucursal;
 use App\Models\movimientos;
+use App\Models\items_movimiento;
+
+
 
 
 use Illuminate\Http\Request;
@@ -384,17 +387,38 @@ class PedidosController extends Controller
                 $mov = new movimientos;
 
                $items = items_pedidos::where("id_pedido",$id)->get();
-               $monto_pedido = pago_pedidos::where("id_pedido",$id)->get()->sum("monto");
+               $monto_pedido = pago_pedidos::where("id_pedido",$id)->where("monto","<>",0)->get();
+               $monto = 0;
+               $pagos = "";
+               foreach ($monto_pedido as $k => $v) {
+                   $monto += $v->monto;
+                   if($v->tipo==1){$pagos .= "Transferencia ";} 
+                   if($v->tipo==2){$pagos .= "Debito ";}  
+                   if($v->tipo==3){$pagos .= "Efectivo ";}  
+                   if($v->tipo==4){$pagos .= "Credito ";}   
+                   if($v->tipo==5){$pagos .= "Otros ";} 
+                   if($v->tipo==6){$pagos .= "vuelto ";} 
+               }
                 
                 $mov->tipo = "Eliminación de Pedido"; 
                 $mov->motivo = $motivo; 
-                $mov->tipo_pago = ""; 
-                $mov->monto = $monto_pedido; 
-                $mov->items = count($items); 
-                $mov->codigos = ""; 
+                $mov->tipo_pago = $pagos; 
+                $mov->monto = $monto;
+                $mov->save();
+
 
                 foreach ($items as $key => $value) {
                    (new InventarioController)->hacer_pedido($value->id,null,99,"del");
+                   
+
+                   $items_mov = new items_movimiento;
+                   $items_mov->id_producto = $value->id;
+                   $items_mov->cantidad = $value->cantidad;
+                   $items_mov->tipo = 2;
+                   $items_mov->categoria = "Eliminación de pedido - Item";
+                   $items_mov->id_movimiento = $mov->id;
+                   $items_mov->save();
+
                 }
                 pedidos::find($id)->delete();
             }
@@ -830,6 +854,8 @@ class PedidosController extends Controller
         ->get()
         ->sum("monto");
 
+
+
         $desc_total -= $credi_total;
         $precio -= $credi_total;
         
@@ -841,7 +867,10 @@ class PedidosController extends Controller
             $porcentaje = round( (($ganancia*100) / $precio_base),2 ); 
 
         }
-
+        $movimientos = movimientos::with(["items"=>function($q)
+        {
+            $q->with("producto");
+        }])->where("created_at","LIKE",$req->fecha."%")->get();
         // return $vueltos_des;
         $sucursal = sucursal::all()->first();
         $arr_send = [

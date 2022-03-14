@@ -2108,7 +2108,9 @@ function ModalAddCarrito(_ref) {
 
   var retTipoMov = function retTipoMov() {
     return movimientos.length ? movimientos.map(function (e) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+      return !e.items.length || e.items.filter(function (e) {
+        return e.tipo == 2 || !e.id_producto;
+      }).length ? null : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
           className: "align-middle",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h2", {
@@ -2191,8 +2193,9 @@ function ModalAddCarrito(_ref) {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "modal-content",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h1", {
-          children: ["Movimientos del d\xEDa", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+          children: ["Movimientos del d\xEDa  ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
             type: "date",
+            className: "form-control",
             value: fechaMovimientos,
             onChange: function onChange(e) {
               return setFechaMovimientos(e.target.value);
@@ -2260,17 +2263,11 @@ function ModalAddCarrito(_ref) {
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
-                  children: "Num. Mov."
-                })
+                children: "Num. Mov."
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
-                  children: "Entrada"
-                })
+                children: "Entrada"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
-                  children: "Salida"
-                })
+                children: "Salida"
               })]
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
@@ -2289,6 +2286,10 @@ function ModalAddCarrito(_ref) {
                           children: e.codigo_proveedor
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                           children: e.descripcion
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
+                          children: ["Ct. ", e.cantidad]
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
+                          children: ["P/U. ", e.precio]
                         })]
                       }, e.id);
                     }) : null
@@ -6241,16 +6242,24 @@ function Facturar(_ref) {
 
   function getBuscarDevolucion() {
     setLoading(true);
-    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getBuscarDevolucion({
-      qProductosMain: buscarDevolucion,
-      num: 25,
-      itemCero: true,
-      orderColumn: "descripcion",
-      orderBy: "asc"
-    }).then(function (res) {
-      setProductosDevulucionSelect(res.data);
-      setLoading(false);
-    });
+
+    if (time != 0) {
+      clearTimeout(typingTimeout);
+    }
+
+    var time = window.setTimeout(function () {
+      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getBuscarDevolucion({
+        qProductosMain: buscarDevolucion,
+        num: 10,
+        itemCero: true,
+        orderColumn: "descripcion",
+        orderBy: "asc"
+      }).then(function (res) {
+        setProductosDevulucionSelect(res.data);
+        setLoading(false);
+      });
+    }, 150);
+    setTypingTimeout(time);
   }
 
   var setToggleAddPersonaFun = function setToggleAddPersonaFun(prop) {
@@ -7537,6 +7546,19 @@ function Facturar(_ref) {
     }
   };
 
+  var saveFactura = function saveFactura() {
+    if (facturas[factSelectIndex]) {
+      var id = facturas[factSelectIndex].id;
+      var monto = facturas[factSelectIndex].summonto_clean;
+      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].saveMontoFactura({
+        id: id,
+        monto: monto
+      }).then(function (e) {
+        getFacturas();
+      });
+    }
+  };
+
   var delItemFact = function delItemFact(e) {
     var id = e.currentTarget.attributes["data-id"].value;
 
@@ -8411,6 +8433,7 @@ function Facturar(_ref) {
       delUsuario: delUsuario,
       getUsuarios: getUsuarios
     }) : null, view == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_inventario__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      saveFactura: saveFactura,
       categorias: categorias,
       setporcenganancia: setporcenganancia,
       refsInpInvList: refsInpInvList,
@@ -8681,7 +8704,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Facturas(_ref) {
-  var setshowModalFacturas = _ref.setshowModalFacturas,
+  var saveFactura = _ref.saveFactura,
+      setshowModalFacturas = _ref.setshowModalFacturas,
       showModalFacturas = _ref.showModalFacturas,
       facturas = _ref.facturas,
       factqBuscar = _ref.factqBuscar,
@@ -8714,10 +8738,13 @@ function Facturas(_ref) {
       delFactura = _ref.delFactura,
       delItemFact = _ref.delItemFact,
       verDetallesFactura = _ref.verDetallesFactura,
-      setsubViewInventario = _ref.setsubViewInventario;
+      setsubViewInventario = _ref.setsubViewInventario,
+      moneda = _ref.moneda;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     className: "container-fluid",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_modalSelectFactura__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      moneda: moneda,
+      saveFactura: saveFactura,
       setsubViewInventario: setsubViewInventario,
       setshowModalFacturas: setshowModalFacturas,
       facturas: facturas,
@@ -9360,7 +9387,8 @@ function Inventario(_ref) {
       setorderByEstaInv = _ref.setorderByEstaInv,
       orderByColumEstaInv = _ref.orderByColumEstaInv,
       setorderByColumEstaInv = _ref.setorderByColumEstaInv,
-      dataEstaInven = _ref.dataEstaInven;
+      dataEstaInven = _ref.dataEstaInven,
+      saveFactura = _ref.saveFactura;
 
   var type = function type(_type) {
     return !_type || _type === "delete" ? true : false;
@@ -9424,6 +9452,8 @@ function Inventario(_ref) {
         })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("hr", {}), subViewInventario == "facturas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_facturas__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      moneda: moneda,
+      saveFactura: saveFactura,
       setsubViewInventario: setsubViewInventario,
       setshowModalFacturas: setshowModalFacturas,
       showModalFacturas: showModalFacturas,
@@ -10359,7 +10389,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ModalSelectFactura(_ref) {
-  var setshowModalFacturas = _ref.setshowModalFacturas,
+  var moneda = _ref.moneda,
+      setshowModalFacturas = _ref.setshowModalFacturas,
       facturas = _ref.facturas,
       factqBuscar = _ref.factqBuscar,
       setfactqBuscar = _ref.setfactqBuscar,
@@ -10391,7 +10422,8 @@ function ModalSelectFactura(_ref) {
       delFactura = _ref.delFactura,
       delItemFact = _ref.delItemFact,
       verDetallesFactura = _ref.verDetallesFactura,
-      setsubViewInventario = _ref.setsubViewInventario;
+      setsubViewInventario = _ref.setsubViewInventario,
+      saveFactura = _ref.saveFactura;
 
   var setfactOrderByFun = function setfactOrderByFun(val) {
     if (val == factOrderBy) {
@@ -10727,9 +10759,13 @@ function ModalSelectFactura(_ref) {
                     children: facturas[factSelectIndex].proveedor.descripcion
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
                     children: facturas[factSelectIndex].descripcion
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                    className: "text-success h4",
-                    children: facturas[factSelectIndex].monto
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
+                    className: "btn",
+                    onClick: saveFactura,
+                    children: ["Guardar Factura ", moneda(facturas[factSelectIndex].monto)]
+                  }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "text-" + (facturas[factSelectIndex].monto == 0 ? "danger" : "success") + " h4",
+                    children: facturas[factSelectIndex].summonto
                   })]
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
@@ -13434,6 +13470,9 @@ var db = {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "verCierre", {
       params: data
     });
+  },
+  saveMontoFactura: function saveMontoFactura(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "saveMontoFactura", data);
   },
   getPedidosCentral: function getPedidosCentral(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "getPedidosCentral", data);
