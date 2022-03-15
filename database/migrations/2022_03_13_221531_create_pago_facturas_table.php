@@ -28,8 +28,8 @@ class CreatePagoFacturasTable extends Migration
             // 1 es credito 
             // 0 es abono 
 
-            $table->integer("id_factura")->unsigned();
-            $table->foreign('id_factura')->references('id')->on('facturas')
+            $table->integer("id_proveedor")->unsigned();
+            $table->foreign('id_proveedor')->references('id')->on('proveedores')
             ->onDelete('cascade')
             ->onUpdate('cascade');
 

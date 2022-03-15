@@ -40,11 +40,38 @@ delItemFact,
 verDetallesFactura,
 setsubViewInventario,
 moneda,
+
+setmodFact,
+modFact,
+qBuscarProveedor,
+setQBuscarProveedor,
+setIndexSelectProveedores,
+indexSelectProveedores,
+
+setPagoProveedor,
+tipopagoproveedor,
+settipopagoproveedor,
+montopagoproveedor,
+setmontopagoproveedor,
+getPagoProveedor,
 }) {
 
 	return (
 		<div className="container-fluid">
-			<ModalSelectFactura 
+			<ModalSelectFactura
+				getPagoProveedor={getPagoProveedor}
+				setPagoProveedor={setPagoProveedor}
+				tipopagoproveedor={tipopagoproveedor}
+				settipopagoproveedor={settipopagoproveedor}
+				montopagoproveedor={montopagoproveedor}
+				setmontopagoproveedor={setmontopagoproveedor}
+				setmodFact={setmodFact}
+				modFact={modFact}
+				qBuscarProveedor={qBuscarProveedor}
+				setQBuscarProveedor={setQBuscarProveedor}
+				setIndexSelectProveedores={setIndexSelectProveedores}
+				indexSelectProveedores={indexSelectProveedores}
+
 				moneda={moneda}
 				saveFactura={saveFactura}
 				setsubViewInventario={setsubViewInventario}

@@ -301,7 +301,11 @@ export default function Facturar({user,notificar,setLoading}) {
   const [valheaderpedidocentral, setvalheaderpedidocentral] = useState("12340005ARAMCAL")
   const [valbodypedidocentral, setvalbodypedidocentral] = useState("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345")
 
-  const [fechaGetCierre,setfechaGetCierre] = useState("")
+  const [fechaGetCierre, setfechaGetCierre] = useState("")
+  
+  const [modFact, setmodFact] = useState("factura")
+  
+  
   
 // 1234123812345612345612345
 // 1234123712345612345612345
@@ -317,7 +321,10 @@ const [fechaToEstaInve, setfechaToEstaInve] = useState("")
 const [orderByEstaInv, setorderByEstaInv] = useState("desc")
 const [orderByColumEstaInv, setorderByColumEstaInv] = useState("cantidadtotal")
 const [dataEstaInven, setdataEstaInven] = useState([])
-  
+
+const [tipopagoproveedor, settipopagoproveedor] = useState("");
+const [montopagoproveedor, setmontopagoproveedor] = useState("");
+
 
   useHotkeys('f1', () => {
     if(selectItem!==null&&view=="seleccionar"){
@@ -702,8 +709,14 @@ const [dataEstaInven, setdataEstaInven] = useState([])
   },[fechaventas])
 
   useEffect(()=>{
-    setInputsProveedores()
-  },[indexSelectProveedores])
+    if (subViewInventario =="proveedores") {
+      setInputsProveedores()
+      
+    } else if (subViewInventario == "facturas"){
+      getPagoProveedor()
+    }
+
+  }, [subViewInventario,indexSelectProveedores])
 
   useEffect(()=>{
     setBilletes()
@@ -1082,7 +1095,8 @@ const toggleModalProductos = (prop,callback=null) => {
 }
 const toggleImprimirTicket = () => {
   if (pedidoData) {
-    let identificacion = window.prompt("Identificación",pedidoData.cliente.identificacion)
+    let identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion)
+    let moneda = window.prompt("Moneda: $ | bs | cop","bs")
 
     if (identificacion) {
       let nombres = window.prompt("Nombre y Apellido",pedidoData.cliente.nombre)
@@ -1093,7 +1107,8 @@ const toggleImprimirTicket = () => {
         db.imprimirTicked({
           id: pedidoData.id,
           identificacion,
-          nombres
+          nombres,
+          moneda,
         }).then(res=>{
           notificar(res)
         })
@@ -2035,7 +2050,7 @@ const saveFactura = () => {
     let id = facturas[factSelectIndex].id
     let monto = facturas[factSelectIndex].summonto_clean
     db.saveMontoFactura({id,monto}).then(e=>{
-      getFacturas()
+      getFacturas(false)
     })
   }
 }
@@ -2541,6 +2556,32 @@ const guardarNuevoProductoLote = () => {
   }
 
 }
+
+const getPagoProveedor = e => {
+  if (proveedoresList[indexSelectProveedores]) {
+    db.getPagoProveedor({
+      id_proveedor: proveedoresList[indexSelectProveedores].id,
+    }).then(res => {
+      
+      notificar(res)
+    })
+  }
+}
+const setPagoProveedor = e => {
+  e.preventDefault()
+  if (tipopagoproveedor&&montopagoproveedor){
+    if (proveedoresList[indexSelectProveedores]) {
+      db.setPagoProveedor({
+        tipo: tipopagoproveedor,
+        monto: montopagoproveedor,
+        id_proveedor: proveedoresList[indexSelectProveedores].id,
+      }).then(res=>{
+        notificar(res)
+      })
+    }
+  }
+
+}
 const changeInventario = (val, i, id, type, name = null) => {
   let obj = cloneDeep(productosInventario)
 
@@ -2899,6 +2940,14 @@ const auth = permiso => {
           getUsuarios={getUsuarios}
         />:null}
         {view=="inventario"?<Inventario
+          getPagoProveedor={getPagoProveedor}
+          setPagoProveedor={setPagoProveedor}
+          tipopagoproveedor={tipopagoproveedor}
+          settipopagoproveedor={settipopagoproveedor}
+          montopagoproveedor={montopagoproveedor}
+          setmontopagoproveedor={setmontopagoproveedor}
+          setmodFact={setmodFact}
+          modFact={modFact}
           saveFactura={saveFactura}
           categorias={categorias}
           setporcenganancia={setporcenganancia}

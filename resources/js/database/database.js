@@ -114,7 +114,11 @@ const db = {
   
   
   removeLote: data=>axios.post(host+"removeLote",data),
-  getEstaInventario: data=>axios.post(host+"getEstaInventario",data),
+  getEstaInventario: data => axios.post(host + "getEstaInventario", data),
+  setPagoProveedor: data => axios.post(host + "setPagoProveedor", data),
+  getPagoProveedor: data=>axios.post(host+"getPagoProveedor",data),
+  
+  
   
   
   openPrintCreditos: (param) => window.open(host + "verCreditos","targed=blank"),

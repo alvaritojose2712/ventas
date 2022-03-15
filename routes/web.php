@@ -24,6 +24,8 @@ use App\Http\Controllers\tickera;
 use App\Http\Controllers\sendCentral;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\LotesController;
+use App\Http\Controllers\PagoFacturasController;
+
 
 
 
@@ -133,6 +135,9 @@ Route::group(['middleware' => ['login']], function () {
 		Route::post('getEstaInventario', [InventarioController::class,"getEstaInventario"]);
 
 		Route::post('saveMontoFactura', [FacturaController::class,"saveMontoFactura"]);
+		Route::post('setPagoProveedor', [PagoFacturasController::class,"setPagoProveedor"]);
+		Route::post('getPagoProveedor', [PagoFacturasController::class,"getPagoProveedor"]);
+		
 
 
 	});

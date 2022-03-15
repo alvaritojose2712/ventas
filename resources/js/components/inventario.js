@@ -174,6 +174,15 @@ function Inventario({
 
   saveFactura,
   
+  setmodFact,
+  modFact,
+
+  setPagoProveedor,
+  tipopagoproveedor,
+  settipopagoproveedor,
+  montopagoproveedor,
+  setmontopagoproveedor,
+  getPagoProveedor,
 }) {
 
   const type = type => {
@@ -208,6 +217,19 @@ function Inventario({
       {
         subViewInventario=="facturas"?
           <Facturas
+            getPagoProveedor={getPagoProveedor}
+            setPagoProveedor={setPagoProveedor}
+            tipopagoproveedor={tipopagoproveedor}
+            settipopagoproveedor={settipopagoproveedor}
+            montopagoproveedor={montopagoproveedor}
+            setmontopagoproveedor={setmontopagoproveedor}
+            setmodFact={setmodFact}
+            modFact={modFact}
+            qBuscarProveedor={qBuscarProveedor}
+            setQBuscarProveedor={setQBuscarProveedor}
+            setIndexSelectProveedores={setIndexSelectProveedores}
+            indexSelectProveedores={indexSelectProveedores}
+
             moneda={moneda}
             saveFactura={saveFactura}
             setsubViewInventario={setsubViewInventario}

@@ -5748,7 +5748,12 @@ function Facturar(_ref) {
   var _useState317 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState318 = _slicedToArray(_useState317, 2),
       fechaGetCierre = _useState318[0],
-      setfechaGetCierre = _useState318[1]; // 1234123812345612345612345
+      setfechaGetCierre = _useState318[1];
+
+  var _useState319 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("factura"),
+      _useState320 = _slicedToArray(_useState319, 2),
+      modFact = _useState320[0],
+      setmodFact = _useState320[1]; // 1234123812345612345612345
   // 1234123712345612345612345
   // 1234123612345612345612345
   // 1234123512345612345612345
@@ -5756,35 +5761,45 @@ function Facturar(_ref) {
   // 12341234ARAMCAL
 
 
-  var _useState319 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
-      _useState320 = _slicedToArray(_useState319, 2),
-      fechaQEstaInve = _useState320[0],
-      setfechaQEstaInve = _useState320[1];
-
   var _useState321 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState322 = _slicedToArray(_useState321, 2),
-      fechaFromEstaInve = _useState322[0],
-      setfechaFromEstaInve = _useState322[1];
+      fechaQEstaInve = _useState322[0],
+      setfechaQEstaInve = _useState322[1];
 
   var _useState323 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState324 = _slicedToArray(_useState323, 2),
-      fechaToEstaInve = _useState324[0],
-      setfechaToEstaInve = _useState324[1];
+      fechaFromEstaInve = _useState324[0],
+      setfechaFromEstaInve = _useState324[1];
 
-  var _useState325 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("desc"),
+  var _useState325 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState326 = _slicedToArray(_useState325, 2),
-      orderByEstaInv = _useState326[0],
-      setorderByEstaInv = _useState326[1];
+      fechaToEstaInve = _useState326[0],
+      setfechaToEstaInve = _useState326[1];
 
-  var _useState327 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("cantidadtotal"),
+  var _useState327 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("desc"),
       _useState328 = _slicedToArray(_useState327, 2),
-      orderByColumEstaInv = _useState328[0],
-      setorderByColumEstaInv = _useState328[1];
+      orderByEstaInv = _useState328[0],
+      setorderByEstaInv = _useState328[1];
 
-  var _useState329 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+  var _useState329 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("cantidadtotal"),
       _useState330 = _slicedToArray(_useState329, 2),
-      dataEstaInven = _useState330[0],
-      setdataEstaInven = _useState330[1];
+      orderByColumEstaInv = _useState330[0],
+      setorderByColumEstaInv = _useState330[1];
+
+  var _useState331 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+      _useState332 = _slicedToArray(_useState331, 2),
+      dataEstaInven = _useState332[0],
+      setdataEstaInven = _useState332[1];
+
+  var _useState333 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState334 = _slicedToArray(_useState333, 2),
+      tipopagoproveedor = _useState334[0],
+      settipopagoproveedor = _useState334[1];
+
+  var _useState335 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
+      _useState336 = _slicedToArray(_useState335, 2),
+      montopagoproveedor = _useState336[0],
+      setmontopagoproveedor = _useState336[1];
 
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('f1', function () {
     if (selectItem !== null && view == "seleccionar") {
@@ -6104,8 +6119,12 @@ function Facturar(_ref) {
     getVentas();
   }, [fechaventas]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
-    setInputsProveedores();
-  }, [indexSelectProveedores]);
+    if (subViewInventario == "proveedores") {
+      setInputsProveedores();
+    } else if (subViewInventario == "facturas") {
+      getPagoProveedor();
+    }
+  }, [subViewInventario, indexSelectProveedores]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     setBilletes();
   }, [billete1, billete5, billete10, billete20, billete50, billete100]);
@@ -6505,6 +6524,8 @@ function Facturar(_ref) {
     if (pedidoData) {
       var identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion);
 
+      var _moneda = window.prompt("Moneda: $ | bs | cop", "bs");
+
       if (identificacion) {
         var nombres = window.prompt("Nombre y Apellido", pedidoData.cliente.nombre);
 
@@ -6513,7 +6534,8 @@ function Facturar(_ref) {
           _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].imprimirTicked({
             id: pedidoData.id,
             identificacion: identificacion,
-            nombres: nombres
+            nombres: nombres,
+            moneda: _moneda
           }).then(function (res) {
             notificar(res);
           });
@@ -7554,7 +7576,7 @@ function Facturar(_ref) {
         id: id,
         monto: monto
       }).then(function (e) {
-        getFacturas();
+        getFacturas(false);
       });
     }
   };
@@ -8094,6 +8116,32 @@ function Facturar(_ref) {
     }
   };
 
+  var getPagoProveedor = function getPagoProveedor(e) {
+    if (proveedoresList[indexSelectProveedores]) {
+      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getPagoProveedor({
+        id_proveedor: proveedoresList[indexSelectProveedores].id
+      }).then(function (res) {
+        notificar(res);
+      });
+    }
+  };
+
+  var setPagoProveedor = function setPagoProveedor(e) {
+    e.preventDefault();
+
+    if (tipopagoproveedor && montopagoproveedor) {
+      if (proveedoresList[indexSelectProveedores]) {
+        _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].setPagoProveedor({
+          tipo: tipopagoproveedor,
+          monto: montopagoproveedor,
+          id_proveedor: proveedoresList[indexSelectProveedores].id
+        }).then(function (res) {
+          notificar(res);
+        });
+      }
+    }
+  };
+
   var changeInventario = function changeInventario(val, i, id, type) {
     var name = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
     var obj = (0,lodash__WEBPACK_IMPORTED_MODULE_3__.cloneDeep)(productosInventario);
@@ -8433,6 +8481,14 @@ function Facturar(_ref) {
       delUsuario: delUsuario,
       getUsuarios: getUsuarios
     }) : null, view == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_inventario__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      getPagoProveedor: getPagoProveedor,
+      setPagoProveedor: setPagoProveedor,
+      tipopagoproveedor: tipopagoproveedor,
+      settipopagoproveedor: settipopagoproveedor,
+      montopagoproveedor: montopagoproveedor,
+      setmontopagoproveedor: setmontopagoproveedor,
+      setmodFact: setmodFact,
+      modFact: modFact,
       saveFactura: saveFactura,
       categorias: categorias,
       setporcenganancia: setporcenganancia,
@@ -8739,10 +8795,34 @@ function Facturas(_ref) {
       delItemFact = _ref.delItemFact,
       verDetallesFactura = _ref.verDetallesFactura,
       setsubViewInventario = _ref.setsubViewInventario,
-      moneda = _ref.moneda;
+      moneda = _ref.moneda,
+      setmodFact = _ref.setmodFact,
+      modFact = _ref.modFact,
+      qBuscarProveedor = _ref.qBuscarProveedor,
+      setQBuscarProveedor = _ref.setQBuscarProveedor,
+      setIndexSelectProveedores = _ref.setIndexSelectProveedores,
+      indexSelectProveedores = _ref.indexSelectProveedores,
+      setPagoProveedor = _ref.setPagoProveedor,
+      tipopagoproveedor = _ref.tipopagoproveedor,
+      settipopagoproveedor = _ref.settipopagoproveedor,
+      montopagoproveedor = _ref.montopagoproveedor,
+      setmontopagoproveedor = _ref.setmontopagoproveedor,
+      getPagoProveedor = _ref.getPagoProveedor;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     className: "container-fluid",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_modalSelectFactura__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      getPagoProveedor: getPagoProveedor,
+      setPagoProveedor: setPagoProveedor,
+      tipopagoproveedor: tipopagoproveedor,
+      settipopagoproveedor: settipopagoproveedor,
+      montopagoproveedor: montopagoproveedor,
+      setmontopagoproveedor: setmontopagoproveedor,
+      setmodFact: setmodFact,
+      modFact: modFact,
+      qBuscarProveedor: qBuscarProveedor,
+      setQBuscarProveedor: setQBuscarProveedor,
+      setIndexSelectProveedores: setIndexSelectProveedores,
+      indexSelectProveedores: indexSelectProveedores,
       moneda: moneda,
       saveFactura: saveFactura,
       setsubViewInventario: setsubViewInventario,
@@ -9388,7 +9468,15 @@ function Inventario(_ref) {
       orderByColumEstaInv = _ref.orderByColumEstaInv,
       setorderByColumEstaInv = _ref.setorderByColumEstaInv,
       dataEstaInven = _ref.dataEstaInven,
-      saveFactura = _ref.saveFactura;
+      saveFactura = _ref.saveFactura,
+      setmodFact = _ref.setmodFact,
+      modFact = _ref.modFact,
+      setPagoProveedor = _ref.setPagoProveedor,
+      tipopagoproveedor = _ref.tipopagoproveedor,
+      settipopagoproveedor = _ref.settipopagoproveedor,
+      montopagoproveedor = _ref.montopagoproveedor,
+      setmontopagoproveedor = _ref.setmontopagoproveedor,
+      getPagoProveedor = _ref.getPagoProveedor;
 
   var type = function type(_type) {
     return !_type || _type === "delete" ? true : false;
@@ -9452,6 +9540,18 @@ function Inventario(_ref) {
         })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("hr", {}), subViewInventario == "facturas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_facturas__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      getPagoProveedor: getPagoProveedor,
+      setPagoProveedor: setPagoProveedor,
+      tipopagoproveedor: tipopagoproveedor,
+      settipopagoproveedor: settipopagoproveedor,
+      montopagoproveedor: montopagoproveedor,
+      setmontopagoproveedor: setmontopagoproveedor,
+      setmodFact: setmodFact,
+      modFact: modFact,
+      qBuscarProveedor: qBuscarProveedor,
+      setQBuscarProveedor: setQBuscarProveedor,
+      setIndexSelectProveedores: setIndexSelectProveedores,
+      indexSelectProveedores: indexSelectProveedores,
       moneda: moneda,
       saveFactura: saveFactura,
       setsubViewInventario: setsubViewInventario,
@@ -10423,7 +10523,19 @@ function ModalSelectFactura(_ref) {
       delItemFact = _ref.delItemFact,
       verDetallesFactura = _ref.verDetallesFactura,
       setsubViewInventario = _ref.setsubViewInventario,
-      saveFactura = _ref.saveFactura;
+      saveFactura = _ref.saveFactura,
+      setmodFact = _ref.setmodFact,
+      modFact = _ref.modFact,
+      qBuscarProveedor = _ref.qBuscarProveedor,
+      setQBuscarProveedor = _ref.setQBuscarProveedor,
+      setIndexSelectProveedores = _ref.setIndexSelectProveedores,
+      indexSelectProveedores = _ref.indexSelectProveedores,
+      setPagoProveedor = _ref.setPagoProveedor,
+      tipopagoproveedor = _ref.tipopagoproveedor,
+      settipopagoproveedor = _ref.settipopagoproveedor,
+      montopagoproveedor = _ref.montopagoproveedor,
+      setmontopagoproveedor = _ref.setmontopagoproveedor,
+      getPagoProveedor = _ref.getPagoProveedor;
 
   var setfactOrderByFun = function setfactOrderByFun(val) {
     if (val == factOrderBy) {
@@ -10478,15 +10590,94 @@ function ModalSelectFactura(_ref) {
           className: "row",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "col-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               className: "",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                className: "btn-sm btn btn-outline-success mb-1",
-                onClick: function onClick() {
-                  return setNuevaFact();
-                },
-                children: "Nuevo"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "d-flex justify-content-between",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                    className: "btn-sm btn btn-outline-success mb-1",
+                    onClick: function onClick() {
+                      return setNuevaFact();
+                    },
+                    children: "Nuevo"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                    className: "btn-group",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                      className: "btn " + (modFact == "factura" ? "btn" : "btn-outline") + "-success",
+                      onClick: function onClick() {
+                        return setmodFact("factura");
+                      },
+                      children: "Facturas"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                      className: "btn " + (modFact == "proveedor" ? "btn" : "btn-outline") + "-success",
+                      onClick: function onClick() {
+                        return setmodFact("proveedor");
+                      },
+                      children: "Proveedor"
+                    })]
+                  })
+                })]
+              })
+            }), modFact == "proveedor" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                type: "text",
+                className: "form-control",
+                placeholder: "Buscar proveedor...",
+                value: qBuscarProveedor,
+                onChange: function onChange(e) {
+                  return setQBuscarProveedor(e.target.value);
+                }
+              }), proveedoresList.length ? proveedoresList.map(function (e, i) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                  onClick: function onClick() {
+                    return setIndexSelectProveedores(i);
+                  },
+                  className: (indexSelectProveedores == i ? "bg-sinapsis" : "bg-light text-secondary") + " card mt-2 pointer",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                    className: "card-header flex-row row justify-content-between",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("small", {
+                        children: ["ID.", e.id]
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                      className: "d-flex justify-content-between",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                          children: e.rif
+                        })
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                          className: "",
+                          children: e.telefono
+                        })
+                      })]
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                    className: "card-body",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                      className: "",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
+                        className: "card-title",
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
+                          children: e.descripcion
+                        })
+                      })
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+                      className: "card-text"
+                    })]
+                  })]
+                }, e.id);
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "h3 text-center text-dark mt-2",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                  children: "\xA1Sin resultados!"
+                })
+              })]
+            }) : null, modFact == "factura" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
                 type: "date",
                 className: "form-control",
                 value: factqBuscarDate,
@@ -10496,115 +10687,171 @@ function ModalSelectFactura(_ref) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
                 type: "text",
                 className: "form-control",
-                placeholder: "Buscar...",
+                placeholder: "Buscar factura...",
                 value: factqBuscar,
                 onChange: function onChange(e) {
                   return setfactqBuscar(e.target.value);
                 }
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-              className: " mb-1 mt-1",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                className: "pointer badge bg-secondary",
-                onClick: function onClick() {
-                  return setfactOrderByFun("id");
-                },
-                children: ["ID", factOrderBy == "id" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                  className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
-                }) : null]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                className: "pointer badge bg-secondary",
-                onClick: function onClick() {
-                  return setfactOrderByFun("numfact");
-                },
-                children: ["Num.Fact.", factOrderBy == "numfact" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                  className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
-                }) : null]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                className: "pointer badge bg-secondary",
-                onClick: function onClick() {
-                  return setfactOrderByFun("id_proveedor");
-                },
-                children: ["Proveedor", factOrderBy == "id_proveedor" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                  className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
-                }) : null]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                className: "pointer badge bg-secondary",
-                onClick: function onClick() {
-                  return setfactOrderByFun("monto");
-                },
-                children: ["Monto", factOrderBy == "monto" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                  className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
-                }) : null]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                className: "pointer badge bg-secondary",
-                onClick: function onClick() {
-                  return setfactOrderByFun("estatus");
-                },
-                children: ["Estatus", factOrderBy == "estatus" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                  className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
-                }) : null]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                className: "pointer badge bg-secondary",
-                onClick: function onClick() {
-                  return setfactOrderByFun("created_at");
-                },
-                children: ["Fecha", factOrderBy == "created_at" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                  className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
-                }) : null]
-              })]
-            }), facturas ? facturas.map(function (e, i) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                className: "text-secondary mb-3 pointer shadow p-2",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-                  className: "text-center",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("small", {
-                    className: "text-muted",
-                    children: e.created_at
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h6", {
-                    onClick: function onClick() {
-                      return setfactSelectIndexFunInv(i);
-                    },
-                    className: "pointer",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                      className: (i == factSelectIndex ? "bg-success" : "bg-secondary") + " badge w-100",
-                      children: [e.id, "-", e.numfact]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: " mb-1 mt-1",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "pointer badge bg-secondary",
+                  onClick: function onClick() {
+                    return setfactOrderByFun("id");
+                  },
+                  children: ["ID", factOrderBy == "id" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
+                  }) : null]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "pointer badge bg-secondary",
+                  onClick: function onClick() {
+                    return setfactOrderByFun("numfact");
+                  },
+                  children: ["Num.Fact.", factOrderBy == "numfact" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
+                  }) : null]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "pointer badge bg-secondary",
+                  onClick: function onClick() {
+                    return setfactOrderByFun("id_proveedor");
+                  },
+                  children: ["Proveedor", factOrderBy == "id_proveedor" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
+                  }) : null]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "pointer badge bg-secondary",
+                  onClick: function onClick() {
+                    return setfactOrderByFun("monto");
+                  },
+                  children: ["Monto", factOrderBy == "monto" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
+                  }) : null]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "pointer badge bg-secondary",
+                  onClick: function onClick() {
+                    return setfactOrderByFun("estatus");
+                  },
+                  children: ["Estatus", factOrderBy == "estatus" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
+                  }) : null]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "pointer badge bg-secondary",
+                  onClick: function onClick() {
+                    return setfactOrderByFun("created_at");
+                  },
+                  children: ["Fecha", factOrderBy == "created_at" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
+                  }) : null]
+                })]
+              }), facturas ? facturas.map(function (e, i) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                  className: "text-secondary mb-3 pointer shadow p-2",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                    className: "text-center",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("small", {
+                      className: "text-muted",
+                      children: e.created_at
                     })
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-                  children: e.proveedor.descripcion
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                  className: "d-flex justify-content-between",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                      className: "btn-sm btn btn-outline-success",
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h6", {
                       onClick: function onClick() {
-                        return setfactSelectIndexFun(i, "agregar");
+                        return setfactSelectIndexFunInv(i);
                       },
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                        className: "fa fa-pencil"
+                      className: "pointer",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                        className: (i == factSelectIndex ? "bg-success" : "bg-secondary") + " badge w-100",
+                        children: [e.id, "-", e.numfact]
                       })
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                      className: "btn-sm btn btn-outline-success",
-                      onClick: function onClick() {
-                        return setfactSelectIndexFun(i, "detalles");
-                      },
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                        className: "fa fa-send"
+                    })
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+                    children: e.proveedor.descripcion
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                    className: "d-flex justify-content-between",
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                        className: "btn-sm btn btn-outline-success",
+                        onClick: function onClick() {
+                          return setfactSelectIndexFun(i, "agregar");
+                        },
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                          className: "fa fa-pencil"
+                        })
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                        className: "btn-sm btn btn-outline-success",
+                        onClick: function onClick() {
+                          return setfactSelectIndexFun(i, "detalles");
+                        },
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                          className: "fa fa-send"
+                        })
+                      })]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                        className: "text-success",
+                        children: moneda(e.monto)
                       })
                     })]
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                      className: "text-success",
-                      children: e.monto
-                    })
+                  })]
+                }, e.id);
+              }) : null]
+            }) : null]
+          }), modFact == "proveedor" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            className: "col",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
+              children: "Registrar Pago"
+            }), proveedoresList[indexSelectProveedores] ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+                children: proveedoresList[indexSelectProveedores].descripcion
+              })
+            }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
+              onSubmit: setPagoProveedor,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "form-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+                  htmlFor: "",
+                  children: "Tipo de pago"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                  value: tipopagoproveedor,
+                  name: "tipopagoproveedor",
+                  onChange: function onChange(e) {
+                    return settipopagoproveedor(e.target.value);
+                  },
+                  className: "form-control",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "",
+                    children: "--Seleccione--"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "3",
+                    children: "Efectivo"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "1",
+                    children: "Transferencia"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "2",
+                    children: "D\xE9bito"
                   })]
                 })]
-              }, e.id);
-            }) : null]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "form-group mb-1",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("label", {
+                  htmlFor: "",
+                  children: "Monto Pago"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                  value: montopagoproveedor,
+                  onChange: function onChange(e) {
+                    return setmontopagoproveedor(number(e.target.value));
+                  },
+                  className: "form-control"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "form-group",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                  className: "btn btn-outline-success",
+                  children: "Guardar"
+                })
+              })]
+            })]
+          }) : null, modFact == "factura" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "col",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               className: "btn-group mb-4",
@@ -10747,26 +10994,23 @@ function ModalSelectFactura(_ref) {
             }) : null, factsubView == "detalles" ? facturas[factSelectIndex] ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: "d-flex justify-content-between",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("small", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("small", {
                     className: "text-muted",
                     children: ["Items. ", facturas[factSelectIndex].items ? facturas[factSelectIndex].items.length : null]
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                  className: "p-2 text-right",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                     className: "fw-bold",
                     children: facturas[factSelectIndex].proveedor.descripcion
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
                     children: facturas[factSelectIndex].descripcion
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                  className: "text-right",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
                     className: "btn",
                     onClick: saveFactura,
                     children: ["Guardar Factura ", moneda(facturas[factSelectIndex].monto)]
-                  }), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                    className: "text-" + (facturas[factSelectIndex].monto == 0 ? "danger" : "success") + " h4",
-                    children: facturas[factSelectIndex].summonto
-                  })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {})]
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
                 className: "table",
@@ -10783,13 +11027,20 @@ function ModalSelectFactura(_ref) {
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                       children: "Descripci\xF3n"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                      className: "",
                       children: "Base"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                      className: "",
+                      children: "Total Base"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                       children: "Venta"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                      className: "",
+                      children: "Total Venta"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {})]
                   })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
-                  children: facturas[factSelectIndex].items ? facturas[factSelectIndex].items.map(function (e) {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tbody", {
+                  children: [facturas[factSelectIndex].items ? facturas[factSelectIndex].items.map(function (e) {
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                         children: e.tipo
@@ -10802,9 +11053,17 @@ function ModalSelectFactura(_ref) {
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                         children: e.producto.descripcion
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                        className: "text-right",
                         children: e.producto.precio_base
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                        className: "text-right",
+                        children: e.subtotal_base
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                        className: "text-right",
                         children: e.producto.precio
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                        className: "text-right",
+                        children: e.subtotal
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
                           className: "fa fa-times text-danger",
@@ -10813,7 +11072,19 @@ function ModalSelectFactura(_ref) {
                         })
                       })]
                     }, e.id);
-                  }) : null
+                  }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                      colSpan: 5
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                      colSpan: 2,
+                      className: "text-success h5 text-right",
+                      children: facturas[factSelectIndex].summonto_base
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
+                      colSpan: 2,
+                      className: "h5 text-right",
+                      children: facturas[factSelectIndex].summonto
+                    })]
+                  })]
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                 className: "m-5 d-flex justify-content-center align-items-center",
@@ -10826,7 +11097,7 @@ function ModalSelectFactura(_ref) {
                 })
               })]
             }) : null : null]
-          })]
+          }) : null]
         })
       })
     })
@@ -13514,6 +13785,12 @@ var db = {
   },
   getEstaInventario: function getEstaInventario(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "getEstaInventario", data);
+  },
+  setPagoProveedor: function setPagoProveedor(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "setPagoProveedor", data);
+  },
+  getPagoProveedor: function getPagoProveedor(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "getPagoProveedor", data);
   },
   openPrintCreditos: function openPrintCreditos(param) {
     return window.open(host + "verCreditos", "targed=blank");
