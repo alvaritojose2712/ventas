@@ -324,6 +324,7 @@ const [dataEstaInven, setdataEstaInven] = useState([])
 
 const [tipopagoproveedor, settipopagoproveedor] = useState("");
 const [montopagoproveedor, setmontopagoproveedor] = useState("");
+const [pagosproveedor, setpagosproveedor] = useState([]);
 
 
   useHotkeys('f1', () => {
@@ -2562,7 +2563,7 @@ const getPagoProveedor = e => {
     db.getPagoProveedor({
       id_proveedor: proveedoresList[indexSelectProveedores].id,
     }).then(res => {
-      
+      setpagosproveedor(res.data)
       notificar(res)
     })
   }
@@ -2940,6 +2941,7 @@ const auth = permiso => {
           getUsuarios={getUsuarios}
         />:null}
         {view=="inventario"?<Inventario
+          pagosproveedor={pagosproveedor}
           getPagoProveedor={getPagoProveedor}
           setPagoProveedor={setPagoProveedor}
           tipopagoproveedor={tipopagoproveedor}

@@ -183,6 +183,7 @@ function Inventario({
   montopagoproveedor,
   setmontopagoproveedor,
   getPagoProveedor,
+  pagosproveedor,
 }) {
 
   const type = type => {
@@ -217,6 +218,7 @@ function Inventario({
       {
         subViewInventario=="facturas"?
           <Facturas
+            pagosproveedor={pagosproveedor}
             getPagoProveedor={getPagoProveedor}
             setPagoProveedor={setPagoProveedor}
             tipopagoproveedor={tipopagoproveedor}

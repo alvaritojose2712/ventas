@@ -5801,6 +5801,11 @@ function Facturar(_ref) {
       montopagoproveedor = _useState336[0],
       setmontopagoproveedor = _useState336[1];
 
+  var _useState337 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)([]),
+      _useState338 = _slicedToArray(_useState337, 2),
+      pagosproveedor = _useState338[0],
+      setpagosproveedor = _useState338[1];
+
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('f1', function () {
     if (selectItem !== null && view == "seleccionar") {
       addCarritoRequest("agregar_procesar");
@@ -8121,6 +8126,7 @@ function Facturar(_ref) {
       _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getPagoProveedor({
         id_proveedor: proveedoresList[indexSelectProveedores].id
       }).then(function (res) {
+        setpagosproveedor(res.data);
         notificar(res);
       });
     }
@@ -8481,6 +8487,7 @@ function Facturar(_ref) {
       delUsuario: delUsuario,
       getUsuarios: getUsuarios
     }) : null, view == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_inventario__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      pagosproveedor: pagosproveedor,
       getPagoProveedor: getPagoProveedor,
       setPagoProveedor: setPagoProveedor,
       tipopagoproveedor: tipopagoproveedor,
@@ -8807,10 +8814,12 @@ function Facturas(_ref) {
       settipopagoproveedor = _ref.settipopagoproveedor,
       montopagoproveedor = _ref.montopagoproveedor,
       setmontopagoproveedor = _ref.setmontopagoproveedor,
-      getPagoProveedor = _ref.getPagoProveedor;
+      getPagoProveedor = _ref.getPagoProveedor,
+      pagosproveedor = _ref.pagosproveedor;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     className: "container-fluid",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_components_modalSelectFactura__WEBPACK_IMPORTED_MODULE_0__["default"], {
+      pagosproveedor: pagosproveedor,
       getPagoProveedor: getPagoProveedor,
       setPagoProveedor: setPagoProveedor,
       tipopagoproveedor: tipopagoproveedor,
@@ -9476,7 +9485,8 @@ function Inventario(_ref) {
       settipopagoproveedor = _ref.settipopagoproveedor,
       montopagoproveedor = _ref.montopagoproveedor,
       setmontopagoproveedor = _ref.setmontopagoproveedor,
-      getPagoProveedor = _ref.getPagoProveedor;
+      getPagoProveedor = _ref.getPagoProveedor,
+      pagosproveedor = _ref.pagosproveedor;
 
   var type = function type(_type) {
     return !_type || _type === "delete" ? true : false;
@@ -9540,6 +9550,7 @@ function Inventario(_ref) {
         })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("hr", {}), subViewInventario == "facturas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_facturas__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      pagosproveedor: pagosproveedor,
       getPagoProveedor: getPagoProveedor,
       setPagoProveedor: setPagoProveedor,
       tipopagoproveedor: tipopagoproveedor,
@@ -10850,6 +10861,23 @@ function ModalSelectFactura(_ref) {
                   children: "Guardar"
                 })
               })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("table", {
+              className: "table",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "Fecha"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "Tipo"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "Abono"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "Credito"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+                    children: "Balance"
+                  })]
+                })
+              })
             })]
           }) : null, modFact == "factura" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "col",
