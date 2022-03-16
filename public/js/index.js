@@ -8121,7 +8121,7 @@ function Facturar(_ref) {
     }
   };
 
-  var getPagoProveedor = function getPagoProveedor(e) {
+  var getPagoProveedor = function getPagoProveedor() {
     if (proveedoresList[indexSelectProveedores]) {
       _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getPagoProveedor({
         id_proveedor: proveedoresList[indexSelectProveedores].id
@@ -8142,6 +8142,7 @@ function Facturar(_ref) {
           monto: montopagoproveedor,
           id_proveedor: proveedoresList[indexSelectProveedores].id
         }).then(function (res) {
+          getPagoProveedor();
           notificar(res);
         });
       }
@@ -8487,9 +8488,9 @@ function Facturar(_ref) {
       delUsuario: delUsuario,
       getUsuarios: getUsuarios
     }) : null, view == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_inventario__WEBPACK_IMPORTED_MODULE_16__["default"], {
-      pagosproveedor: pagosproveedor,
       getPagoProveedor: getPagoProveedor,
       setPagoProveedor: setPagoProveedor,
+      pagosproveedor: pagosproveedor,
       tipopagoproveedor: tipopagoproveedor,
       settipopagoproveedor: settipopagoproveedor,
       montopagoproveedor: montopagoproveedor,
@@ -10546,7 +10547,8 @@ function ModalSelectFactura(_ref) {
       settipopagoproveedor = _ref.settipopagoproveedor,
       montopagoproveedor = _ref.montopagoproveedor,
       setmontopagoproveedor = _ref.setmontopagoproveedor,
-      getPagoProveedor = _ref.getPagoProveedor;
+      getPagoProveedor = _ref.getPagoProveedor,
+      pagosproveedor = _ref.pagosproveedor;
 
   var setfactOrderByFun = function setfactOrderByFun(val) {
     if (val == factOrderBy) {
@@ -10814,7 +10816,7 @@ function ModalSelectFactura(_ref) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
                 children: proveedoresList[indexSelectProveedores].descripcion
               })
-            }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
+            }) : null, proveedoresList[indexSelectProveedores] && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
               onSubmit: setPagoProveedor,
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: "form-group",
@@ -10861,9 +10863,9 @@ function ModalSelectFactura(_ref) {
                   children: "Guardar"
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("table", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
               className: "table",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("tr", {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
                     children: "Fecha"
@@ -10877,7 +10879,13 @@ function ModalSelectFactura(_ref) {
                     children: "Balance"
                   })]
                 })
-              })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tbody", {
+                children: pagosproveedor ? pagosproveedor.map(function (e, i) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("tr", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {})
+                  }, i);
+                }) : null
+              })]
             })]
           }) : null, modFact == "factura" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "col",

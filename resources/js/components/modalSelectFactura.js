@@ -57,6 +57,7 @@ function ModalSelectFactura({
   montopagoproveedor,
   setmontopagoproveedor,
   getPagoProveedor,
+  pagosproveedor,
 }) {
   const setfactOrderByFun = val => {
     if (val==factOrderBy) {
@@ -235,7 +236,7 @@ function ModalSelectFactura({
                 {proveedoresList[indexSelectProveedores]?<>
                   <h4>{proveedoresList[indexSelectProveedores].descripcion}</h4>
                 </>:null}
-                <form onSubmit={setPagoProveedor}>
+                {proveedoresList[indexSelectProveedores]&&<form onSubmit={setPagoProveedor}>
                   <div className="form-group">
                     <label htmlFor="">Tipo de pago</label>
                     <select value={tipopagoproveedor} name="tipopagoproveedor" onChange={e => settipopagoproveedor(e.target.value)} className="form-control">
@@ -245,9 +246,6 @@ function ModalSelectFactura({
                       <option value="2">Débito</option>
                     </select>
                   </div>
-
-                  
-                  
                   <div className="form-group mb-1">
                     <label htmlFor="">Monto Pago</label>
                     <input value={montopagoproveedor} onChange={e => setmontopagoproveedor(number(e.target.value))} className="form-control" />
@@ -255,7 +253,7 @@ function ModalSelectFactura({
                   <div className="form-group">
                     <button className="btn btn-outline-success">Guardar</button>
                   </div>
-                </form>
+                </form>}
                 <table className="table">
                   <thead>
                     <tr>
@@ -266,6 +264,13 @@ function ModalSelectFactura({
                       <th>Balance</th>
                     </tr>
                   </thead>
+                  <tbody>
+                    {pagosproveedor?pagosproveedor.map((e,i)=>
+                      <tr key={i}>
+                        <td></td>
+                      </tr>
+                    ):null}
+                  </tbody>
                 </table>
               </div>
             :null}

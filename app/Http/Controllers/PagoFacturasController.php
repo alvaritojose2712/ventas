@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\pago_facturas;
+use App\Models\factura;
 use Illuminate\Http\Request;
 use Response;
 
@@ -10,7 +11,12 @@ class PagoFacturasController extends Controller
 {
     public function getPagoProveedor(Request $req)
     {
-        # code...
+        $id_proveedor = $req->id_proveedor;
+        $facturas = factura::where("id_proveedor",$id_proveedor)->orderBy("created_at","desc")->get();
+        $pagos = pago_facturas::where("id_proveedor",$id_proveedor)->orderBy("created_at","desc")->get();
+
+        return $facturas->merge($pagos);
+
     }
    public function setPagoProveedor(Request $req)
    {

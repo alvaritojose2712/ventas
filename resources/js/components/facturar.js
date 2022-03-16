@@ -2558,7 +2558,7 @@ const guardarNuevoProductoLote = () => {
 
 }
 
-const getPagoProveedor = e => {
+const getPagoProveedor = () => {
   if (proveedoresList[indexSelectProveedores]) {
     db.getPagoProveedor({
       id_proveedor: proveedoresList[indexSelectProveedores].id,
@@ -2577,6 +2577,7 @@ const setPagoProveedor = e => {
         monto: montopagoproveedor,
         id_proveedor: proveedoresList[indexSelectProveedores].id,
       }).then(res=>{
+        getPagoProveedor()
         notificar(res)
       })
     }
@@ -2941,9 +2942,10 @@ const auth = permiso => {
           getUsuarios={getUsuarios}
         />:null}
         {view=="inventario"?<Inventario
-          pagosproveedor={pagosproveedor}
           getPagoProveedor={getPagoProveedor}
           setPagoProveedor={setPagoProveedor}
+          pagosproveedor={pagosproveedor}
+          
           tipopagoproveedor={tipopagoproveedor}
           settipopagoproveedor={settipopagoproveedor}
           montopagoproveedor={montopagoproveedor}
