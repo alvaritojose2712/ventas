@@ -23,7 +23,7 @@ class CreatePagoFacturasTable extends Migration
                // 4 Credito  
                // 5 Otros
                // 6 vuelto
-            $table->decimal("monto",8,2);
+            $table->decimal("monto",10,2);
             $table->boolean('cuenta')->default(1);
             // 1 es credito 
             // 0 es abono 

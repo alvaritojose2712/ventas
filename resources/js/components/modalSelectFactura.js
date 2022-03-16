@@ -101,9 +101,30 @@ function ModalSelectFactura({
     setfactInpdescripcion("")
     setfactInpid_proveedor("")
     setfactInpnumfact("")
-    setfactInpmonto("")
     setfactInpfechavencimiento("")
-    setfactInpestatus("")
+    setfactInpestatus("0")
+
+  }
+
+  const linkfact = (type,num) => {
+    if (type=="fact") {
+      setfactqBuscar(num)
+      let match = facturas.filter(e=>e.numfact==num)
+      if (match.length) {
+        setfactSelectIndex(0)
+      }
+      setmodFact("factura")
+      setfactsubView("detalles")
+      
+    }
+
+    if (type=="prove") {
+      setQBuscarProveedor(num)
+      setmodFact("proveedor")
+    }
+
+
+
 
   }
   return (
@@ -118,9 +139,9 @@ function ModalSelectFactura({
                     <button className="btn-sm btn btn-outline-success mb-1" onClick={()=>setNuevaFact()}>Nuevo</button>
                   </div>
                   <div>
-                    <div className="btn-group">
-                      <button className={("btn ")+(modFact=="factura"?"btn":"btn-outline")+("-success")} onClick={() => setmodFact("factura")}>Facturas</button>
-                      <button className={("btn ")+(modFact=="proveedor"?"btn":"btn-outline")+("-success")} onClick={() => setmodFact("proveedor")}>Proveedor</button>
+                    <div className="btn-group mb-1">
+                      <button className={("btn btn-sm ")+(modFact=="factura"?"btn":"btn-outline")+("-success")} onClick={() => setmodFact("factura")}>Facturas</button>
+                      <button className={("btn btn-sm ")+(modFact=="proveedor"?"btn":"btn-outline")+("-success")} onClick={() => setmodFact("proveedor")}>Pagos</button>
                     </div>
                   </div>
                 </div>
@@ -231,47 +252,88 @@ function ModalSelectFactura({
             </div>
             {modFact == "proveedor" ?
               <div className="col">
-                <h1>Registrar Pago</h1>
 
-                {proveedoresList[indexSelectProveedores]?<>
-                  <h4>{proveedoresList[indexSelectProveedores].descripcion}</h4>
-                </>:null}
-                {proveedoresList[indexSelectProveedores]&&<form onSubmit={setPagoProveedor}>
-                  <div className="form-group">
-                    <label htmlFor="">Tipo de pago</label>
-                    <select value={tipopagoproveedor} name="tipopagoproveedor" onChange={e => settipopagoproveedor(e.target.value)} className="form-control">
-                      <option value="">--Seleccione--</option>
-                      <option value="3">Efectivo</option>
-                      <option value="1">Transferencia</option>
-                      <option value="2">Débito</option>
-                    </select>
-                  </div>
-                  <div className="form-group mb-1">
-                    <label htmlFor="">Monto Pago</label>
-                    <input value={montopagoproveedor} onChange={e => setmontopagoproveedor(number(e.target.value))} className="form-control" />
-                  </div>
-                  <div className="form-group">
-                    <button className="btn btn-outline-success">Guardar</button>
-                  </div>
-                </form>}
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th>Fecha</th>
-                      <th>Tipo</th>
-                      <th>Abono</th>
-                      <th>Credito</th>
-                      <th>Balance</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pagosproveedor?pagosproveedor.map((e,i)=>
-                      <tr key={i}>
-                        <td></td>
+                {proveedoresList[indexSelectProveedores]&&<>
+                  <h3><b>{proveedoresList[indexSelectProveedores].descripcion}</b></h3>
+                  
+                  <h4>Registrar Pago</h4>
+                  
+                  
+                  <form onSubmit={setPagoProveedor} className="container-fluid mb-3">
+                    <div className="row">
+                      <div className="col">
+                        <div className="form-group">
+                          <label htmlFor="">Tipo de pago</label>
+                          <select value={tipopagoproveedor} name="tipopagoproveedor" onChange={e => settipopagoproveedor(e.target.value)} className="form-control">
+                            <option value="">--Seleccione--</option>
+                            <option value="3">Efectivo</option>
+                            <option value="1">Transferencia</option>
+                            <option value="2">Débito</option>
+                          </select>
+                        </div>
+
+                      </div>
+                      <div className="col">
+                        <div className="form-group mb-1">
+                          <label htmlFor="">Monto Pago</label>
+                          <input value={montopagoproveedor} placeholder="Monto" onChange={e => setmontopagoproveedor(number(e.target.value))} className="form-control" />
+                        </div>
+
+                      </div>
+                      <div className="col-md-auto d-flex align-items-center">
+                        <div className="form-group">
+                          <button className="btn btn-outline-success">Guardar</button>
+                        </div>
+
+                      </div>
+                    </div>
+                  </form>
+                  <h4>Histórico</h4>
+
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Tipo</th>
+                        <th>Abono</th>
+                        <th>Credito</th>
+                        <th>Balance</th>
                       </tr>
-                    ):null}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {pagosproveedor?pagosproveedor.map((e,i)=>
+                        <tr key={i}>
+                          <td>{e.created_at}</td>
+                          {e.numfact?<>
+                            <td></td>
+                            <td></td>
+                            <td className="text-danger pointer text-right" onClick={() => linkfact("fact",e.numfact)} title={e.numfact}>{moneda(e.monto)}</td>
+                            <td className="text-right"><b>{moneda(e.balance)}</b></td>
+                          </>:<>
+                              <td>
+                                <span className="h4">
+                                  {e.monto != 0 && e.tipo == 1 ?
+                                    <span className="w-75 btn btn-info btn-sm">Transferencia</span>
+                                    : null}
+
+                                  {e.monto != 0 && e.tipo == 2 ?
+                                    <span className="w-75 btn btn-secondary btn-sm">Débito</span>
+                                    : null}
+
+                                  {e.monto != 0 && e.tipo == 3 ?
+                                    <span className="w-75 btn btn-success btn-sm">Efectivo</span>
+                                    : null}
+                                </span>
+                              </td>
+                              <td className="text-success text-right">{moneda(e.monto)}</td>
+                            <td></td>
+                            <td className="text-right"><b>{moneda(e.balance)}</b></td>
+                          </>}
+                        </tr>
+                      ):null}
+                    </tbody>
+                  </table>
+                </>}
               </div>
             :null}
             {modFact == "factura" ?
@@ -315,6 +377,7 @@ function ModalSelectFactura({
                         :null}</h1>
                       </>
                       }
+                      
 
                       <div className="form-group">
                         <label htmlFor="">
@@ -393,12 +456,12 @@ function ModalSelectFactura({
                     <div className="d-flex justify-content-between">
                       <div>
                         <small className="text-muted">Items. {facturas[factSelectIndex].items ? facturas[factSelectIndex].items.length :null}</small><br/>
-                        <span className="fw-bold">{facturas[factSelectIndex].proveedor.descripcion}</span><br />
+                        <span className="fw-bold">{facturas[factSelectIndex].proveedor.descripcion} <button className="btn btn-outline-success btn-sm" onClick={() => linkfact("prove", facturas[factSelectIndex].proveedor.descripcion)}>Pagar</button> </span><br />
                         <p>{facturas[factSelectIndex].descripcion}</p>
                       </div>
                       <div className="text-right">
                         
-                        <button className="btn" onClick={saveFactura}>Guardar Factura {moneda(facturas[factSelectIndex].monto)}</button><br/>
+                        <button className="btn btn-outline-success" onClick={saveFactura}>Guardar Factura {moneda(facturas[factSelectIndex].monto)}</button><br/>
                         
                         
                       </div>
@@ -429,9 +492,9 @@ function ModalSelectFactura({
                           <td>{e.producto.codigo_proveedor}</td>
                           <td>{e.producto.descripcion}</td>
                           <td className="text-right">{e.producto.precio_base}</td>
-                          <td className="text-right">{e.subtotal_base}</td>
+                          <td className="text-right">{moneda(e.subtotal_base_clean)}</td>
                           <td className="text-right">{e.producto.precio}</td>
-                          <td className="text-right">{e.subtotal}</td>
+                          <td className="text-right">{moneda(e.subtotal_clean)}</td>
                           <td><i className="fa fa-times text-danger" data-id={e.id} onClick={delItemFact}></i></td>
                         </tr>
                       ):null}
@@ -440,10 +503,10 @@ function ModalSelectFactura({
 
                         </td>
                         <td colSpan={2} className="text-success h5 text-right">
-                          {facturas[factSelectIndex].summonto_base}
+                          {moneda(facturas[factSelectIndex].summonto_base_clean)}
                         </td>
                         <td colSpan={2} className="h5 text-right">
-                          {facturas[factSelectIndex].summonto}
+                          {moneda(facturas[factSelectIndex].summonto_clean)}
                         </td>
                       </tr>
                       </tbody>

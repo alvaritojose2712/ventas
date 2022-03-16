@@ -627,7 +627,7 @@ const [pagosproveedor, setpagosproveedor] = useState([]);
     focusCtMain()
   },[selectItem])
   useEffect(()=>{
-    getFacturas()
+    getFacturas(false)
   },[
   factqBuscar,
   factqBuscarDate,
@@ -682,7 +682,7 @@ const [pagosproveedor, setpagosproveedor] = useState([]);
       }
 
     }
-  },[subViewInventario])  
+  },[view,subViewInventario])  
 
   useEffect(() => {
     if (view == "credito" || view =="vueltos") {
@@ -1748,33 +1748,37 @@ const buscarInventario = e => {
 
 }
 const getProveedores = e => {
-  setLoading(true)
-  db.getProveedores({
-    q:qBuscarProveedor
-  }).then(res=>{
-    setProveedoresList(res.data)
-    setLoading(false)
-    if (res.data.length===1) {
-      setIndexSelectProveedores(0)
-    }
-  })
+  if (time != 0) {
+    clearTimeout(typingTimeout)
+  }
 
-  db.getMarcas({
-    q:qBuscarProveedor
-  }).then(res=>{
-    setmarcasList(res.data)
-  })
+  let time = window.setTimeout(() => {
+    setLoading(true)
+    db.getProveedores({
+      q:qBuscarProveedor
+    }).then(res=>{
+      setProveedoresList(res.data)
+      setLoading(false)
+      if (res.data.length===1) {
+        setIndexSelectProveedores(0)
+      }
+    })
+  }, 150)
+  setTypingTimeout(time)
 
-  db.getCategorias({
-  }).then(res=>{
-    setcategorias(res.data)
-  })
-
-  db.getDepositos({
-    q:qBuscarProveedor
-  }).then(res=>{
-    setdepositosList(res.data)
-  })
+  if (!categorias.length) {
+    db.getCategorias({
+    }).then(res=>{
+      setcategorias(res.data)
+    })
+  }
+  if (!depositosList.length) {
+    db.getDepositos({
+      q:qBuscarProveedor
+    }).then(res=>{
+      setdepositosList(res.data)
+    })
+  }
 
 
 }
@@ -1878,7 +1882,7 @@ const guardarNuevoProducto = e => {
 
     if (res.data.estado) {
       buscarInventario()
-      getFacturas(null)
+      getFacturas(false)
 
       setinpInvbarras("")
       setinpInvcantidad("")
@@ -1983,9 +1987,12 @@ const getFacturas = (clean = true) =>{
         setLoading(false)
         setfacturas(res.data)
 
+        if (res.data.length === 1) {
+          setfactSelectIndex(0)
+        }
+
         if (clean) {
           setfactSelectIndex(null)
-
         }
       })
 
@@ -2049,7 +2056,7 @@ const saveFactura = () => {
 
   if (facturas[factSelectIndex]) {
     let id = facturas[factSelectIndex].id
-    let monto = facturas[factSelectIndex].summonto_clean
+    let monto = facturas[factSelectIndex].summonto_base_clean
     db.saveMontoFactura({id,monto}).then(e=>{
       getFacturas(false)
     })
@@ -2560,11 +2567,12 @@ const guardarNuevoProductoLote = () => {
 
 const getPagoProveedor = () => {
   if (proveedoresList[indexSelectProveedores]) {
+    setLoading(true)
     db.getPagoProveedor({
       id_proveedor: proveedoresList[indexSelectProveedores].id,
     }).then(res => {
+      setLoading(false)
       setpagosproveedor(res.data)
-      notificar(res)
     })
   }
 }

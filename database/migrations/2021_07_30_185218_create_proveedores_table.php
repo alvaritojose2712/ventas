@@ -21,6 +21,7 @@ class CreateProveedoresTable extends Migration
             $table->string('telefono');
 
             $table->unique("rif");
+            $table->unique("descripcion");
 
             $table->timestamps();
         });

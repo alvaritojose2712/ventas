@@ -14,8 +14,22 @@ class PagoFacturasController extends Controller
         $id_proveedor = $req->id_proveedor;
         $facturas = factura::where("id_proveedor",$id_proveedor)->orderBy("created_at","desc")->get();
         $pagos = pago_facturas::where("id_proveedor",$id_proveedor)->orderBy("created_at","desc")->get();
+        $balance = 0;
+        return collect(collect($pagos->merge($facturas))->sortBy([
+            ['created_at', 'asc'],
+        ])->map(function($q) use (&$balance){
+            if (isset($q->numfact)) {
+                $balance -= $q->monto;
+            }else{
+                
+                $balance += $q->monto;
+            }
+            $q->balance = $balance;
 
-        return $facturas->merge($pagos);
+            return $q;
+        }))->sortBy([
+            ['created_at', 'desc'],
+        ]);
 
     }
    public function setPagoProveedor(Request $req)

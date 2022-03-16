@@ -58,8 +58,8 @@ class FacturaController extends Controller
             {   
                 $base = $q->producto->precio_base*$q->cantidad;
                 $venta = $q->producto->precio*$q->cantidad;
-                $q->subtotal = number_format($venta,2);
-                $q->subtotal_base = number_format($base,2);
+                // $q->subtotal = number_format($venta,2);
+                // $q->subtotal_base = number_format($base,2);
 
                 $q->subtotal_clean = $venta;
                 $q->subtotal_base_clean = $base;
@@ -69,11 +69,11 @@ class FacturaController extends Controller
             $venta = $sub->sum("subtotal_clean");
             $base = $sub->sum("subtotal_base_clean");
 
-            $q->summonto = number_format($venta,2); 
+            // $q->summonto = number_format($venta,2); 
             $q->summonto_clean = $venta; 
 
 
-            $q->summonto_base = number_format($base,2); 
+            // $q->summonto_base = number_format($base,2); 
             $q->summonto_base_clean = $base; 
             return $q;
         });
