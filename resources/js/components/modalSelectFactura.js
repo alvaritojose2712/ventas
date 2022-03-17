@@ -136,7 +136,7 @@ function ModalSelectFactura({
               <div className="">
                 <div className="d-flex justify-content-between">
                   <div>
-                    <button className="btn-sm btn btn-outline-success mb-1" onClick={()=>setNuevaFact()}>Nuevo</button>
+                    {modFact =="factura"?<button className="btn-sm btn btn-outline-success mb-1" onClick={()=>setNuevaFact()}>Nuevo</button>:null}
                   </div>
                   <div>
                     <div className="btn-group mb-1">

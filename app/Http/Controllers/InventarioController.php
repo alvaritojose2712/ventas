@@ -351,7 +351,28 @@ class InventarioController extends Controller
             return Response::json(["msj"=>"Error. ".$e->getMessage(),"estado"=>false]);
         }
     }
+    public function reporteFalla(Request $req)
+    {
+        $id_proveedor = $req->id;
 
+        $sucursal = sucursal::all()->first();
+        $proveedor = proveedores::find($id_proveedor);
+
+        if ($proveedor&&$id_proveedor) {
+            $fallas = fallas::With("producto")->whereIn("id_producto",function($q) use ($id_proveedor)
+            {
+                $q->from("inventarios")->where("id_proveedor",$id_proveedor)->select("id");
+            })->get();
+
+            return view("reportes.fallas",[
+                "fallas"=>$fallas, 
+                "sucursal"=>$sucursal,
+                "proveedor"=>$proveedor,
+            ]);
+        }
+
+
+    }
     public function index(Request $req)
     {
         $exacto = false;

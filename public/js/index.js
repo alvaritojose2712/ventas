@@ -6142,6 +6142,12 @@ function Facturar(_ref) {
   var total_dejar_caja_neto = !total_dejar_caja_calc || total_dejar_caja_calc == "NaN" ? 0 : total_dejar_caja_calc;
   var total_punto = dolar && caja_punto ? (caja_punto / dolar).toFixed(2) : 0;
 
+  var openReporteFalla = function openReporteFalla(id) {
+    if (id) {
+      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].openReporteFalla(id);
+    }
+  };
+
   var getEstaInventario = function getEstaInventario() {
     if (time != 0) {
       clearTimeout(typingTimeout);
@@ -8501,6 +8507,7 @@ function Facturar(_ref) {
       delUsuario: delUsuario,
       getUsuarios: getUsuarios
     }) : null, view == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_inventario__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      openReporteFalla: openReporteFalla,
       getPagoProveedor: getPagoProveedor,
       setPagoProveedor: setPagoProveedor,
       pagosproveedor: pagosproveedor,
@@ -8914,7 +8921,8 @@ function Fallas(_ref) {
       ascdescFallas = _ref.ascdescFallas,
       setascdescFallas = _ref.setascdescFallas,
       fallas = _ref.fallas,
-      delFalla = _ref.delFalla;
+      delFalla = _ref.delFalla,
+      openReporteFalla = _ref.openReporteFalla;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
     className: "container",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -8944,8 +8952,16 @@ function Fallas(_ref) {
         children: fallas && Object.entries(fallas) ? Object.entries(fallas).map(function (e, i) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "m-3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
-              children: e[0]
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h3", {
+              children: [e[0], " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                className: "btn btn-outline-success",
+                onClick: function onClick() {
+                  return openReporteFalla(e[1] ? e[1][0] ? e[1][0].producto.id_proveedor : null : null);
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                  className: "fa fa-file"
+                })
+              })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
               className: "table m-3",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
@@ -9357,7 +9373,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Inventario(_ref) {
-  var setporcenganancia = _ref.setporcenganancia,
+  var openReporteFalla = _ref.openReporteFalla,
+      setporcenganancia = _ref.setporcenganancia,
       changeInventario = _ref.changeInventario,
       showaddpedidocentral = _ref.showaddpedidocentral,
       setshowaddpedidocentral = _ref.setshowaddpedidocentral,
@@ -9791,6 +9808,7 @@ function Inventario(_ref) {
       inpInvid_deposito: inpInvid_deposito,
       setinpInvid_deposito: setinpInvid_deposito
     }) : null, subViewInventario == "fallas" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_fallas__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      openReporteFalla: openReporteFalla,
       qFallas: qFallas,
       setqFallas: setqFallas,
       orderCatFallas: orderCatFallas,
@@ -10641,13 +10659,13 @@ function ModalSelectFactura(_ref) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: "d-flex justify-content-between",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                  children: modFact == "factura" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
                     className: "btn-sm btn btn-outline-success mb-1",
                     onClick: function onClick() {
                       return setNuevaFact();
                     },
                     children: "Nuevo"
-                  })
+                  }) : null
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                     className: "btn-group mb-1",
@@ -13943,6 +13961,9 @@ var db = {
   },
   openReporteInventario: function openReporteInventario() {
     return window.open(host + "reporteInventario", "targed=blank");
+  },
+  openReporteFalla: function openReporteFalla(id) {
+    return window.open(host + "reporteFalla?id=" + id, "targed=blank");
   } // getProveedores: ()=>axios.post(host+"getProveedores.php"),
   // getusuarios: ()=>axios.post(host+"getusuarios.php"),
   // setPedidos: (data)=>{

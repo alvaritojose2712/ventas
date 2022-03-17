@@ -13,6 +13,7 @@ import EstadisticaInventario from '../components/estadisticainventario';
 
 
 function Inventario({
+  openReporteFalla,
   setporcenganancia,
   changeInventario,
   
@@ -441,6 +442,7 @@ function Inventario({
       />:null}
 
       {subViewInventario=="fallas"?<Fallas 
+        openReporteFalla={openReporteFalla}
         qFallas={qFallas}
         setqFallas={setqFallas}
         orderCatFallas={orderCatFallas}

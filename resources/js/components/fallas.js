@@ -8,7 +8,9 @@ function Fallas({
 	ascdescFallas,
 	setascdescFallas,
 	fallas,
-	delFalla
+	delFalla,
+    openReporteFalla,
+
 }) {
 	return (
 		<div className="container">
@@ -35,7 +37,7 @@ function Fallas({
 					{fallas&&Object.entries(fallas)?
 							Object.entries(fallas).map((e,i)=>
 								<div className="m-3" key={i}>
-									<h3>{e[0]}</h3>
+									<h3>{e[0]} <button className="btn btn-outline-success" onClick={() => openReporteFalla(e[1] ? e[1][0] ? e[1][0].producto.id_proveedor:null:null)}><i className="fa fa-file"></i></button></h3>
 									<table className="table m-3">
 										<thead>
 											<tr>

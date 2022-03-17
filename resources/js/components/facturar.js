@@ -747,6 +747,12 @@ orderByColumEstaInv])
 
   let total_punto = dolar&&caja_punto?(caja_punto/dolar).toFixed(2):0
 
+const openReporteFalla = (id) => {
+  if (id) {
+    db.openReporteFalla(id)
+    
+  }
+} 
 const getEstaInventario = () => {
 
   if (time!=0) {
@@ -2950,6 +2956,7 @@ const auth = permiso => {
           getUsuarios={getUsuarios}
         />:null}
         {view=="inventario"?<Inventario
+          openReporteFalla={openReporteFalla}
           getPagoProveedor={getPagoProveedor}
           setPagoProveedor={setPagoProveedor}
           pagosproveedor={pagosproveedor}

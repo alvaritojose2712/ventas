@@ -123,6 +123,8 @@ Route::group(['middleware' => ['login']], function () {
 		Route::post('getFallas', [InventarioController::class,"getFallas"]);
 		Route::post('setFalla', [InventarioController::class,"setFalla"]);
 		Route::post('delFalla', [InventarioController::class,"delFalla"]);
+		Route::get('reporteFalla', [InventarioController::class,"reporteFalla"]);
+		
 		
 		Route::post('removeLote', [LotesController::class,"removeLote"]);
 		

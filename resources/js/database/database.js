@@ -125,7 +125,8 @@ const db = {
   openVerCierre: ({ type,fechaCierre }) => window.open(host + "verCierre?type=" + type + "&fecha=" + fechaCierre,"targed=blank"),
   openNotaentregapedido: ({ id }) => window.open(host + "/notaentregapedido?id=" + id, "targed=blank"),
   openVerFactura: ({ id }) => window.open(host + "verFactura?id=" + id, "targed=blank"),
-  openReporteInventario: () => window.open(host + "reporteInventario","targed=blank"),
+  openReporteInventario: () => window.open(host + "reporteInventario", "targed=blank"),
+  openReporteFalla: (id) => window.open(host + "reporteFalla?id=" + id, "targed=blank"),
   
   
 
