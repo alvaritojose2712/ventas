@@ -429,7 +429,7 @@ class PedidosController extends Controller
             
         }
     }
-    public function getPedidoFun($id_pedido,$filterMetodoPagoToggle="todos",$cop=1,$bs=1)
+    public function getPedidoFun($id_pedido,$filterMetodoPagoToggle="todos",$cop=1,$bs=1,$factor=1)
     {
         
         $pedido = pedidos::with(["vendedor","cliente","pagos"=>function($q) use ($filterMetodoPagoToggle) 
@@ -454,20 +454,23 @@ class PedidosController extends Controller
             $gravable = 0;
             $ivas = "";
             $monto_iva = 0;
-            $pedido->items->map(function($item) use (&$exento,&$gravable,&$ivas,&$monto_iva,&$total_des_ped,&$subtotal_ped,&$total_ped)
+            $pedido->items->map(function($item) use (&$exento,&$gravable,&$ivas,&$monto_iva,&$total_des_ped,&$subtotal_ped,&$total_ped,$factor)
             {
                 
                 if (!$item->producto) {
-                    $subtotal = $item->monto*$item->cantidad;
+                    $item->monto = $item->monto*$factor;
+                    $subtotal = ($item->monto*$item->cantidad);
                     $iva_val = "0";
                     $iva_m = 0;
                 }else{
-                    $subtotal = $item->producto["precio"]*$item->cantidad;
+                    
+                    $item->producto["precio"] = $item->producto["precio"]*$factor;
+                    $subtotal = ($item->producto["precio"]*$item->cantidad);
                     $iva_val = $item->producto["iva"];
                     $iva_m = $iva_val/100;
 
                 }
-                $total_des = ($item->descuento/100)*$subtotal;
+                $total_des = (($item->descuento/100)*$subtotal);
 
                 $total_des_ped += $total_des;
                 $subtotal_ped += $subtotal;
@@ -539,10 +542,11 @@ class PedidosController extends Controller
 
         return $pedido;
     }
-    public function getPedido(Request $req)
+    public function getPedido(Request $req,$factor=1)
     {   
         $cop = $this->get_moneda()["cop"];
         $bs = $this->get_moneda()["bs"];
+        
 
         if ($req->id=="ultimo") {
             $vendedor = session("id_usuario");
@@ -560,7 +564,7 @@ class PedidosController extends Controller
         }else{
             $id = $req->id;
         }
-        return $this->getPedidoFun($id,"todos",$cop,$bs);
+        return $this->getPedidoFun($id,"todos",$cop,$bs,$factor);
     }
     
     public function notaentregapedido(Request $req)

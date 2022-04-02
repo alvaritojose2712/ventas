@@ -1,6 +1,4 @@
-import "../../css/login.css"
 import logo from "../../images/logo.png"
-import tools from "../../images/tools.png"
 
 import React, {Component} from 'react';
 import Cargando from './cargando';

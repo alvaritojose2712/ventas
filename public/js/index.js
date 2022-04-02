@@ -6533,9 +6533,9 @@ function Facturar(_ref) {
 
   var toggleImprimirTicket = function toggleImprimirTicket() {
     if (pedidoData) {
-      var identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion);
-
       var _moneda = window.prompt("Moneda: $ | bs | cop", "bs");
+
+      var identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion);
 
       if (identificacion) {
         var nombres = window.prompt("Nombre y Apellido", pedidoData.cliente.nombre);
@@ -10327,12 +10327,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _css_login_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../css/login.css */ "./resources/css/login.css");
-/* harmony import */ var _images_logo_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../images/logo.png */ "./resources/images/logo.png");
-/* harmony import */ var _images_tools_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../images/tools.png */ "./resources/images/tools.png");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _cargando__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cargando */ "./resources/js/components/cargando.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _images_logo_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../images/logo.png */ "./resources/images/logo.png");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _cargando__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cargando */ "./resources/js/components/cargando.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -10356,8 +10354,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
 
 
 
@@ -10441,17 +10437,17 @@ var Login = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this5 = this;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "login",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "wrap-login100",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("form", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("form", {
             className: "login100-form validate-form",
             onSubmit: this.submit,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
               className: "wrap-input100 validate-input",
               "data-validate": "Introduzca Usuario",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                 className: "input100",
                 type: "text",
                 value: this.state.usuario,
@@ -10463,14 +10459,14 @@ var Login = /*#__PURE__*/function (_Component) {
                 },
                 placeholder: "Usuario",
                 required: true
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
                 className: "focus-input100",
                 "data-placeholder": "U"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
               className: "wrap-input100 validate-input",
               "data-validate": "Introduzca Contrase\xF1a",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                 className: "input100",
                 type: "password",
                 value: this.state.clave,
@@ -10482,24 +10478,24 @@ var Login = /*#__PURE__*/function (_Component) {
                 },
                 placeholder: "Contrase\xF1a",
                 required: true
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
                 className: "focus-input100",
                 "data-placeholder": "C"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "container-login100-form-btn",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
                 className: "login100-form-btn",
                 children: "Iniciar"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_cargando__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_cargando__WEBPACK_IMPORTED_MODULE_2__["default"], {
               active: this.state.activeLoading
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
           className: "text-muted mt-4 text-center",
-          children: ["Ao Systems", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
-            src: _images_logo_png__WEBPACK_IMPORTED_MODULE_1__["default"],
+          children: ["Ao Systems", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            src: _images_logo_png__WEBPACK_IMPORTED_MODULE_0__["default"],
             alt: "logo ao",
             height: "80px"
           })]
@@ -10509,7 +10505,7 @@ var Login = /*#__PURE__*/function (_Component) {
   }]);
 
   return Login;
-}(react__WEBPACK_IMPORTED_MODULE_3__.Component);
+}(react__WEBPACK_IMPORTED_MODULE_1__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Login);
 
@@ -14050,30 +14046,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	} else {}
 }());
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./resources/css/login.css":
-/*!********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./resources/css/login.css ***!
-  \********************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\r\n:root{\r\n /* --sinapsis-color : #e511ec;\r\n  --sinapsis-color-light : #ffaefa;\r\n  --sinapsis-color-select : #f9bcfb;*/\r\n\r\n  \r\n    /*Sinapsis Azul*/\r\n  /*--sinapsis-color : #118bec;\r\n  --sinapsis-color-light : #deedfd;\r\n  --sinapsis-color-select : #84bcf3;*/\r\n\r\n  --sinapsis-color : rgba(242,109,10);\r\n  --sinapsis-color-light : rgba(255,177,113,0.75);\r\n  --sinapsis-color-select : rgba(221,143,79,0.75);\r\n\r\n  \r\n}\r\n.login{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n.wraper-panel-pre-inscripcion{\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n\r\n.header-register{\r\n  font-size: 2em;\r\n  font-weight:bolder;\r\n  display: flex;\r\n  align-items: center;\r\n  flex-direction: column;\r\n  box-shadow: 5px 5px 5px #adb5bd;\r\n  margin-bottom: 60px; \r\n}\r\n.header-register-logo img{\r\n  height: 150px;\r\n}\r\n\r\n.panel-pre-inscripcion{\r\n  width: auto;\r\n  border-radius: 10px;\r\n\r\n  padding: 55px 55px 37px 55px;\r\n  \r\n \r\n  box-shadow: 0px 10px 8px #e0e0e0;\r\n}\r\n.container-login100 {\r\n  width: 100%;  \r\n  min-height: 100vh;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 15px;\r\n\r\n  background-repeat: no-repeat;\r\n  background-position: center;\r\n  background-size: cover;\r\n  position: relative;\r\n  z-index: 1;  \r\n}\r\n\r\n.container-login100::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  background-color: rgba(255,255,255,0.9);\r\n}\r\n\r\n.wrap-login100 {\r\n  width: 400px;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  padding: 55px 55px 37px 55px;\r\n\r\n  \r\n \r\n  background: linear-gradient(180deg,var(--sinapsis-color-light),var(--sinapsis-color) 12%,rgba(255,255,255,0) 85%)\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Form ]*/\r\n\r\n.login100-form {\r\n  width: 100%;\r\n}\r\n.login100-form-logo{\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n.login100-form-logo img{\r\n  \r\n  \r\n  height: 220px;\r\n \r\n}\r\n\r\n.login100-form-title {\r\n  font-size: 30px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n  text-align: center;\r\n  text-transform: uppercase;\r\n\r\n  display: block;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Input ]*/\r\n\r\n.wrap-input100 {\r\n  width: 100%;\r\n  position: relative;\r\n  border-bottom: 2px solid rgba(255,255,255,0.24);\r\n  margin-bottom: 30px;\r\n}\r\n\r\n.input100 {\r\n  font-size: 16px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  width: 100%;\r\n  height: 45px;\r\n  background: transparent;\r\n  padding: 0 5px 0 38px;\r\n}\r\n\r\n/*---------------------------------------------*/ \r\n.focus-input100 {\r\n  position: absolute;\r\n  display: block;\r\n  width: 100%;\r\n  height: 100%;\r\n  top: 0;\r\n  left: 0;\r\n  pointer-events: none;\r\n}\r\n\r\n.focus-input100::before {\r\n  font-family: Material-Design-Iconic-Font;\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  bottom: -2px;\r\n  left: 0;\r\n  width: 0;\r\n  height: 2px;\r\n  transition: all 0.4s;\r\n\r\n  background: #fff;\r\n}\r\n\r\n.focus-input100::after {\r\n  font-family: Material-Design-Iconic-Font;\r\n  font-size: 22px;\r\n  color: #fff;\r\n\r\n  content: attr(data-placeholder);\r\n  display: block;\r\n  width: 100%;\r\n  position: absolute;\r\n  top: 6px;\r\n  left: 0px;\r\n  padding-left: 5px;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.input100:focus {\r\n  padding-left: 5px;\r\n  transition: all .5s;\r\n}\r\n\r\n.input100:focus + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.input100:focus + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::after {\r\n  top: -22px;\r\n  font-size: 18px;\r\n}\r\n\r\n.has-val.input100 + .focus-input100::before {\r\n  width: 100%;\r\n}\r\n\r\n.has-val.input100 {\r\n  padding-left: 5px;\r\n}\r\n\r\n\r\n/*==================================================================\r\n[ Restyle Checkbox ]*/\r\n\r\n.contact100-form-checkbox {\r\n  padding-left: 5px;\r\n  padding-top: 5px;\r\n  padding-bottom: 35px;\r\n}\r\n\r\n.input-checkbox100 {\r\n  display: none;\r\n}\r\n\r\n.label-checkbox100 {\r\n  font-size: 13px;\r\n  color: #fff;\r\n  line-height: 1.2;\r\n\r\n  display: block;\r\n  position: relative;\r\n  padding-left: 26px;\r\n  cursor: pointer;\r\n}\r\n\r\n.label-checkbox100::before {\r\n  content: \"\\F26B\";\r\n  font-size: 13px;\r\n  color: transparent;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  position: absolute;\r\n  width: 16px;\r\n  height: 16px;\r\n  border-radius: 2px;\r\n  background: #fff;\r\n  left: 0;\r\n  top: 50%;\r\n  transform: translateY(-50%);\r\n}\r\n\r\n.input-checkbox100:checked + .label-checkbox100::before {\r\n  color: #555555;\r\n}\r\n\r\n\r\n/*------------------------------------------------------------------\r\n[ Button ]*/\r\n.container-login100-form-btn {\r\n  width: 100%;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  justify-content: center;\r\n}\r\n\r\n.login100-form-btn {\r\n  border: none;\r\n  font-size: 16px;\r\n  color: #555555;\r\n  line-height: 1.2;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 0 20px;\r\n  min-width: 120px;\r\n  height: 50px;\r\n  border-radius: 25px;\r\n\r\n  \r\n \r\n  background: linear-gradient(0deg, var(--sinapsis-color) 0%, var(--sinapsis-color-select) 22%, rgba(255,255,255,0) 100%);\r\n\r\n  position: relative;\r\n  z-index: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn::before {\r\n  content: \"\";\r\n  display: block;\r\n  position: absolute;\r\n  z-index: -1;\r\n  width: 100%;\r\n  height: 100%;\r\n  border-radius: 25px;\r\n  background-color: #fff;\r\n  top: 0;\r\n  left: 0;\r\n  opacity: 1;\r\n  transition: all 0.4s;\r\n}\r\n\r\n.login100-form-btn:hover {\r\n  color: #fff;\r\n}\r\n\r\n.login100-form-btn:hover:before {\r\n  opacity: 0;\r\n}\r\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
 
 /***/ }),
@@ -23853,22 +23825,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.png?1a0e2ec5bbad4517a2d8e03628760126");
-
-/***/ }),
-
-/***/ "./resources/images/tools.png":
-/*!************************************!*\
-  !*** ./resources/images/tools.png ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/tools.png?5541662be3f61fa92f510640f8a524b5");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.png?3f0c1f3b46812ebc5c2201e09e31045e");
 
 /***/ }),
 
@@ -101482,36 +101439,6 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/scheduler-tracing.development.js */ "./node_modules/scheduler/cjs/scheduler-tracing.development.js");
 }
 
-
-/***/ }),
-
-/***/ "./resources/css/login.css":
-/*!*********************************!*\
-  !*** ./resources/css/login.css ***!
-  \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_login_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./login.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./resources/css/login.css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_login_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_login_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 

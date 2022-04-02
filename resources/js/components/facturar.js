@@ -1102,8 +1102,8 @@ const toggleModalProductos = (prop,callback=null) => {
 }
 const toggleImprimirTicket = () => {
   if (pedidoData) {
-    let identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion)
     let moneda = window.prompt("Moneda: $ | bs | cop","bs")
+    let identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion)
 
     if (identificacion) {
       let nombres = window.prompt("Nombre y Apellido",pedidoData.cliente.nombre)

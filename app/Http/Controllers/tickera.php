@@ -31,33 +31,32 @@ class tickera extends Controller
 
             return $string;
         }
-
-        $pedido = (new PedidosController)->getPedido($req);
-        $sucursal = sucursal::all()->first();
-        $get_moneda = (new PedidosController)->get_moneda();
         
-        $show_dolares = "no";
-        if ($show_dolares=="si") {
+        $get_moneda = (new PedidosController)->get_moneda();
+        $moneda_req = $req->moneda;
+        //$
+        //bs
+        //cop
+        if ($moneda_req=="$") {
           $dolar = 1;
+        }else if($moneda_req=="bs"){
+          $dolar = $get_moneda["bs"];
+        }else if($moneda_req=="cop"){
+          $dolar = $get_moneda["cop"];
         }else{
-
           $dolar = $get_moneda["bs"];
         }
 
+        $pedido = (new PedidosController)->getPedido($req,floatval($dolar));
+        $sucursal = sucursal::all()->first();
         $fecha_emision = date("Y-m-d H:i:s");
 
         try {
             
             $connector = new WindowsPrintConnector($sucursal->tickera);
-            
-
-            /* Print a "Hello world" receipt" */
+            //smb://computer/printer
             $printer = new Printer($connector);
-
             $printer->setEmphasis(true);
-
-            // $printer->text("\n");
-            
 
             $nombres = "";
             $identificacion = "";
@@ -113,13 +112,11 @@ class tickera extends Controller
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer -> setTextSize(1,1);
 
-                $tux = EscposImage::load(resource_path() . "/images/logo.jpg", false);
-                $printer -> bitImage($tux, Printer::IMG_DOUBLE_WIDTH | Printer::IMG_DOUBLE_HEIGHT);
+                $tux = EscposImage::load(resource_path() . "/images/small.jpg", false);
+                $printer -> bitImage($tux);
 
                 $printer -> text("\n");
-                $printer -> text($sucursal->nombre_registro);
-                $printer -> text("\n");
-                $printer -> text($sucursal->rif);
+                $printer -> text($sucursal->nombre_registro." ".$sucursal->rif);
                 $printer -> text("\n");
                 $printer -> text($sucursal->telefono1." | ".$sucursal->telefono2);
                 $printer -> text("\n");
@@ -189,13 +186,13 @@ class tickera extends Controller
                    $printer->text($item['descripcion']);
                    $printer->text("\n");
 
-                   $printer->text(addSpaces("P/U. ",6).$item['pu']);
-                   $printer->text("\n");
+                   $printer->text(addSpaces("Ct. ".$item['cantidad'],15)." | ");
+                   //$printer->text("\n");
+                   
+                   $printer->text(addSpaces("P/U. ".$item['pu'],15)." | ");
+                   //$printer->text("\n");
 
-                   $printer->text(addSpaces("Ct. ",6).$item['cantidad']);
-                   $printer->text("\n");
-
-                   $printer->text(addSpaces("Tot. ",6).$item['totalprecio']);
+                   $printer->text(addSpaces("Tot. ".$item['totalprecio'],15));
                    $printer->text("\n");
 
 
@@ -222,16 +219,9 @@ class tickera extends Controller
                 $printer->text($pedido->created_at);
                 $printer->text("\n");
 
-                $printer->text("Gracias por su compra! :D");
+                $printer->text("¡Muchas gracias por su compra! :D");
                 $printer->text("\n");
 
-                $printer->text("Despues de 24 horas");
-                $printer->text("\n");
-
-                $printer->text("No se aceptan devoluciones");
-                $printer->text("\n");
-
-                $printer->text("Ni se devuelve el dinero");
                 $printer->text("\n");
                 $printer->text("\n");
                 
