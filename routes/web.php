@@ -139,6 +139,8 @@ Route::group(['middleware' => ['login']], function () {
 		Route::post('saveMontoFactura', [FacturaController::class,"saveMontoFactura"]);
 		Route::post('setPagoProveedor', [PagoFacturasController::class,"setPagoProveedor"]);
 		Route::post('getPagoProveedor', [PagoFacturasController::class,"getPagoProveedor"]);
+		Route::post('delPagoProveedor', [PagoFacturasController::class,"delPagoProveedor"]);
+		
 		
 
 

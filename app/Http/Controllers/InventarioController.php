@@ -398,62 +398,120 @@ class InventarioController extends Controller
         $orderColumn = $req->orderColumn;
         $orderBy = $req->orderBy;
 
-        if ($q=="") {
-            $data = inventario::with([
-                "proveedor",
-                "categoria",
-                "marca",
-                "deposito",
-                "lotes"=>function($q){
-                    $q->orderBy("vence","asc");
-                },
-            ])->where(function($e) use($itemCero){
-                if (!$itemCero) {
-                    $e->where("cantidad",">",0);
-                    // code...
-                }
+        
 
-            })
-            ->limit($num)
-            ->orderBy($orderColumn,$orderBy)
-            ->get();
+
+        if ($req->busquedaAvanazadaInv) {
+            $busqAvanzInputs = $req->busqAvanzInputs;
+            $data = inventario::with([
+                    "proveedor",
+                    "categoria",
+                    "marca",
+                    "deposito",
+                    "lotes"=>function($q){
+                        $q->orderBy("vence","asc");
+                    },
+                ])
+                ->where(function($e) use($busqAvanzInputs){
+    
+                    
+                    if ($busqAvanzInputs["codigo_barras"]!="") {
+                        $e->where("codigo_barras","LIKE",$busqAvanzInputs["codigo_barras"]."%");
+                    }
+                    if ($busqAvanzInputs["codigo_proveedor"]!="") {
+                        $e->where("codigo_proveedor","LIKE",$busqAvanzInputs["codigo_proveedor"]."%");
+                    }
+                    if ($busqAvanzInputs["id_proveedor"]!="") {
+                        $e->where("id_proveedor","LIKE",$busqAvanzInputs["id_proveedor"]);
+                    }
+                    if ($busqAvanzInputs["id_categoria"]!="") {
+                        $e->where("id_categoria","LIKE",$busqAvanzInputs["id_categoria"]);
+                    }
+                    if ($busqAvanzInputs["unidad"]!="") {
+                        $e->where("unidad","LIKE",$busqAvanzInputs["unidad"]."%");
+                    }
+                    if ($busqAvanzInputs["descripcion"]!="") {
+                        $e->where("descripcion","LIKE",$busqAvanzInputs["descripcion"]."%");
+                    }
+                    if ($busqAvanzInputs["iva"]!="") {
+                        $e->where("iva","LIKE",$busqAvanzInputs["iva"]."%");
+                    }
+                    if ($busqAvanzInputs["precio_base"]!="") {
+                        $e->where("precio_base","LIKE",$busqAvanzInputs["precio_base"]."%");
+                    }
+                    if ($busqAvanzInputs["precio"]!="") {
+                        $e->where("precio","LIKE",$busqAvanzInputs["precio"]."%");
+                    }
+                    if ($busqAvanzInputs["cantidad"]!="") {
+                        $e->where("cantidad","LIKE",$busqAvanzInputs["cantidad"]."%");
+                    }
+    
+                })
+                ->limit($num)
+                ->orderBy($orderColumn,$orderBy)
+                ->get();
+                
+
         }else{
-            $data = inventario::with([
-                "proveedor",
-                "categoria",
-                "marca",
-                "deposito",
-                "lotes"=>function($q){
-                    $q->orderBy("vence","asc");
-                },
-            ])
-            ->where(function($e) use($itemCero){
-                if (!$itemCero) {
-                    $e->where("cantidad",">",0);
-                    // code...
-                }
+            if ($q=="") {
+                $data = inventario::with([
+                    "proveedor",
+                    "categoria",
+                    "marca",
+                    "deposito",
+                    "lotes"=>function($q){
+                        $q->orderBy("vence","asc");
+                    },
+                ])->where(function($e) use($itemCero){
+                    if (!$itemCero) {
+                        $e->where("cantidad",">",0);
+                        // code...
+                    }
+    
+                })
+                ->limit($num)
+                ->orderBy($orderColumn,$orderBy)
+                ->get();
+            }else{
+                $data = inventario::with([
+                    "proveedor",
+                    "categoria",
+                    "marca",
+                    "deposito",
+                    "lotes"=>function($q){
+                        $q->orderBy("vence","asc");
+                    },
+                ])
+                ->where(function($e) use($itemCero){
+                    if (!$itemCero) {
+                        $e->where("cantidad",">",0);
+                        // code...
+                    }
+    
+                })
+                ->where(function($e) use($itemCero,$q,$exacto){
+    
+                    if ($exacto=="si") {
+                        $e->orWhere("codigo_barras","LIKE","$q")
+                        ->orWhere("codigo_proveedor","LIKE","$q");
+                    }elseif($exacto=="id_only"){
+    
+                        $e->where("id","$q");
+                    }else{
+                        $e->orWhere("descripcion","LIKE","%$q%")
+                        ->orWhere("codigo_proveedor","LIKE","%$q%")
+                        ->orWhere("codigo_barras","LIKE","%$q%");
+    
+                    }
+    
+                })
+                ->limit($num)
+                ->orderBy($orderColumn,$orderBy)
+                ->get();
+            }
 
-            })
-            ->where(function($e) use($itemCero,$q,$exacto){
-
-                if ($exacto=="si") {
-                    $e->orWhere("codigo_barras","LIKE","$q")
-                    ->orWhere("codigo_proveedor","LIKE","$q");
-                }elseif($exacto=="id_only"){
-
-                    $e->where("id","$q");
-                }else{
-                    $e->orWhere("descripcion","LIKE","%$q%")
-                    ->orWhere("codigo_proveedor","LIKE","%$q%")
-                    ->orWhere("codigo_barras","LIKE","%$q%");
-
-                }
-
-            })
-            ->limit($num)
-            ->orderBy($orderColumn,$orderBy)
-            ->get();
         }
+
         $data->map(function($q) use ($bs,$cop)
         {
             $q->bs = number_format($q->precio*$bs["valor"],2,".",",");

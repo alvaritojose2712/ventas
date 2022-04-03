@@ -55,11 +55,13 @@ montopagoproveedor,
 setmontopagoproveedor,
 getPagoProveedor,
 pagosproveedor,
+delPagoProveedor,
 }) {
 
 	return (
 		<div className="container-fluid">
 			<ModalSelectFactura
+				delPagoProveedor={delPagoProveedor}
 				pagosproveedor={pagosproveedor}
 				getPagoProveedor={getPagoProveedor}
 				setPagoProveedor={setPagoProveedor}

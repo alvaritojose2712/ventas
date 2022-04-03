@@ -116,7 +116,9 @@ const db = {
   removeLote: data=>axios.post(host+"removeLote",data),
   getEstaInventario: data => axios.post(host + "getEstaInventario", data),
   setPagoProveedor: data => axios.post(host + "setPagoProveedor", data),
-  getPagoProveedor: data=>axios.post(host+"getPagoProveedor",data),
+  getPagoProveedor: data => axios.post(host + "getPagoProveedor", data),
+  delPagoProveedor: data=>axios.post(host+"delPagoProveedor",data),
+  
   
   
   

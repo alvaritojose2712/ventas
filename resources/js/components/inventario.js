@@ -189,6 +189,14 @@ function Inventario({
   setSameGanancia,
   setSameCat,
   setSamePro,
+  busquedaAvanazadaInv,
+  setbusquedaAvanazadaInv,
+
+  busqAvanzInputsFun,
+  busqAvanzInputs,
+  buscarInvAvanz,
+
+  delPagoProveedor,
 }) {
 
   const type = type => {
@@ -223,6 +231,7 @@ function Inventario({
       {
         subViewInventario=="facturas"?
           <Facturas
+            delPagoProveedor={delPagoProveedor}
             pagosproveedor={pagosproveedor}
             getPagoProveedor={getPagoProveedor}
             setPagoProveedor={setPagoProveedor}
@@ -392,6 +401,12 @@ function Inventario({
               
             />
             : <InventarioForzado
+                busqAvanzInputsFun={busqAvanzInputsFun}
+                busqAvanzInputs={busqAvanzInputs}
+                buscarInvAvanz={buscarInvAvanz}
+
+                busquedaAvanazadaInv={busquedaAvanazadaInv}
+                setbusquedaAvanazadaInv={setbusquedaAvanazadaInv}
                 setSameCat={setSameCat}
                 setSamePro={setSamePro}
                 setSameGanancia={setSameGanancia}

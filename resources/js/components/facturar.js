@@ -325,6 +325,24 @@ const [dataEstaInven, setdataEstaInven] = useState([])
 const [tipopagoproveedor, settipopagoproveedor] = useState("");
 const [montopagoproveedor, setmontopagoproveedor] = useState("");
 const [pagosproveedor, setpagosproveedor] = useState([]);
+  
+const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
+
+  const [busqAvanzInputs, setbusqAvanzInputs] = useState({
+  codigo_barras:"",
+  codigo_proveedor:"",
+  id_proveedor:"",
+  id_categoria:"",
+  unidad:"",
+  descripcion:"",
+  iva:"",
+  precio_base:"",
+  precio:"",
+  cantidad:"",
+});
+  
+  
+  
 
 
   useHotkeys('f1', () => {
@@ -1732,7 +1750,10 @@ const buscarInventario = e => {
         itemCero:true,
         qProductosMain:qBuscarInventario,
         orderColumn:InvorderColumn,
-        orderBy:InvorderBy
+        orderBy:InvorderBy,
+        busquedaAvanazadaInv,
+        busqAvanzInputs,
+        
       }).then(res=>{
         setProductosInventario(res.data)
         setLoading(false)
@@ -1952,6 +1973,19 @@ const setSamePro = (val) => {
     setProductosInventario(obj)
   }
 }
+
+const busqAvanzInputsFun = (e,key) => {
+  let obj = cloneDeep(busqAvanzInputs)
+  obj[key] = e.target.value
+  setbusqAvanzInputs(obj)
+ 
+}
+const buscarInvAvanz = () => {
+  buscarInventario(null)
+}
+  
+  
+  
 const setProveedor = e =>{
   setLoading(true)
   e.preventDefault()
@@ -2612,7 +2646,15 @@ const guardarNuevoProductoLote = () => {
   }
 
 }
-
+const delPagoProveedor = e => {
+  let id = e.target.attributes["data-id"].value
+  if(confirm("¿Seguro de eliminar?")){
+    db.delPagoProveedor({id}).then(res=>{
+      getPagoProveedor()
+      notificar(res)
+    })
+  }
+}
 const getPagoProveedor = () => {
   if (proveedoresList[indexSelectProveedores]) {
     setLoading(true)
@@ -2998,6 +3040,13 @@ const auth = permiso => {
           getUsuarios={getUsuarios}
         />:null}
         {view=="inventario"?<Inventario
+          delPagoProveedor={delPagoProveedor}
+          busqAvanzInputsFun={busqAvanzInputsFun}
+          busqAvanzInputs={busqAvanzInputs}
+          buscarInvAvanz={buscarInvAvanz}
+
+          busquedaAvanazadaInv={busquedaAvanazadaInv}
+          setbusquedaAvanazadaInv={setbusquedaAvanazadaInv}
 
           setSameGanancia={setSameGanancia}
           setSameCat={setSameCat}

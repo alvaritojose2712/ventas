@@ -58,6 +58,7 @@ function ModalSelectFactura({
   setmontopagoproveedor,
   getPagoProveedor,
   pagosproveedor,
+  delPagoProveedor,
 }) {
   const setfactOrderByFun = val => {
     if (val==factOrderBy) {
@@ -293,16 +294,18 @@ function ModalSelectFactura({
                   <table className="table">
                     <thead>
                       <tr>
+                        <th></th>
                         <th>Fecha</th>
                         <th>Tipo</th>
-                        <th>Abono</th>
-                        <th>Credito</th>
-                        <th>Balance</th>
+                        <th className="text-right">Abono</th>
+                        <th className="text-right">Credito</th>
+                        <th className="text-right">Balance</th>
                       </tr>
                     </thead>
                     <tbody>
                       {pagosproveedor?pagosproveedor.map((e,i)=>
-                        <tr key={i}>
+                        <tr key={e.id}>
+                          <td>{e.numfact ? null : <i className="fa fa-times text-danger" data-id={e.id} onClick={delPagoProveedor}></i>}</td>
                           <td>{e.created_at}</td>
                           {e.numfact?<>
                             <td></td>

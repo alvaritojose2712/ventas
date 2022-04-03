@@ -48,4 +48,20 @@ class PagoFacturasController extends Controller
             
         }
    } 
+
+   
+   public function delPagoProveedor(Request $req)
+   {
+       if ($pago = pago_facturas::find($req->id)) {
+            try {
+                $pago->delete();
+                return Response::json(["msj"=>"¡Éxito al eliminar pago!","estado"=>true]);
+    
+                
+            } catch (\Exception $e) {
+                return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+                
+            }
+        }
+   }
 }
