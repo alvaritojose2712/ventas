@@ -37,12 +37,19 @@ function Proveedores({
       setIndexSelectProveedores(index)
     }
   }
+  const setNuevoProveedor = () => {
+    setproveedordescripcion("")
+    setproveedorrif("")
+    setproveedordireccion("")
+    setproveedortelefono("")
+    setIndexSelectProveedores(null)
+  }
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col">
-              <h1>Proveedores</h1>
+              <h1>Proveedores <button className="btn btn-sm btn-success" onClick={setNuevoProveedor}>Nuevo</button></h1>
 
               <div className="">
                 <div className="input-group ">
@@ -127,7 +134,7 @@ function Proveedores({
                     onChange={e=>setproveedortelefono(e.target.value)} 
                     className="form-control"/>
                 </div>
-                <div className="form-group">
+                <div className="form-group mt-1">
                 {indexSelectProveedores==null?
                   <button className="btn btn-outline-success btn-block" type="submit">Guardar</button>
                 : 

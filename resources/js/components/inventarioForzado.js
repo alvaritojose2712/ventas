@@ -20,6 +20,10 @@ export default function InventarioForzado({
     number,
     refsInpInvList,
     categorias,
+    
+    setSameGanancia,
+    setSameCat,
+    setSamePro,
 }){
     return (
         <div className="container-fluid">
@@ -51,10 +55,38 @@ export default function InventarioForzado({
                             <th className="cell2 pointer"><span onClick={() => setInvorderColumn("descripcion")}>Descripción</span></th>
                             <th className="cell05 pointer"><span onClick={() => setInvorderColumn("cantidad")}>Ct.</span></th>
                             <th className="cell1 pointer"><span onClick={() => setInvorderColumn("precio_base")}>Base</span></th>
-                            <th className="cell15 pointer"><span onClick={() => setInvorderColumn("precio")}>Venta</span></th>
+                            <th className="cell15 pointer">
+                                <span onClick={() => setInvorderColumn("precio")}>Venta </span>
+                                <span className="btn btn-outline-success mr-1 btn-sm" onClick={setSameGanancia}>% general <i className="fa fa-coin"></i></span>
+                            </th>
                             <th className="cell15 pointer" >
-                                <span onClick={() => setInvorderColumn("id_categoria")}>Categoría</span><br/>
-                                <span onClick={() => setInvorderColumn("id_proveedor")}>Preveedor</span>
+                                <span onClick={() => setInvorderColumn("id_categoria")}>
+                                    Categoría
+                                </span>
+                                <br />
+                                    <select
+                                        className=""
+                                        defaultValue={""}
+                                        onChange={e=>setSameCat(e.target.value)}
+                                    >
+                                        <option value="">--Select--</option>
+                                        {categorias.map(e => <option value={e.id} key={e.id}>{e.descripcion}</option>)}
+                                        
+                                    </select> 
+                                <br/>
+                                <span onClick={() => setInvorderColumn("id_proveedor")}>
+                                    Preveedor
+                                </span>
+                                <br />
+                                    <select
+                                        className=""
+                                        defaultValue={""}
+                                        onChange={e => setSamePro(e.target.value)}
+                                    >
+                                        <option value="">--Select--</option>
+                                        {proveedoresList.map(e => <option value={e.id} key={e.id}>{e.descripcion}</option>)}
+
+                                    </select> 
                             </th>
                             <th className="cell05 pointer"><span onClick={() => setInvorderColumn("iva")}>IVA</span></th>
                             <th className="cell1"></th>
@@ -121,7 +153,7 @@ export default function InventarioForzado({
                                         <textarea type="text"
                                             disabled={type(e.type)} className="form-control form-control-sm"
                                             value={!e.descripcion?"":e.descripcion}
-                                            onChange={e => changeInventario((e.target.value), i, e.id, "changeInput", "descripcion")}
+                                            onChange={e => changeInventario((e.target.value.replace("\n","")), i, e.id, "changeInput", "descripcion")}
                                             placeholder="descripcion..."></textarea>
 
                                     </td>
@@ -158,6 +190,7 @@ export default function InventarioForzado({
                                     </td>
                                     <td className="cell15">
                                         <select
+                                            required={true}
                                             disabled={type(e.type)} 
                                             className="form-control form-control-sm"
                                             value={!e.id_categoria?"":e.id_categoria}

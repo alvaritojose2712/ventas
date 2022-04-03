@@ -7,14 +7,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.ico') }}">
-    <title>Reporte</title>
+    <title>Nota de Entrega {{$pedido->id}}</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
    
 </head>
 <body>
     <section class="container-fluid">
-			<table class="table">
+			<table class="table table-bordered">
 				<thead>
 					<tr class="text-center">
 						<td colspan="6">
@@ -75,7 +75,7 @@
 							Cantidad
 						</th>
 						<th>
-							BASE / VENTA
+							P/U
 						</th>
 						<th>
 							Descuento
@@ -96,7 +96,7 @@
 								{{$val->cantidad}}
 							</td>
 							<td>
-								{{$val->producto->precio_base}} / {{$val->producto->precio}}
+								{{$val->producto->precio}}
 							</td>
 							<td>
 								{{$val->total_des}} ({{$val->descuento}}%)

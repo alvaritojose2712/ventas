@@ -596,7 +596,7 @@ const [pagosproveedor, setpagosproveedor] = useState([]);
     }
   },{
     filterPreventDefault:false,
-    enableOnTags:["INPUT", "SELECT"],
+    enableOnTags:["INPUT", "SELECT","TEXTAREA"],
   }, [view, counterListProductos, selectItem, subViewInventario, modViewInventario]);
 
 
@@ -780,13 +780,13 @@ const setporcenganancia = (tipo,base=0,fun=null) => {
   if (insert) {
     if (number(insert)) {
       if (tipo=="unique") {
-        let re = Math.round(parseFloat(inpInvbase) + (parseFloat(inpInvbase)*(parseFloat(insert)/100)))
+        let re = (parseFloat(inpInvbase) + (parseFloat(inpInvbase)*(parseFloat(insert)/100))).toFixed(2)
         if (re) {
           setinpInvventa(re)
 
         }
       }else if("list"){
-        let re = Math.round(parseFloat(base) + (parseFloat(base)*(parseFloat(insert)/100)))
+        let re = (parseFloat(base) + (parseFloat(base)*(parseFloat(insert)/100))).toFixed(2)
         if (re) {
           fun(re)
 
@@ -1910,6 +1910,48 @@ const getPedidosFast = () => {
     
   })
 }
+const setSameGanancia = () => {
+  let insert = window.prompt("Porcentaje")
+  if (insert) {
+    
+    let obj = cloneDeep(productosInventario)
+    obj.map(e=>{
+      if (e.type) {
+        let re = (parseFloat(e.precio_base) + (parseFloat(e.precio_base) * (parseFloat(insert) / 100))).toFixed(2)
+        if (re) {
+          e.precio = re
+        }
+      }
+      return e
+    })
+    setProductosInventario(obj)    
+  }
+}
+const setSameCat = (val) => {
+  if (confirm("¿Confirma Generalizar categoría?")) {
+    let obj = cloneDeep(productosInventario)
+    obj.map(e => {
+      if (e.type) {
+        e.id_categoria = val
+      }
+      return e
+    })
+    setProductosInventario(obj)
+  }
+
+}
+const setSamePro = (val) => {
+  if (confirm("¿Confirma Generalizar proveeedor?")) {
+    let obj = cloneDeep(productosInventario)
+    obj.map(e => {
+      if (e.type) {
+        e.id_proveedor = val
+      }
+      return e
+    })
+    setProductosInventario(obj)
+  }
+}
 const setProveedor = e =>{
   setLoading(true)
   e.preventDefault()
@@ -2627,7 +2669,7 @@ const changeInventario = (val, i, id, type, name = null) => {
         codigo_proveedor: "",
         codigo_barras: "",
         descripcion: "",
-        id_categoria: "40",
+        id_categoria: "",
         id_marca: "",
         unidad: "UND",
         id_proveedor: pro,
@@ -2956,6 +2998,11 @@ const auth = permiso => {
           getUsuarios={getUsuarios}
         />:null}
         {view=="inventario"?<Inventario
+
+          setSameGanancia={setSameGanancia}
+          setSameCat={setSameCat}
+          setSamePro={setSamePro}
+
           openReporteFalla={openReporteFalla}
           getPagoProveedor={getPagoProveedor}
           setPagoProveedor={setPagoProveedor}

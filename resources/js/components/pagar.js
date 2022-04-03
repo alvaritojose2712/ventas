@@ -341,7 +341,7 @@ peso,
                           <div className="card-body">
                             <div className="card-title pointer" onClick={getDebito}>Déb.</div>
                             <div className="card-text pago-numero"><input type="text" value={debito} onChange={(e)=>syncPago(e.target.value,"Debito")} placeholder="D"/></div>
-                            <small className="text-muted">{debitoBs("debito")}</small>
+                            <small className="text-muted fs-4">{debitoBs("debito")}</small>
                           </div>
                         </div>
                       </div>
@@ -362,7 +362,7 @@ peso,
                           <div className="card-body">
                             <div className="card-title pointer" onClick={getTransferencia}>Tran.</div>
                             <div className="card-text pago-numero"><input type="text" value={transferencia} onChange={(e)=>syncPago(e.target.value,"Transferencia")} placeholder="T"/></div>
-                            <small className="text-muted">{debitoBs("transferencia")}</small>
+                            <small className="text-muted fs-4">{debitoBs("transferencia")}</small>
                             
                           </div>
                         </div>
@@ -495,8 +495,8 @@ peso,
                     </tr>
 
                     <tr className="text-muted">
-                      <th className="text-left">Ref. Bs {bs}</th>
-                      <th className="text-right">Ref. COP {cop}</th>
+                      <th className="text-left">Ref. <span className='fs-4'> Bs {bs}</span></th>
+                      <th className="text-right">Ref. <span className='fs-4'>COP {cop}</span></th>
                     </tr>
                   </tbody>
                 </table>

@@ -6044,7 +6044,7 @@ function Facturar(_ref) {
     }
   }, {
     filterPreventDefault: false,
-    enableOnTags: ["INPUT", "SELECT"]
+    enableOnTags: ["INPUT", "SELECT", "TEXTAREA"]
   }, [view, counterListProductos, selectItem, subViewInventario, modViewInventario]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     // let isMounted = true;  
@@ -6177,13 +6177,13 @@ function Facturar(_ref) {
     if (insert) {
       if ((0,_assets__WEBPACK_IMPORTED_MODULE_5__.number)(insert)) {
         if (tipo == "unique") {
-          var re = Math.round(parseFloat(inpInvbase) + parseFloat(inpInvbase) * (parseFloat(insert) / 100));
+          var re = (parseFloat(inpInvbase) + parseFloat(inpInvbase) * (parseFloat(insert) / 100)).toFixed(2);
 
           if (re) {
             setinpInvventa(re);
           }
         } else if (true) {
-          var _re = Math.round(parseFloat(base) + parseFloat(base) * (parseFloat(insert) / 100));
+          var _re = (parseFloat(base) + parseFloat(base) * (parseFloat(insert) / 100)).toFixed(2);
 
           if (_re) {
             fun(_re);
@@ -7430,6 +7430,54 @@ function Facturar(_ref) {
     });
   };
 
+  var setSameGanancia = function setSameGanancia() {
+    var insert = window.prompt("Porcentaje");
+
+    if (insert) {
+      var obj = (0,lodash__WEBPACK_IMPORTED_MODULE_3__.cloneDeep)(productosInventario);
+      obj.map(function (e) {
+        if (e.type) {
+          var re = (parseFloat(e.precio_base) + parseFloat(e.precio_base) * (parseFloat(insert) / 100)).toFixed(2);
+
+          if (re) {
+            e.precio = re;
+          }
+        }
+
+        return e;
+      });
+      setProductosInventario(obj);
+    }
+  };
+
+  var setSameCat = function setSameCat(val) {
+    if (confirm("¿Confirma Generalizar categoría?")) {
+      var obj = (0,lodash__WEBPACK_IMPORTED_MODULE_3__.cloneDeep)(productosInventario);
+      obj.map(function (e) {
+        if (e.type) {
+          e.id_categoria = val;
+        }
+
+        return e;
+      });
+      setProductosInventario(obj);
+    }
+  };
+
+  var setSamePro = function setSamePro(val) {
+    if (confirm("¿Confirma Generalizar proveeedor?")) {
+      var obj = (0,lodash__WEBPACK_IMPORTED_MODULE_3__.cloneDeep)(productosInventario);
+      obj.map(function (e) {
+        if (e.type) {
+          e.id_proveedor = val;
+        }
+
+        return e;
+      });
+      setProductosInventario(obj);
+    }
+  };
+
   var setProveedor = function setProveedor(e) {
     setLoading(true);
     e.preventDefault();
@@ -8206,7 +8254,7 @@ function Facturar(_ref) {
           codigo_proveedor: "",
           codigo_barras: "",
           descripcion: "",
-          id_categoria: "40",
+          id_categoria: "",
           id_marca: "",
           unidad: "UND",
           id_proveedor: pro,
@@ -8507,6 +8555,9 @@ function Facturar(_ref) {
       delUsuario: delUsuario,
       getUsuarios: getUsuarios
     }) : null, view == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_inventario__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      setSameGanancia: setSameGanancia,
+      setSameCat: setSameCat,
+      setSamePro: setSamePro,
       openReporteFalla: openReporteFalla,
       getPagoProveedor: getPagoProveedor,
       setPagoProveedor: setPagoProveedor,
@@ -9517,7 +9568,10 @@ function Inventario(_ref) {
       montopagoproveedor = _ref.montopagoproveedor,
       setmontopagoproveedor = _ref.setmontopagoproveedor,
       getPagoProveedor = _ref.getPagoProveedor,
-      pagosproveedor = _ref.pagosproveedor;
+      pagosproveedor = _ref.pagosproveedor,
+      setSameGanancia = _ref.setSameGanancia,
+      setSameCat = _ref.setSameCat,
+      setSamePro = _ref.setSamePro;
 
   var type = function type(_type) {
     return !_type || _type === "delete" ? true : false;
@@ -9762,6 +9816,9 @@ function Inventario(_ref) {
         addNewLote: addNewLote,
         changeModLote: changeModLote
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_inventarioForzado__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        setSameCat: setSameCat,
+        setSamePro: setSamePro,
+        setSameGanancia: setSameGanancia,
         categorias: categorias,
         setporcenganancia: setporcenganancia,
         refsInpInvList: refsInpInvList,
@@ -9888,7 +9945,10 @@ function InventarioForzado(_ref) {
       proveedoresList = _ref.proveedoresList,
       number = _ref.number,
       refsInpInvList = _ref.refsInpInvList,
-      categorias = _ref.categorias;
+      categorias = _ref.categorias,
+      setSameGanancia = _ref.setSameGanancia,
+      setSameCat = _ref.setSameCat,
+      setSamePro = _ref.setSamePro;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "container-fluid",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -10007,14 +10067,20 @@ function InventarioForzado(_ref) {
                 },
                 children: "Base"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("th", {
               className: "cell15 pointer",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                 onClick: function onClick() {
                   return setInvorderColumn("precio");
                 },
-                children: "Venta"
-              })
+                children: "Venta "
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                className: "btn btn-outline-success mr-1 btn-sm",
+                onClick: setSameGanancia,
+                children: ["% general ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                  className: "fa fa-coin"
+                })]
+              })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("th", {
               className: "cell15 pointer",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
@@ -10022,11 +10088,41 @@ function InventarioForzado(_ref) {
                   return setInvorderColumn("id_categoria");
                 },
                 children: "Categor\xEDa"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                className: "",
+                defaultValue: "",
+                onChange: function onChange(e) {
+                  return setSameCat(e.target.value);
+                },
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                  value: "",
+                  children: "--Select--"
+                }), categorias.map(function (e) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: e.id,
+                    children: e.descripcion
+                  }, e.id);
+                })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                 onClick: function onClick() {
                   return setInvorderColumn("id_proveedor");
                 },
                 children: "Preveedor"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                className: "",
+                defaultValue: "",
+                onChange: function onChange(e) {
+                  return setSamePro(e.target.value);
+                },
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                  value: "",
+                  children: "--Select--"
+                }), proveedoresList.map(function (e) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: e.id,
+                    children: e.descripcion
+                  }, e.id);
+                })]
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("th", {
               className: "cell05 pointer",
@@ -10153,7 +10249,7 @@ function InventarioForzado(_ref) {
                     className: "form-control form-control-sm",
                     value: !e.descripcion ? "" : e.descripcion,
                     onChange: function onChange(e) {
-                      return changeInventario(e.target.value, i, e.id, "changeInput", "descripcion");
+                      return changeInventario(e.target.value.replace("\n", ""), i, e.id, "changeInput", "descripcion");
                     },
                     placeholder: "descripcion..."
                   })
@@ -10207,6 +10303,7 @@ function InventarioForzado(_ref) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("td", {
                   className: "cell15",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                    required: true,
                     disabled: type(e.type),
                     className: "form-control form-control-sm",
                     value: !e.id_categoria ? "" : e.id_categoria,
@@ -10497,7 +10594,7 @@ var Login = /*#__PURE__*/function (_Component) {
           children: ["Ao Systems", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
             src: _images_logo_png__WEBPACK_IMPORTED_MODULE_0__["default"],
             alt: "logo ao",
-            height: "80px"
+            height: "150px"
           })]
         })]
       });
@@ -11837,7 +11934,7 @@ function Pagar(_ref) {
                             placeholder: "D"
                           })
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
-                          className: "text-muted",
+                          className: "text-muted fs-4",
                           children: debitoBs("debito")
                         })]
                       })
@@ -11886,7 +11983,7 @@ function Pagar(_ref) {
                             placeholder: "T"
                           })
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("small", {
-                          className: "text-muted",
+                          className: "text-muted fs-4",
                           children: debitoBs("transferencia")
                         })]
                       })
@@ -12097,10 +12194,16 @@ function Pagar(_ref) {
                     className: "text-muted",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("th", {
                       className: "text-left",
-                      children: ["Ref. Bs ", bs]
+                      children: ["Ref. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+                        className: "fs-4",
+                        children: [" Bs ", bs]
+                      })]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("th", {
                       className: "text-right",
-                      children: ["Ref. COP ", cop]
+                      children: ["Ref. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+                        className: "fs-4",
+                        children: ["COP ", cop]
+                      })]
                     })]
                   })]
                 })
@@ -13041,6 +13144,14 @@ function Proveedores(_ref) {
     }
   };
 
+  var setNuevoProveedor = function setNuevoProveedor() {
+    setproveedordescripcion("");
+    setproveedorrif("");
+    setproveedordireccion("");
+    setproveedortelefono("");
+    setIndexSelectProveedores(null);
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
       className: "container",
@@ -13048,8 +13159,12 @@ function Proveedores(_ref) {
         className: "row",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "col",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h1", {
-            children: "Proveedores"
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h1", {
+            children: ["Proveedores ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+              className: "btn btn-sm btn-success",
+              onClick: setNuevoProveedor,
+              children: "Nuevo"
+            })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             className: "",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -13175,7 +13290,7 @@ function Proveedores(_ref) {
                 className: "form-control"
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-              className: "form-group",
+              className: "form-group mt-1",
               children: indexSelectProveedores == null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
                 className: "btn btn-outline-success btn-block",
                 type: "submit",

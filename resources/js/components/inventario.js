@@ -185,6 +185,10 @@ function Inventario({
   setmontopagoproveedor,
   getPagoProveedor,
   pagosproveedor,
+
+  setSameGanancia,
+  setSameCat,
+  setSamePro,
 }) {
 
   const type = type => {
@@ -288,6 +292,7 @@ function Inventario({
                     <button className="btn btn-sinapsis mr-1" onClick={setNewProducto}>Nuevo <i className="fa fa-plus"></i></button>
                   }
 
+                 
                   <button className={(modViewInventario == "list" ? "btn-success text-light" : "") + (" ms-2 btn")} onClick={() => setmodViewInventario("list")}><i className="fa fa-list"></i></button>
                   <button className={(modViewInventario == "unique" ? "btn-sinapsis" : "") + (" btn")} onClick={() => setmodViewInventario("unique")}><i className="fa fa-columns"></i></button>
                   <button className="btn btn-warning ms-2" onClick={reporteInventario}><i className="fa fa-print"></i></button>
@@ -387,6 +392,10 @@ function Inventario({
               
             />
             : <InventarioForzado
+                setSameCat={setSameCat}
+                setSamePro={setSamePro}
+                setSameGanancia={setSameGanancia}
+
                 categorias={categorias}
                 setporcenganancia={setporcenganancia}
 
