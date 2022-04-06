@@ -109,7 +109,7 @@ const db = {
 
   setUsuario: data=>axios.post(host+"setUsuario",data),
   delUsuario: data => axios.post(host + "delUsuario", data),
-  getUsuarios: data=>axios.get(host+"getUsuarios"),
+  getUsuarios: data => axios.get(host + "getUsuarios", { params: data }),
   getCierres: data=>axios.get(host+"getCierres",{params:data}),
   
   

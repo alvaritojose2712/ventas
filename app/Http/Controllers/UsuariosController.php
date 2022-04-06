@@ -15,15 +15,20 @@ class UsuariosController extends Controller
     public function setUsuario(Request $req)
     {
         try {
-            usuarios::updateOrCreate(
-                ["id"=>$req->id],[
+            $arr = [
                 "nombre"=>$req->nombres,
                 "usuario"=>$req->usuario,
-                "clave"=>Hash::make($req->clave),
                 "tipo_usuario"=>$req->role,
-            ]);
+            ];
+            if ($req->clave) {
+                $arr["clave"] = Hash::make($req->clave);
+            }
+
+            usuarios::updateOrCreate(
+                ["id"=>$req->id],$arr);
+            return Response::json(["msj"=>"¡Éxito!","estado"=>true]);
         } catch (\Exception $e) {
-            
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
         }
     }
     public function delUsuario(Request $req)
@@ -43,7 +48,8 @@ class UsuariosController extends Controller
 
     public function getUsuarios(Request $req)
     {
-        return usuarios::all(["id","nombre","usuario","tipo_usuario"]);
+        $qBuscarUsuario = $req->q;
+        return usuarios::orwhere("usuario","LIKE",$qBuscarUsuario."%")->orwhere("nombre","LIKE",$qBuscarUsuario."%")->get(["id","nombre","usuario","tipo_usuario"]);
     }
     
 }

@@ -81,7 +81,7 @@ function Proveedores({
                       </div>
                     </div>
                     <div className="card-body">
-                      <div className="/personal/vermas">
+                      <div className="">
                         <h5 
                         className="card-title"
                         ><b>{e.descripcion}</b></h5>

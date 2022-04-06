@@ -289,6 +289,24 @@ export default function Facturar({user,notificar,setLoading}) {
   const [billete100,setbillete100] = useState("")
 
   const [usuariosData, setusuariosData] = useState([])
+  const [usuarioNombre, setusuarioNombre] = useState("")
+  const [usuarioUsuario, setusuarioUsuario] = useState("")
+  const [usuarioRole, setusuarioRole] = useState("")
+  const [usuarioClave, setusuarioClave] = useState("")
+  
+  const [qBuscarUsuario, setQBuscarUsuario] = useState("")
+  const [indexSelectUsuarios, setIndexSelectUsuarios] = useState(null)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   const [toggleClientesBtn, settoggleClientesBtn] = useState(false)
 
@@ -617,6 +635,15 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
     enableOnTags:["INPUT", "SELECT","TEXTAREA"],
   }, [view, counterListProductos, selectItem, subViewInventario, modViewInventario]);
 
+  useEffect(()=>{
+    getUsuarios()
+    
+  }, [qBuscarUsuario])
+
+  useEffect(() => {
+    setInputsUsuarios()
+  }, [indexSelectUsuarios])
+  
 
   useEffect(()=>{
     // let isMounted = true;  
@@ -2517,40 +2544,53 @@ const setBilletes = () => {
   setCaja_usd(total)
 }
 const addNewUsuario = e => {
+  e.preventDefault()
 
   let id = null
-  let tipo = e.currentTarget.attributes["data-tipo"].value
-
-  let role = window.prompt("Role 1,2,3")
-  let nombres = window.prompt("Nombres")
-  let usuario = window.prompt("Usuario")
-  let clave = window.prompt("Clave")
-
-  if(tipo=="update"){
-    id = e.currentTarget.attributes["data-id"].value
+  if (indexSelectUsuarios) {
+    id = usuariosData[indexSelectUsuarios].id
   }
 
-  if (role&&nombres&&usuario&&clave) {
+  if (usuarioRole&&usuarioNombre&&usuarioUsuario) {
     setLoading(true)
-    db.setUsuario({id,role,nombres,usuario,clave}).then(res=>{
+    db.setUsuario({id,role:usuarioRole,nombres:usuarioNombre,usuario:usuarioUsuario,clave:usuarioClave})
+    .then(res=>{
       notificar(res)
       setLoading(false)
       getUsuarios()
     })
+  }else{
+    console.log("Err: addNewUsuario"+usuarioRole+" "+usuarioNombre+" "+usuarioUsuario)
+  }
+}
+const setInputsUsuarios = () => {
+  if (indexSelectUsuarios) {
+    let obj = usuariosData[indexSelectUsuarios]
+    if (obj) {
+      setusuarioNombre(obj.nombre)
+      setusuarioUsuario(obj.usuario)
+      setusuarioRole(obj.tipo_usuario)
+      setusuarioClave(obj.clave)
+    }
+    
   }
 }
 const getUsuarios = () => {
   setLoading(true)
-  db.getUsuarios({}).then(res=>{
+  db.getUsuarios({q:qBuscarUsuario}).then(res=>{
     setLoading(false)
     setusuariosData(res.data)
   })
 }
 const delUsuario = () => {
   setLoading(true)
-  let id = e.currentTarget.attributes["data-id"].value
+  let id = null
+  if (indexSelectUsuarios) {
+    id = usuariosData[indexSelectUsuarios].id
+  }
   db.delUsuario({id}).then(res=>{
     setLoading(false)
+    getUsuarios()
     notificar(res)
   })
 }
@@ -3034,10 +3074,24 @@ const auth = permiso => {
         />:null}
 
         {view=="usuarios"?<Usuarios
-          usuariosData={usuariosData}
+          
           addNewUsuario={addNewUsuario}
+          
+
+          usuarioNombre={usuarioNombre}
+          setusuarioNombre={setusuarioNombre}
+          usuarioUsuario={usuarioUsuario}
+          setusuarioUsuario={setusuarioUsuario}
+          usuarioRole={usuarioRole}
+          setusuarioRole={setusuarioRole}
+          usuarioClave={usuarioClave}
+          setusuarioClave={setusuarioClave}
+          indexSelectUsuarios={indexSelectUsuarios}
+          setIndexSelectUsuarios={setIndexSelectUsuarios}
+          qBuscarUsuario={qBuscarUsuario}
+          setQBuscarUsuario={setQBuscarUsuario}
           delUsuario={delUsuario}
-          getUsuarios={getUsuarios}
+          usuariosData={usuariosData}
         />:null}
         {view=="inventario"?<Inventario
           delPagoProveedor={delPagoProveedor}
