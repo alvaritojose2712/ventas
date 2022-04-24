@@ -20,7 +20,7 @@ export default function VentasComponet({
 		<div className="container">
 			<div className="input-group mb-4">
 				<div className="input-prepend-text">
-					<button className="btn btn-outline-success" onClick={getVentasClick}>Actualizar</button>
+					<button className="btn btn-outline-success" onClick={getVentasClick}><i className="fa fa-refresh"></i></button>
 				</div>
 				<input type="date" className="form-control" onChange={e=>setfechaventas(e.target.value)} value={fechaventas}/>
 			</div>	
@@ -29,10 +29,10 @@ export default function VentasComponet({
 					<div className="col p-0">
 						{ventasData?
 							<div className="btn-group">
-								<button className="btn btn-outline-success fs-1">Tot. {moneda(ventasData["total"])}</button>
-								<button className="btn btn-outline-sinapsis fs-4">Efec. {moneda(ventasData[3])}</button>
-								<button className="btn btn-outline-sinapsis fs-4">Deb. {moneda(ventasData[2])}</button>
-								<button className="btn btn-outline-sinapsis fs-4">Trans. {moneda(ventasData[1])}</button>
+								<button className="btn btn-outline-success fs-1">Tot. {ventasData["total"]}</button>
+								<button className="btn btn-outline-sinapsis fs-4">Efec. {ventasData[3]}</button>
+								<button className="btn btn-outline-sinapsis fs-4">Deb. {ventasData[2]}</button>
+								<button className="btn btn-outline-sinapsis fs-4">Trans. {ventasData[1]}</button>
 							</div>
 						:null}
 
@@ -41,7 +41,7 @@ export default function VentasComponet({
 						{ventasData?
 							<span className="text-success pull-right fs-2">
 								<i className="fa fa-user m-2"></i>
-								<button className="btn btn-xl btn-outline-success btn-circle fs-3">
+								<button className="btn btn-xl btn-outline-success btn-circle fs-4">
 									{ventasData["numventas"]}
 								</button>
 							</span>
@@ -50,7 +50,7 @@ export default function VentasComponet({
 				</div>
 			</div>
 			<div className='m-3 d-flex justify-content-center'>
-				<LineChart width={800} height={300} data={dataGrafica}>
+				<LineChart width={1000} height={350} data={dataGrafica}>
 					<Line type="monotone" dataKey="monto" stroke="#8884d8" />
 					<CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
 					<XAxis dataKey="hora" />

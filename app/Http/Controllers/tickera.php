@@ -109,33 +109,38 @@ class tickera extends Controller
                 }
             }else{
 
-                $printer->setJustification(Printer::JUSTIFY_CENTER);
-                $printer -> setTextSize(1,1);
+                
+               $printer->setJustification(Printer::JUSTIFY_CENTER);
 
-                $tux = EscposImage::load(resource_path() . "/images/small.jpg", false);
+                $tux = EscposImage::load(resource_path() . "/images/logo-small.jpg", false);
                 $printer -> bitImage($tux);
+                $printer->setEmphasis(true);
+
+                // $printer->text("\n");
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
 
                 $printer -> text("\n");
-                $printer -> text($sucursal->nombre_registro." ".$sucursal->rif);
+                $printer -> text($sucursal->nombre_registro);
+                $printer -> text("\n");
+                $printer -> text($sucursal->rif);
                 $printer -> text("\n");
                 $printer -> text($sucursal->telefono1." | ".$sucursal->telefono2);
                 $printer -> text("\n");
-                $printer->setEmphasis(false);
-
-
-                $printer->setJustification(Printer::JUSTIFY_CENTER);
 
                 $printer -> setTextSize(1,1);
 
-                
-                
+                $printer->setEmphasis(true);
 
-                $printer->text("NOTA DE ENTREGA #".$pedido->id);
+                
+               
                 $printer -> text("\n");
 
+                $printer->text("NOTA DE ENTREGA #".$pedido->id);
                 $printer->setEmphasis(false);
 
                 $printer -> text("\n");
+                $printer -> text("\n");
+
                 if ($nombres!="") {
                     $printer->setJustification(Printer::JUSTIFY_LEFT);
                     $printer -> text("Nombre y Apellido: ".$nombres);
@@ -186,13 +191,15 @@ class tickera extends Controller
                    $printer->text($item['descripcion']);
                    $printer->text("\n");
 
-                   $printer->text(addSpaces("Ct. ".$item['cantidad'],15)." | ");
-                   //$printer->text("\n");
+                   $printer->text(addSpaces("P/U. ",6).$item['pu']);
+                   $printer->text("\n");
                    
-                   $printer->text(addSpaces("P/U. ".$item['pu'],15)." | ");
-                   //$printer->text("\n");
+                   $printer->setEmphasis(true);
+                   $printer->text(addSpaces("Ct. ",6).$item['cantidad']);
+                   $printer->setEmphasis(false);
+                   $printer->text("\n");
 
-                   $printer->text(addSpaces("Tot. ".$item['totalprecio'],15));
+                   $printer->text(addSpaces("Tot. ",6).$item['totalprecio']);
                    $printer->text("\n");
 
 
@@ -211,21 +218,22 @@ class tickera extends Controller
                 $printer->text("\n");
                 $printer->text("Total: ".$pedido->total);
                 $printer->text("\n");
+                $printer->text("\n");
+                    $printer->setJustification(Printer::JUSTIFY_CENTER);
 
-                $printer->setEmphasis(true);
-
-                $printer->text("\n");
-                $printer->setJustification(Printer::JUSTIFY_CENTER);
-                $printer->text($pedido->created_at);
-                $printer->text("\n");
-
-                $printer->text("¡Muchas gracias por su compra! :D");
-                $printer->text("\n");
-
-                $printer->text("\n");
-                $printer->text("\n");
+                $printer->text("Creado: ".$pedido->created_at);
                 
-              
+                $printer->text("\n");
+                $printer->text("*ESTE RECIBO NO TIENE NINGÚN");
+                $printer->text("\n");
+                $printer->text("VALOR FISCAL*");
+                $printer->text("\n");
+                $printer->text("\n");
+                $printer->text("\n");
+
+               
+
+                
 
 
             }

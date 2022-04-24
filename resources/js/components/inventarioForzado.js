@@ -31,6 +31,27 @@ export default function InventarioForzado({
     busqAvanzInputs,
     buscarInvAvanz,
 }){
+    const getPorGanacia = (precio,base) => {
+        try{
+            let por = 0
+
+            precio = parseFloat(precio)
+            base = parseFloat(base)
+
+            let dif = precio-base
+
+            por = ((dif*100)/base).toFixed(2)
+            if (por) {
+                return (dif<0?"":"+")+por+"%"
+
+            }else{
+                return ""
+
+            }
+        }catch(err){
+            return ""
+        }
+    } 
     return (
         <div className="container-fluid">
             <div className="d-flex justify-content-between">
@@ -200,7 +221,12 @@ export default function InventarioForzado({
                                     <td className="cell2">{e.descripcion}</td>
                                     <th className="cell05">{e.cantidad}</th>
                                     <td className="cell1">{e.precio_base}</td>
-                                    <td className="cell15 text-success">{e.precio}</td>
+                                    <td className="cell15 text-success">
+                                    {e.precio}<br/>
+                                    <span className="text-success">
+                                        {getPorGanacia(!e.precio?0:e.precio,!e.precio_base?0:e.precio_base)}
+                                    </span>
+                                    </td>
                                         <td className="cell15">{e.categoria.descripcion} <br /> {e.proveedor.descripcion}</td>
                                     <td className="cell05">{e.iva}</td>
                                 </>
@@ -263,7 +289,7 @@ export default function InventarioForzado({
                                             disabled={type(e.type)} className="form-control form-control-sm"
                                             value={!e.precio_base?"":e.precio_base}
                                             onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio_base")}
-                                            placeholder="Costo..." />
+                                            placeholder="Base..." />
 
 
 
@@ -274,11 +300,15 @@ export default function InventarioForzado({
                                                 disabled={type(e.type)} className="form-control form-control-sm"
                                                 value={!e.precio?"":e.precio}
                                                 onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio")}
-                                                placeholder="Final..." />
+                                                placeholder="Venta..." />
                                             <span className="btn btn-sm" onClick={()=>setporcenganancia("list",e.precio_base,(precio)=>{
                                                     changeInventario(precio, i, e.id, "changeInput", "precio")
                                                 })}>%</span>
                                         </div>
+                                        <span className="text-success">
+                                            {getPorGanacia(!e.precio?0:e.precio,!e.precio_base?0:e.precio_base)}
+                                        </span>
+
 
                                     </td>
                                     <td className="cell15">

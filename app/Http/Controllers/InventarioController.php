@@ -20,7 +20,7 @@ use App\Models\movimientos;
 use App\Models\items_movimiento;
 
 
-
+use DB;
 
             
 
@@ -97,20 +97,23 @@ class InventarioController extends Controller
             // $old_cant = $old_cant_query["cantidad"];
             if ($type=="ins") {
 
-                $producto = inventario::find($id);
+                $producto = inventario::select(["cantidad","precio"])->find($id);
                 $precio = $producto->precio;
                 
                 $setcantidad = $cantidad;
                 $setprecio = $precio;
                 if ($lote) {
-                    $checkIfExits = items_pedidos::where("id_producto",$id)
+                    $checkIfExits = items_pedidos::select(["cantidad"])
+                    ->where("id_producto",$id)
                     ->where("id_pedido",$id_pedido)
                     ->where("lote",$lote)
                     ->first();
                     
                 }else{
-                    $checkIfExits = items_pedidos::where("id_producto",$id)->where("id_pedido",$id_pedido)->first();
-
+                    $checkIfExits = items_pedidos::select(["cantidad"])
+                    ->where("id_producto",$id)
+                    ->where("id_pedido",$id_pedido)
+                    ->first();
                 }
                 
 
@@ -120,7 +123,10 @@ class InventarioController extends Controller
                 if ($checkIfExits) {
                     $old_ct = $checkIfExits["cantidad"];
 
-                    $setcantidad = $cantidad + $old_ct;
+                    // $setcantidad = $cantidad + $old_ct; //Sumar cantidad a lo que ya existe
+                    $setcantidad = $cantidad;
+                    $setprecio = $setcantidad*$precio;
+                }else{
                     $setprecio = $setcantidad*$precio;
                 }
 
@@ -136,6 +142,9 @@ class InventarioController extends Controller
                     "monto" => $setprecio,
                     "lote" => $lote,
                 ]);
+
+                // DB::insert('INSERT INTO items_pedidos (id_producto,id_pedido,cantidad,monto,lote) VALUES "$id","$id_pedido","$setcantidad","$setprecio","$lote"');
+
                 if ($lote) {
                     $lote_obj = lotes::find($lote);
                     $ctSeter = (($lote_obj->cantidad + ($old_ct)) - $setcantidad);
@@ -148,11 +157,10 @@ class InventarioController extends Controller
 
                 $this->checkFalla($id,$ctSeter);
             }else if($type=="upd"){
-                $checkIfExits = items_pedidos::find($id);
+                $checkIfExits = items_pedidos::select(["lote","id_producto","cantidad"])->find($id);
                 (new PedidosController)->checkPedidoAuth($id,"item");
 
-
-                $producto = inventario::find($checkIfExits->id_producto);
+                $producto = inventario::select(["precio","cantidad"])->find($checkIfExits->id_producto);
                 $precio = $producto->precio;
 
                 $old_ct = $checkIfExits->cantidad;
@@ -184,7 +192,7 @@ class InventarioController extends Controller
                     $id_producto = $item->id_producto;
                     $lote = $item->lote;
                 
-                    $producto = inventario::find($id_producto);
+                    $producto = inventario::select(["cantidad"])->find($id_producto);
                     
                 if($item->delete()){
                     if ($lote) {
@@ -385,8 +393,9 @@ class InventarioController extends Controller
                 $exacto = "id_only";
             }
         }
-        $cop = moneda::where("tipo",2)->orderBy("id","desc")->first();
-        $bs = moneda::where("tipo",1)->orderBy("id","desc")->first();
+        $mon = (new PedidosController)->get_moneda();
+        $cop = $mon["cop"];
+        $bs = $mon["bs"];
 
 
         $data = [];
@@ -514,8 +523,8 @@ class InventarioController extends Controller
 
         $data->map(function($q) use ($bs,$cop)
         {
-            $q->bs = number_format($q->precio*$bs["valor"],2,".",",");
-            $q->cop = number_format($q->precio*$cop["valor"],2,".",",");
+            $q->bs = number_format($q->precio*$bs,2,".",",");
+            $q->cop = number_format($q->precio*$cop,2,".",",");
             $q->lotes_ct = $q->lotes->sum("cantidad");
             return $q;
         });
@@ -544,21 +553,21 @@ class InventarioController extends Controller
                 $usuario = $req->usuario;
             }
 
-          $producto = inventario::find($id_producto);
+          // $producto = inventario::select(["descripcion"])->find($id_producto);
 
             
             if ($id=="nuevo") {
 
               //Crea Pedido
-                $check_cli = clientes::find(1);
+                // $check_cli = clientes::find(1);
 
-                if (!$check_cli) {
-                    $cli = new clientes;
-                    $cli->identificacion = "CF";
-                    $cli->nombre = "CF";
-                    $cli->direccion = "CF";
-                    $cli->save();
-                }
+                // if (!$check_cli) {
+                //     $cli = new clientes;
+                //     $cli->identificacion = "CF";
+                //     $cli->nombre = "CF";
+                //     $cli->direccion = "CF";
+                //     $cli->save();
+                // }
                 $new_pedido = new pedidos;
 
                 $new_pedido->estado = 0;
@@ -587,7 +596,7 @@ class InventarioController extends Controller
 
 
                 $this->hacer_pedido($id_producto,$nuevo_pedido_num,$cantidad,"ins",$loteIdCarrito);
-              return Response::json(["msj"=>"Agregado nuevo pedido #".$nuevo_pedido_num." || ".$producto["descripcion"]." || Cant. ".$cantidad,"estado"=>"ok","num_pedido"=>$nuevo_pedido_num,"type"=>$type]);
+              return Response::json(["msj"=>"Agregado nuevo pedido #".$nuevo_pedido_num." || Cant. ".$cantidad,"estado"=>"ok","num_pedido"=>$nuevo_pedido_num,"type"=>$type]);
                 
 
             }else{
@@ -595,7 +604,7 @@ class InventarioController extends Controller
                 
                 $this->hacer_pedido($id_producto,$id,$cantidad,"ins",$loteIdCarrito);
 
-                return Response::json(["msj"=>"Agregado al pedido #".$id." || ".$producto["descripcion"]." || Cant. ".$cantidad,"estado"=>"ok","num_pedido"=>$id,"type"=>$type]);
+                return Response::json(["msj"=>"Agregado al pedido #".$id." || Cant. ".$cantidad,"estado"=>"ok","num_pedido"=>$id,"type"=>$type]);
 
 
             }
@@ -899,7 +908,8 @@ class InventarioController extends Controller
     {   
         if ($id) {
             if ($ct>1) {
-                $f = fallas::where("id_producto",$id);
+
+                $f = fallas::where("id_producto",$id)->first();
                 if ($f) {
                     $f->delete();
                 }

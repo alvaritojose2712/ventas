@@ -3897,24 +3897,26 @@ class CreateInventariosTable extends Migration
 
 
         foreach ($inventario as $key => $value) {
-            array_push($arr, 
-                [
-                    // "id" => $value[0],
-                    "codigo_proveedor" => $faker->isbn13(),
-                    "codigo_barras" => $faker->ean13(),
-                    "id_proveedor" => $faker->numberBetween(1,8),
-                    "id_categoria" => $faker->numberBetween(1,39),
-                    "id_marca" => "MARCA".$faker->numberBetween(1,100),
-                    "unidad" => $value[5],
-                    "id_deposito" => 1,
-                    "descripcion" => $value[4],
-                    "iva" => 0,
-                    "porcentaje_ganancia" => 0,
-                    "precio_base" => $faker->numberBetween(1,1000),
-                    "precio" => $faker->numberBetween(1,1000),
-                    "cantidad" => $faker->numberBetween(5,4000),
-                ]
-            );
+            if ($key<100) {
+                array_push($arr, 
+                    [
+                        // "id" => $value[0],
+                        "codigo_proveedor" => $faker->isbn13(),
+                        "codigo_barras" => $faker->ean13(),
+                        "id_proveedor" => $faker->numberBetween(1,8),
+                        "id_categoria" => $faker->numberBetween(1,39),
+                        "id_marca" => "MARCA".$faker->numberBetween(1,100),
+                        "unidad" => $value[5],
+                        "id_deposito" => 1,
+                        "descripcion" => $value[4],
+                        "iva" => 0,
+                        "porcentaje_ganancia" => 0,
+                        "precio_base" => 15,
+                        "precio" => 20,
+                        "cantidad" => 10,
+                    ]
+                );
+            }
         }
         DB::table("inventarios")->insert($arr);
     }

@@ -4,82 +4,46 @@ namespace App\Http\Controllers;
 
 use App\Models\categorias;
 use Illuminate\Http\Request;
+use Response;
 
 class CategoriasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getCategorias()
+    public function getCategorias(Request $req)
     {
-        return categorias::all();
+        $q = $req->q;
+        return categorias::where("descripcion","LIKE",$q."%")->get(["id","descripcion"]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function delCategoria(Request $req)
     {
-        //
+        try {
+            $id = $req->id;
+            if ($id) {
+                categorias::find($id)->delete();
+            }
+            return Response::json(["msj"=>"Éxito al eliminar","estado"=>true]);
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+            
+        }
+    }
+    public function setCategorias(Request $req)
+    {
+        try {
+            categorias::updateOrCreate(
+                ["id"=>$req->id],[
+                    "descripcion"=>$req->categoriasDescripcion,
+                ]);
+            return Response::json(["msj"=>"¡Éxito!","estado"=>true]);
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\categorias  $categorias
-     * @return \Illuminate\Http\Response
-     */
-    public function show(categorias $categorias)
-    {
-        //
-    }
+   
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\categorias  $categorias
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(categorias $categorias)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\categorias  $categorias
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, categorias $categorias)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\categorias  $categorias
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(categorias $categorias)
-    {
-        //
-    }
+    
 }

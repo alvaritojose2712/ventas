@@ -25,15 +25,25 @@ use App\Http\Controllers\sendCentral;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\LotesController;
 use App\Http\Controllers\PagoFacturasController;
+use App\Http\Controllers\PagosReferenciasController;
+use App\Http\Controllers\GastosController;
 
 
+
+Route::get('/test', function()
+{
+	return "THis is a test";
+});
+Route::get('', [HomeController::class,"index"]);
+Route::get('setCarrito', [InventarioController::class,"setCarrito"]);
+
+Route::post('getinventario', [InventarioController::class,"index"]);
 
 
 Route::get('error', function (){
 	return view("layouts.error");
 })->name("error");
 
-Route::get('', [HomeController::class,"index"]);
 Route::post('login', [HomeController::class,"login"]);
 Route::get('logout', [HomeController::class,"logout"]);
 Route::post('verificarLogin', [HomeController::class,"verificarLogin"]);
@@ -57,6 +67,9 @@ Route::group(['middleware' => ['login']], function () {
 		Route::post('getpersona', [ClientesController::class,"getpersona"]);
 		
 		Route::post('setPagoPedido', [PagoPedidosController::class,"setPagoPedido"]);
+
+		Route::post('addRefPago', [PagosReferenciasController::class,"addRefPago"]);
+		Route::post('delRefPago', [PagosReferenciasController::class,"delRefPago"]);
 		
 		Route::post('setMoneda', [MonedaController::class,"setMoneda"]);
 		
@@ -90,15 +103,14 @@ Route::group(['middleware' => ['login']], function () {
 		
 	});
 	Route::group(['middleware' => ['vendedor']], function () {
-		Route::post('getinventario', [InventarioController::class,"index"]);
-		Route::post('setCarrito', [InventarioController::class,"setCarrito"]);
-		Route::post('getPedidosList', [PedidosController::class,"getPedidosUser"]);
+		// Route::post('getinventario', [InventarioController::class,"index"]);
+		// Route::post('setCarrito', [InventarioController::class,"setCarrito"]);
 	});
 	
 	Route::group(['middleware' => ['admin']], function () {
-		Route::post('getVentas', [PedidosController::class,"getVentas"]);
 		
 		
+		/* GastosController */
 		
 		Route::post('setProveedor', [ProveedoresController::class,"setProveedor"]);
 		Route::post('guardarNuevoProducto', [InventarioController::class,"guardarNuevoProducto"]);
@@ -106,6 +118,13 @@ Route::group(['middleware' => ['login']], function () {
 		
 		Route::post('getProveedores', [ProveedoresController::class,"getProveedores"]);
 		Route::get('getCategorias', [CategoriasController::class,"getCategorias"]);
+		Route::post('delCategoria', [CategoriasController::class,"delCategoria"]);
+		Route::post('setCategorias', [CategoriasController::class,"setCategorias"]);
+
+		Route::post('delGastos', [GastosController::class,"delGastos"]);
+		Route::post('getGastos', [GastosController::class,"getGastos"]);
+		Route::post('setGasto', [GastosController::class,"setGasto"]);
+
 
 	
 		Route::post('delProveedor', [ProveedoresController::class,"delProveedor"]);
@@ -141,11 +160,14 @@ Route::group(['middleware' => ['login']], function () {
 		Route::post('getPagoProveedor', [PagoFacturasController::class,"getPagoProveedor"]);
 		Route::post('delPagoProveedor', [PagoFacturasController::class,"delPagoProveedor"]);
 		
-		
+		Route::post('delMovCaja', [MovimientosCajaController::class,"delMovCaja"]);
+		Route::post('delMov', [MovimientosController::class,"delMov"]);
 
 
 	});
+	Route::post('getPedidosList', [PedidosController::class,"getPedidosUser"]);
 
+	Route::post('getVentas', [PedidosController::class,"getVentas"]);
 
 	Route::post('getMoneda', [MonedaController::class,"getMoneda"]);
 	Route::post('today', [PedidosController::class,"today"]);
@@ -157,8 +179,7 @@ Route::group(['middleware' => ['login']], function () {
 	Route::post('setCantidad', [ItemsPedidosController::class,"setCantidad"]);
 	Route::post('setpersonacarrito', [PedidosController::class,"setpersonacarrito"]);
 
-	Route::post('delMovCaja', [MovimientosCajaController::class,"delMovCaja"]);
-	Route::post('delMov', [MovimientosController::class,"delMov"]);
+	
 	
 	
 	

@@ -14,8 +14,10 @@ use App\Models\movimientos_caja;
 use App\Models\sucursal;
 use App\Models\movimientos;
 use App\Models\items_movimiento;
+use App\Models\pagos_referencias;
 
 
+use Illuminate\Support\Facades\Cache;
 
 
 use Illuminate\Http\Request;
@@ -27,6 +29,18 @@ use Response;
 
 class PedidosController extends Controller
 {  
+    protected  $letras = [
+                1=>"L",
+                2=>"R",
+                3=>"E",
+                4=>"A",
+                5=>"S",
+                6=>"G",
+                7=>"F",
+                8=>"B",
+                9=>"P",
+                0=>"X",
+            ];
     public function getPedidosFast(Request $req)
     {
         $fecha = $req->fecha1pedido;
@@ -45,14 +59,28 @@ class PedidosController extends Controller
             $ret->whereIn("id_vendedor",$vendedor);
         }
 
-        return $ret->limit(7)
+        return $ret->limit(4)
         ->orderBy("id","desc")
-        ->get();
+        ->get(["id","estado"]);
     }
     public function get_moneda()
-    {
-        $cop = moneda::where("tipo",2)->orderBy("id","desc")->first()["valor"];
-        $bs = moneda::where("tipo",1)->orderBy("id","desc")->first()["valor"];
+    {   
+        if (Cache::has('cop')) {
+            $cop = Cache::get('cop');
+        }else{
+            $cop = moneda::where("tipo",2)->orderBy("id","desc")->first()["valor"];
+            Cache::put('cop', $cop);
+        }
+
+        
+        if (Cache::has('bs')) {
+            $bs = Cache::get('bs');
+    //
+        }else{
+            $bs = moneda::where("tipo",1)->orderBy("id","desc")->first()["valor"];
+            Cache::put('bs', $bs);
+        }
+
         return ["cop"=>$cop, "bs"=>$bs];
     }
     public function today()
@@ -130,9 +158,35 @@ class PedidosController extends Controller
     {
         $fechaventas = $req->fechaventas;
 
+        $arr = $this->cerrarFun($fechaventas,0,0,[],true);
+
+        if ($fechaventas) {
+            // code...
+           
+
+            foreach ($this->letras as $key => $value) {
+                if (isset($arr["total"])) {
+                    $arr["total"] = str_replace($key, $value, ($arr["total"]));
+                    // code...
+                }
+                if (isset($arr["3"])) {
+                    // code...
+                    $arr["3"] = str_replace($key, $value, ($arr["3"]));
+                }
+                if (isset($arr["2"])) {
+                    $arr["2"] = str_replace($key, $value, ($arr["2"]));
+                    // code...
+                }
+
+                if (isset($arr["1"])) {
+                    $arr["1"] = str_replace($key, $value, ($arr["1"]));
+                    // code...
+                }
+            }
+        }
         
 
-        return $this->cerrarFun($fechaventas,0,0,[],true);
+        return $arr;
     }
     public function getPedidos(Request $req)
     {   
@@ -255,7 +309,7 @@ class PedidosController extends Controller
             ->map(function($q) use (&$subtotal, &$desctotal, &$totaltotal,&$porctotal,&$itemstotal,&$totalventas,$filterMetodoPagoToggle){
                 // global ;
 
-                $fun = $this->getPedidoFun($q->id,$filterMetodoPagoToggle);
+                $fun = $this->getPedidoFun($q->id,$filterMetodoPagoToggle,1,1,1,true);
                 $q->pedido = $fun;
 
                 // $istrue = false; 
@@ -331,24 +385,23 @@ class PedidosController extends Controller
             "totalventas"=>$totalventas,
         ];
     }
-    public function getPedidosUser()
+    public function getPedidosUser(Request $req)
     {
-        if (session()->has("id_usuario")) {
-            $vendedor = session("id_usuario");
-            return pedidos::where("estado",0)->where("id_vendedor",$vendedor)->orderBy("id","desc")->get();
-        }
+        $vendedor = $req->vendedor;
+        return pedidos::where("estado",0)->where("id_vendedor",$vendedor)->orderBy("id","desc")->limit(4)->get(["id","estado"]);
     }
     public function pedidoAuth($id,$tipo="pedido")
     {
+
         if ($id===null) {
             $fecha_creada = $tipo;
             $estado = true;
         }else{
 
             if ($tipo=="pedido") {
-                $pedido = pedidos::find($id);
+                $pedido = pedidos::select(["estado","created_at"])->find($id);
             }else{
-                $pedido = pedidos::find(items_pedidos::find($id)->id_pedido);
+                $pedido = pedidos::select(["estado","created_at"])->find(items_pedidos::find($id)->id_pedido);
             }
             $fecha_creada = date("Y-m-d",strtotime($pedido->created_at));
            
@@ -429,18 +482,37 @@ class PedidosController extends Controller
             
         }
     }
-    public function getPedidoFun($id_pedido,$filterMetodoPagoToggle="todos",$cop=1,$bs=1,$factor=1)
+    public function getPedidoFun($id_pedido,$filterMetodoPagoToggle="todos",$cop=1,$bs=1,$factor=1,$clean=false)
     {
         
-        $pedido = pedidos::with(["vendedor","cliente","pagos"=>function($q) use ($filterMetodoPagoToggle) 
+        $pedido = pedidos::with(["referencias"=>function($q){
+            $q->select(["id","tipo","descripcion","monto","id_pedido"]);
+        },"vendedor"=>function($q){
+            $q->select(["id","usuario","tipo_usuario","nombre"]);
+        },"cliente"=>function($q){
+            $q->select(["id","identificacion","nombre"]);
+        },"pagos"=>function($q) use ($filterMetodoPagoToggle) 
         {
             // if ($filterMetodoPagoToggle!="todos") {
             //     $q->where("tipo",$filterMetodoPagoToggle);
             // }
+            $q->select(["id","tipo","monto","cuenta","id_pedido"]);
+
         },"items"=>function($q)
         {
-
-            $q->with(["producto","lotedata"]);
+            $q->select([
+                "id",
+                "lote",
+                "id_producto",
+                "id_pedido",
+                "abono",
+                "cantidad",
+                "descuento",
+                "monto",
+            ]);
+            $q->with(["producto"=>function($q){
+                $q->select(["id","codigo_barras","codigo_proveedor","descripcion","precio","precio_base","iva"]);
+            },"lotedata"]);
             $q->orderBy("id","asc");
 
         }])->where("id",$id_pedido)->first();
@@ -499,6 +571,7 @@ class PedidosController extends Controller
                 return $item;
                 
             });
+            $pedido->tot_items =count($pedido->items);
             $pedido->total_des = number_format($total_des_ped,2,".",",");
             $pedido->subtotal = number_format($subtotal_ped,2,".",",");
             $pedido->total = number_format(round( $total_ped,3),2,".",",");
@@ -540,7 +613,13 @@ class PedidosController extends Controller
 
         }
 
-        return $pedido;
+        if ($clean) {
+            // code...
+            return $pedido->makeHidden("items");
+            // return $pedido;
+        }else{
+            return $pedido;
+        }
     }
     public function getPedido(Request $req,$factor=1)
     {   
@@ -552,9 +631,9 @@ class PedidosController extends Controller
             $vendedor = session("id_usuario");
 
             $check = pedidos::where("estado",0)->where("id_vendedor",$vendedor)->orderBy("id","desc")->first();
-            if (!$check) {
-                $check = pedidos::where("estado",1)->where("id_vendedor",$vendedor)->orderBy("id","desc")->first();
-            }
+            // if (!$check) {
+            //     $check = pedidos::where("estado",1)->where("id_vendedor",$vendedor)->orderBy("id","desc")->first();
+            // }
             
             if (!$check) {
                 return [];
@@ -636,7 +715,62 @@ class PedidosController extends Controller
         }
         $pedido = pedidos::where("created_at","LIKE",$fecha."%");
 
-        // $match_cierre = cierres::where("fecha",$fecha)->first();
+        /////Montos de ganancias
+            //Var vueltos_des
+            //Var precio
+            //Var precio_base
+            //Var desc_total
+            //Var ganancia
+            //Var porcentaje
+            $vueltos_des = pago_pedidos::where("tipo",6)->where("monto","<>",0)
+            ->whereIn("id_pedido",pedidos::where("created_at","LIKE",$fecha."%")->select("id"))
+            ->get()
+            ->map(function($q){
+                $q->cliente = pedidos::with("cliente")->find($q->id_pedido);
+                return $q;
+            });
+
+            $inv = items_pedidos::with("producto")->whereIn("id_pedido",pedidos::where("created_at","LIKE",$fecha."%")->where("estado",1)->select("id"))
+            ->get()
+            ->map(function($q){
+                if (isset($q->producto)) {
+                    $q->base_tot = $q->producto->precio_base*$q->cantidad;
+                }else{
+                    $q->base_tot = 0;
+                }
+                return $q;
+            });
+
+            $precio = $inv->sum("monto");
+            $precio_base = $inv->sum("base_tot");
+            
+            $desc_total = items_pedidos::whereIn("id_pedido",pedidos::where("created_at","LIKE",$fecha."%")->where("estado",1)->select("id"))
+            ->get()
+            ->map(function($q){
+
+                // $q->monto_sin = 0;
+                // if ($q->descuento!=0) {
+                    $q->monto_sin = ($q->monto)-(($q->descuento/100)*$q->monto);
+                // }
+
+                return $q;
+            })->sum("monto_sin");
+
+            $credi_total = pago_pedidos::whereIn("id_pedido",pedidos::where("created_at","LIKE",$fecha."%")->where("tipo",4)->select("id"))
+            ->get()
+            ->sum("monto");
+
+            $desc_total -= $credi_total;
+            $precio -= $credi_total;
+            
+            $ganancia = ($desc_total-$precio_base);
+
+            if ($precio_base==0) {
+                $porcentaje = 100; 
+            }else{
+                $porcentaje = round( (($ganancia*100) / $precio_base),2 ); 
+            }
+        /////End Montos de ganancias
 
 
         $arr_pagos = [
@@ -662,7 +796,14 @@ class PedidosController extends Controller
 
             "estado_punto" => 0,
             "msj_punto" => "",
-
+            //Montos de ganancias
+            "vueltos_des" => $vueltos_des,
+            "precio" => $precio,
+            "precio_base" => $precio_base,
+            "desc_total" => $desc_total,
+            "ganancia" => $ganancia,
+            "porcentaje" => $porcentaje,
+            //
             1=>0,
             2=>0,
             3=>0,
@@ -673,6 +814,7 @@ class PedidosController extends Controller
         $numventas_arr = [];
         pago_pedidos::whereIn("id_pedido",$pedido->select("id"))
         ->where("monto","<>",0)
+        ->orderBy("id","desc")
         ->get()
         ->map(function($q) use (&$arr_pagos,&$numventas_arr){
             if (array_key_exists($q->tipo,$arr_pagos)) {
@@ -734,12 +876,32 @@ class PedidosController extends Controller
     }
     public function getCierres(Request $req)
     {
-        if ($req->fechaGetCierre=="") {
-            return cierres::orderBy("id","desc")->get();
-            // code...
+
+        $fechaGetCierre = $req->fechaGetCierre;
+        $fechaGetCierre2 = $req->fechaGetCierre2;
+        if (!$fechaGetCierre&&!$fechaGetCierre2) {
+            $cierres = cierres::orderBy("fecha","desc");
         }else{
-            return cierres::where("fecha",$req->fechaGetCierre)->orderBy("id","desc")->limit(10)->get();
+            $cierres = cierres::whereBetween("fecha",[$fechaGetCierre,$fechaGetCierre2]);
         }
+        
+        
+        return [
+            "cierres"=>$cierres->get(),
+            "numventas"=>$cierres->sum("numventas"),
+            
+            "debito" => number_format($cierres->sum("debito"),2),
+            "efectivo" => number_format($cierres->sum("efectivo"),2),
+            "transferencia" => number_format($cierres->sum("transferencia"),2),
+
+            "precio" => number_format($cierres->sum("precio"),2),
+            "precio_base" => number_format($cierres->sum("precio_base"),2),
+
+            "ganancia" => number_format($cierres->sum("ganancia"),2),
+            "porcentaje" => number_format($cierres->avg("porcentaje"),2),
+            
+        ];
+        
     }
     public function cerrar(Request $req)
     {
@@ -775,26 +937,56 @@ class PedidosController extends Controller
             $cop = $this->get_moneda()["cop"];
             $bs = $this->get_moneda()["bs"];
 
+            $last_cierre = cierres::orderBy("fecha","desc")->first();
+            $check = cierres::where("fecha",$req->fechaCierre)->first();
+            
+            $fecha_ultimo_cierre = "0";
+            if ($last_cierre) {
+                $fecha_ultimo_cierre = $last_cierre["fecha"];
+            }
 
-            cierres::updateOrCreate(
-                ["fecha"=>$req->fechaCierre],
-                [
-                    "debito" => floatval($req->total_punto),
-                    "efectivo" => floatval($req->efectivo),
-                    "transferencia" => floatval($req->transferencia),
-                    "dejar_dolar" => floatval($req->dejar_usd),
-                    "dejar_peso" => floatval($req->dejar_cop),
-                    "dejar_bss" => floatval($req->dejar_bs),
+            /* $last_debito = $last_cierre->debito;
+            $last_efectivo = $last_cierre->efectivo;
+            $last_transferencia = $last_cierre->transferencia;
+            
 
-                    "efectivo_guardado" => floatval($req->guardar_usd),
-                    "efectivo_guardado_cop" => floatval($req->guardar_cop),
-                    "efectivo_guardado_bs" => floatval($req->guardar_bs),
-                    "tasa" => $bs,
-                    "nota" => $req->notaCierre,
-                    "id_usuario" => session()->has("id_usuario"),
-                ]
+            $today = $this->today(); */
 
-            );
+            if ($check===null || $fecha_ultimo_cierre==$req->fechaCierre) {
+                if ($req->total_punto || $req->efectivo || $req->transferencia) {
+                    cierres::updateOrCreate(
+                        ["fecha"=>$req->fechaCierre],
+                        [
+                            "debito" => floatval($req->total_punto),
+                            "efectivo" => floatval($req->efectivo),
+                            "transferencia" => floatval($req->transferencia),
+                            "dejar_dolar" => floatval($req->dejar_usd),
+                            "dejar_peso" => floatval($req->dejar_cop),
+                            "dejar_bss" => floatval($req->dejar_bs),
+        
+                            "efectivo_guardado" => floatval($req->guardar_usd),
+                            "efectivo_guardado_cop" => floatval($req->guardar_cop),
+                            "efectivo_guardado_bs" => floatval($req->guardar_bs),
+                            "tasa" => $bs,
+                            "nota" => $req->notaCierre,
+                            "id_usuario" => session()->has("id_usuario"),
+        
+                            "precio" => floatval($req->precio),
+                            "precio_base" => floatval($req->precio_base),
+                            "ganancia" => floatval($req->ganancia),
+                            "porcentaje" => floatval($req->porcentaje),
+                            "numventas" => intval($req->numventas),
+                            "desc_total" => floatval($req->desc_total),
+                            
+                        ]
+        
+                    );
+                }else{
+                    throw new \Exception("Cierre sin montos.", 1);
+                }
+            }else {
+                throw new \Exception("Cierre de la fecha: ".$fecha_ultimo_cierre." procesado. No se pueden hacer cambios.", 1);
+            }
 
             return Response::json(["msj"=>"¡Cierre guardado exitosamente!","estado"=>true]);
 
@@ -806,6 +998,8 @@ class PedidosController extends Controller
     public function verCierre(Request $req)
     {   
         $type = $req->type;
+        $sucursal = sucursal::all()->first();
+
         $cierre = cierres::where("fecha",$req->fecha)->first();
         if (!$cierre) {
             return "No hay cierre guardado para esta fecha";
@@ -814,84 +1008,110 @@ class PedidosController extends Controller
         $total_inventario = inventario::sum("precio");
         $vueltos = pago_pedidos::where("tipo",6)->where("monto","<>",0);
         $vueltos_totales = $vueltos->sum("monto");
-
-        $vueltos_des = $vueltos
-        ->whereIn("id_pedido",pedidos::where("created_at","LIKE",$req->fecha."%")->select("id"))
-        ->get()
-        ->map(function($q){
-            $q->cliente = pedidos::with("cliente")->find($q->id_pedido);
-            return $q;
-        });
-
-        $inv = items_pedidos::with("producto")->whereIn("id_pedido",pedidos::where("created_at","LIKE",$req->fecha."%")->where("estado",1)->select("id"))
-        ->get()
-        ->map(function($q){
-            if (isset($q->producto)) {
-                $q->base_tot = $q->producto->precio_base*$q->cantidad;
-                // code...
-            }else{
-                $q->base_tot = 0;
-
-            }
-            return $q;
-        });
-
-        $precio = $inv->sum("monto");
-        $precio_base = $inv->sum("base_tot");
+        
+        $pagos_referencias = pagos_referencias::where("created_at","LIKE",$req->fecha."%")->orderBy("tipo","desc")->get();
 
 
         
-        $desc_total = items_pedidos::whereIn("id_pedido",pedidos::where("created_at","LIKE",$req->fecha."%")->where("estado",1)->select("id"))
-        ->get()
-        ->map(function($q){
 
-            // $q->monto_sin = 0;
-            // if ($q->descuento!=0) {
-                $q->monto_sin = ($q->monto)-(($q->descuento/100)*$q->monto);
-                // code...
-            // }
-
-            return $q;
-        })->sum("monto_sin");
-
-        $credi_total = pago_pedidos::whereIn("id_pedido",pedidos::where("created_at","LIKE",$req->fecha."%")->where("tipo",4)->select("id"))
-        ->get()
-        ->sum("monto");
-
-
-
-        $desc_total -= $credi_total;
-        $precio -= $credi_total;
-        
-        $ganancia = ($desc_total-$precio_base);
-
-        if ($precio_base==0) {
-            $porcentaje = 100; 
-        }else{
-            $porcentaje = round( (($ganancia*100) / $precio_base),2 ); 
-
-        }
-        $movimientos = movimientos::with(["items"=>function($q)
-        {
+        $movimientos = movimientos::with(["items"=>function($q){
             $q->with("producto");
         }])->where("created_at","LIKE",$req->fecha."%")->get();
         // return $vueltos_des;
-        $sucursal = sucursal::all()->first();
+        $facturado = $this->cerrarFun($req->fecha,0,0);
         $arr_send = [
+            "referencias"=>$pagos_referencias,
             "cierre" => $cierre,
+            "cierre_tot" => number_format($cierre->debito+$cierre->efectivo+$cierre->transferencia,2,",","."),
             "total_inventario" =>($total_inventario),
-            "vueltos_totales" =>$vueltos_totales,
-            "vueltos_des" =>$vueltos_des,
+            "total_inventario_format" =>number_format($total_inventario,2,",","."),
+            "vueltos_totales" =>number_format($vueltos_totales,2,",","."),
+            "vueltos_des" =>$facturado["vueltos_des"],
 
-            "precio"=> $precio,
-            "precio_base"=> $precio_base,
-            "ganancia"=> round($ganancia,2),
-            "porcentaje"=> $porcentaje,
-            "desc_total"=> round($desc_total,2),
-            "facturado" =>$this->cerrarFun($req->fecha,0,0),
+            "precio"=> number_format($facturado["precio"],2,",","."),
+            "precio_base"=> number_format($facturado["precio_base"],2,",","."),
+            "ganancia"=> number_format(round($facturado["ganancia"],2),2,",","."),
+            "porcentaje"=> number_format($facturado["porcentaje"],2,",","."),
+            "desc_total"=> number_format(round($facturado["desc_total"],2),2,",","."),
+            "facturado" => $facturado,
+            "facturado_tot" => number_format($facturado[2]+$facturado[3]+$facturado[1],2,",","."),
             "sucursal"=>$sucursal,
             "movimientos"=>$movimientos,
         ];
+
+        
+        $arr_send["cierre"]["debito"] = number_format($arr_send["cierre"]["debito"],2,",",".");
+        $arr_send["cierre"]["efectivo"] = number_format($arr_send["cierre"]["efectivo"],2,",",".");
+        $arr_send["cierre"]["transferencia"] = number_format($arr_send["cierre"]["transferencia"],2,",",".");
+        $arr_send["cierre"]["dejar_dolar"] = number_format($arr_send["cierre"]["dejar_dolar"],2,",",".");
+        $arr_send["cierre"]["dejar_peso"] = number_format($arr_send["cierre"]["dejar_peso"],2,",",".");
+        $arr_send["cierre"]["dejar_bss"] = number_format($arr_send["cierre"]["dejar_bss"],2,",",".");
+        $arr_send["cierre"]["tasa"] = number_format($arr_send["cierre"]["tasa"],2,",",".");
+        $arr_send["cierre"]["efectivo_guardado"] = number_format($arr_send["cierre"]["efectivo_guardado"],2,",",".");
+        $arr_send["cierre"]["efectivo_guardado_cop"] = number_format($arr_send["cierre"]["efectivo_guardado_cop"],2,",",".");
+        $arr_send["cierre"]["efectivo_guardado_bs"] = number_format($arr_send["cierre"]["efectivo_guardado_bs"],2,",",".");
+        $arr_send["facturado"]["total"] = number_format($arr_send["facturado"]["total"],2,",",".");
+        $arr_send["facturado"]["caja_inicial"] = number_format($arr_send["facturado"]["caja_inicial"],2,",",".");
+        //$arr_send["facturado"]["numventas"] = number_format($arr_send["facturado"]["numventas"],2,",",".");
+        $arr_send["facturado"]["entregadomenospend"] = number_format($arr_send["facturado"]["entregadomenospend"],2,",",".");
+        $arr_send["facturado"]["entregado"] = number_format($arr_send["facturado"]["entregado"],2,",",".");
+        $arr_send["facturado"]["pendiente"] = number_format($arr_send["facturado"]["pendiente"],2,",",".");
+        $arr_send["facturado"]["total_caja"] = number_format($arr_send["facturado"]["total_caja"],2,",",".");
+        $arr_send["facturado"]["total_punto"] = number_format($arr_send["facturado"]["total_punto"],2,",",".");
+
+        $arr_send["facturado"]["1"] = number_format($arr_send["facturado"]["1"],2,",",".");
+        $arr_send["facturado"]["2"] = number_format($arr_send["facturado"]["2"],2,",",".");
+        $arr_send["facturado"]["3"] = number_format($arr_send["facturado"]["3"],2,",",".");
+        $arr_send["facturado"]["4"] = number_format($arr_send["facturado"]["4"],2,",",".");
+        $arr_send["facturado"]["5"] = number_format($arr_send["facturado"]["5"],2,",",".");
+        $arr_send["facturado"]["6"] = number_format($arr_send["facturado"]["6"],2,",",".");
+        //foreach ($this->letras as $key => $value) {
+            $arr_send["total_inventario_format"] = toLetras($arr_send["total_inventario_format"]); 
+            $arr_send["vueltos_totales"] = toLetras($arr_send["vueltos_totales"]); 
+            $arr_send["precio"] = toLetras($arr_send["precio"]); 
+            $arr_send["precio_base"] = toLetras($arr_send["precio_base"]); 
+            $arr_send["ganancia"] = toLetras($arr_send["ganancia"]); 
+            $arr_send["porcentaje"] = toLetras($arr_send["porcentaje"]); 
+            $arr_send["desc_total"] = toLetras($arr_send["desc_total"]); 
+            $arr_send["cierre_tot"] = toLetras($arr_send["cierre_tot"]); 
+            $arr_send["facturado_tot"] = toLetras($arr_send["facturado_tot"]); 
+
+
+
+            $arr_send["cierre"]["debito"] = toLetras($arr_send["cierre"]["debito"]); 
+            $arr_send["cierre"]["efectivo"] = toLetras($arr_send["cierre"]["efectivo"]); 
+            $arr_send["cierre"]["transferencia"] = toLetras($arr_send["cierre"]["transferencia"]); 
+
+            $arr_send["cierre"]["dejar_dolar"] = toLetras($arr_send["cierre"]["dejar_dolar"]);
+            $arr_send["cierre"]["dejar_peso"] = toLetras($arr_send["cierre"]["dejar_peso"]);
+            $arr_send["cierre"]["dejar_bss"] = toLetras($arr_send["cierre"]["dejar_bss"]);
+            $arr_send["cierre"]["tasa"] = toLetras($arr_send["cierre"]["tasa"]);
+
+            $arr_send["cierre"]["efectivo_guardado"] = toLetras($arr_send["cierre"]["efectivo_guardado"]);
+            $arr_send["cierre"]["efectivo_guardado_cop"] = toLetras($arr_send["cierre"]["efectivo_guardado_cop"]);
+            $arr_send["cierre"]["efectivo_guardado_bs"] = toLetras($arr_send["cierre"]["efectivo_guardado_bs"]);
+
+
+            $arr_send["facturado"]["numventas"] = toLetras($arr_send["facturado"]["numventas"]);
+            $arr_send["facturado"]["total"] = toLetras($arr_send["facturado"]["total"]);
+            $arr_send["facturado"]["caja_inicial"] = toLetras($arr_send["facturado"]["caja_inicial"]);
+            $arr_send["facturado"]["entregadomenospend"] = toLetras($arr_send["facturado"]["entregadomenospend"]);
+            $arr_send["facturado"]["entregado"] = toLetras($arr_send["facturado"]["entregado"]);
+            $arr_send["facturado"]["pendiente"] = toLetras($arr_send["facturado"]["pendiente"]);
+            $arr_send["facturado"]["total_caja"] = toLetras($arr_send["facturado"]["total_caja"]);
+            $arr_send["facturado"]["total_punto"] = toLetras($arr_send["facturado"]["total_punto"]);
+
+            $arr_send["facturado"]["1"] = toLetras($arr_send["facturado"]["1"]);
+            $arr_send["facturado"]["2"] = toLetras($arr_send["facturado"]["2"]);
+            $arr_send["facturado"]["3"] = toLetras($arr_send["facturado"]["3"]);
+            $arr_send["facturado"]["4"] = toLetras($arr_send["facturado"]["4"]);
+            $arr_send["facturado"]["5"] = toLetras($arr_send["facturado"]["5"]);
+            $arr_send["facturado"]["6"] = toLetras($arr_send["facturado"]["6"]);
+        //}
+
+
+
+        
 
 
 
@@ -910,11 +1130,10 @@ class PedidosController extends Controller
             //Enviar Cierre
 
             $from1 = $sucursal->correo;
-            $from = "sinapsis ";
+            $from = $sucursal->sucursal;
             $subject = $sucursal->sucursal." ".$req->fecha;
-            $env_emails = str_replace("\n", "", env("SEND_MAIL"));
             $sends = [
-                "alvaroospino79@gmail.com",
+                
             ];
             try {
                 Mail::to($sends)->send(new enviarCierre($arr_send,$from1,$from,$subject));    

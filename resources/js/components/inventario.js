@@ -7,6 +7,7 @@ import PedidosCentralComponent from '../components/pedidosCentral';
 
 import InventarioForzado from '../components/inventarioForzado';
 import EstadisticaInventario from '../components/estadisticainventario';
+import Gastos from '../components/gastos';
 
 
 
@@ -197,6 +198,25 @@ function Inventario({
   buscarInvAvanz,
 
   delPagoProveedor,
+
+  qgastosfecha1,
+  setqgastosfecha1,
+  qgastosfecha2,
+  setqgastosfecha2,
+  qgastos,
+  setqgastos,
+  qcatgastos,
+  setqcatgastos,
+  gastosdescripcion,
+  setgastosdescripcion,
+  gastoscategoria,
+  setgastoscategoria,
+  gastosmonto,
+  setgastosmonto,
+  gastosData,
+  delGastos,
+  getGastos,
+  setGasto,
 }) {
 
   const type = type => {
@@ -218,7 +238,8 @@ function Inventario({
               <button className={("btn ") + (subViewInventario=="fallas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("fallas")}>Fallas</button>
           </div>
           <div className="btn-group">
-              <button className={("btn ")+(subViewInventario=="estadisticas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("estadisticas")}>Estadísticas</button> 
+              <button className={("btn ") + (subViewInventario == "gastos" ? "btn-success" : "btn-outline-success")} onClick={() => setsubViewInventario("gastos")}>Gastos</button>
+              <button className={("btn ") + (subViewInventario=="estadisticas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("estadisticas")}>Estadísticas</button> 
           </div>
           <div className="btn-group">
               <button className={("btn ")+(subViewInventario=="pedidosCentral"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("pedidosCentral")}>Pedidos Central</button> 
@@ -495,6 +516,28 @@ function Inventario({
           dataEstaInven={dataEstaInven}
         />
       :null}
+      {subViewInventario=="gastos"?<Gastos
+        qgastosfecha1={qgastosfecha1}
+        setqgastosfecha1={setqgastosfecha1}
+        qgastosfecha2={qgastosfecha2}
+        setqgastosfecha2={setqgastosfecha2}
+        qgastos={qgastos}
+        setqgastos={setqgastos}
+        qcatgastos={qcatgastos}
+        setqcatgastos={setqcatgastos}
+        gastosdescripcion={gastosdescripcion}
+        setgastosdescripcion={setgastosdescripcion}
+        gastoscategoria={gastoscategoria}
+        setgastoscategoria={setgastoscategoria}
+        gastosmonto={gastosmonto}
+        setgastosmonto={setgastosmonto}
+        gastosData={gastosData}
+        delGastos={delGastos}
+        getGastos={getGastos}
+        setGasto={setGasto}
+        number={number}
+        moneda={moneda}
+      />:null}
 
       {subViewInventario=="pedidosCentral"?
         <PedidosCentralComponent

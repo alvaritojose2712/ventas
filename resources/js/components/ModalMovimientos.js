@@ -1,6 +1,4 @@
-
-
-function ModalAddCarrito({
+export default function ModalMovimientos({
   setShowModalMovimientos,
   showModalMovimientos,
 
@@ -29,7 +27,7 @@ function ModalAddCarrito({
 
   const retTipoMov = () => (
    
-    movimientos.length?movimientos.map(e=>
+    movimientos.length?movimientos.map((e,i)=>
       !e.items.length||e.items.filter(e=>e.tipo==2||!e.id_producto).length?null
       :<tr key={e.id}>
         <td className="align-middle">
@@ -42,7 +40,7 @@ function ModalAddCarrito({
         <td className="w-50">
           {retTipoSubMov(e.items,0)}
         </td>
-      </tr>):""
+      </tr>):null
     
          
   )
@@ -88,7 +86,8 @@ function ModalAddCarrito({
       <section className="modal-custom"> 
         <div className="text-danger" onClick={()=>setShowModalMovimientos(!showModalMovimientos)}><span className="closeModal">&#10006;</span></div>
         <div className="modal-content">
-        <h1>Movimientos del día  <input type="date" className="form-control" value={fechaMovimientos} onChange={e=>setFechaMovimientos(e.target.value)} /></h1>
+          <h4>Movimientos del día</h4>
+          <input type="date" value={fechaMovimientos} onChange={e=>setFechaMovimientos(e.target.value)} />
           <table className="table">
             <thead>
               <tr>
@@ -123,7 +122,7 @@ function ModalAddCarrito({
                         <option key={e.id} value={e.id}>{e.id}</option>
 
                       ):null}
-                      <option value="nuevo">nuevo</option>
+                      <option value="nuevo">Nuevo</option>
                     </select>
 
                   </div>
@@ -138,12 +137,7 @@ function ModalAddCarrito({
             <tbody>
 
               {buscarDevolucion==""?
-              <>
-                
-                {retTipoMov()}
-                    
-              </>
-
+                retTipoMov()
               :<tr>
                 <td>
                   <table className="table">
@@ -170,4 +164,3 @@ function ModalAddCarrito({
     
   )
 }
-export default ModalAddCarrito

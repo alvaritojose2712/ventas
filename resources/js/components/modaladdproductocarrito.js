@@ -11,6 +11,10 @@ function Modaladdproductocarrito({
   orderColumn,
   orderBy,
   onchangeinputmain,
+
+  showinputaddCarritoFast,
+  setshowinputaddCarritoFast,
+  qProductosMain,
 }) {
 
   return (
@@ -24,7 +28,14 @@ function Modaladdproductocarrito({
           </div>
          </div>
          <div>
-           <input type="text" className="form-control" placeholder="Buscar..." ref={inputaddcarritointernoref} onChange={onchangeinputmain}/>
+         <div className="input-group">
+          <span className="">
+            <button onClick={()=>setshowinputaddCarritoFast(!showinputaddCarritoFast)} className={("btn btn-outline-")+(showinputaddCarritoFast?"success":"sinapsis")}>Agg. rápido</button>
+            
+            </span>
+            <input type="text" className="form-control" placeholder="Buscar..." ref={inputaddcarritointernoref} value={qProductosMain} onChange={onchangeinputmain}/>
+           
+         </div>
          </div>
          <table className="table table-bordered tabla_datos">
             <thead>
@@ -59,7 +70,7 @@ function Modaladdproductocarrito({
             <tbody ref={tbodyproducInterref}>
 
 
-              {productos.map((e,i)=>
+              {productos.length?productos.map((e,i)=>
                 <tr tabIndex="-1" className={(countListInter==i?"bg-select":null)+(' tr-producto ')} key={e.id} onClick={setProductoCarritoInterno} data-index={e.id}>
                   <td className="cell2">{e.codigo_barras}</td>
                   <td className='text-left pl-5 cell4'>{e.descripcion}</td>
@@ -77,7 +88,7 @@ function Modaladdproductocarrito({
                     </div>
                   </td>
                 </tr>
-                )}
+                ):null}
             </tbody>
           </table>
 

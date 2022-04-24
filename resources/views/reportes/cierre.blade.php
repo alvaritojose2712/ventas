@@ -5,8 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Reporte de Cierre</title>
 	<style type="text/css">
-
+		.bg-white{
+			background-color: white;
+		}
 		body{
+
 		}
 		.long-text{
 			width: 400px;
@@ -85,7 +88,7 @@
 	</style>
 </head>
 <body>
-	<div class="container">
+	<div class="container bg-white">
 		<table class="table">
 			<tbody>
 				<tr>
@@ -96,9 +99,9 @@
 				<tr>
 					<td>
 						@if (isset($message))
-							<img src="{{$message->embed('images/logo.png')}}" width="200px" class="img">
+							<img src="{{$message->embed('images/logo-small.jpg')}}" width="200px" >
 						@else
-							<img src="{{asset('images/logo.png')}}" width="200px" class="img">
+							<img src="{{asset('images/logo-small.jpg')}}" width="200px" >
 						@endif
 						
 
@@ -138,13 +141,13 @@
 					<th class="right">
 						INVENTARIO
 					</th>
-					<td class="">{{(number_format($total_inventario,2,",","."))}}</td>
+					<td class="">{{$total_inventario_format}}</td>
 					<td>
 						<b>VUELTOS TOTALES</b> <hr>
 						{{($vueltos_totales)}}
 					</td>
 				</tr>
-				<tr>
+				
 				
 				<tr>
 					<th>DÉBITO</th>
@@ -162,9 +165,30 @@
 					<td>{{($facturado["entregado"])}} - {{($facturado["pendiente"])}} = {{($facturado["entregadomenospend"])}}</td>
 				</tr>
 				<tr>
+					<th colspan="5">REFERENCIAS DE PAGOS ELECTRÓNICOS</th>
+
+				</tr>
+				@foreach ($referencias as $e)
+					<tr>
+						<td>
+							{{$e->banco}}
+							@if ($e->tipo==1)
+							Transferencia
+							@endif
+							@if ($e->tipo==2)
+							Débito
+							@endif
+						</td>
+						<th>{{$e->descripcion}}</th>
+						<td>{{$e->monto}}</td>
+						<td>Pedido #{{$e->id_pedido}}</td>
+						<th>{{$e->created_at}}</th>
+					</tr>
+				@endforeach
+				<tr>
 					<th colspan="3">
 						<h3>TOTAL FACTURADO:</h3>
-						<h1 class="text-success">{{($facturado[2]+$facturado[3]+$facturado[1])}}</h1>
+						<h1 class="text-success">{{($facturado_tot)}}</h1>
 					</th>
 					<th colspan="1" class="">
 
@@ -209,8 +233,8 @@
 						</div>
 					</th>
 				</tr>
-
 				
+				<tr>
 					<th class="right sin-borde">DÉBITO</th>
 					<td class="sin-borde">{{($cierre->debito)}}</td>
 					<td rowspan="4" colspan="3">
@@ -235,7 +259,7 @@
 				</tr>
 				<tr>
 					<th class="right sin-borde">TOTAL REAL</th>
-					<td class="sin-borde text-success"><h1>{{($cierre->debito+$cierre->efectivo+$cierre->transferencia)}}</h1></td>
+					<td class="sin-borde text-success"><h1>{{($cierre_tot)}}</h1></td>
 					
 					
 				</tr>
@@ -280,13 +304,14 @@
 					</tr>
 				@endforeach
 				
+				
 			</tbody>
 		</table>
 		<hr/>
 		<table class="table">
 			<tbody>
 				<tr>
-					<th colspan="6">MOVIMIENTOS DE PRODUCTOS</th>
+					<th colspan="6">MOVIMIENTOS</th>
 				</tr>
 					@foreach($movimientos as $val)
 						@if ($val->motivo)
@@ -326,7 +351,7 @@
 
 									</td>
 									@if (!$e->producto)
-										<td><b>Producto</b><br/> {{$e->descripcion}}</td>
+										<td><b>Producto/Desc.</b><br/> {{$e->descripcion}}</td>
 										<td>P/U. {{$e->precio}}</td>
 									@else
 										<td><b>Producto</b><br/> {{$e->producto->descripcion}}</td>

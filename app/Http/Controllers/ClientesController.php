@@ -53,7 +53,13 @@ class ClientesController extends Controller
     {
         $id = $req->id;
         try {
-            clientes::find($id)->delete();
+            if ($id==1) {
+                return Response::json(["msj"=>"Error: no puede eliminar CF","estado"=>false]);   
+
+            }else{
+                clientes::find($id)->delete();
+
+            }
             return Response::json(["msj"=>"Éxito al eliminar","estado"=>true]);   
         } catch (\Exception $e) {
             return Response::json(["msj"=>"Error al eliminar. ".$e->getMessage(),"estado"=>false]);

@@ -30,5 +30,12 @@ class cierres extends Model
         "nota",
         "id_usuario",
         "fecha",
+
+        "numventas",
+        "precio",
+        "precio_base",
+        "ganancia",
+        "porcentaje",
+        "desc_total",
     ];
 }

@@ -37,7 +37,7 @@ function Fallas({
 					{fallas&&Object.entries(fallas)?
 							Object.entries(fallas).map((e,i)=>
 								<div className="m-3" key={i}>
-									<h3>{e[0]} <button className="btn btn-outline-success" onClick={() => openReporteFalla(e[1] ? e[1][0] ? e[1][0].producto.id_proveedor:null:null)}><i className="fa fa-file"></i></button></h3>
+									<h3>{e[0]?e[0]:null} <button className="btn btn-outline-success" onClick={() => openReporteFalla(e[1] ? e[1][0] ? e[1][0].producto.id_proveedor:null:null)}><i className="fa fa-file"></i></button></h3>
 									<table className="table m-3">
 										<thead>
 											<tr>
@@ -49,7 +49,7 @@ function Fallas({
 											</tr>
 										</thead>
 										<tbody>
-											{e[1].map(ee=>
+											{e[1]?e[1].map(ee=>
 												<tr key={ee.id}>
 													<td>{ee.id}</td>
 													<td>{ee.producto.descripcion}</td>
@@ -58,7 +58,7 @@ function Fallas({
 													<td>{ee.created_at}</td>
 													<td><i className="fa fa-times text-danger" data-id={ee.id} onClick={delFalla}></i></td>
 												</tr>
-											)}
+											):null}
 										</tbody>
 									</table>
 								</div>

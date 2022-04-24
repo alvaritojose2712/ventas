@@ -30,6 +30,9 @@ class pedidos extends Model
     public function items() { 
         return $this->hasMany('App\Models\items_pedidos',"id_pedido","id"); 
     }
+    public function referencias() { 
+        return $this->hasMany('App\Models\pagos_referencias',"id_pedido","id"); 
+    }
     public function pagos() { 
         return $this->hasMany('App\Models\pago_pedidos',"id_pedido","id"); 
     }

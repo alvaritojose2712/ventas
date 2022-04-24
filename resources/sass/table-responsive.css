@@ -1,7 +1,18 @@
-
+@media 
+only screen and (max-width: 900px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+  .header-justify-content-end{
+    justify-content: initial !important;
+    
+  }
+}
 @media 
 only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px)  {
+  /*.header-justify-content-end{
+    justify-content: initial !important;
+    
+  }*/
 
   /* Force table to not be like tables anymore */
   table, thead, tbody, th, td, tr { 

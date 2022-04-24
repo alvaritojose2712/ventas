@@ -49,7 +49,7 @@ function ProductosList({
         <tbody ref={tbodyproductosref}>
           {productos?productos.map((e,i)=>
             
-              <tr data-index={i} tabIndex="-1" className={(counterListProductos == i ?"bg-sinapsis-light":null)+(' tr-producto')} key={e.id}>
+              <tr data-index={i} tabIndex="-1" className={(counterListProductos == i ?"bg-sinapsis-light":null)+(' tr-producto hover')} key={e.id}>
                 <td data-index={i} onClick={event=>{
                   if(!e.lotes.length)return addCarrito(event)
                   }} className="pointer cell3">{e.codigo_barras}</td>
@@ -87,12 +87,21 @@ function ProductosList({
                 </td>
                 <td className="cell1">{e.unidad}</td>
                 <td className="cell2">
-                  <div className='btn-group w-100'>
-                      <button type="button" className='m-0 btn-sm btn btn-success text-light w-50 fs-5'>{e.precio}</button>
-                      <button type="button" className='m-0 btn-sm btn btn-secondary w-50'>Bs. {e.bs} </button>
-                  </div>
-                  <div className='btn-group w-100'>
-                      <button type="button" className='m-0 btn-sm btn btn-secondary'>Cop. {e.cop}</button>
+                  <div className="container-fluid">
+                    <div className="row">
+                      <div className="col-5 m-0 p-0">
+                        <div className='btn-group w-100 h-100'>
+                            <button type="button" className='m-0 btn-sm btn btn-success text-light fs-4'>{e.precio}</button>
+                        </div>
+                      </div>
+                      <div className="col m-0 p-0">
+                        <div className='btn-group-vertical w-100 h-100'>
+                            <button type="button" className='m-0 btn-sm btn btn-secondary fs-6'>Bs. {e.bs} </button>
+                            <button type="button" className='m-0 btn-sm btn btn-secondary'>Cop. {e.cop}</button>
+                        </div>
+                      </div>
+                      
+                    </div>
                   </div>
                 </td>
               </tr>

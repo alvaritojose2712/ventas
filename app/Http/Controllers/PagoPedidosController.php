@@ -26,15 +26,35 @@ class PagoPedidosController extends Controller
 
             $mov = new movimientos_caja;
 
-            $mov->id_pedido = $id_pedido;
-            $mov->categoria = 1;
-            $mov->descripcion = "VUELTO Ped.".$id_pedido;
-            $mov->tipo = 1;
-            $mov->monto = $monto;
+            if ($monto) {
 
-            if ($mov->save()) {
-                return Response::json(["msj"=>"Éxito a entregar","estado"=>true]);
+                $total_acumulado = movimientos_caja::where("id_pedido",$id_pedido)
+                ->sum("monto");
+
+                $pendiente = pago_pedidos::where("tipo",6)->where("id_pedido",$id_pedido)
+                ->sum("monto");
+
+                if (($total_acumulado+$monto)<=$pendiente) {
+                    $mov->id_pedido = $id_pedido;
+                    $mov->categoria = 1;
+                    $mov->descripcion = "VUELTO Ped.".$id_pedido;
+                    $mov->tipo = 1;
+                    $mov->monto = $monto;
+
+                    if ($mov->save()) {
+                        return Response::json(["msj"=>"Éxito a entregar","estado"=>true]);
+                    }
+                }else{
+                    $pen = $pendiente-$total_acumulado;
+
+                    throw new \Exception("¡Solo quedan ".$pen." por entregar!", 1);
+                }
+
+            }else{
+                throw new \Exception("¡Monto en cero!", 1);
+                
             }
+
             
         } catch (\Exception $e) {
             

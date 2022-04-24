@@ -1,6 +1,8 @@
 import {useState} from 'react';
 
 function Pedidos({
+setshowMisPedido,
+showMisPedido,
 tipobusquedapedido,
 setTipoBusqueda,
 
@@ -79,7 +81,8 @@ filterMetodoPagoToggle,
 										  	</span>
 										  </h1>
 									    <h6 className=" mb-2 text-muted">{e.descripcion}</h6>
-									    <h6 className=" mb-2 text-muted">{e.codigo_proveedor}</h6>
+										<h6 className=" mb-2 text-muted">{e.codigo_proveedor}</h6>
+											<h6 className=" mb-2 text-muted">{e.precio_base} / {e.precio}</h6>
 									  </div>
 									  <div className="w-50">
 								    	<ul className="list-group">
@@ -112,7 +115,13 @@ filterMetodoPagoToggle,
                     {pedidos["totalventas"]}
                     </span>
 									</div>
-									<div className="cell5">
+									<div className="input-group cell3">
+				        		<div className="btn-group">
+				        			<button onClick={()=>setshowMisPedido(true)} className={("btn btn-sm btn-outline-")+(!showMisPedido?null:"success")}>Mis pedidos</button>
+				        			<button onClick={()=>setshowMisPedido(false)} className={("btn btn-sm btn-outline-")+(showMisPedido?null:"success")}>Todos los pedidos</button>
+				        		</div>
+				        	</div>
+									<div className="cell4">
 	    							<span className={(filterMetodoPagoToggle=="todos"?"btn-dark":"")+(" pointer btn")} data-type="todos" onClick={filterMetodoPago}>Todos</span>
 	    							<span className={(filterMetodoPagoToggle==1?"btn-info":"")+(" btn")} data-type="1" onClick={filterMetodoPago}>Trans.</span>
 	    							<span className={(filterMetodoPagoToggle==2?"btn-secondary":"")+(" btn")} data-type="2" onClick={filterMetodoPago}>Deb.</span>
@@ -120,7 +129,7 @@ filterMetodoPagoToggle,
 	    							<span className={(filterMetodoPagoToggle==4?"btn-warning":"")+(" btn")} data-type="4" onClick={filterMetodoPago}>Cred.</span>
 	    							<span className={(filterMetodoPagoToggle==6?"btn-danger":"")+(" btn")} data-type="6" onClick={filterMetodoPago}>Vuel.</span>															
 									</div>
-									<div className="cell4">
+									<div className="cell2">
 								  	<b className="fs-2 text-success">{pedidos["totaltotal"]}</b>
 									</div>
 							</div>
@@ -181,7 +190,7 @@ filterMetodoPagoToggle,
 								    			<tr>
 								    				<td className="cell6" data-id={e.pedido.id} onClick={onClickEditPedido}><b className="h3 text-success">{e.pedido.total}</b></td>
 											    	<td className="text-muted cell1" data-id={e.pedido.id} onClick={onClickEditPedido}>
-											    		<small>Items. {e.pedido.items.length}</small>
+											    		<small>Items. {e.pedido.tot_items}</small>
 											    	</td>
 											    	<td className="cell3">
 															<div className="btn-group-vertical btn-options">

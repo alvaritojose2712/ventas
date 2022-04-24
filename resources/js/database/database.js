@@ -13,9 +13,9 @@ const db = {
   // setCentralData: data=>axios.get(host+"setCentralData",{params:data}),
   getMoneda: ()=>axios.post(host+"getMoneda"),
   getinventario: data=>axios.post(host+"getinventario",data),
-  setCarrito: data=>axios.post(host+"setCarrito",data),
+  setCarrito: data=>axios.get(host+"setCarrito",{params:data}),
   getPedido: data=>axios.post(host+"getPedido",data),
-  getPedidosList: ()=>axios.post(host+"getPedidosList"),
+  getPedidosList: data=>axios.post(host+"getPedidosList",data),
   verificarLogin: () => axios.post(host + "verificarLogin"),
   logout: ()=>axios.get(host+"logout"),
   
@@ -100,7 +100,11 @@ const db = {
   getPedidosCentral: data=>axios.post(host+"getPedidosCentral",data),
 
   getSucursal: data=>axios.get(host+"getSucursal",{params:data}),
+  
   getCategorias: data=>axios.get(host+"getCategorias",{params:data}),
+  delCategoria: data=>axios.post(host+"delCategoria",data),
+  setCategorias: data=>axios.post(host+"setCategorias",data),
+  
 
 
 
@@ -117,7 +121,14 @@ const db = {
   getEstaInventario: data => axios.post(host + "getEstaInventario", data),
   setPagoProveedor: data => axios.post(host + "setPagoProveedor", data),
   getPagoProveedor: data => axios.post(host + "getPagoProveedor", data),
-  delPagoProveedor: data=>axios.post(host+"delPagoProveedor",data),
+  delPagoProveedor: data => axios.post(host + "delPagoProveedor", data),
+  
+  addRefPago: data => axios.post(host + "addRefPago", data),
+  delRefPago: data=>axios.post(host+"delRefPago",data),
+
+  delGastos: data=>axios.post(host+"delGastos",data),
+  getGastos: data=>axios.post(host+"getGastos",data),
+  setGasto: data=>axios.post(host+"setGasto",data),
   
   
   

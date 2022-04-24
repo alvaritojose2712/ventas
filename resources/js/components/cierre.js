@@ -55,10 +55,12 @@ function Cierre({
 	setbillete100,
 
 	dolar,
-  peso,
-  cierres,
-  fechaGetCierre,
+	peso,
+	cierres,
+	fechaGetCierre,
 	setfechaGetCierre,
+	fechaGetCierre2,
+	setfechaGetCierre2,
 	getCierres, 
 	verCierreReq,
 }) {
@@ -375,6 +377,10 @@ function Cierre({
 				cierres={cierres}
 				fechaGetCierre={fechaGetCierre}
 				setfechaGetCierre={setfechaGetCierre}
+
+				fechaGetCierre2={fechaGetCierre2}
+				setfechaGetCierre2={setfechaGetCierre2}
+
 				getCierres={getCierres}
 				verCierreReq={verCierreReq}
 				/>

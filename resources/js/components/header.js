@@ -9,7 +9,7 @@ function Header({
       <div className="container-fluid">
         <div className="row">
           <div className="col">
-            <div className="d-flex justify-content-end flex-wrap align-items-center">
+            <div className="d-flex header-justify-content-end flex-wrap align-items-center">
               <div className="p-3">
                 <img src={logo} alt="sinapsis" className="logo" />
               </div>
@@ -24,20 +24,22 @@ function Header({
             </div>
 
           </div>
-          <div className="col-5 d-flex justify-content-end align-items-center">
+          <div className="col-5 d-flex header-justify-content-end align-items-center">
+            {auth(1)?<span className={"btn m-1 text-success"} onClick={() => setView("configuracion")}><i className="fa fa-cogs"></i></span>:null}
+            
             <div>
               <span className="fw-bold">{user.nombre}</span><br/>
               <span className="fst-italic">{user.role}</span>
             </div>
-            <button className="m-1 btn text-danger" onClick={logout}><i className="fa fa-times"></i></button>
+            <span className="m-1 btn text-danger" onClick={logout}><i className="fa fa-times"></i></span>
           </div>
         </div>
       </div>
       <div className="bg-sinapsis container-fluid">
         <div className="row">
-          <div className="col d-flex justify-content-end">
+          <div className="col d-flex header-justify-content-end">
             
-            {auth(1)?<span className={(view == "ventas" ? "btn btn-dark" : null) + (" p-3 pointer")} onClick={() => { setView("ventas"); getVentasClick()}}>Ventas</span>:null}
+            {auth(3)?<span className={(view == "ventas" ? "btn btn-dark" : null) + (" p-3 pointer")} onClick={() => { setView("ventas"); getVentasClick()}}>Ventas</span>:null}
 
               {auth(3) ? <span className={(view == "seleccionar" ? "btn btn-dark" : null) + (" p-3 pointer")} onClick={() => setView("seleccionar")}>Facturar</span> : null}
 
@@ -59,10 +61,6 @@ function Header({
               </ul>
             </div>:null}
 
-
-            
-              {auth(1)?<span className={(view=="usuarios"?"btn btn-dark":null)+(" p-3 pointer")} onClick={()=>setView("usuarios")}>Usuarios</span>:null}
-
               {auth(2)?<span className={(view=="cierres"?"btn btn-dark":null)+(" p-3 pointer")} onClick={()=>setView("cierres")}>Cierre</span>:null}
             
             {auth(2)?
@@ -73,18 +71,19 @@ function Header({
             :null}
             
           </div>
-          <div className="col-4 d-flex justify-content-end">
+          <div className="col-4 d-flex header-justify-content-end">
+
             { 
               auth(2)?
                 view=="seleccionar"?
                 <>
-                  <span className={(viewCaja?"btn btn-sinapsis":null)+(" p-3 pointer")} onClick={()=>setViewCaja(!viewCaja)}>Caja/Gastos</span>
+                  <span className={(viewCaja?"btn btn-sinapsis":null)+(" p-3 pointer")} onClick={()=>setViewCaja(!viewCaja)}>Caja</span>
                   <span className={(showModalMovimientos?"btn btn-sinapsis":null)+(" p-3 pointer")} onClick={()=>setShowModalMovimientos(!showModalMovimientos)}>Movimientos</span>
                 </>:null
               :null
             }
 
-            {auth(1)?<span className={(view=="inventario"?"btn btn-dark":null)+(" p-3 pointer")} onClick={()=>setView("inventario")}>Inventario</span>:null}
+            {auth(1)?<span className={(view=="inventario"?"btn btn-dark":null)+(" p-3 pointer")} onClick={()=>setView("inventario")}>Administración</span>:null}
           </div>
         </div>
       </div>

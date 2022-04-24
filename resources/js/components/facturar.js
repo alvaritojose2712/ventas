@@ -13,6 +13,8 @@ import { moneda, number } from './assets';
 import ProductosList from '../components/productoslist';
 import ModalAddCarrito from '../components/modaladdcarrito';
 import ModalMovimientos from '../components/ModalMovimientos';
+import Configuracion from '../components/configuracion';
+
 
 import Pagar from '../components/pagar';
 import Header from '../components/header';
@@ -31,7 +33,6 @@ import Inventario from '../components/inventario';
 
 import Cajagastos from '../components/cajagastos';
 import Ventas from '../components/ventas';
-import Usuarios from '../components/usuarios';
 
 import ViewPedidoVendedor from '../components/viewPedidoVendedor';
 
@@ -41,7 +42,8 @@ import ViewPedidoVendedor from '../components/viewPedidoVendedor';
 
 export default function Facturar({user,notificar,setLoading}) {
   
-  const [num,setNum] = useState(50)
+  const [num, setNum] = useState(50)
+  const [showOptionQMain, setshowOptionQMain] = useState(false)
   const [itemCero,setItemCero] = useState(true)
   const [qProductosMain,setQProductosMain] = useState("")
 
@@ -64,10 +66,9 @@ export default function Facturar({user,notificar,setLoading}) {
 
   const [onlyVueltos,setOnlyVueltos] = useState(0)
 
-
+  const [showinputaddCarritoFast,setshowinputaddCarritoFast] = useState(false)
   
   const [productos,setProductos] = useState([])
-  const [categorias,setcategorias] = useState([])
 
   const [productosInventario,setProductosInventario] = useState([])
 
@@ -113,33 +114,35 @@ export default function Facturar({user,notificar,setLoading}) {
   const [proveedoresList,setProveedoresList] = useState([])
 
   const [pedidoList,setPedidoList] = useState([])
+  const [showMisPedido,setshowMisPedido] = useState(true)
+
 
   const [debito,setDebito] = useState("")
   const [efectivo,setEfectivo] = useState("")
   const [transferencia,setTransferencia] = useState("")
-  const [credito,setCredito] = useState("")
+  const [credito, setCredito] = useState("")
 
+  
+  
   const [vuelto,setVuelto] = useState("")
-
+  
   const [descuento,setDescuento] = useState(0)
 
   const [ModaladdproductocarritoToggle,setModaladdproductocarritoToggle] = useState(false)
 
   const [toggleAddPersona,setToggleAddPersona] = useState(false)
   const [personas,setPersona] = useState([])
-
+  
   const [pedidos,setPedidos] = useState([])
-
+  
   const [movimientosCaja,setMovimientosCaja] = useState([])
   const [movimientos,setMovimientos] = useState([])
-
   
-  const [vendedor, setVendedor] = useState([])
   const [tipobusquedapedido,setTipoBusqueda] = useState("fact")
 
   const [tipoestadopedido,setTipoestadopedido] = useState("todos")
 
-
+  
   const [busquedaPedido,setBusquedaPedido] = useState("")
   const [fecha1pedido,setFecha1pedido] = useState("")
   const [fecha2pedido,setFecha2pedido] = useState("")
@@ -156,9 +159,9 @@ export default function Facturar({user,notificar,setLoading}) {
   const [cierre,setCierre] = useState({})
 
   const [today,setToday] = useState("")
-
+  
   const [fechaCierre,setFechaCierre] = useState("")
-
+  
   const [viewCierre,setViewCierre] = useState("cuadre")
   const [toggleDetallesCierre,setToggleDetallesCierre] = useState(0)
 
@@ -166,10 +169,10 @@ export default function Facturar({user,notificar,setLoading}) {
 
 
   const [notaCierre,setNotaCierre] = useState("")
-
+  
   const [qDeudores,setQDeudores] = useState("")
   const [deudoresList,setDeudoresList] = useState([])
-  const [cierres,setCierres] = useState([])
+  const [cierres,setCierres] = useState({})
 
 
   const [selectDeudor,setSelectDeudor] = useState(null)
@@ -184,22 +187,22 @@ export default function Facturar({user,notificar,setLoading}) {
 
   const [countListInter,setCountListInter] = useState(0)
   const [countListPersoInter,setCountListPersoInter] = useState(0)
-
+  
   const [viewCaja,setViewCaja] = useState(false)
-
+  
   const [movCajadescripcion,setMovCajadescripcion] = useState("")
-  const [movCajatipo,setMovCajatipo] = useState(null)
-  const [movCajacategoria,setMovCajacategoria] = useState(3)
+  const [movCajatipo,setMovCajatipo] = useState(1)
+  const [movCajacategoria,setMovCajacategoria] = useState(5)
   const [movCajamonto,setMovCajamonto] = useState("")
   const [movCajaFecha,setMovCajaFecha] = useState("")
 
   const tbodyproductosref = useRef(null)
   const inputBuscarInventario = useRef(null)
-
-
+  
+  
   const tbodyproducInterref = useRef(null)
   const tbodypersoInterref = useRef(null)
-
+  
   const inputCantidadCarritoref = useRef(null)
   const inputbusquedaProductosref = useRef(null)
   const inputmodaladdpersonacarritoref = useRef(null)
@@ -212,7 +215,7 @@ export default function Facturar({user,notificar,setLoading}) {
   const [typingTimeout,setTypingTimeout] = useState(0)
 
   const [fechaMovimientos,setFechaMovimientos] = useState("")
-
+  
   const [showModalMovimientos,setShowModalMovimientos] = useState(false)
   const [buscarDevolucion,setBuscarDevolucion] = useState("")
   const [tipoMovMovimientos,setTipoMovMovimientos] = useState("1")
@@ -238,15 +241,15 @@ export default function Facturar({user,notificar,setLoading}) {
   const [factInpfechavencimiento,setfactInpfechavencimiento] = useState("")
 
   const [factInpestatus,setfactInpestatus] = useState(0)
-
+  
   
   const [qBuscarCliente,setqBuscarCliente] = useState("")
   const [numclientesCrud,setnumclientesCrud] = useState(25)
-
+  
   
   const [clientesCrud,setclientesCrud] = useState([])
   const [indexSelectCliente,setindexSelectCliente] = useState(null)
-
+  
   const [clienteInpidentificacion,setclienteInpidentificacion] = useState("")
   const [clienteInpnombre,setclienteInpnombre] = useState("")
   const [clienteInpcorreo,setclienteInpcorreo] = useState("")
@@ -264,7 +267,7 @@ export default function Facturar({user,notificar,setLoading}) {
   const [fallas,setfallas] = useState([])
 
   const [autoCorrector,setautoCorrector] = useState(true)
-
+  
   const [pedidosCentral,setpedidoCentral] = useState([])
   const [indexPedidoCentral, setIndexPedidoCentral] = useState(null)
 
@@ -280,7 +283,7 @@ export default function Facturar({user,notificar,setLoading}) {
   const [fechaventas,setfechaventas] = useState("")
 
   const [pedidosFast,setpedidosFast] = useState([])
-
+  
   const [billete1,setbillete1] = useState("") 
   const [billete5,setbillete5] = useState("") 
   const [billete10,setbillete10] = useState("") 
@@ -298,28 +301,21 @@ export default function Facturar({user,notificar,setLoading}) {
   const [indexSelectUsuarios, setIndexSelectUsuarios] = useState(null)
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   const [toggleClientesBtn, settoggleClientesBtn] = useState(false)
-
+  
   const [modViewInventario, setmodViewInventario] = useState("unique")
   
   const [loteIdCarrito, setLoteIdCarrito] = useState(null)
   const refsInpInvList = useRef(null)
   
-
+  
   const [valheaderpedidocentral, setvalheaderpedidocentral] = useState("12340005ARAMCAL")
   const [valbodypedidocentral, setvalbodypedidocentral] = useState("12341238123456123456123451234123712345612345612345123412361234561234561234512341235123456123456123451234123412345612345612345")
 
   const [fechaGetCierre, setfechaGetCierre] = useState("")
+  const [fechaGetCierre2, setfechaGetCierre2] = useState("")
+  
+  
   
   const [modFact, setmodFact] = useState("factura")
   
@@ -343,10 +339,10 @@ const [dataEstaInven, setdataEstaInven] = useState([])
 const [tipopagoproveedor, settipopagoproveedor] = useState("");
 const [montopagoproveedor, setmontopagoproveedor] = useState("");
 const [pagosproveedor, setpagosproveedor] = useState([]);
-  
+
 const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
 
-  const [busqAvanzInputs, setbusqAvanzInputs] = useState({
+const [busqAvanzInputs, setbusqAvanzInputs] = useState({
   codigo_barras:"",
   codigo_proveedor:"",
   id_proveedor:"",
@@ -358,19 +354,28 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
   precio:"",
   cantidad:"",
 });
-  
-  
+
+///Configuracion Component
+const [subViewConfig, setsubViewConfig] = useState("usuarios")
+
+
+///End Configuracion Component
+
   
 
 
-  useHotkeys('f1', () => {
-    if(selectItem!==null&&view=="seleccionar"){
+useHotkeys("tab",()=>{
+  if(typeof(selectItem)=="number"&&view=="seleccionar"){
       addCarritoRequest("agregar_procesar")
-    }else if(view=="pedidos"){
-      setView("seleccionar")
-    }else if(view=="pagar"){
+    }
+  },{
+    enableOnTags:["INPUT", "SELECT"],
+  },[view,selectItem])
+  useHotkeys('f1', () => {
+    if(view=="pagar"){
       toggleModalProductos(true,()=>{
         inputaddcarritointernoref.current.focus()
+        setQProductosMain("")
 
       })
       
@@ -395,7 +400,11 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
         setclienteInptelefono("")
         setclienteInpdireccion("")
 
-        inputmodaladdpersonacarritoref.current.focus()
+        if (inputmodaladdpersonacarritoref) {
+          if (inputmodaladdpersonacarritoref.current) {
+            inputmodaladdpersonacarritoref.current.focus()
+          }
+        }
       })
     } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
       changeInventario(null, null, null, "add")
@@ -430,19 +439,26 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
 
   useHotkeys('esc', () => {
     try{
-      if (view=="seleccionar"&&selectItem!==null) {
+      if(view=="pedidos"){
+        setView("seleccionar")
+      }else if (view=="seleccionar"&&typeof(selectItem)=="number") {
         setSelectItem(null) 
         setViewCaja(false) 
-      }else if(view=="seleccionar"&&selectItem===null){
+      }else if(view=="seleccionar"&&typeof(selectItem)!="number"){
         inputbusquedaProductosref.current.value = ""
         inputbusquedaProductosref.current.focus()
+        if (viewCaja) {
+          setViewCaja(false)
+        }
+        if (showModalMovimientos) {
+          setShowModalMovimientos(false)
+        }
       }else if(view=="pagar"){
         setToggleAddPersona(false)
         toggleModalProductos(false)
         setViewCaja(false)
-        if (refinputaddcarritofast.current) {
-          refinputaddcarritofast.current.focus()
-
+        if (!ModaladdproductocarritoToggle&&!toggleAddPersona&&view!="seleccionar") {
+          setView("seleccionar")
         }
       }else if(view=="inventario"){
         inputBuscarInventario.current.value = ""
@@ -455,7 +471,7 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
   },{
     enableOnTags:["INPUT", "SELECT"],
     filter:false,
-  },[view,selectItem]);
+  },[view,selectItem,viewCaja,showModalMovimientos,ModaladdproductocarritoToggle,toggleAddPersona]);
 
   useHotkeys('space', () => {
     if (view=="seleccionar"&&selectItem!==null) {
@@ -487,14 +503,14 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
   useHotkeys('t', () => {
     if (view=="pagar") {
       getTransferencia() 
-
+      
 
     }
   },{
     enableOnTags:["INPUT", "SELECT"],
     filter:false,
   },[view]);
-
+  
   useHotkeys('e', () => {
     if (view=="pagar") {
       getEfectivo() 
@@ -505,32 +521,40 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
   },[view]);
   useHotkeys('down', event => {
     if(view=="seleccionar"){
-        try{
-          let index = counterListProductos+1
+      try{
+        let index = counterListProductos+1
           if (tbodyproductosref.current.rows[index]) {
             setCounterListProductos(index)
-
+            
             tbodyproductosref.current.rows[index].focus()
           }
           
         }catch(err){
           //console.log(err)
         }
-    }else if(view=="pagar"){
+      }else if(view=="pagar"){
       if (ModaladdproductocarritoToggle) {
         let index = countListInter+1
         if (tbodyproducInterref.current.rows[index]) {
           setCountListInter(index)
           tbodyproducInterref.current.rows[index].focus()
         }
-
+        
       }else if(toggleAddPersona) {
 
         let index = countListPersoInter+1
-        if (tbodypersoInterref.current.rows[index]) {
-          setCountListPersoInter(index)
-          tbodypersoInterref.current.rows[index].focus()
-        } 
+        if (tbodypersoInterref) {
+          if (tbodypersoInterref.current) {
+            if (tbodypersoInterref.current.rows) {
+              if (tbodypersoInterref.current.rows[index]) {
+                setCountListPersoInter(index)
+                tbodypersoInterref.current.rows[index].focus()
+              } 
+
+            }
+          }
+
+        }
 
       }
 
@@ -556,7 +580,7 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
     }else if(view=="pagar"){
       if (ModaladdproductocarritoToggle) {
         
-
+        
         if (countListInter>0) {
           let index = countListInter-1
           if (tbodyproducInterref.current.rows[index]) {
@@ -564,18 +588,25 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
             setCountListInter(index)
           }
         }
-
+        
 
       }else if(toggleAddPersona) {
 
         if (countListPersoInter>0) {
           let index = countListPersoInter-1
-          if (tbodypersoInterref.current.rows[index]) {
-            tbodypersoInterref.current.rows[index].focus()
-            setCountListPersoInter(index)
+          
+          if (tbodypersoInterref) {
+            if (tbodypersoInterref.current) {
+              if (tbodypersoInterref.current.rows) {
+                if (tbodypersoInterref.current.rows[index]) {
+                  tbodypersoInterref.current.rows[index].focus()
+                  setCountListPersoInter(index)
+                }
+              }
+            }
           }
         }
-
+        
 
 
       }
@@ -587,7 +618,7 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
 
   }, [view, counterListProductos, countListInter, countListPersoInter, subViewInventario, modViewInventario]);
   useHotkeys('enter', event => {
-    if(selectItem===null&&view=="seleccionar"){
+    if(typeof(selectItem)!="number"&&view=="seleccionar"){
       try{
         if (tbodyproductosref.current) {
           let tr = tbodyproductosref.current.rows[counterListProductos]
@@ -604,8 +635,8 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
         }
 
       }catch(err){}
-
-    }else if(selectItem!==null&&view=="seleccionar"){
+      
+    }else if(typeof(selectItem)=="number"&&view=="seleccionar"){
       addCarritoRequest("agregar")
     }else if(view=="pagar"){
       if (ModaladdproductocarritoToggle) {
@@ -618,10 +649,14 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
           //wait
         }
       }else if(toggleAddPersona){
-        if (tbodypersoInterref.current.rows[countListPersoInter]) {
-          if (tbodypersoInterref.current.rows[countListPersoInter].attributes["data-index"]) {
-            setPersonas(tbodypersoInterref.current.rows[countListPersoInter].attributes["data-index"].value)
+        if (tbodypersoInterref) {
+          if (tbodypersoInterref.current) {
+            if (tbodypersoInterref.current.rows[countListPersoInter]) {
+              if (tbodypersoInterref.current.rows[countListPersoInter].attributes["data-index"]) {
+                setPersonas(tbodypersoInterref.current.rows[countListPersoInter].attributes["data-index"].value)
 
+              }
+            }
           }
         }
       }else{
@@ -635,10 +670,203 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
     enableOnTags:["INPUT", "SELECT","TEXTAREA"],
   }, [view, counterListProductos, selectItem, subViewInventario, modViewInventario]);
 
+  useHotkeys('ctrl+enter', event => {
+    if(view=="pagar"){
+      if (ModaladdproductocarritoToggle) {
+      }else if(toggleAddPersona){
+      }else{
+        facturar_e_imprimir()
+      }
+    } 
+  },{
+    filterPreventDefault:false,
+    enableOnTags:["INPUT", "SELECT","TEXTAREA"],
+  }, [view, counterListProductos, selectItem, subViewInventario, modViewInventario]);
+  
+  
+
+  useEffect(()=>{
+    if (showinputaddCarritoFast) {
+      if (inputaddcarritointernoref) {
+        if (inputaddcarritointernoref.current) {
+          inputaddcarritointernoref.current.focus()
+        }
+      }
+      
+      if (inputbusquedaProductosref) {
+        if (inputbusquedaProductosref.current) {
+          inputbusquedaProductosref.current.focus()
+        }
+      }
+    }
+    
+  }, [showinputaddCarritoFast])
+
+  const [refPago, setrefPago] = useState([])
+  const addRefPago = e => {
+    
+    let tipo = e.currentTarget.attributes["data-type"].value
+    let descripcion = window.prompt("Referencia")
+    let monto = window.prompt("Monto")
+    let banco = window.prompt("Banco")
+    if (pedidoData.id&&descripcion&&monto){
+      db.addRefPago({
+        tipo,
+        descripcion,
+        monto,
+        banco,
+        id_pedido: pedidoData.id,
+      }).then(res=>{
+        getPedido(null,null,false)
+        notificar(res)
+      })
+    }
+
+
+
+  }
+  const delRefPago = e => {
+    let id = e.currentTarget.attributes["data-id"].value
+    if(confirm("Confirme eliminación de referencia")){
+      db.delRefPago({id}).then(res=>{
+        getPedido()
+        notificar(res)
+      })
+
+    }
+
+  }
+  //Gastos component
+  
+  const [qgastosfecha1,setqgastosfecha1] = useState("")
+  const [qgastosfecha2,setqgastosfecha2] = useState("")
+  const [qgastos,setqgastos] = useState("")
+  const [qcatgastos,setqcatgastos] = useState("")
+  const [gastosdescripcion,setgastosdescripcion] = useState("")
+  const [gastoscategoria,setgastoscategoria] = useState("3")
+  const [gastosmonto,setgastosmonto] = useState("")
+  const [gastosData,setgastosData] = useState({})
+  
+  const delGastos = e => {
+    let id = e.currentTarget.attributes["data-id"].value
+    if (id && confirm("Confirme eliminación de gasto")) {
+      db.delGastos({id}).then(res=>{
+        notificar(res)
+        getGastos()
+      })
+      
+    }
+  }
+  const getGastos = () => {
+
+    db.getGastos({
+      qgastosfecha1,
+      qgastosfecha2,
+      qgastos,
+      qcatgastos,
+    }).then(res=>{
+      if (res.data) {
+        if (res.data.gastos) {
+          setgastosData(res.data)
+        }else {
+          setgastosData({})
+        }
+      }
+    })
+  }
+  const setGasto = e => {
+    e.preventDefault()
+
+    db.setGasto({
+      gastosdescripcion,
+      gastoscategoria,
+      gastosmonto
+    }).then(res=>{
+      notificar(res)
+      getGastos()
+    })
+  }
+  //End Gastos Component
+  
+  const [qBuscarCategorias,setQBuscarCategorias] = useState("")
+  const [categorias,setcategorias] = useState([])
+
+  const [categoriasDescripcion,setcategoriasDescripcion] = useState("")
+  const [indexSelectCategorias,setIndexSelectCategorias] = useState(null)
+
+  const delCategorias = () => {
+    setLoading(true)
+    let id = null
+    if (indexSelectCategorias) {
+      if (categorias[indexSelectCategorias]) {
+        id = categorias[indexSelectCategorias].id
+      }
+    }
+
+    db.delCategoria({id}).then(res=>{
+      setLoading(false)
+      getCategorias()
+      notificar(res)
+      setIndexSelectCategorias(null)
+    })
+  }
+
+  const addNewCategorias = e => {
+    e.preventDefault()
+
+    let id = null
+    if (indexSelectCategorias) {
+      if (categorias[indexSelectCategorias]) {
+        id = categorias[indexSelectCategorias].id
+      }
+    }
+
+    if (categoriasDescripcion) {
+      setLoading(true)
+      db.setCategorias({id,categoriasDescripcion})
+      .then(res=>{
+        notificar(res)
+        setLoading(false)
+        getCategorias()
+      })
+    }
+  }
+  const getCategorias = () => {
+    db.getCategorias({
+      q:qBuscarCategorias
+    }).then(res=>{
+      if (res.data) {
+        if (res.data.length) {
+          setcategorias(res.data)
+        }else{
+          setcategorias([])
+        }
+      }
+    })
+  }
+  const setInputsCats = () => {
+    if (indexSelectCategorias) {
+      let obj = categorias[indexSelectCategorias]
+      if (obj) {
+        setcategoriasDescripcion(obj.descripcion)
+      }
+      
+    }
+  }
+  useEffect(()=>{
+    setInputsCats()
+  }, [indexSelectCategorias])
+  useEffect(()=>{
+    getCategorias()
+  }, [qBuscarCategorias])
+
+
+
   useEffect(()=>{
     getUsuarios()
     
   }, [qBuscarUsuario])
+
 
   useEffect(() => {
     setInputsUsuarios()
@@ -704,10 +932,15 @@ const [busquedaAvanazadaInv, setbusquedaAvanazadaInv] = useState(false);
   ]);
 
   useEffect(()=>{
-    getMovimientosCaja()
+    if (viewCaja) {
+      getMovimientosCaja()
+    }
   },[viewCaja,movCajaFecha])
   useEffect(()=>{
-    getMovimientos()
+    if (showModalMovimientos) {
+      getMovimientos()
+
+    }
   },[showModalMovimientos,fechaMovimientos])
   
 
@@ -782,6 +1015,12 @@ fechaFromEstaInve,
 fechaToEstaInve,
 orderByEstaInv,
 orderByColumEstaInv])
+
+  useEffect(()=>{
+    getPedidos()
+  },[showMisPedido])
+
+  
 
 
   let total_caja_calc = ( parseFloat(caja_usd?caja_usd:0) + (parseFloat(caja_cop?caja_cop:0)/parseFloat(peso)) + (parseFloat(caja_bs?caja_bs:0)/parseFloat(dolar)) ).toFixed(2)
@@ -870,8 +1109,14 @@ const focusInputSibli = (tar, mov) => {
   }
 }
 const getCierres = () => {
-  db.getCierres({fechaGetCierre}).then(res=>{
-    setCierres(res.data)
+  db.getCierres({fechaGetCierre,fechaGetCierre2}).then(res=>{
+    if (res.data) {
+      if (res.data.cierres) {
+        setCierres(res.data)
+      } else {
+        setCierres({})
+      }
+    }
   })
 }
 const cerrar_dia = (e) => {
@@ -947,13 +1192,13 @@ const getMovimientos = () =>{
   db.getMovimientos({fechaMovimientos}).then(res=>{
     setMovimientos(res.data)
 
-    if (!res.data.length) {
+    // if (!res.data.length) {
       setIdMovSelect("nuevo")
-    }else{
-      if (res.data[0]) {
-        setIdMovSelect(res.data[0].id)
-      }
-    }
+    // }else{
+    //   if (res.data[0]) {
+    //     setIdMovSelect(res.data[0].id)
+    //   }
+    // }
     setLoading(false)
   })
 }
@@ -1017,6 +1262,8 @@ const getToday = () =>{
     setFechaMovimientos(today)
     setMovCajaFecha(today)
     setfechaventas(today)
+    setqgastosfecha1(today)
+    setqgastosfecha2(today)
 
   })
 }
@@ -1041,8 +1288,6 @@ const setMovimientoCaja = e =>{
     getMovimientosCaja()
     notificar(res)
     setLoading(false)
-    setMovCajatipo(null)
-
     setMovCajadescripcion("")
     setMovCajamonto("")
 
@@ -1125,11 +1370,11 @@ const getMoneda = () => {
   setLoading(true)
   db.getMoneda().then(res=>{
     if (res.data.peso){
-      setPeso(res.data.peso.valor)
+      setPeso(res.data.peso)
     }
 
     if (res.data.dolar) {
-      setDolar(res.data.dolar.valor)
+      setDolar(res.data.dolar)
     }
     setLoading(false)
   })
@@ -1186,7 +1431,7 @@ const onChangePedidos = e =>{
 }
 const getPedidos = e => {
   setLoading(true)
-  db.getPedidos({busquedaPedido,fecha1pedido,fecha2pedido,tipobusquedapedido,tipoestadopedido,filterMetodoPagoToggle}).then(res=>{
+  db.getPedidos({vendedor:showMisPedido?[user.id_usuario]:[],busquedaPedido,fecha1pedido,fecha2pedido,tipobusquedapedido,tipoestadopedido,filterMetodoPagoToggle}).then(res=>{
     setPedidos(res.data)
     setLoading(false)
   })
@@ -1201,16 +1446,31 @@ const getProductos = () => {
   }
 
   let time = window.setTimeout(()=>{
-    db.getinventario({vendedor,num,itemCero,qProductosMain,orderColumn,orderBy}).then(res=>{
-      if (res.data.length) {
-        setProductos(res.data)
-      }
-      if (!res.data.length) {
-        setProductos([])
-      }
-      if (!res.data[counterListProductos]) {
-        setCounterListProductos(0)
-        setCountListInter(0)
+    db.getinventario({vendedor:showMisPedido?[user.id_usuario]:[],num,itemCero,qProductosMain,orderColumn,orderBy}).then(res=>{
+      if (res.data) {
+        let len = res.data.length
+        if (len) {
+          setProductos(res.data)
+        }
+        if (!len) {
+          setProductos([])
+        }
+        if (!res.data[counterListProductos]) {
+          setCounterListProductos(0)
+          setCountListInter(0)
+        }
+
+        if (showinputaddCarritoFast) {
+          if (len==1) {
+            setQProductosMain("")
+            let id_pedido_fact = null
+            if (ModaladdproductocarritoToggle&&pedidoData.id) {
+              id_pedido_fact = pedidoData.id
+            }
+            addCarritoRequest("agregar",res.data[0].id,id_pedido_fact)
+
+          }
+        }
       }
       setLoading(false)
     })
@@ -1229,14 +1489,23 @@ const getPersona = q => {
 
   let time = window.setTimeout(()=>{
     db.getpersona({q}).then(res=>{
-      setPersona(res.data)
-      if (!res.data.length) {
-        setclienteInpidentificacion(q)
+      if (res.data) {
+        if(res.statusText=="OK"){
+          if (res.data.length) {
+            setPersona(res.data)
+          }else{
+            setPersona([])
+          }
+        }
+        if (!res.data.length) {
+          setclienteInpidentificacion(q)
+        }
+        setLoading(false)
+
       }
-      setLoading(false)
     })
     
-  },150)
+  },100)
   setTypingTimeout(time)
 
 }
@@ -1250,11 +1519,14 @@ const setPersonaFast = e => {
     clienteInptelefono,
   }).then(res=>{
     notificar(res)
-    if (res.data.estado) {
-      if (res.data.id) {
-        setPersonas(res.data.id)
-      }
+    if (res.data) {
+      if (res.data.estado) {
+        if (res.data.id) {
+          setPersonas(res.data.id)
+        }
 
+      }
+      
     }
     setLoading(false)
   })
@@ -1262,15 +1534,21 @@ const setPersonaFast = e => {
 const printCreditos = () => {
   db.openPrintCreditos("")
 }
-const getPedidosList = ()=>{
-  db.getPedidosList().then(res=>{
-    setPedidoList(res.data)
+const getPedidosList = (callback=null)=>{
+  db.getPedidosList({vendedor:user.id_usuario?user.id_usuario:1}).then(res=>{
+    if (res.data) {
+      setPedidoList(res.data)
+    }
     if (res.data[0]) {
       setNumero_factura(res.data[0].id)
+    }else{
+      setNumero_factura('nuevo')
+
     }
+    if(callback){callback()}
   })
 }
-const getPedido = (id,callback=null) => {
+  const getPedido = (id, callback = null, clearPagosPedido=true) => {
   setLoading(true)
   if (!id) {
     id = pedidoSelect
@@ -1279,76 +1557,88 @@ const getPedido = (id,callback=null) => {
   }
   db.getPedido({id}).then(res=>{
     setLoading(false)
-    setPedidoData(res.data)
-    setTransferencia("")
-    setDebito("")
-    setEfectivo("")
-    setCredito("")
-    setVuelto("")
-
-    getPedidosFast()
-
-    if (res.data.pagos) {
-      let d = res.data.pagos
-      if (d.filter(e=>e.tipo==1)[0]) {
-        let var_setTransferencia = d.filter(e=>e.tipo==1)[0].monto
-        if (var_setTransferencia=="0.00") {
-          setTransferencia("")
-
-        }else{
-          setTransferencia(d.filter(e=>e.tipo==1)[0].monto)
-
-        }
-
+    if (res.data) {
+      setPedidoData(res.data)
+      
+      if (clearPagosPedido) {
+        setTransferencia("")
+        setDebito("")
+        setEfectivo("")
+        setCredito("")
+        setVuelto("")
       }
-      if (d.filter(e=>e.tipo==2)[0]) {
-        let var_setDebito = d.filter(e=>e.tipo==2)[0].monto
-        if (var_setDebito=="0.00") {
-          setDebito("")
-
-        }else{
-          setDebito(d.filter(e=>e.tipo==2)[0].monto)
-
-        }
-
+      setrefPago([])
+      
+      getPedidosFast()
+      
+      if (res.data.referencias.length) {
+        setrefPago(res.data.referencias)
+      }else{
+        setrefPago([])
       }
-      if (d.filter(e=>e.tipo==3)[0]) {
-        let var_setEfectivo = d.filter(e=>e.tipo==3)[0].monto
-        if (var_setEfectivo=="0.00") {
-          setEfectivo("")
-
-        }else{
-          setEfectivo(d.filter(e=>e.tipo==3)[0].monto)
-
+  
+      if (res.data.pagos) {
+        let d = res.data.pagos
+        if (d.filter(e=>e.tipo==1)[0]) {
+          let var_setTransferencia = d.filter(e=>e.tipo==1)[0].monto
+          if (var_setTransferencia=="0.00") {
+            if(clearPagosPedido){setTransferencia("")}
+  
+          }else{
+            setTransferencia(d.filter(e=>e.tipo==1)[0].monto)
+  
+          }
+  
         }
-
-      }
-      if (d.filter(e=>e.tipo==4)[0]) {
-        let var_setCredito = d.filter(e=>e.tipo==4)[0].monto
-        if (var_setCredito=="0.00") {
-          setCredito("")
-
-        }else{
-          setCredito(d.filter(e=>e.tipo==4)[0].monto)
-
+        if (d.filter(e=>e.tipo==2)[0]) {
+          let var_setDebito = d.filter(e=>e.tipo==2)[0].monto
+          if (var_setDebito=="0.00") {
+            if(clearPagosPedido){setDebito("")}
+  
+          }else{
+            setDebito(d.filter(e=>e.tipo==2)[0].monto)
+  
+          }
+  
         }
-
-      }
-      if (d.filter(e=>e.tipo==6)[0]) {
-        let var_setVuelto = d.filter(e=>e.tipo==6)[0].monto
-        if (var_setVuelto=="0.00") {
-          setVuelto("")
-
-        }else{
-          setVuelto(d.filter(e=>e.tipo==6)[0].monto)
-
+        if (d.filter(e=>e.tipo==3)[0]) {
+          let var_setEfectivo = d.filter(e=>e.tipo==3)[0].monto
+          if (var_setEfectivo=="0.00") {
+            if(clearPagosPedido){setEfectivo("")}
+  
+          }else{
+            setEfectivo(d.filter(e=>e.tipo==3)[0].monto)
+  
+          }
+  
         }
-
+        if (d.filter(e=>e.tipo==4)[0]) {
+          let var_setCredito = d.filter(e=>e.tipo==4)[0].monto
+          if (var_setCredito=="0.00") {
+            if(clearPagosPedido){setCredito("")}
+  
+          }else{
+            setCredito(d.filter(e=>e.tipo==4)[0].monto)
+  
+          }
+  
+        }
+        if (d.filter(e=>e.tipo==6)[0]) {
+          let var_setVuelto = d.filter(e=>e.tipo==6)[0].monto
+          if (var_setVuelto=="0.00") {
+            if(clearPagosPedido){setVuelto("")}
+  
+          }else{
+            setVuelto(d.filter(e=>e.tipo==6)[0].monto)
+  
+          }
+  
+        }
+      }else{
+        alert("Sin pagos registrados")
       }
-    }else{
-      alert("Sin pagos registrados")
+      if (callback) { callback() }
     }
-    if (callback) { callback() }
 
   })
 }
@@ -1365,10 +1655,8 @@ const addCarrito = (e,callback=null) => {
   }else{
     index = e
   }
-
   setLoteIdCarrito(loteid)
 
-  
   if (index != counterListProductos && productos[index].lotes.length) {
     setCounterListProductos(index)
   }else{
@@ -1377,12 +1665,14 @@ const addCarrito = (e,callback=null) => {
     }else{
       setNumero_factura("nuevo")
     }
-    setSelectItem(index)
+    setSelectItem(parseInt(index))
     if (callback) {callback()}
 
   }
+  
+
 }
-const addCarritoRequest = e =>{
+const addCarritoRequest = (e,id_direct=null,id_pedido_direct=null) =>{
   try{
     setLoading(true)
     let type
@@ -1392,26 +1682,44 @@ const addCarritoRequest = e =>{
     }else{
       type = e
     }
-    const id = productos[selectItem].id
+    let id = null
+    if (productos[selectItem]) {
+      id = productos[selectItem].id
+    }
+    if (id_direct) {
+      id = id_direct
+    }
 
-    db.setCarrito({ id, type, cantidad, numero_factura, loteIdCarrito}).then(res=>{
-      getPedidosList()
-      getProductos()
-      notificar(res)
+    db.setCarrito({ id, type, cantidad, numero_factura:id_pedido_direct?id_pedido_direct:numero_factura, loteIdCarrito}).then(res=>{
+      // getProductos()
 
+      if (numero_factura=="nuevo") {
+        getPedidosList()
+      }
       switch(res.data.type){
         case "agregar":
           setSelectItem(null)
+          notificar(res)
+
+          if (showinputaddCarritoFast&&ModaladdproductocarritoToggle) {
+            getPedido(res.data.num_pedido)
+          }
+
         break;
         case "agregar_procesar":
           getPedido(res.data.num_pedido,()=>{
             setView("pagar")
             setSelectItem(null)
+            
           })
         break;
       }
       setCantidad("")
-      inputbusquedaProductosref.current.value = ""
+      if (inputbusquedaProductosref) {
+        setQProductosMain("")
+        inputbusquedaProductosref.current.focus()
+      }
+      
       setLoading(false)
     })
 
@@ -1517,7 +1825,7 @@ const setCantidadCarrito = (e) => {
   }
 } 
 const setProductoCarritoInterno = (e) => {
-  const cantidad = window.prompt("Cantidad")
+  let cantidad = window.prompt("Cantidad","1")
   if (cantidad&&pedidoData.id) {
     setLoading(true)
     let id;
@@ -1527,7 +1835,7 @@ const setProductoCarritoInterno = (e) => {
     }else{
       id = e
     }
-    const type = "agregar"
+    let type = "agregar"
     db.setCarrito({id,type,cantidad,numero_factura:pedidoData.id}).then(res=>{
       getPedido()
       setModaladdproductocarritoToggle(false)
@@ -1577,8 +1885,11 @@ const facturar_pedido = () => {
         setLoading(false)
         
         if (res.data.estado) {
+          if(showinputaddCarritoFast){
+            setshowinputaddCarritoFast(false)
+          }
           setView("seleccionar")
-          getPedidos()
+          // getPedidos()
           getPedidosList()
           getProductos()
 
@@ -1632,6 +1943,14 @@ const guardar_cierre = (e,callback=null) => {
     entregadomenospend: cierre["entregadomenospend"],
     caja_inicial:cierre["caja_inicial"],
 
+    precio: cierre["precio"],
+    precio_base: cierre["precio_base"],
+    ganancia: cierre["ganancia"],
+    porcentaje: cierre["porcentaje"],
+    desc_total: cierre["desc_total"],
+    numventas: cierre["numventas"],
+    
+
     notaCierre,
   }).then(res=>{
     
@@ -1643,10 +1962,12 @@ const guardar_cierre = (e,callback=null) => {
         verCierreReq(fechaCierre,type)
       }else{
         setLoading(true)
+        
         db.sendCierre({type,fecha:fechaCierre}).then(res=>{
           notificar(res,false)
           setLoading(false)
         })
+        
       }
 
     }     
@@ -1655,7 +1976,9 @@ const guardar_cierre = (e,callback=null) => {
 }
 const verCierreReq = (fechaCierre,type="ver") => {
   // console.log(fecha)
-  db.openVerCierre({fechaCierre,type})
+  if (window.confirm("Confirme envio")) {
+    db.openVerCierre({fechaCierre,type})
+  }
 }
 const setPagoCredito = e =>{
   e.preventDefault()
@@ -1677,7 +2000,13 @@ const setPagoCredito = e =>{
 const getDeudores = e =>{
   setLoading(true)
   db.getDeudores({qDeudores,view}).then(res=>{
-    setDeudoresList(res.data)
+    if (res.data) {
+      if (res.data.length) {
+        setDeudoresList(res.data)
+      }else{
+        setDeudoresList([])
+      }
+    }
     setLoading(false)
   })
 }
@@ -1782,16 +2111,22 @@ const buscarInventario = e => {
         busqAvanzInputs,
         
       }).then(res=>{
-        setProductosInventario(res.data)
-        setLoading(false)
-        setIndexSelectInventario(null)
-        if (res.data.length===1) {
-          setIndexSelectInventario(0)
-        }else if(res.data.length==0){
-          setinpInvbarras(qBuscarInventario)
+        if (res.data) {
+          if (res.data.length) {
+            setProductosInventario(res.data)
+          }else{
+            setProductosInventario([])
+          }
+          setIndexSelectInventario(null)
+          if (res.data.length===1) {
+            setIndexSelectInventario(0)
+          }else if(res.data.length==0){
+            setinpInvbarras(qBuscarInventario)
+          }
         }
+        setLoading(false)
       })
-    },150)
+    },120)
     setTypingTimeout(time)
 
   }else{
@@ -1811,7 +2146,11 @@ const getProveedores = e => {
     db.getProveedores({
       q:qBuscarProveedor
     }).then(res=>{
-      setProveedoresList(res.data)
+      if (res.data.length) {
+        setProveedoresList(res.data)
+      }else{
+        setProveedoresList([])
+      }
       setLoading(false)
       if (res.data.length===1) {
         setIndexSelectProveedores(0)
@@ -1821,10 +2160,7 @@ const getProveedores = e => {
   setTypingTimeout(time)
 
   if (!categorias.length) {
-    db.getCategorias({
-    }).then(res=>{
-      setcategorias(res.data)
-    })
+    getCategorias()
   }
   if (!depositosList.length) {
     db.getDepositos({
@@ -1953,7 +2289,7 @@ const guardarNuevoProducto = e => {
 }
 const getPedidosFast = () => {
 
-  db.getPedidosFast({vendedor,fecha1pedido}).then(res=>{
+  db.getPedidosFast({vendedor:showMisPedido?[user.id_usuario]:[],fecha1pedido}).then(res=>{
     setpedidosFast(res.data)
     
   })
@@ -2318,6 +2654,8 @@ const getPedidosCentral = () => {
     if (res.data) {
       if (res.data.length) {
         setpedidoCentral(res.data)
+      }else{
+        setpedidoCentral([])
       }
       if (res.data.msj) {
         notificar(res)
@@ -2823,7 +3161,7 @@ const auth = permiso => {
         view=="seleccionar"?
         <div className="container p-0">
           
-            {selectItem!==null?productos[selectItem]?<ModalAddCarrito 
+            {typeof(selectItem)=="number"?productos[selectItem]?<ModalAddCarrito 
               producto={productos[selectItem]} 
               setSelectItem={setSelectItem}
               cantidad={cantidad}
@@ -2862,15 +3200,20 @@ const auth = permiso => {
                 <input type="text" 
                 className="form-control" 
                 ref={inputbusquedaProductosref}
-                placeholder="Buscar... Presiona (ESC)" 
+                placeholder="Buscar... Presiona (ESC)"
+                value={qProductosMain}
                 onChange={onchangeinputmain}/>
-              <div className="input-group-append">
-                <span className="input-group-text pointer" onClick={()=>{
-                  let num = window.prompt("Número de resultados a mostrar")
-                  if (num) {setNum(num)}
-                }}>Num.({num})</span>
-              </div>
-              <span className="input-group-text pointer" onClick={()=>setItemCero(!itemCero)}>En cero: {itemCero?"Sí":"No"}</span>
+                <button onClick={()=>setshowinputaddCarritoFast(!showinputaddCarritoFast)} className={("btn btn-outline-")+(showinputaddCarritoFast?"success":"sinapsis")}>Agg. rápido</button>
+              
+                {showOptionQMain?<>
+                <span className="input-group-text pointer" onClick={() => setshowOptionQMain(false)}><i className="fa fa-arrow-right"></i></span>
+                  <span className="input-group-text pointer" onClick={()=>{
+                    let num = window.prompt("Número de resultados a mostrar")
+                    if (num) {setNum(num)}
+                  }}>Num.({num})</span>
+                  <span className="input-group-text pointer" onClick={()=>setItemCero(!itemCero)}>En cero: {itemCero?"Sí":"No"}</span>
+              </> : <span className="input-group-text pointer" onClick={() => setshowOptionQMain(true)}><i className="fa fa-arrow-left"></i></span>}
+              
             </div>
             <ProductosList 
               auth={auth}
@@ -2993,6 +3336,8 @@ const auth = permiso => {
         :null}
 
         {view=="cierres"?<Cierres
+          fechaGetCierre2={fechaGetCierre2}
+          setfechaGetCierre2={setfechaGetCierre2}
           verCierreReq={verCierreReq}
           fechaGetCierre={fechaGetCierre}
           setfechaGetCierre={setfechaGetCierre}
@@ -3053,6 +3398,8 @@ const auth = permiso => {
           peso={peso} 
         />:null}
         {view=="pedidos"?<Pedidos
+          setshowMisPedido={setshowMisPedido}
+          showMisPedido={showMisPedido}
           tipobusquedapedido={tipobusquedapedido}
           
           setTipoBusqueda={setTipoBusqueda}
@@ -3073,27 +3420,27 @@ const auth = permiso => {
           setTipoestadopedido={setTipoestadopedido}
         />:null}
 
-        {view=="usuarios"?<Usuarios
-          
-          addNewUsuario={addNewUsuario}
-          
-
-          usuarioNombre={usuarioNombre}
-          setusuarioNombre={setusuarioNombre}
-          usuarioUsuario={usuarioUsuario}
-          setusuarioUsuario={setusuarioUsuario}
-          usuarioRole={usuarioRole}
-          setusuarioRole={setusuarioRole}
-          usuarioClave={usuarioClave}
-          setusuarioClave={setusuarioClave}
-          indexSelectUsuarios={indexSelectUsuarios}
-          setIndexSelectUsuarios={setIndexSelectUsuarios}
-          qBuscarUsuario={qBuscarUsuario}
-          setQBuscarUsuario={setQBuscarUsuario}
-          delUsuario={delUsuario}
-          usuariosData={usuariosData}
-        />:null}
+        
         {view=="inventario"?<Inventario
+          qgastosfecha1={qgastosfecha1}
+          setqgastosfecha1={setqgastosfecha1}
+          qgastosfecha2={qgastosfecha2}
+          setqgastosfecha2={setqgastosfecha2}
+          qgastos={qgastos}
+          setqgastos={setqgastos}
+          qcatgastos={qcatgastos}
+          setqcatgastos={setqcatgastos}
+          gastosdescripcion={gastosdescripcion}
+          setgastosdescripcion={setgastosdescripcion}
+          gastoscategoria={gastoscategoria}
+          setgastoscategoria={setgastoscategoria}
+          gastosmonto={gastosmonto}
+          setgastosmonto={setgastosmonto}
+          gastosData={gastosData}
+          delGastos={delGastos}
+          getGastos={getGastos}
+          setGasto={setGasto}
+
           delPagoProveedor={delPagoProveedor}
           busqAvanzInputsFun={busqAvanzInputsFun}
           busqAvanzInputs={busqAvanzInputs}
@@ -3281,6 +3628,14 @@ const auth = permiso => {
         
         />:null}
         {view=="pagar"?<Pagar 
+          addRefPago={addRefPago}
+          delRefPago={delRefPago}
+          refPago={refPago}
+          setrefPago={setrefPago}
+
+          qProductosMain={qProductosMain}
+          showinputaddCarritoFast={showinputaddCarritoFast}
+          setshowinputaddCarritoFast={setshowinputaddCarritoFast}
 
           dolar={dolar}
           peso={peso}
@@ -3416,6 +3771,39 @@ const auth = permiso => {
           sumPedidosArr={sumPedidosArr}
           setsumPedidosArr={setsumPedidosArr}
         />
+        :null}
+
+        {view=="configuracion"?
+          <Configuracion
+            subViewConfig={subViewConfig}
+            setsubViewConfig={setsubViewConfig}
+
+            categorias={categorias}
+            addNewCategorias={addNewCategorias}
+            categoriasDescripcion={categoriasDescripcion}
+            setcategoriasDescripcion={setcategoriasDescripcion}
+            indexSelectCategorias={indexSelectCategorias}
+            setIndexSelectCategorias={setIndexSelectCategorias}
+            qBuscarCategorias={qBuscarCategorias}
+            setQBuscarCategorias={setQBuscarCategorias}
+            delCategorias={delCategorias}
+
+            addNewUsuario={addNewUsuario}
+            usuarioNombre={usuarioNombre}
+            setusuarioNombre={setusuarioNombre}
+            usuarioUsuario={usuarioUsuario}
+            setusuarioUsuario={setusuarioUsuario}
+            usuarioRole={usuarioRole}
+            setusuarioRole={setusuarioRole}
+            usuarioClave={usuarioClave}
+            setusuarioClave={setusuarioClave}
+            indexSelectUsuarios={indexSelectUsuarios}
+            setIndexSelectUsuarios={setIndexSelectUsuarios}
+            qBuscarUsuario={qBuscarUsuario}
+            setQBuscarUsuario={setQBuscarUsuario}
+            delUsuario={delUsuario}
+            usuariosData={usuariosData}
+          />
         :null}
       
     </>

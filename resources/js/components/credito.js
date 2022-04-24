@@ -50,7 +50,7 @@ function Credito({
               </tr>
             </thead>
             <tbody>
-              {deudoresList.map((e,i)=>
+              {deudoresList.length?deudoresList.map((e,i)=>
                 e?
                 <tr key={e.id} className="text-center pointer">
                   <td  className={(e.saldo>0?"text-success":"text-danger")+(" h2 text-right")}>
@@ -64,7 +64,7 @@ function Credito({
                   <td>{e.id} - {e.nombre} - {e.identificacion}</td>
                 </tr>
                 :null
-              )}
+              ):null}
             </tbody>
 
           </table>

@@ -32,10 +32,21 @@ class CreateCierresTable extends Migration
             $table->decimal("tasa",8,2); 
             
             $table->text("nota")->nullable();
-
+            
             $table->date("fecha")->unique();
-
+            
             $table->integer("id_usuario");
+
+            
+            
+            $table->integer("numventas")->default(0); 
+
+            $table->decimal("precio",8,2)->default(0);
+            $table->decimal("precio_base",8,2)->default(0);
+            $table->decimal("ganancia",8,2)->default(0);
+            $table->decimal("porcentaje",8,2)->default(0);
+            $table->decimal("desc_total",8,2)->default(0);
+            
             $table->boolean("push")->default(0);
             $table->timestamps();
 

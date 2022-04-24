@@ -10,14 +10,14 @@
     --sinapsis-color-select : #84bcf3;*/
     
     /*Naranja*/
- /*  --sinapsis-color : rgba(242,109,10);
+  --sinapsis-color : rgba(242,109,10);
   --sinapsis-color-light : rgba(255,177,113,0.75);
-  --sinapsis-color-select : rgba(221,143,79,0.75); */
+  --sinapsis-color-select : rgba(221,143,79,0.75); 
 
   /*Verde*/
-  --sinapsis-color : #216234;
+  /* --sinapsis-color : #216234;
   --sinapsis-color-light : #e4ffe5;
-  --sinapsis-color-select : #9cd6b1;
+  --sinapsis-color-select : #9cd6b1; */
 
   
 }
@@ -38,6 +38,20 @@ body *::-webkit-scrollbar-thumb {
   border-radius: 5px;
   outline: 1px solid slategrey;
 }
+.ref {
+  display: none;
+}
+.addref .ref{
+  display: initial;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: var(--sinapsis-color-light);
+  color: #4a4a4a;
+  padding: 2px;
+  border-radius: 4px;
+}
+
 .input-50{
   width: 50px;
   outline: none;
@@ -95,6 +109,9 @@ td,th{
 }
 .cell4{
   width: 40% !important;
+}
+.cell45 {
+  width: 45% !important;
 }
 .cell5{
   width: 50% !important;
@@ -160,8 +177,8 @@ td,th{
 }
 .closeModal{
   background-color: white;
-  border-radius: 50px;
-  padding: 2px;
+  border-radius: 5px;
+  padding: 10px;
 }
 .notificacion{
   z-index: 9999999;
@@ -237,10 +254,10 @@ i{
     text-align: center;
 }
 .btn-circle.btn-xl {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     padding: 10px 16px;
-    border-radius: 35px;
+    border-radius: 40px;
     font-size: 12px;
     text-align: center;
 }
@@ -784,4 +801,16 @@ body{
 
 .login100-form-btn:hover:before {
   opacity: 0;
+}
+
+
+
+.header-justify-content-end{
+  justify-content: flex-end !important;
+  
+}
+
+.hover:hover{
+  background-color: #eaeaea !important;
+
 }
