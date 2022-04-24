@@ -1216,16 +1216,19 @@ const getDeudor = () => {
 }
 const entregarVuelto = () => {
     let monto = window.prompt("Monto a entregar")
-    if (pedidoData.id&&number(monto)) {
-        setLoading(true)
+    if(monto){
 
-      db.entregarVuelto({id_pedido:pedidoData.id,monto}).then(res=>{
-        notificar(res)
-        getPedido()
-        getMovimientosCaja()
-        setLoading(false)
-
-      })
+      if (pedidoData.id&&number(monto)) {
+          setLoading(true)
+  
+        db.entregarVuelto({id_pedido:pedidoData.id,monto}).then(res=>{
+          notificar(res)
+          getPedido()
+          getMovimientosCaja()
+          setLoading(false)
+  
+        })
+      }
     }
 }
 const getDebito = () =>{
