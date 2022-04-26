@@ -47,28 +47,34 @@ class ItemsPedidosController extends Controller
             (new PedidosController)->checkPedidoAuth($iditem,"item");
 
             $item = items_pedidos::with("producto")->find($iditem);
-            if ($item) {
-                $p1 = $item->producto->precio1;
-                $bulto = $item->producto->bulto;
-                $ct = $item->cantidad;
-                $monto = $item->monto;
+            if ($p=="p1"||$p=="p2") {
+                if ($item) {
+                    if ($p=="p1") {
+                        $p1 = $item->producto->precio1;
+                    }
+                    if ($p=="p2") {
+                        $p1 = $item->producto->precio2;
+                    }
+                    $ct = $item->cantidad;
+                    $monto = $item->monto;
 
-                $objetivo = ($ct/$bulto)*$p1;
+                    $objetivo = $ct*$p1;
 
-                $porcentaje_objetivo = (100-((floatval($objetivo)*100)/$monto));
+                    $porcentaje_objetivo = (100-((floatval($objetivo)*100)/$monto));
 
-                // let total = parseFloat(pedidoData.clean_subtotal)
+                    // let total = parseFloat(pedidoData.clean_subtotal)
 
-                // descuento = (100-((parseFloat(descuento)*100)/total))
+                    // descuento = (100-((parseFloat(descuento)*100)/total))
 
-                if ($porcentaje_objetivo) {
-                    $item->descuento = floatval($porcentaje_objetivo);
-                    $item->save();
+                    if ($porcentaje_objetivo) {
+                        $item->descuento = floatval($porcentaje_objetivo);
+                        $item->save();
+                    }
+                    
+
+                    // return Response::json(["msj"=>"¡Éxito!","estado"=>true]);
+                    return Response::json(["msj"=>"p1 $p1 bulto $bulto ct $ct id $iditem","estado"=>true]);
                 }
-                
-
-                // return Response::json(["msj"=>"¡Éxito!","estado"=>true]);
-                return Response::json(["msj"=>"p1 $p1 bulto $bulto ct $ct id $iditem","estado"=>true]);
             }
 
             

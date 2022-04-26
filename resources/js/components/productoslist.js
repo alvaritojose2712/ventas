@@ -108,8 +108,8 @@ function ProductosList({
                     {e.precio1?<div className="row">
                       <div className="col m-0 p-0">
                         <span className="btn btn-success w-100">
-                          MAYOR. 1 x <b>{e.bulto}</b> = {moneda(e.precio1)} <br/>
-                          P/U. {moneda(e.precio1/e.bulto)}
+                          MAYOR. 1 x <b>{e.bulto}</b> = {moneda(e.precio1*e.bulto)} <br/>
+                          P/U. {moneda(e.precio1)}
                         </span>
                       </div>
                     </div>:null}

@@ -238,7 +238,7 @@ export default function InventarioForzado({
                                             <span className="btn btn-outline-success" 
                                             data-id={e.id} 
                                             data-type="p1" 
-                                            onClick={setPrecioAlterno}>P1xBulto.<br/>{e.precio1}</span>
+                                            onClick={setPrecioAlterno}>P1.<br/>{e.precio1}</span>
 
                                             <span className="btn btn-outline-success" 
                                             data-id={e.id} 

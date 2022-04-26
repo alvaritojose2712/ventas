@@ -8037,7 +8037,7 @@ function Facturar(_ref) {
     var checkempty = productosInventario.filter(function (e) {
       return e.type;
     }).filter(function (e) {
-      return e.codigo_barras == "" || e.descripcion == "" || e.id_categoria == "" || e.unidad == "" || e.id_proveedor == "" || e.cantidad == "" || e.precio_base == "" || e.precio == "";
+      return e.codigo_barras == "" || e.descripcion == "" || e.id_categoria == "" || e.unidad == "" || e.id_proveedor == "" || e.cantidad == "" || e.precio == "";
     });
 
     if (!checkempty.length) {
@@ -11676,7 +11676,7 @@ function InventarioForzado(_ref) {
                       "data-id": e.id,
                       "data-type": "p1",
                       onClick: setPrecioAlterno,
-                      children: ["P1xBulto.", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), e.precio1]
+                      children: ["P1.", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), e.precio1]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                       className: "btn btn-outline-success",
                       "data-id": e.id,
@@ -14649,7 +14649,7 @@ function ProductosList(_ref) {
                       className: "btn btn-success w-100",
                       children: ["MAYOR. 1 x ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("b", {
                         children: e.bulto
-                      }), " = ", moneda(e.precio1), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), "P/U. ", moneda(e.precio1 / e.bulto)]
+                      }), " = ", moneda(e.precio1 * e.bulto), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), "P/U. ", moneda(e.precio1)]
                     })
                   })
                 }) : null]

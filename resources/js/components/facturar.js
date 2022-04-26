@@ -2119,7 +2119,6 @@ const buscarInventario = e => {
     e.unidad == ""||
     e.id_proveedor == ""||
     e.cantidad == ""||
-    e.precio_base == ""||
     e.precio == "")
 
   if (!checkempty.length) {
