@@ -42,6 +42,7 @@ class tickera extends Controller
           $dolar = 1;
         }else if($moneda_req=="bs"){
           $dolar = $get_moneda["bs"];
+          $ref = true;
         }else if($moneda_req=="cop"){
           $dolar = $get_moneda["cop"];
         }else{
@@ -213,7 +214,7 @@ class tickera extends Controller
                 $printer->text("\n");
                 $ref_msj = "";
                 if ($ref) {
-                    $ref_msj = " | REF. ". floatval($pedido->clean_total/$get_moneda["bs"]);
+                    $ref_msj = " | REF. ". round(floatval($pedido->clean_total/$get_moneda["bs"]),2);
                 }
                 $printer->text("Total: ".$pedido->total.$ref_msj);
                 $printer->text("\n");
