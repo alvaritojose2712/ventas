@@ -73,7 +73,7 @@ class ItemsPedidosController extends Controller
                     
 
                     // return Response::json(["msj"=>"¡Éxito!","estado"=>true]);
-                    return Response::json(["msj"=>"p1 $p1 bulto $bulto ct $ct id $iditem","estado"=>true]);
+                    return Response::json(["msj"=>"p1 $p1","estado"=>true]);
                 }
             }
 
