@@ -30,6 +30,9 @@ export default function InventarioForzado({
     busqAvanzInputsFun,
     busqAvanzInputs,
     buscarInvAvanz,
+
+    setCtxBulto,
+    setPrecioAlterno,
 }){
     const getPorGanacia = (precio,base) => {
         try{
@@ -219,13 +222,32 @@ export default function InventarioForzado({
                                     <td className="cell1">{e.codigo_barras}</td>
                                     <td className="cell05">{e.unidad}</td>
                                     <td className="cell2">{e.descripcion}</td>
-                                    <th className="cell05">{e.cantidad}</th>
+                                    <th className="cell05">{e.cantidad} <br/>
+                                        <span className="btn btn-outline-success" 
+                                        data-id={e.id} 
+                                        onClick={setCtxBulto}>CtxBulto.{e.bulto}</span>
+                                    </th>
                                     <td className="cell1">{e.precio_base}</td>
                                     <td className="cell15 text-success">
                                     {e.precio}<br/>
                                     <span className="text-success">
                                         {getPorGanacia(!e.precio?0:e.precio,!e.precio_base?0:e.precio_base)}
                                     </span>
+                                    <br/>
+                                        <div className="btn-group">
+                                            <span className="btn btn-outline-success" 
+                                            data-id={e.id} 
+                                            data-type="p1" 
+                                            onClick={setPrecioAlterno}>P1xBulto.<br/>{e.precio1}</span>
+
+                                            <span className="btn btn-outline-success" 
+                                            data-id={e.id} 
+                                            data-type="p2" 
+                                            onClick={setPrecioAlterno}>P2.<br/>{e.precio2}</span>
+
+                                            
+
+                                        </div>
                                     </td>
                                         <td className="cell15">{e.categoria.descripcion} <br /> {e.proveedor.descripcion}</td>
                                     <td className="cell05">{e.iva}</td>

@@ -160,6 +160,11 @@ td,th{
 .btn-options{
   width: 50px;
 }
+.btn-sm-sm{
+  padding: 0.25rem 0.5rem !important; 
+  font-size: 0.587rem !important;
+  border-radius: 0.2rem !important;
+}
 
 .id_factura{
  display: inline-block;

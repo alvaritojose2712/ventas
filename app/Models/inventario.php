@@ -45,6 +45,11 @@ class inventario extends Model
         "precio_base",
         "precio",
         "cantidad",
+
+        "bulto",
+        "precio1",
+        "precio2",
+        "precio3",
     ];
     
 

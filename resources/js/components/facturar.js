@@ -1772,6 +1772,32 @@ const delItemPedido = (e) => {
     notificar(res)
   })
 }
+const setPrecioAlternoCarrito = e => {
+  let iditem = e.currentTarget.attributes["data-iditem"].value
+  let p = window.prompt("p1 | p2","p1")
+  if (p=="p1" || p=="p2") {
+    db.setPrecioAlternoCarrito({iditem,p}).then(res=>{
+      notificar(res)
+      getPedido()
+    })
+  }
+
+} 
+
+const setCtxBultoCarrito = e => {
+  let iditem = e.currentTarget.attributes["data-iditem"].value
+  let ct = window.prompt("Cantidad por bulto")
+  if (ct) {
+    db.setCtxBultoCarrito({iditem,ct}).then(res=>{
+      notificar(res)
+      getPedido()
+    })
+  }
+
+} 
+
+
+
 const setDescuentoTotal = (e) => {
   // setLoading(true)
 
@@ -3004,7 +3030,6 @@ const guardarNuevoProductoLote = () => {
     e.unidad == ""||
     e.id_proveedor == ""||
     e.cantidad == ""||
-    e.precio_base == ""||
     e.precio == "")
 
   if (lotesFil.length && !checkempty.length) {
@@ -3061,6 +3086,29 @@ const setPagoProveedor = e => {
       })
     }
   }
+
+}
+const setCtxBulto = e => {
+    let id = e.currentTarget.attributes["data-id"].value
+    let bulto = window.prompt("Cantidad por bulto")
+    if (bulto) {
+      db.setCtxBulto({id,bulto}).then(res=>{
+        buscarInventario()
+        notificar(res)
+      })
+    }
+
+}
+const setPrecioAlterno = e => {
+    let id = e.currentTarget.attributes["data-id"].value
+    let type = e.currentTarget.attributes["data-type"].value
+    let precio = window.prompt("PRECIO "+type)
+    if (precio) {
+      db.setPrecioAlterno({id,type,precio}).then(res=>{
+        buscarInventario()
+        notificar(res)
+      })
+    }
 
 }
 const changeInventario = (val, i, id, type, name = null) => {
@@ -3219,6 +3267,7 @@ const auth = permiso => {
               
             </div>
             <ProductosList 
+              moneda={moneda}
               auth={auth}
               productos={productos} 
               addCarrito={addCarrito}
@@ -3425,6 +3474,8 @@ const auth = permiso => {
 
         
         {view=="inventario"?<Inventario
+          setCtxBulto={setCtxBulto}
+          setPrecioAlterno={setPrecioAlterno}
           qgastosfecha1={qgastosfecha1}
           setqgastosfecha1={setqgastosfecha1}
           qgastosfecha2={qgastosfecha2}
@@ -3631,6 +3682,8 @@ const auth = permiso => {
         
         />:null}
         {view=="pagar"?<Pagar 
+          setCtxBultoCarrito={setCtxBultoCarrito}
+          setPrecioAlternoCarrito={setPrecioAlternoCarrito}
           addRefPago={addRefPago}
           delRefPago={delRefPago}
           refPago={refPago}

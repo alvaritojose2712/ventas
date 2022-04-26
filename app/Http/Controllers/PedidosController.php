@@ -511,7 +511,17 @@ class PedidosController extends Controller
                 "monto",
             ]);
             $q->with(["producto"=>function($q){
-                $q->select(["id","codigo_barras","codigo_proveedor","descripcion","precio","precio_base","iva"]);
+                $q->select([
+                "id",
+                "codigo_barras",
+                "codigo_proveedor",
+                "descripcion",
+                "precio",
+                "precio_base",
+                "iva",
+                "precio1",
+                "bulto",
+            ]);
             },"lotedata"]);
             $q->orderBy("id","asc");
 

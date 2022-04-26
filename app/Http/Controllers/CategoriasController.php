@@ -11,7 +11,7 @@ class CategoriasController extends Controller
     public function getCategorias(Request $req)
     {
         $q = $req->q;
-        return categorias::where("descripcion","LIKE",$q."%")->get(["id","descripcion"]);
+        return categorias::where("descripcion","LIKE",$q."%")->orderBy("descripcion","asc")->get(["id","descripcion"]);
     }
 
     public function delCategoria(Request $req)

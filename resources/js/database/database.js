@@ -28,6 +28,10 @@ const db = {
   setDescuentoTotal: data=>axios.post(host+"setDescuentoTotal",data),
 
   setCantidad: data=>axios.post(host+"setCantidad",data),
+  setPrecioAlternoCarrito: data=>axios.post(host+"setPrecioAlternoCarrito",data),
+  setCtxBultoCarrito: data=>axios.post(host+"setCtxBultoCarrito",data),
+  
+
   
   getpersona: data=>axios.post(host+"getpersona",data),
   setpersonacarrito: data=>axios.post(host+"setpersonacarrito",data),
@@ -130,6 +134,8 @@ const db = {
   getGastos: data=>axios.post(host+"getGastos",data),
   setGasto: data=>axios.post(host+"setGasto",data),
   
+  setCtxBulto: data=>axios.post(host+"setCtxBulto",data),
+  setPrecioAlterno: data=>axios.post(host+"setPrecioAlterno",data),
   
   
   

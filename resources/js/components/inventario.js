@@ -14,6 +14,9 @@ import Gastos from '../components/gastos';
 
 
 function Inventario({
+  setCtxBulto,
+  setPrecioAlterno,
+
   openReporteFalla,
   setporcenganancia,
   changeInventario,
@@ -422,6 +425,8 @@ function Inventario({
               
             />
             : <InventarioForzado
+                setCtxBulto={setCtxBulto}
+                setPrecioAlterno={setPrecioAlterno}
                 busqAvanzInputsFun={busqAvanzInputsFun}
                 busqAvanzInputs={busqAvanzInputs}
                 buscarInvAvanz={buscarInvAvanz}

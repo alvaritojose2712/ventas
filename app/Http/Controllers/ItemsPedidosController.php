@@ -15,6 +15,69 @@ class ItemsPedidosController extends Controller
     {   
         return (new InventarioController)->hacer_pedido($req->index,null,99,"del");
     }
+    public function setCtxBultoCarrito(Request $req)
+    {
+        try {
+            $iditem = $req->iditem;
+            (new PedidosController)->checkPedidoAuth($iditem,"item");
+
+
+            $item = items_pedidos::with("producto")->find($iditem);
+            if ($item) {
+                $ct = intval($req->ct);
+                $bulto = $item->producto->bulto;
+                if ($ct&&$bulto) {
+                    return (new InventarioController)->hacer_pedido($iditem,null,floatval($ct*$bulto),"upd");
+                }
+
+            }
+
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+        }
+    }
+    public function setPrecioAlternoCarrito(Request $req)
+    {
+
+        try {
+            $iditem = $req->iditem;
+            $p = $req->p;
+
+            (new PedidosController)->checkPedidoAuth($iditem,"item");
+
+            $item = items_pedidos::with("producto")->find($iditem);
+            if ($item) {
+                $p1 = $item->producto->precio1;
+                $bulto = $item->producto->bulto;
+                $ct = $item->cantidad;
+                $monto = $item->monto;
+
+                $objetivo = ($ct/$bulto)*$p1;
+
+                $porcentaje_objetivo = (100-((floatval($objetivo)*100)/$monto));
+
+                // let total = parseFloat(pedidoData.clean_subtotal)
+
+                // descuento = (100-((parseFloat(descuento)*100)/total))
+
+                if ($porcentaje_objetivo) {
+                    $item->descuento = floatval($porcentaje_objetivo);
+                    $item->save();
+                }
+                
+
+                // return Response::json(["msj"=>"¡Éxito!","estado"=>true]);
+                return Response::json(["msj"=>"p1 $p1 bulto $bulto ct $ct id $iditem","estado"=>true]);
+            }
+
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+        }
+    }
+
+
     public function setDescuentoUnitario(Request $req)
     {
 

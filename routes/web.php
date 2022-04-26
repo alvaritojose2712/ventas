@@ -115,6 +115,9 @@ Route::group(['middleware' => ['login']], function () {
 		Route::post('setProveedor', [ProveedoresController::class,"setProveedor"]);
 		Route::post('guardarNuevoProducto', [InventarioController::class,"guardarNuevoProducto"]);
 		Route::post('guardarNuevoProductoLote', [InventarioController::class,"guardarNuevoProductoLote"]);
+
+		Route::post('setCtxBulto', [InventarioController::class,"setCtxBulto"]);
+		Route::post('setPrecioAlterno', [InventarioController::class,"setPrecioAlterno"]);
 		
 		Route::post('getProveedores', [ProveedoresController::class,"getProveedores"]);
 		Route::get('getCategorias', [CategoriasController::class,"getCategorias"]);
@@ -178,6 +181,10 @@ Route::group(['middleware' => ['login']], function () {
 	Route::post('delpedido', [PedidosController::class,"delpedido"]);
 	Route::post('setCantidad', [ItemsPedidosController::class,"setCantidad"]);
 	Route::post('setpersonacarrito', [PedidosController::class,"setpersonacarrito"]);
+
+	Route::post('setPrecioAlternoCarrito', [ItemsPedidosController::class,"setPrecioAlternoCarrito"]);
+	Route::post('setCtxBultoCarrito', [ItemsPedidosController::class,"setCtxBultoCarrito"]);
+	
 
 	
 	

@@ -5,6 +5,9 @@ import ModaladdPersona from '../components/ModaladdPersona';
 
 
 export default function Pagar({
+setPrecioAlternoCarrito,
+setCtxBultoCarrito,
+
 addRefPago,
 delRefPago,
 refPago,
@@ -304,15 +307,21 @@ qProductosMain,
                     :<tr key={e.id} title={showTittlePrice(e.producto.precio,e.total)}>
                       <td className="align-middle">{e.producto.codigo_barras}</td>
                       <td className="align-middle">
-                        {e.producto.descripcion}
+                        {e.producto.descripcion} {e.producto.bulto?<span className="btn btn-outline-secondary btn-sm-sm" data-iditem={e.id} onClick={setCtxBultoCarrito}>Mayor</span>:null}
                         <div className='fst-italic fs-6 text-success'>
                             {e.lotedata?<>
                               Lote. {e.lotedata ? e.lotedata.lote : null} - Exp. {e.lotedata ? e.lotedata.vence : null}
                             </>:null} 
                         </div>
                       </td>
-                      <td onClick={setCantidadCarrito} data-index={e.id} className="pointer clickme align-middle">{e.cantidad.replace(".00","")} </td>
-                      <td className="align-middle">{e.producto.precio}</td>
+                      <td className="pointer clickme align-middle">
+                        <span onClick={setCantidadCarrito} data-index={e.id}>{e.cantidad.replace(".00","")}</span> 
+                      </td>
+                      {e.producto.precio1?
+                      <td className="align-middle text-success pointer" data-iditem={e.id} onClick={setPrecioAlternoCarrito} >{e.producto.precio}</td>
+                        :
+                      <td className="align-middle pointer">{e.producto.precio}</td>
+                      }
 
                       <th className="font-weight-bold align-middle">{e.total}</th>
                       {editable?
@@ -520,12 +529,12 @@ qProductosMain,
                     </tr>
                     <tr className="hover h4">
                       <th className="">Total</th>
-                      <td className="text-right text-success fw-bold">{total}</td>
+                      <td className="text-right text-success fw-bold fs-1">{total}</td>
                     </tr>
 
                     <tr className="text-muted">
                       <th className="text-right" colSpan="2">
-                        <span className='fs-4'> Bs {bs}</span><br/>
+                        <span className='fs-2'> Bs {bs}</span><br/>
                         <span className='fs-5'>COP {cop}</span>
                       </th>
                     </tr>

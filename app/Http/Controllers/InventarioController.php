@@ -30,6 +30,57 @@ use Response;
 
 class InventarioController extends Controller
 {
+    public function setCtxBulto(Request $req)
+    {
+
+        try {
+            $id = $req->id;
+            $bulto = $req->bulto;
+            if ($id) {
+                inventario::find($id)->update(["bulto"=>$bulto]);
+                // code...
+            }
+            return Response::json(["msj"=>"Éxito. Bulto ".$bulto,"estado"=>true]);
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+            
+        }
+    }
+    public function setPrecioAlterno(Request $req)
+    {
+        
+        try {
+            $id = $req->id;
+            $type = $req->type;
+            $precio = $req->precio;
+
+            $arr = ["precio1"=>$precio];
+
+            switch ($type) {
+                case 'p1':
+                    // code...
+                        $arr = ["precio1"=>$precio];
+                    break;
+                case 'p2':
+                        $arr = ["precio2"=>$precio];
+                    break;
+                case 'p3':
+                        $arr = ["precio3"=>$precio];
+                    break;                
+            }
+            if ($id) {
+                inventario::find($id)->update($arr);
+                // code...
+            }
+
+            return Response::json(["msj"=>"Éxito. Precio ".$precio,"estado"=>true]);
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+            
+        }
+    }
     public function getEstaInventario(Request $req)
     {
         $fechaQEstaInve = $req->fechaQEstaInve;

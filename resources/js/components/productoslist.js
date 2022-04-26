@@ -12,6 +12,7 @@ function ProductosList({
   counterListProductos,
   tbodyproductosref,
   selectProductoFast,
+  moneda,
 }) {
 
   return (
@@ -91,7 +92,9 @@ function ProductosList({
                     <div className="row">
                       <div className="col-5 m-0 p-0">
                         <div className='btn-group w-100 h-100'>
-                            <button type="button" className='m-0 btn-sm btn btn-success text-light fs-4'>{e.precio}</button>
+                            <button type="button" className='m-0 btn-sm btn btn-success text-light fs-4'>
+                            {e.precio}
+                            </button>
                         </div>
                       </div>
                       <div className="col m-0 p-0">
@@ -102,6 +105,14 @@ function ProductosList({
                       </div>
                       
                     </div>
+                    {e.precio1?<div className="row">
+                      <div className="col m-0 p-0">
+                        <span className="btn btn-success w-100">
+                          MAYOR. 1 x <b>{e.bulto}</b> = {moneda(e.precio1)} <br/>
+                          P/U. {moneda(e.precio1/e.bulto)}
+                        </span>
+                      </div>
+                    </div>:null}
                   </div>
                 </td>
               </tr>
