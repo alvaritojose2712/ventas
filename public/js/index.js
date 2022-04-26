@@ -7187,7 +7187,7 @@ function Facturar(_ref) {
 
   var toggleImprimirTicket = function toggleImprimirTicket() {
     if (pedidoData) {
-      var _moneda = window.prompt("Moneda: $ | bs | cop", "bs");
+      var _moneda = window.prompt("Moneda: $ | bs | cop", "$");
 
       var identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion);
 
@@ -13769,7 +13769,7 @@ function Pagar(_ref) {
                       className: "",
                       children: "Total"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                      className: "text-right text-success fw-bold fs-1",
+                      className: "text-right text-success fw-bold fs-11",
                       children: total
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tr", {

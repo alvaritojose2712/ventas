@@ -1395,7 +1395,7 @@ const toggleModalProductos = (prop,callback=null) => {
 }
 const toggleImprimirTicket = () => {
   if (pedidoData) {
-    let moneda = window.prompt("Moneda: $ | bs | cop","bs")
+    let moneda = window.prompt("Moneda: $ | bs | cop","$")
     let identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion)
 
     if (identificacion) {

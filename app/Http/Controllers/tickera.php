@@ -37,6 +37,7 @@ class tickera extends Controller
         //$
         //bs
         //cop
+        $ref = false;
         if ($moneda_req=="$") {
           $dolar = 1;
         }else if($moneda_req=="bs"){
@@ -45,6 +46,7 @@ class tickera extends Controller
           $dolar = $get_moneda["cop"];
         }else{
           $dolar = $get_moneda["bs"];
+          $ref = true;
         }
 
         $pedido = (new PedidosController)->getPedido($req,floatval($dolar));
@@ -209,7 +211,11 @@ class tickera extends Controller
                 $printer->text("\n");
                 $printer->text("Monto IVA 16%: ".$pedido->iva);
                 $printer->text("\n");
-                $printer->text("Total: ".$pedido->total);
+                $ref_msj = "";
+                if ($ref) {
+                    $ref_msj = " | REF. ". floatval($pedido->clean_total/$get_moneda["bs"]);
+                }
+                $printer->text("Total: ".$pedido->total.$ref_msj);
                 $printer->text("\n");
 
                 $printer->setEmphasis(true);

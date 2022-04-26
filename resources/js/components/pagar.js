@@ -529,7 +529,7 @@ qProductosMain,
                     </tr>
                     <tr className="hover h4">
                       <th className="">Total</th>
-                      <td className="text-right text-success fw-bold fs-1">{total}</td>
+                      <td className="text-right text-success fw-bold fs-11">{total}</td>
                     </tr>
 
                     <tr className="text-muted">

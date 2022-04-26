@@ -57,6 +57,9 @@ body *::-webkit-scrollbar-thumb {
   outline: none;
   border:none;
 }
+.fs-11{
+    font-size: 3rem !important;
+}
 .input-ct{
   border: none;
   width: 165px;
