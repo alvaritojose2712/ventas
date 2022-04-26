@@ -277,7 +277,7 @@ qProductosMain,
                 <thead>
                   <tr>
                     <th className="text-sinapsis cell2">Código</th>
-                    <th className="text-sinapsis cell3">Árticulo</th>
+                    <th className="text-sinapsis cell3">Producto</th>
                     <th className="text-sinapsis cell1">Cant.</th>
                     <th className="text-sinapsis cell1">Precio</th>
                     {/*<th className="text-sinapsis">Sub-total</th>*/}

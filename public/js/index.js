@@ -13333,7 +13333,7 @@ function Pagar(_ref) {
                     children: "C\xF3digo"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                     className: "text-sinapsis cell3",
-                    children: "\xC1rticulo"
+                    children: "Producto"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                     className: "text-sinapsis cell1",
                     children: "Cant."
