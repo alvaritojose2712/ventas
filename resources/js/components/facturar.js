@@ -1898,34 +1898,56 @@ const facturar_e_imprimir = () => {
   toggleImprimirTicket();
   facturar_pedido();
 }
+const setPagoPedido = () => {
+  setLoading(true)
+
+  db.setPagoPedido({
+    id:pedidoData.id,
+    debito,
+    efectivo,
+    transferencia,
+    credito,
+    vuelto,
+  }).then(res=>{
+    notificar(res)
+    setLoading(false)
+    
+    if (res.data.estado) {
+      if(showinputaddCarritoFast){
+        setshowinputaddCarritoFast(false)
+      }
+      setView("seleccionar")
+      // getPedidos()
+      getPedidosList()
+      getProductos()
+
+      setSelectItem(null)
+
+    }
+  })
+}
 const facturar_pedido = () => {
   if (refinputaddcarritofast.current !== document.activeElement) {
-    setLoading(true)
     if (pedidoData.id) {
-      db.setPagoPedido({
-        id:pedidoData.id,
-        debito,
-        efectivo,
-        transferencia,
-        credito,
-        vuelto,
-      }).then(res=>{
-        notificar(res)
-        setLoading(false)
-        
-        if (res.data.estado) {
-          if(showinputaddCarritoFast){
-            setshowinputaddCarritoFast(false)
+      if (credito) {
+        db.checkDeuda({id_cliente:pedidoData.id_cliente}).then(res=>{
+          if (res.data) {
+            let p = res.data.pedido_total
+            if (p.check) {
+              setPagoPedido()
+            }else{
+              alert("Cliente presenta deuda ("+p.diferencia+"), Por favor revisar.")
+
+              if (window.confirm("¿Desea proceder con DEUDA PENDIENTE ("+p.diferencia+")?")) {
+                setPagoPedido()
+              }
+            }
           }
-          setView("seleccionar")
-          // getPedidos()
-          getPedidosList()
-          getProductos()
-
-          setSelectItem(null)
-
-        }
-      })
+        })
+      }else{
+        setPagoPedido()
+      }
+      
 
     }
   }
@@ -3162,6 +3184,14 @@ const changeInventario = (val, i, id, type, name = null) => {
   }
   setProductosInventario(obj)
 }
+const printPrecios = () => {
+  if (productosInventario.length) {
+    db.printPrecios({ids:productosInventario.map(e=>e.id)}).then(res=>{
+      console.log(res.data)
+    })
+
+  }
+}
 const logout = () => {
   db.logout().then(e=>{
     window.location.href = "/";
@@ -3473,6 +3503,7 @@ const auth = permiso => {
 
         
         {view=="inventario"?<Inventario
+          printPrecios={printPrecios}
           setCtxBulto={setCtxBulto}
           setPrecioAlterno={setPrecioAlterno}
           qgastosfecha1={qgastosfecha1}

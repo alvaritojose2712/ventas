@@ -27,17 +27,16 @@ use App\Http\Controllers\LotesController;
 use App\Http\Controllers\PagoFacturasController;
 use App\Http\Controllers\PagosReferenciasController;
 use App\Http\Controllers\GastosController;
+use App\Http\Controllers\printticked;
 
 
 
-Route::get('/test', function()
-{
-	return "THis is a test";
-});
+
 Route::get('', [HomeController::class,"index"]);
 Route::get('setCarrito', [InventarioController::class,"setCarrito"]);
 
 Route::post('getinventario', [InventarioController::class,"index"]);
+Route::post('printPrecios', [printticked::class,"index"]);
 
 
 Route::get('error', function (){
@@ -77,6 +76,8 @@ Route::group(['middleware' => ['login']], function () {
 		
 		Route::post('getDeudores', [PagoPedidosController::class,"getDeudores"]);
 		Route::post('getDeudor', [PagoPedidosController::class,"getDeudor"]);
+		Route::post('checkDeuda', [PagoPedidosController::class,"checkDeuda"]);
+		
 		
 		Route::post('entregarVuelto', [PagoPedidosController::class,"entregarVuelto"]);
 		

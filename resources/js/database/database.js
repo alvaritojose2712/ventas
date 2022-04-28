@@ -53,7 +53,9 @@ const db = {
   setPagoCredito: data=>axios.post(host+"setPagoCredito",data),
 
   getDeudores: data=>axios.post(host+"getDeudores",data),
+  
   getDeudor: data=>axios.post(host+"getDeudor",data),
+  checkDeuda: data=>axios.post(host+"checkDeuda",data),
   
   entregarVuelto: data=>axios.post(host+"entregarVuelto",data),
 
@@ -136,6 +138,7 @@ const db = {
   
   setCtxBulto: data=>axios.post(host+"setCtxBulto",data),
   setPrecioAlterno: data=>axios.post(host+"setPrecioAlterno",data),
+  printPrecios: data=>axios.post(host+"printPrecios",data),
   
   
   

@@ -122,9 +122,9 @@ class PagoPedidosController extends Controller
             
         }
     }
-    public function getDeudor(Request $req)
+
+    public function getDeudaFun($onlyVueltos,$id_cliente)
     {
-        $onlyVueltos = $req->onlyVueltos;
         $pedidos = pedidos::with(["pagos"=>function($q) use ($onlyVueltos){
             if ($onlyVueltos) {
                 $q->where("tipo",6)->where("monto","<>",0);
@@ -142,7 +142,7 @@ class PagoPedidosController extends Controller
 
             }
         })
-        ->where("id_cliente",$req->id)
+        ->where("id_cliente",$id_cliente)
         ->orderBy("created_at","desc")
         ->get()
         ->map(function($q){
@@ -165,11 +165,35 @@ class PagoPedidosController extends Controller
         // if ($pedido_total[1] && $pedido_total[0]) {
         // $diferencia = ;
         // }
-        $pedido_total["diferencia"] = number_format($pedido_total[0] - $pedido_total[1],2);
+        $d = $pedido_total[0] - $pedido_total[1];
+
+        $check = true;
+
+        if ($d<0) {
+            $check = false;
+        }
+        $pedido_total["diferencia"] = number_format($d,2);
+        $pedido_total["diferencia_clean"] = $d;
+        $pedido_total["check"] = $check;
         return [
             "pedido" => $pedidos,
             "pedido_total" => $pedido_total,
         ]; 
+    }
+    public function getDeudor(Request $req)
+    {
+        $onlyVueltos = $req->onlyVueltos;
+        $id_cliente = $req->id;
+
+        return $this->getDeudaFun($onlyVueltos,$id_cliente);
+        
+
+    }
+
+    public function checkDeuda(Request $req)
+    {
+        $id_cliente = $req->id_cliente;
+        return $this->getDeudaFun(false,$id_cliente);
 
     }
     public function verCreditos(Request $req)

@@ -14,6 +14,7 @@ import Gastos from '../components/gastos';
 
 
 function Inventario({
+  printPrecios,
   setCtxBulto,
   setPrecioAlterno,
 
@@ -329,6 +330,8 @@ function Inventario({
                   <button className={(modViewInventario == "list" ? "btn-success text-light" : "") + (" ms-2 btn")} onClick={() => setmodViewInventario("list")}><i className="fa fa-list"></i></button>
                   <button className={(modViewInventario == "unique" ? "btn-sinapsis" : "") + (" btn")} onClick={() => setmodViewInventario("unique")}><i className="fa fa-columns"></i></button>
                   <button className="btn btn-warning ms-2" onClick={reporteInventario}><i className="fa fa-print"></i></button>
+                  <button className="btn btn-warning ms-2" onClick={printPrecios}>Precios</button>
+                
                 </div>
 
                 {factSelectIndex == null ? null

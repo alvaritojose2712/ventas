@@ -164,25 +164,25 @@ class PedidosController extends Controller
             // code...
            
 
-            foreach ($this->letras as $key => $value) {
+            // foreach ($this->letras as $key => $value) {
                 if (isset($arr["total"])) {
-                    $arr["total"] = str_replace($key, $value, ($arr["total"]));
+                    $arr["total"] = ($arr["total"]);
                     // code...
                 }
                 if (isset($arr["3"])) {
                     // code...
-                    $arr["3"] = str_replace($key, $value, ($arr["3"]));
+                    $arr["3"] = ($arr["3"]);
                 }
                 if (isset($arr["2"])) {
-                    $arr["2"] = str_replace($key, $value, ($arr["2"]));
+                    $arr["2"] = ($arr["2"]);
                     // code...
                 }
 
                 if (isset($arr["1"])) {
-                    $arr["1"] = str_replace($key, $value, ($arr["1"]));
+                    $arr["1"] = ($arr["1"]);
                     // code...
                 }
-            }
+            // }
         }
         
 

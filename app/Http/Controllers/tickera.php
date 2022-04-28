@@ -141,11 +141,10 @@ class tickera extends Controller
                 $printer -> text("\n");
                 if ($nombres!="") {
                     $printer->setJustification(Printer::JUSTIFY_LEFT);
-                    $printer -> text("Nombre y Apellido: ".$nombres);
+                    $printer -> text(addSpaces("Nombres: ".$nombres,22));
+                    $printer -> text(addSpaces("ID: ".$identificacion,22));
                     $printer -> text("\n");
-                    $printer -> text("ID: ".$identificacion);
-                    $printer -> text("\n");
-                    $printer->setJustification(Printer::JUSTIFY_LEFT);
+                    //$printer->setJustification(Printer::JUSTIFY_LEFT);
 
                     // $printer -> text("Teléfono: ".$tel);
                     // $printer -> text("\n");
@@ -158,10 +157,6 @@ class tickera extends Controller
 
                 }
 
-
-
-                
-                $printer->feed();
                 $printer->setPrintLeftMargin(0);
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
                 $printer->setEmphasis(true);
@@ -198,9 +193,6 @@ class tickera extends Controller
                    $printer->text(addSpaces("Tot. ".$item['totalprecio'],15));
                    $printer->text("\n");
 
-
-
-                    $printer->feed();
                 }
                 $printer->setEmphasis(true);
 
@@ -221,7 +213,6 @@ class tickera extends Controller
 
                 $printer->setEmphasis(true);
 
-                $printer->text("\n");
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
                 $printer->text($pedido->created_at);
                 $printer->text("\n");
@@ -229,7 +220,6 @@ class tickera extends Controller
                 $printer->text("¡Muchas gracias por su compra! :D");
                 $printer->text("\n");
 
-                $printer->text("\n");
                 $printer->text("\n");
                 
               

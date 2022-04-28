@@ -7816,34 +7816,57 @@ function Facturar(_ref) {
     facturar_pedido();
   };
 
+  var setPagoPedido = function setPagoPedido() {
+    setLoading(true);
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].setPagoPedido({
+      id: pedidoData.id,
+      debito: debito,
+      efectivo: efectivo,
+      transferencia: transferencia,
+      credito: credito,
+      vuelto: vuelto
+    }).then(function (res) {
+      notificar(res);
+      setLoading(false);
+
+      if (res.data.estado) {
+        if (showinputaddCarritoFast) {
+          setshowinputaddCarritoFast(false);
+        }
+
+        setView("seleccionar"); // getPedidos()
+
+        getPedidosList();
+        getProductos();
+        setSelectItem(null);
+      }
+    });
+  };
+
   var facturar_pedido = function facturar_pedido() {
     if (refinputaddcarritofast.current !== document.activeElement) {
-      setLoading(true);
-
       if (pedidoData.id) {
-        _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].setPagoPedido({
-          id: pedidoData.id,
-          debito: debito,
-          efectivo: efectivo,
-          transferencia: transferencia,
-          credito: credito,
-          vuelto: vuelto
-        }).then(function (res) {
-          notificar(res);
-          setLoading(false);
+        if (credito) {
+          _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].checkDeuda({
+            id_cliente: pedidoData.id_cliente
+          }).then(function (res) {
+            if (res.data) {
+              var p = res.data.pedido_total;
 
-          if (res.data.estado) {
-            if (showinputaddCarritoFast) {
-              setshowinputaddCarritoFast(false);
+              if (p.check) {
+                setPagoPedido();
+              } else {
+                alert("Cliente presenta deuda (" + p.diferencia + "), Por favor revisar.");
+
+                if (window.confirm("¿Desea proceder con DEUDA PENDIENTE (" + p.diferencia + ")?")) {
+                  setPagoPedido();
+                }
+              }
             }
-
-            setView("seleccionar"); // getPedidos()
-
-            getPedidosList();
-            getProductos();
-            setSelectItem(null);
-          }
-        });
+          });
+        } else {
+          setPagoPedido();
+        }
       }
     }
   };
@@ -9158,6 +9181,18 @@ function Facturar(_ref) {
     setProductosInventario(obj);
   };
 
+  var printPrecios = function printPrecios() {
+    if (productosInventario.length) {
+      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].printPrecios({
+        ids: productosInventario.map(function (e) {
+          return e.id;
+        })
+      }).then(function (res) {
+        console.log(res.data);
+      });
+    }
+  };
+
   var logout = function logout() {
     _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].logout().then(function (e) {
       window.location.href = "/";
@@ -9458,6 +9493,7 @@ function Facturar(_ref) {
       tipoestadopedido: tipoestadopedido,
       setTipoestadopedido: setTipoestadopedido
     }) : null, view == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_inventario__WEBPACK_IMPORTED_MODULE_17__["default"], {
+      printPrecios: printPrecios,
       setCtxBulto: setCtxBulto,
       setPrecioAlterno: setPrecioAlterno,
       qgastosfecha1: qgastosfecha1,
@@ -10664,7 +10700,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Inventario(_ref) {
-  var setCtxBulto = _ref.setCtxBulto,
+  var printPrecios = _ref.printPrecios,
+      setCtxBulto = _ref.setCtxBulto,
       setPrecioAlterno = _ref.setPrecioAlterno,
       openReporteFalla = _ref.openReporteFalla,
       setporcenganancia = _ref.setporcenganancia,
@@ -11000,6 +11037,10 @@ function Inventario(_ref) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("i", {
                 className: "fa fa-print"
               })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
+              className: "btn btn-warning ms-2",
+              onClick: printPrecios,
+              children: "Precios"
             })]
           }), factSelectIndex == null ? null : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
             className: "input-group w-25",
@@ -13341,6 +13382,9 @@ function Pagar(_ref) {
                     className: "text-sinapsis cell1",
                     children: "Precio"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
+                    className: "text-sinapsis",
+                    children: "Desc.%"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                     className: "text-sinapsis cell2",
                     children: "Total"
                   }), editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
@@ -13365,6 +13409,11 @@ function Pagar(_ref) {
                       children: [e.cantidad, " "]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                       children: e.monto
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      onClick: setDescuentoUnitario,
+                      "data-index": e.id,
+                      className: "align-middle pointer clickme",
+                      children: e.descuento
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                       className: "font-weight-bold",
                       children: e.total
@@ -13378,11 +13427,11 @@ function Pagar(_ref) {
                       children: e.producto.codigo_barras
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
                       className: "align-middle",
-                      children: [e.producto.descripcion, " ", e.producto.bulto ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                      children: [e.producto.descripcion, " ", e.producto.bulto ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
                         className: "btn btn-outline-secondary btn-sm-sm",
                         "data-iditem": e.id,
                         onClick: setCtxBultoCarrito,
-                        children: "Mayor"
+                        children: ["1x ", e.producto.bulto]
                       }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
                         className: "fst-italic fs-6 text-success",
                         children: e.lotedata ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
@@ -13391,11 +13440,9 @@ function Pagar(_ref) {
                       })]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                       className: "pointer clickme align-middle",
-                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                        onClick: setCantidadCarrito,
-                        "data-index": e.id,
-                        children: e.cantidad.replace(".00", "")
-                      })
+                      onClick: setCantidadCarrito,
+                      "data-index": e.id,
+                      children: e.cantidad.replace(".00", "")
                     }), e.producto.precio1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                       className: "align-middle text-success pointer",
                       "data-iditem": e.id,
@@ -13404,6 +13451,11 @@ function Pagar(_ref) {
                     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                       className: "align-middle pointer",
                       children: e.producto.precio
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      onClick: setDescuentoUnitario,
+                      "data-index": e.id,
+                      className: "align-middle pointer",
+                      children: e.descuento
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("th", {
                       className: "font-weight-bold align-middle",
                       children: e.total
@@ -13423,7 +13475,7 @@ function Pagar(_ref) {
                       children: items ? items.length : null
                     })
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("th", {
-                    colSpan: "5",
+                    colSpan: "6",
                     className: "p-2 align-middle",
                     children: [cliente ? cliente.nombre : null, " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("b", {
                       children: cliente ? cliente.identificacion : null
@@ -15707,6 +15759,9 @@ var db = {
   getDeudor: function getDeudor(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "getDeudor", data);
   },
+  checkDeuda: function checkDeuda(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "checkDeuda", data);
+  },
   entregarVuelto: function entregarVuelto(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "entregarVuelto", data);
   },
@@ -15874,6 +15929,9 @@ var db = {
   },
   setPrecioAlterno: function setPrecioAlterno(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "setPrecioAlterno", data);
+  },
+  printPrecios: function printPrecios(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "printPrecios", data);
   },
   openPrintCreditos: function openPrintCreditos(param) {
     return window.open(host + "verCreditos", "targed=blank");

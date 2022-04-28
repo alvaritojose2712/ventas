@@ -281,7 +281,7 @@ qProductosMain,
                     <th className="text-sinapsis cell1">Cant.</th>
                     <th className="text-sinapsis cell1">Precio</th>
                     {/*<th className="text-sinapsis">Sub-total</th>*/}
-                    {/*<th className="text-sinapsis">Desc. %</th>*/}
+                    <th className="text-sinapsis">Desc.%</th>
                     {/*<th className="text-sinapsis">Tot.Desc.</th>*/}
                     <th className="text-sinapsis cell2">Total</th>
                     {editable?
@@ -297,8 +297,8 @@ qProductosMain,
                       <td>{e.abono}</td>
                       <td>{e.cantidad} </td>
                       <td>{e.monto}</td>
+                      <td onClick={setDescuentoUnitario} data-index={e.id} className="align-middle pointer clickme">{e.descuento}</td>
                       {/*<td>{e.subtotal}</td>
-                      <td onClick={setDescuentoUnitario} data-index={e.id} className="pointer clickme">{e.descuento}</td>
                       {/*<td>{e.total_des}</td>*/}
 
                       <th className="font-weight-bold">{e.total}</th>
@@ -307,21 +307,25 @@ qProductosMain,
                     :<tr key={e.id} title={showTittlePrice(e.producto.precio,e.total)}>
                       <td className="align-middle">{e.producto.codigo_barras}</td>
                       <td className="align-middle">
-                        {e.producto.descripcion} {e.producto.bulto?<span className="btn btn-outline-secondary btn-sm-sm" data-iditem={e.id} onClick={setCtxBultoCarrito}>Mayor</span>:null}
+                        {e.producto.descripcion} {e.producto.bulto?<span className="btn btn-outline-secondary btn-sm-sm" data-iditem={e.id} onClick={setCtxBultoCarrito}>1x {e.producto.bulto}</span>:null}
                         <div className='fst-italic fs-6 text-success'>
                             {e.lotedata?<>
                               Lote. {e.lotedata ? e.lotedata.lote : null} - Exp. {e.lotedata ? e.lotedata.vence : null}
                             </>:null} 
                         </div>
                       </td>
-                      <td className="pointer clickme align-middle">
-                        <span onClick={setCantidadCarrito} data-index={e.id}>{e.cantidad.replace(".00","")}</span> 
+                      <td className="pointer clickme align-middle" onClick={setCantidadCarrito} data-index={e.id}>
+                        {e.cantidad.replace(".00","")} 
                       </td>
                       {e.producto.precio1?
                       <td className="align-middle text-success pointer" data-iditem={e.id} onClick={setPrecioAlternoCarrito} >{e.producto.precio}</td>
                         :
                       <td className="align-middle pointer">{e.producto.precio}</td>
                       }
+                      <td onClick={setDescuentoUnitario} data-index={e.id} className="align-middle pointer">{e.descuento}</td>
+                      {/*<td onClick={setDescuentoUnitario} data-index={e.id} className="align-middle pointer clickme">{e.descuento}</td>*/}
+                      
+
 
                       <th className="font-weight-bold align-middle">{e.total}</th>
                       {editable?
@@ -331,7 +335,7 @@ qProductosMain,
                   ):null}
                   <tr>
                     <td><button className="btn btn-outline-success fs-5">{items?items.length:null}</button></td>
-                    <th colSpan="5" className="p-2 align-middle">{cliente?cliente.nombre:null} <b>{cliente?cliente.identificacion:null}</b></th>
+                    <th colSpan="6" className="p-2 align-middle">{cliente?cliente.nombre:null} <b>{cliente?cliente.identificacion:null}</b></th>
                   </tr>
                 </tbody>
               </table>
