@@ -14,6 +14,8 @@ import Gastos from '../components/gastos';
 
 
 function Inventario({
+  setdropprintprice,
+dropprintprice,
   printPrecios,
   setCtxBulto,
   setPrecioAlterno,
@@ -318,7 +320,7 @@ function Inventario({
           <>
             <div className="container">
               <div className="d-flex justify-content-between align-items-center">
-                <div className="">
+                <div className="d-flex justify-content-start">
 
                   {subViewInventario == "inventario" && modViewInventario != "unique" ?
                     <button className="btn btn-success text-light" onClick={() => changeInventario(null, null, null, "add")}>Nuevo (f2) <i className="fa fa-plus"></i></button>
@@ -330,7 +332,26 @@ function Inventario({
                   <button className={(modViewInventario == "list" ? "btn-success text-light" : "") + (" ms-2 btn")} onClick={() => setmodViewInventario("list")}><i className="fa fa-list"></i></button>
                   <button className={(modViewInventario == "unique" ? "btn-sinapsis" : "") + (" btn")} onClick={() => setmodViewInventario("unique")}><i className="fa fa-columns"></i></button>
                   <button className="btn btn-warning ms-2" onClick={reporteInventario}><i className="fa fa-print"></i></button>
-                  <button className="btn btn-warning ms-2" onClick={printPrecios}>Precios</button>
+                  
+                  <div className="dropdown ms-1">
+                    <button onClick={()=>setdropprintprice(!dropprintprice)} className="btn btn-warning dropdown-toggle" type="button" id="preciosbtn" data-bs-toggle="dropdown" aria-expanded="false">
+                      Precio
+                    </button>
+                    <ul className={("dropdown-menu ")+(dropprintprice?"show":"")} aria-labelledby="preciosbtn">
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(1)}>$ con Bs</a></li>
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(2)}>Bs con $</a></li>
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(3)}>$</a></li>
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(4)}>Bs</a></li>
+
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(5)}>Mayor en $ con Bs</a></li>
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(6)}>Mayor en Bs con $</a></li>
+
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(7)}>Mayor en $</a></li>
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(8)}>Mayor en Bs</a></li>
+
+                    </ul>
+                  </div>
+                  
                 
                 </div>
 

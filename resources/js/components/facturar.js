@@ -41,6 +41,10 @@ import ViewPedidoVendedor from '../components/viewPedidoVendedor';
 
 
 export default function Facturar({user,notificar,setLoading}) {
+
+  
+  
+  const [dropprintprice, setdropprintprice] = useState(false)
   
   const [num, setNum] = useState(50)
   const [showOptionQMain, setshowOptionQMain] = useState(false)
@@ -3184,10 +3188,11 @@ const changeInventario = (val, i, id, type, name = null) => {
   }
   setProductosInventario(obj)
 }
-const printPrecios = () => {
+const printPrecios = type => {
   if (productosInventario.length) {
-    db.printPrecios({ids:productosInventario.map(e=>e.id)}).then(res=>{
+    db.printPrecios({type,ids:productosInventario.map(e=>e.id)}).then(res=>{
       console.log(res.data)
+      setdropprintprice(false)
     })
 
   }
@@ -3503,6 +3508,8 @@ const auth = permiso => {
 
         
         {view=="inventario"?<Inventario
+          setdropprintprice={setdropprintprice}
+          dropprintprice={dropprintprice}
           printPrecios={printPrecios}
           setCtxBulto={setCtxBulto}
           setPrecioAlterno={setPrecioAlterno}

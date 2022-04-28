@@ -27,7 +27,6 @@ use App\Http\Controllers\LotesController;
 use App\Http\Controllers\PagoFacturasController;
 use App\Http\Controllers\PagosReferenciasController;
 use App\Http\Controllers\GastosController;
-use App\Http\Controllers\printticked;
 
 
 
@@ -36,7 +35,7 @@ Route::get('', [HomeController::class,"index"]);
 Route::get('setCarrito', [InventarioController::class,"setCarrito"]);
 
 Route::post('getinventario', [InventarioController::class,"index"]);
-Route::post('printPrecios', [printticked::class,"index"]);
+Route::post('printPrecios', [tickera::class,"precio"]);
 
 
 Route::get('error', function (){

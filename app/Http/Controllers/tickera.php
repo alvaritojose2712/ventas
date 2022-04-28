@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\sucursal;
+use App\Models\inventario;
 
 
 use Illuminate\Http\Request;
@@ -226,6 +227,191 @@ class tickera extends Controller
 
 
             }
+
+
+            
+
+            $printer->cut();
+            $printer->pulse();
+            $printer->close();
+
+          return Response::json(["msj"=>"Imprimiendo...","estado",true]);
+
+        } catch (Exception $e) {
+          return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado",false]);
+            
+        }
+    }
+
+    public function precio(Request $req)
+    {
+        $ids = $req->ids;
+        $type = $req->type;
+
+         function addSpaces($string = '', $valid_string_length = 0) {
+            if (strlen($string) < $valid_string_length) {
+                $spaces = $valid_string_length - strlen($string);
+                for ($index1 = 1; $index1 <= $spaces; $index1++) {
+                    $string = $string . ' ';
+                }
+            }
+
+            return $string;
+        }
+        
+        $get_moneda = (new PedidosController)->get_moneda();
+        $moneda_req = $req->moneda;
+        //$
+        //bs
+        //cop
+        $dolar = $get_moneda["bs"];
+
+        $sucursal = sucursal::all()->first();
+        $inv = inventario::whereIn("id",$ids)->get();
+        
+
+        try {
+
+            // $printer -> setTextSize(1,1);
+            // $tux = EscposImage::load(resource_path() . "/images/small.jpg", false);
+            // $printer -> bitImage($tux);
+            // $printer->setEmphasis(false);
+            //$printer->setJustification(Printer::JUSTIFY_CENTER);
+            
+            $connector = new WindowsPrintConnector($sucursal->tickera);
+            //smb://DESKTOP-MRKSKRE/pos-80
+            $printer = new Printer($connector);
+
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                foreach ($inv as $val) {
+
+                   $printer->setEmphasis(true);
+                    $printer->text($sucursal->nombre_registro);
+
+                    $printer->setEmphasis(false);
+                    $printer->text("\n");
+                    $printer->text("\n");
+
+                    $printer->setBarcodeHeight(80);
+                    $printer->setBarcodeTextPosition(Printer::BARCODE_TEXT_BELOW);
+                    $printer->barcode($val->codigo_barras);
+                    $printer->text("\n");
+                    $printer->text($val->descripcion);
+                    $printer->text("\n");
+                    $printer->text("\n");
+
+                    $printer->setEmphasis(true);
+
+                    switch ($type) {
+                        case '1':
+                            $printer->text("REF. ");
+                            $printer -> setTextSize(8,8);
+                            $printer->text(number_format($val->precio,2));
+                            $printer->setEmphasis(false);
+                            $printer -> setTextSize(2,2);
+                            $printer->text("\n");
+
+                            $printer->text("Bs. ".number_format($val->precio*$dolar,2));
+
+
+                            break;
+
+                        case '2':
+                            $printer->text("Bs. ");
+                            $printer -> setTextSize(8,8);
+                            $printer->text(number_format($val->precio*$dolar,2));
+                            $printer->setEmphasis(false);
+                            $printer -> setTextSize(2,2);
+                            $printer->text("\n");
+
+                            $printer->text("REF. ".number_format($val->precio,2));
+                            break;
+
+
+                        case '3':
+                            $printer->text("REF. ");
+                            $printer -> setTextSize(8,8);
+                            $printer->text(number_format($val->precio,2));
+                            $printer->setEmphasis(false);
+                            $printer -> setTextSize(2,2);
+                            break;
+
+                        case '4':
+                            $printer->text("Bs. ");
+                            $printer -> setTextSize(8,8);
+                            $printer->text(number_format($val->precio*$dolar,2));
+                            $printer->setEmphasis(false);
+                            $printer -> setTextSize(2,2);
+                            break;
+
+
+                        case '5':
+
+                            $printer->text("\n");
+                            $printer -> setTextSize(3,3);
+                            $printer->text("1x ".str_replace(".00", "", $val->bulto));
+                            $printer->text("\n");
+
+                            $printer->text("REF. ");
+                            $printer -> setTextSize(8,8);
+                            $printer->text(number_format($val->precio1*$val->bulto,2));
+                            $printer->setEmphasis(false);
+                            $printer -> setTextSize(2,2);
+                            $printer->text("\n");
+
+                            $printer->text("Bs. ".number_format($val->precio1*$val->bulto*$dolar,2));
+
+
+                            break;
+
+                        case '6':
+                            $printer->text("\n");
+                            $printer -> setTextSize(3,3);
+                            $printer->text("1x ".str_replace(".00", "", $val->bulto));
+                            $printer->text("\n");
+
+                            $printer->text("Bs. ");
+                            $printer -> setTextSize(8,8);
+                            $printer->text(number_format($val->precio1*$val->bulto*$dolar,2));
+                            $printer->setEmphasis(false);
+                            $printer -> setTextSize(2,2);
+                            $printer->text("\n");
+
+                            $printer->text("REF. ".number_format($val->precio1*$val->bulto,2));
+                            break;
+
+
+                        case '7':
+                            $printer->text("\n");
+                            $printer -> setTextSize(3,3);
+                            $printer->text("1x ".str_replace(".00", "", $val->bulto));
+                            $printer->text("\n");
+
+                            $printer->text("REF. ");
+                            $printer -> setTextSize(8,8);
+                            $printer->text(number_format($val->precio1*$val->bulto,2));
+                            $printer->setEmphasis(false);
+                            $printer -> setTextSize(2,2);
+                            break;
+
+                        case '8':
+                            $printer->text("\n");
+                            $printer -> setTextSize(3,3);
+                            $printer->text("1x ".str_replace(".00", "", $val->bulto));
+                            $printer->text("\n");
+
+                            $printer->text("Bs. ");
+                            $printer -> setTextSize(8,8);
+                            $printer->text(number_format($val->precio1*$val->bulto*$dolar,2));
+                            $printer->setEmphasis(false);
+                            $printer -> setTextSize(2,2);
+                            break;
+                    }
+
+                    $printer->feed();
+                }
+
+            
 
 
             
