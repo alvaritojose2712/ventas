@@ -2550,8 +2550,9 @@ function Modaladdproductocarrito(_ref) {
               className: "form-control",
               placeholder: "Buscar...",
               ref: inputaddcarritointernoref,
-              value: qProductosMain,
-              onChange: onchangeinputmain
+              onChange: function onChange(e) {
+                return getProductos(e.target.value);
+              }
             })]
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {

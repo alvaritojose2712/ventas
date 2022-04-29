@@ -33,7 +33,7 @@ function Modaladdproductocarrito({
             <button onClick={()=>setshowinputaddCarritoFast(!showinputaddCarritoFast)} className={("btn btn-outline-")+(showinputaddCarritoFast?"success":"sinapsis")}>Agg. rápido</button>
             
             </span>
-            <input type="text" className="form-control" placeholder="Buscar..." ref={inputaddcarritointernoref} value={qProductosMain} onChange={onchangeinputmain}/>
+            <input type="text" className="form-control" placeholder="Buscar..." ref={inputaddcarritointernoref} onChange={e=>getProductos(e.target.value)}/>
            
          </div>
          </div>
