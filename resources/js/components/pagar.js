@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect,useState} from 'react';
 
 import Modaladdproductocarrito from '../components/Modaladdproductocarrito';
 import ModaladdPersona from '../components/ModaladdPersona';
@@ -104,6 +104,9 @@ setshowinputaddCarritoFast,
 qProductosMain,
 }) {
 
+  const [vuelto_penddolar,setvuelto_penddolar] = useState(0)
+  const [vuelto_pendbs,setvuelto_pendbs] = useState(0)
+  const [vuelto_pendcop,setvuelto_pendcop] = useState(0)
   const debitoBs = (met) =>{
     try{
       if (met=="debito") {
@@ -179,6 +182,8 @@ qProductosMain,
       })
     }
   }
+
+  
   useEffect(()=>{
     if (refinputaddcarritofast.current) {
       refinputaddcarritofast.current.value = ""
@@ -195,6 +200,11 @@ qProductosMain,
       total_des,
       subtotal,
       total,
+
+      clean_total,
+      cop_clean,
+      bs_clean,
+      
       total_porciento,
       cop,
       bs,
@@ -207,6 +217,41 @@ qProductosMain,
       ivas,
       monto_iva,
     } = pedidoData
+
+    const setvueltopend = e => {
+    let type = e.currentTarget.attributes["data-type"].value
+    let billete = window.prompt("Billete")
+
+    if (billete) {
+      if (parseFloat(billete)) {
+        let valorbillete = 0
+        switch(type){
+          case "dolar":
+              valorbillete = moneda((billete-total))
+              setvuelto_penddolar(valorbillete)
+                        
+          break;
+
+          case "bs":
+              valorbillete = moneda((billete-bs_clean))
+              setvuelto_pendbs(valorbillete)
+            
+          break;
+
+          case "cop":
+
+            valorbillete = moneda((billete-cop_clean))
+            setvuelto_pendcop(valorbillete)
+            
+          
+          break;
+        }
+      }
+    }
+
+
+    return;
+  }
     return (
       <>
         <div className="container-fluid">
@@ -512,34 +557,50 @@ qProductosMain,
                   <tbody>
                     <tr className='hover'>
                       <th className="">Sub-Total</th>
-                      <td className="text-right">{subtotal}</td>
+                      <td colSpan="2" className="text-right">{subtotal}</td>
                     </tr>
                     <tr className='hover'>
                       <th data-index={id} onClick={setDescuentoTotal} className="pointer clickme">Desc. {total_porciento}%
                       </th>
-                      <td className="text-right">{total_des}</td>
+                      <td colSpan="2" className="text-right">{total_des}</td>
                     </tr>
                     <tr className='hover'>
                       <th className="">Monto Exento</th>
-                      <td className="text-right">{exento}</td>
+                      <td colSpan="2" className="text-right">{exento}</td>
                     </tr>
                     <tr className='hover'>
                       <th className="">Monto Gravable</th>
-                      <td className="text-right">{gravable}</td>
+                      <td colSpan="2" className="text-right">{gravable}</td>
                     </tr>
                     <tr className='hover'>
                       <th className="">IVA <span>({ivas})</span></th>
-                      <td className="text-right">{monto_iva}</td>
+                      <td colSpan="2" className="text-right">{monto_iva}</td>
                     </tr>
                     <tr className="hover h4">
                       <th className="">Total</th>
-                      <td className="text-right text-success fw-bold fs-11">{total}</td>
+                      <td className="text-left text-muted align-bottom">
+                        {vuelto_penddolar?<>
+                          <span>Vuelto: {vuelto_penddolar}</span>
+                        </>:null}
+                      </td>
+                      <td className="text-right text-success fw-bold fs-11">
+                        <span onClick={setvueltopend} data-type="dolar" className="pointer">{total}</span>
+                      </td>
                     </tr>
 
                     <tr className="text-muted">
+                      <td></td>
+                      <td className="text-left text-muted">
+                        {vuelto_pendbs?<>
+                          <span className="fs-2">Vuelto: {vuelto_pendbs}</span><br/>
+                        </>:null}
+                        {vuelto_pendcop?<>
+                          <span className="fs-5">Vuelto: {vuelto_pendcop}</span>
+                        </>:null}
+                      </td>
                       <th className="text-right" colSpan="2">
-                        <span className='fs-2'> Bs {bs}</span><br/>
-                        <span className='fs-5'>COP {cop}</span>
+                        <span onClick={setvueltopend} data-type="bs" className='fs-2 pointer'> Bs {bs}</span><br/>
+                        <span onClick={setvueltopend} data-type="cop" className='fs-5 pointer'>COP {cop}</span>
                       </th>
                     </tr>
                   </tbody>

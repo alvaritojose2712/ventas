@@ -2626,18 +2626,18 @@ function Modaladdproductocarrito(_ref) {
                     className: "btn-group w-75",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
                       type: "button",
-                      className: "m-0 btn-sm btn btn-success",
+                      className: "m-0 btn btn-success text-light fs-4 fw-bold",
                       children: e.precio
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
                       type: "button",
-                      className: "m-0 btn-sm btn btn-secondary",
+                      className: "m-0 btn btn-secondary",
                       children: ["BsS. ", e.bs]
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                     className: "btn-group w-75",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
                       type: "button",
-                      className: "m-0 btn-sm btn btn-secondary",
+                      className: "m-0 btn btn-secondary",
                       children: ["Cop. ", e.cop]
                     })
                   })]
@@ -13155,6 +13155,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Modaladdproductocarrito__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Modaladdproductocarrito */ "./resources/js/components/Modaladdproductocarrito.js");
 /* harmony import */ var _components_ModaladdPersona__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ModaladdPersona */ "./resources/js/components/ModaladdPersona.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -13239,6 +13251,21 @@ function Pagar(_ref) {
       showinputaddCarritoFast = _ref.showinputaddCarritoFast,
       setshowinputaddCarritoFast = _ref.setshowinputaddCarritoFast,
       qProductosMain = _ref.qProductosMain;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState2 = _slicedToArray(_useState, 2),
+      vuelto_penddolar = _useState2[0],
+      setvuelto_penddolar = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      vuelto_pendbs = _useState4[0],
+      setvuelto_pendbs = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState6 = _slicedToArray(_useState5, 2),
+      vuelto_pendcop = _useState6[0],
+      setvuelto_pendcop = _useState6[1];
 
   var debitoBs = function debitoBs(met) {
     try {
@@ -13344,6 +13371,9 @@ function Pagar(_ref) {
         total_des = pedidoData.total_des,
         subtotal = pedidoData.subtotal,
         total = pedidoData.total,
+        clean_total = pedidoData.clean_total,
+        cop_clean = pedidoData.cop_clean,
+        bs_clean = pedidoData.bs_clean,
         total_porciento = pedidoData.total_porciento,
         cop = pedidoData.cop,
         bs = pedidoData.bs,
@@ -13354,6 +13384,37 @@ function Pagar(_ref) {
         gravable = pedidoData.gravable,
         ivas = pedidoData.ivas,
         monto_iva = pedidoData.monto_iva;
+
+    var setvueltopend = function setvueltopend(e) {
+      var type = e.currentTarget.attributes["data-type"].value;
+      var billete = window.prompt("Billete");
+
+      if (billete) {
+        if (parseFloat(billete)) {
+          var valorbillete = 0;
+
+          switch (type) {
+            case "dolar":
+              valorbillete = moneda(billete - total);
+              setvuelto_penddolar(valorbillete);
+              break;
+
+            case "bs":
+              valorbillete = moneda(billete - bs_clean);
+              setvuelto_pendbs(valorbillete);
+              break;
+
+            case "cop":
+              valorbillete = moneda(billete - cop_clean);
+              setvuelto_pendcop(valorbillete);
+              break;
+          }
+        }
+      }
+
+      return;
+    };
+
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "container-fluid",
@@ -13820,6 +13881,7 @@ function Pagar(_ref) {
                       className: "",
                       children: "Sub-Total"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      colSpan: "2",
                       className: "text-right",
                       children: subtotal
                     })]
@@ -13831,6 +13893,7 @@ function Pagar(_ref) {
                       className: "pointer clickme",
                       children: ["Desc. ", total_porciento, "%"]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      colSpan: "2",
                       className: "text-right",
                       children: total_des
                     })]
@@ -13840,6 +13903,7 @@ function Pagar(_ref) {
                       className: "",
                       children: "Monto Exento"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      colSpan: "2",
                       className: "text-right",
                       children: exento
                     })]
@@ -13849,6 +13913,7 @@ function Pagar(_ref) {
                       className: "",
                       children: "Monto Gravable"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      colSpan: "2",
                       className: "text-right",
                       children: gravable
                     })]
@@ -13860,6 +13925,7 @@ function Pagar(_ref) {
                         children: ["(", ivas, ")"]
                       })]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      colSpan: "2",
                       className: "text-right",
                       children: monto_iva
                     })]
@@ -13869,22 +13935,51 @@ function Pagar(_ref) {
                       className: "",
                       children: "Total"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
+                      className: "text-left text-muted align-bottom",
+                      children: vuelto_penddolar ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+                          children: ["Vuelto: ", vuelto_penddolar]
+                        })
+                      }) : null
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                       className: "text-right text-success fw-bold fs-11",
-                      children: total
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                        onClick: setvueltopend,
+                        "data-type": "dolar",
+                        className: "pointer",
+                        children: total
+                      })
                     })]
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("tr", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
                     className: "text-muted",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("th", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("td", {
+                      className: "text-left text-muted",
+                      children: [vuelto_pendbs ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+                          className: "fs-2",
+                          children: ["Vuelto: ", vuelto_pendbs]
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {})]
+                      }) : null, vuelto_pendcop ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
+                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+                          className: "fs-5",
+                          children: ["Vuelto: ", vuelto_pendcop]
+                        })
+                      }) : null]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("th", {
                       className: "text-right",
                       colSpan: "2",
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
-                        className: "fs-2",
+                        onClick: setvueltopend,
+                        "data-type": "bs",
+                        className: "fs-2 pointer",
                         children: [" Bs ", bs]
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
-                        className: "fs-5",
+                        onClick: setvueltopend,
+                        "data-type": "cop",
+                        className: "fs-5 pointer",
                         children: ["COP ", cop]
                       })]
-                    })
+                    })]
                   })]
                 })
               })
@@ -14722,7 +14817,7 @@ function ProductosList(_ref) {
                       className: "btn-group w-100 h-100",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                         type: "button",
-                        className: "m-0 btn-sm btn btn-success text-light fs-4",
+                        className: "m-0 btn-sm btn btn-success text-light fs-4 fw-bold",
                         children: e.precio
                       })
                     })

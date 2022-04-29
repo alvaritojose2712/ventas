@@ -620,6 +620,9 @@ class PedidosController extends Controller
             $pedido->cop = number_format($total_ped*$cop,2,".",",");
             $pedido->bs = number_format($total_ped*$bs,2,".",",");
 
+            $pedido->cop_clean = $total_ped*$cop;
+            $pedido->bs_clean = $total_ped*$bs;
+
 
         }
 

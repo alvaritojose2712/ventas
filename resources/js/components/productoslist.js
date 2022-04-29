@@ -92,7 +92,7 @@ function ProductosList({
                     <div className="row">
                       <div className="col-5 m-0 p-0">
                         <div className='btn-group w-100 h-100'>
-                            <button type="button" className='m-0 btn-sm btn btn-success text-light fs-4'>
+                            <button type="button" className='m-0 btn-sm btn btn-success text-light fs-4 fw-bold'>
                             {e.precio}
                             </button>
                         </div>
