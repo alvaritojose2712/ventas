@@ -223,7 +223,7 @@ export default function InventarioForzado({
                                     <td className="cell05">{e.unidad}</td>
                                     <td className="cell2">{e.descripcion}</td>
                                     <th className="cell05">{e.cantidad} <br/>
-                                        <span className="btn btn-outline-success" 
+                                        <span className="btn btn-outline-success btn-sm" 
                                         data-id={e.id} 
                                         onClick={setCtxBulto}>CtxBulto.{e.bulto}</span>
                                     </th>
@@ -234,13 +234,13 @@ export default function InventarioForzado({
                                         {getPorGanacia(!e.precio?0:e.precio,!e.precio_base?0:e.precio_base)}
                                     </span>
                                     <br/>
-                                        <div className="btn-group">
-                                            <span className="btn btn-outline-success" 
+                                        <div className="btn-group w-100">
+                                            <span className="btn btn-outline-success btn-sm" 
                                             data-id={e.id} 
                                             data-type="p1" 
                                             onClick={setPrecioAlterno}>P1.<br/>{e.precio1}</span>
 
-                                            <span className="btn btn-outline-success" 
+                                            <span className="btn btn-outline-success btn-sm" 
                                             data-id={e.id} 
                                             data-type="p2" 
                                             onClick={setPrecioAlterno}>P2.<br/>{e.precio2}</span>

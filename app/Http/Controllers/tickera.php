@@ -18,20 +18,21 @@ use Mike42\Escpos\CapabilityProfiles\SimpleCapabilityProfile;
 use Response;
 
 class tickera extends Controller
-{
+{   
+    public function addSpaces($string = '', $valid_string_length = 0) {
+        if (strlen($string) < $valid_string_length) {
+            $spaces = $valid_string_length - strlen($string);
+            for ($index1 = 1; $index1 <= $spaces; $index1++) {
+                $string = $string . ' ';
+            }
+        }
+
+        return $string;
+    }
     public function imprimir(Request $req)
     {
 
-        function addSpaces($string = '', $valid_string_length = 0) {
-            if (strlen($string) < $valid_string_length) {
-                $spaces = $valid_string_length - strlen($string);
-                for ($index1 = 1; $index1 <= $spaces; $index1++) {
-                    $string = $string . ' ';
-                }
-            }
-
-            return $string;
-        }
+        
         
         $get_moneda = (new PedidosController)->get_moneda();
         $moneda_req = $req->moneda;
@@ -142,8 +143,8 @@ class tickera extends Controller
                 $printer -> text("\n");
                 if ($nombres!="") {
                     $printer->setJustification(Printer::JUSTIFY_LEFT);
-                    $printer -> text(addSpaces("Nombres: ".$nombres,22));
-                    $printer -> text(addSpaces("ID: ".$identificacion,22));
+                    $printer -> text($this->addSpaces("Nombres: ".$nombres,22));
+                    $printer -> text($this->addSpaces("ID: ".$identificacion,22));
                     $printer -> text("\n");
                     //$printer->setJustification(Printer::JUSTIFY_LEFT);
 
@@ -185,13 +186,13 @@ class tickera extends Controller
                    $printer->text($item['descripcion']);
                    $printer->text("\n");
 
-                   $printer->text(addSpaces("Ct. ".$item['cantidad'],15)." | ");
+                   $printer->text($this->addSpaces("Ct. ".$item['cantidad'],15)." | ");
                    //$printer->text("\n");
                    
-                   $printer->text(addSpaces("P/U. ".$item['pu'],15)." | ");
+                   $printer->text($this->addSpaces("P/U. ".$item['pu'],15)." | ");
                    //$printer->text("\n");
 
-                   $printer->text(addSpaces("Tot. ".$item['totalprecio'],15));
+                   $printer->text($this->addSpaces("Tot. ".$item['totalprecio'],15));
                    $printer->text("\n");
 
                 }
@@ -248,16 +249,7 @@ class tickera extends Controller
         $ids = $req->ids;
         $type = $req->type;
 
-         function addSpaces($string = '', $valid_string_length = 0) {
-            if (strlen($string) < $valid_string_length) {
-                $spaces = $valid_string_length - strlen($string);
-                for ($index1 = 1; $index1 <= $spaces; $index1++) {
-                    $string = $string . ' ';
-                }
-            }
-
-            return $string;
-        }
+         
         
         $get_moneda = (new PedidosController)->get_moneda();
         $moneda_req = $req->moneda;
@@ -287,125 +279,126 @@ class tickera extends Controller
 
                    $printer->setEmphasis(true);
                     $printer->text($sucursal->nombre_registro);
+                    $printer->text("\n");
+                    $printer->text($sucursal->rif);
 
+                    $printer->text("\n");
+                    $printer->text("\n");
+
+                    //$printer->setBarcodeHeight(80);
+                    //$printer->setBarcodeTextPosition(Printer::BARCODE_TEXT_BELOW);
+                    $printer->setEmphasis(true);
+                    $printer->text($val->codigo_barras);
                     $printer->setEmphasis(false);
                     $printer->text("\n");
-                    $printer->text("\n");
-
-                    $printer->setBarcodeHeight(80);
-                    $printer->setBarcodeTextPosition(Printer::BARCODE_TEXT_BELOW);
-                    $printer->barcode($val->codigo_barras);
-                    $printer->text("\n");
                     $printer->text($val->descripcion);
-                    $printer->text("\n");
                     $printer->text("\n");
 
                     $printer->setEmphasis(true);
 
                     switch ($type) {
-                        case '1':
-                            $printer->text("REF. ");
-                            $printer -> setTextSize(8,8);
-                            $printer->text(number_format($val->precio,2));
-                            $printer->setEmphasis(false);
-                            $printer -> setTextSize(2,2);
-                            $printer->text("\n");
+                        // case '1':
+                        //     $printer->text("REF. ");
+                        //     $printer -> setTextSize(5,5);
+                        //     $printer->text(number_format($val->precio,2));
+                        //     $printer->setEmphasis(false);
+                        //     $printer -> setTextSize(2,2);
+                        //     $printer->text("\n");
 
-                            $printer->text("Bs. ".number_format($val->precio*$dolar,2));
+                        //     $printer->text("Bs. ".number_format($val->precio*$dolar,2));
 
 
-                            break;
+                        //     break;
 
-                        case '2':
-                            $printer->text("Bs. ");
-                            $printer -> setTextSize(8,8);
-                            $printer->text(number_format($val->precio*$dolar,2));
-                            $printer->setEmphasis(false);
-                            $printer -> setTextSize(2,2);
-                            $printer->text("\n");
+                        // case '2':
+                        //     $printer->text("Bs. ");
+                        //     $printer -> setTextSize(5,5);
+                        //     $printer->text(number_format($val->precio*$dolar,2));
+                        //     $printer->setEmphasis(false);
+                        //     $printer -> setTextSize(2,2);
+                        //     $printer->text("\n");
 
-                            $printer->text("REF. ".number_format($val->precio,2));
-                            break;
+                        //     $printer->text("REF. ".number_format($val->precio,2));
+                        //     break;
 
 
                         case '3':
+                            $printer->text("\n");
                             $printer->text("REF. ");
-                            $printer -> setTextSize(8,8);
+                            $printer -> setTextSize(5,5);
                             $printer->text(number_format($val->precio,2));
                             $printer->setEmphasis(false);
                             $printer -> setTextSize(2,2);
                             break;
 
-                        case '4':
-                            $printer->text("Bs. ");
-                            $printer -> setTextSize(8,8);
-                            $printer->text(number_format($val->precio*$dolar,2));
-                            $printer->setEmphasis(false);
-                            $printer -> setTextSize(2,2);
-                            break;
+                        // case '4':
+                        //     $printer->text("Bs. ");
+                        //     $printer -> setTextSize(5,5);
+                        //     $printer->text(number_format($val->precio*$dolar,2));
+                        //     $printer->setEmphasis(false);
+                        //     $printer -> setTextSize(2,2);
+                        //     break;
 
 
-                        case '5':
+                        // case '5':
 
-                            $printer->text("\n");
-                            $printer -> setTextSize(3,3);
-                            $printer->text("1x ".str_replace(".00", "", $val->bulto));
-                            $printer->text("\n");
+                        //     $printer -> setTextSize(3,3);
+                        //     $printer->text("1x".str_replace(".00", "", $val->bulto));
+                        //     $printer->text("\n");
 
-                            $printer->text("REF. ");
-                            $printer -> setTextSize(8,8);
-                            $printer->text(number_format($val->precio1*$val->bulto,2));
-                            $printer->setEmphasis(false);
-                            $printer -> setTextSize(2,2);
-                            $printer->text("\n");
+                        //     $printer->text("REF. ");
+                        //     $printer -> setTextSize(5,5);
+                        //     $printer->text(number_format($val->precio1*$val->bulto,2));
+                        //     $printer->setEmphasis(false);
+                        //     $printer -> setTextSize(2,2);
+                        //     $printer->text("\n");
 
-                            $printer->text("Bs. ".number_format($val->precio1*$val->bulto*$dolar,2));
+                        //     $printer->text("Bs. ".number_format($val->precio1*$val->bulto*$dolar,2));
 
 
-                            break;
+                        //     break;
 
-                        case '6':
-                            $printer->text("\n");
-                            $printer -> setTextSize(3,3);
-                            $printer->text("1x ".str_replace(".00", "", $val->bulto));
-                            $printer->text("\n");
+                        // case '6':
+                        //     $printer -> setTextSize(3,3);
+                        //     $printer->text("1x".str_replace(".00", "", $val->bulto));
+                        //     $printer->text("\n");
 
-                            $printer->text("Bs. ");
-                            $printer -> setTextSize(8,8);
-                            $printer->text(number_format($val->precio1*$val->bulto*$dolar,2));
-                            $printer->setEmphasis(false);
-                            $printer -> setTextSize(2,2);
-                            $printer->text("\n");
+                        //     $printer->text("Bs. ");
+                        //     $printer -> setTextSize(5,5);
+                        //     $printer->text(number_format($val->precio1*$val->bulto*$dolar,2));
+                        //     $printer->setEmphasis(false);
+                        //     $printer -> setTextSize(2,2);
+                        //     $printer->text("\n");
 
-                            $printer->text("REF. ".number_format($val->precio1*$val->bulto,2));
-                            break;
+                        //     $printer->text("REF. ".number_format($val->precio1*$val->bulto,2));
+                        //     $printer->text(number_format($val->precio1*$val->bulto,2));
+                        //     break;
 
 
                         case '7':
+                            $printer -> setTextSize(2,2);
+                            $printer->text("1x".str_replace(".00", "", $val->bulto));
                             $printer->text("\n");
-                            $printer -> setTextSize(3,3);
-                            $printer->text("1x ".str_replace(".00", "", $val->bulto));
                             $printer->text("\n");
 
+                            $printer -> setTextSize(1,1);
                             $printer->text("REF. ");
-                            $printer -> setTextSize(8,8);
+                            $printer -> setTextSize(5,5);
                             $printer->text(number_format($val->precio1*$val->bulto,2));
                             $printer->setEmphasis(false);
-                            $printer -> setTextSize(2,2);
                             break;
 
-                        case '8':
-                            $printer->text("\n");
-                            $printer -> setTextSize(3,3);
-                            $printer->text("1x ".str_replace(".00", "", $val->bulto));
-                            $printer->text("\n");
+                        // case '8':
+                        //     $printer -> setTextSize(3,3);
+                        //     $printer->text("1x".str_replace(".00", "", $val->bulto));
+                        //     $printer->text("\n");
 
-                            $printer->text("Bs. ");
-                            $printer -> setTextSize(8,8);
-                            $printer->text(number_format($val->precio1*$val->bulto*$dolar,2));
-                            $printer->setEmphasis(false);
-                            $printer -> setTextSize(2,2);
-                            break;
+                        //     $printer->text("Bs. ");
+                        //     $printer -> setTextSize(5,5);
+                        //     $printer->text(number_format($val->precio1*$val->bulto*$dolar,2));
+                        //     $printer->setEmphasis(false);
+                        //     $printer -> setTextSize(2,2);
+                        //     break;
                     }
 
                     $printer->feed();

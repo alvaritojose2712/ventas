@@ -42,13 +42,13 @@ class CreateInventariosTable extends Migration
             $table->decimal("iva",5,2)->nullable()->default(0);
 
             $table->decimal("porcentaje_ganancia",3,2)->nullable()->default(0);
-            $table->decimal("precio_base",8,2)->nullable()->default(0);
-            $table->decimal("precio",8,2)->default(0);
+            $table->decimal("precio_base",8,3)->nullable()->default(0);
+            $table->decimal("precio",8,3)->default(0);
 
-            $table->decimal("precio1",8,2)->nullable();
-            $table->decimal("precio2",8,2)->nullable();
-            $table->decimal("precio3",8,2)->nullable();
-            $table->decimal("bulto",8,2)->nullable();
+            $table->decimal("precio1",8,3)->nullable();
+            $table->decimal("precio2",8,3)->nullable();
+            $table->decimal("precio3",8,3)->nullable();
+            $table->integer("bulto")->nullable();
 
             $table->decimal("cantidad",9,2)->default(0);
 
@@ -3902,7 +3902,7 @@ class CreateInventariosTable extends Migration
 
 
         foreach ($inventario as $key => $value) {
-            if ($key<100) {
+            if ($key<50) {
                 array_push($arr, 
                     [
                         // "id" => $value[0],

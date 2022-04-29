@@ -978,7 +978,7 @@ useHotkeys("tab",()=>{
   },[
     num,
     itemCero,
-    qProductosMain,
+    //qProductosMain,
     orderColumn,
     orderBy,
   ])
@@ -1443,7 +1443,7 @@ const getPedidos = e => {
     setLoading(false)
   })
 }
-const getProductos = () => {
+const getProductos = (valmain=null) => {
 
   setpermisoExecuteEnter(false)
   setLoading(true)
@@ -1453,7 +1453,7 @@ const getProductos = () => {
   }
 
   let time = window.setTimeout(()=>{
-    db.getinventario({vendedor:showMisPedido?[user.id_usuario]:[],num,itemCero,qProductosMain,orderColumn,orderBy}).then(res=>{
+    db.getinventario({vendedor:showMisPedido?[user.id_usuario]:[],num,itemCero,qProductosMain:valmain?valmain:qProductosMain,orderColumn,orderBy}).then(res=>{
       if (res.data) {
         let len = res.data.length
         if (len) {
@@ -1723,8 +1723,11 @@ const addCarritoRequest = (e,id_direct=null,id_pedido_direct=null) =>{
       }
       setCantidad("")
       if (inputbusquedaProductosref) {
-        setQProductosMain("")
-        inputbusquedaProductosref.current.focus()
+        if (inputbusquedaProductosref.current) {
+          inputbusquedaProductosref.current.value = ""
+          inputbusquedaProductosref.current.focus()
+
+        }
       }
       
       setLoading(false)
@@ -3286,8 +3289,7 @@ const auth = permiso => {
                 className="form-control" 
                 ref={inputbusquedaProductosref}
                 placeholder="Buscar... Presiona (ESC)"
-                value={qProductosMain}
-                onChange={onchangeinputmain}/>
+                onChange={e=>getProductos(e.target.value)}/>
                 <button onClick={()=>setshowinputaddCarritoFast(!showinputaddCarritoFast)} className={("btn btn-outline-")+(showinputaddCarritoFast?"success":"sinapsis")}>Agg. rápido</button>
               
                 {showOptionQMain?<>

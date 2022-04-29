@@ -6764,7 +6764,8 @@ function Facturar(_ref) {
   }, [view, qDeudores]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     getProductos();
-  }, [num, itemCero, qProductosMain, orderColumn, orderBy]);
+  }, [num, itemCero, //qProductosMain,
+  orderColumn, orderBy]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
     setInputsInventario();
   }, [indexSelectInventario]);
@@ -7250,6 +7251,7 @@ function Facturar(_ref) {
   };
 
   var getProductos = function getProductos() {
+    var valmain = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     setpermisoExecuteEnter(false);
     setLoading(true);
 
@@ -7262,7 +7264,7 @@ function Facturar(_ref) {
         vendedor: showMisPedido ? [user.id_usuario] : [],
         num: num,
         itemCero: itemCero,
-        qProductosMain: qProductosMain,
+        qProductosMain: valmain ? valmain : qProductosMain,
         orderColumn: orderColumn,
         orderBy: orderBy
       }).then(function (res) {
@@ -7614,8 +7616,10 @@ function Facturar(_ref) {
         setCantidad("");
 
         if (inputbusquedaProductosref) {
-          setQProductosMain("");
-          inputbusquedaProductosref.current.focus();
+          if (inputbusquedaProductosref.current) {
+            inputbusquedaProductosref.current.value = "";
+            inputbusquedaProductosref.current.focus();
+          }
         }
 
         setLoading(false);
@@ -9284,8 +9288,9 @@ function Facturar(_ref) {
           className: "form-control",
           ref: inputbusquedaProductosref,
           placeholder: "Buscar... Presiona (ESC)",
-          value: qProductosMain,
-          onChange: onchangeinputmain
+          onChange: function onChange(e) {
+            return getProductos(e.target.value);
+          }
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("button", {
           onClick: function onClick() {
             return setshowinputaddCarritoFast(!showinputaddCarritoFast);
@@ -11068,24 +11073,6 @@ function Inventario(_ref) {
                     className: "dropdown-item",
                     href: "#",
                     onClick: function onClick() {
-                      return printPrecios(1);
-                    },
-                    children: "$ con Bs"
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-                    className: "dropdown-item",
-                    href: "#",
-                    onClick: function onClick() {
-                      return printPrecios(2);
-                    },
-                    children: "Bs con $"
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-                    className: "dropdown-item",
-                    href: "#",
-                    onClick: function onClick() {
                       return printPrecios(3);
                     },
                     children: "$"
@@ -11095,45 +11082,9 @@ function Inventario(_ref) {
                     className: "dropdown-item",
                     href: "#",
                     onClick: function onClick() {
-                      return printPrecios(4);
-                    },
-                    children: "Bs"
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-                    className: "dropdown-item",
-                    href: "#",
-                    onClick: function onClick() {
-                      return printPrecios(5);
-                    },
-                    children: "Mayor en $ con Bs"
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-                    className: "dropdown-item",
-                    href: "#",
-                    onClick: function onClick() {
-                      return printPrecios(6);
-                    },
-                    children: "Mayor en Bs con $"
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-                    className: "dropdown-item",
-                    href: "#",
-                    onClick: function onClick() {
                       return printPrecios(7);
                     },
                     children: "Mayor en $"
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
-                    className: "dropdown-item",
-                    href: "#",
-                    onClick: function onClick() {
-                      return printPrecios(8);
-                    },
-                    children: "Mayor en Bs"
                   })
                 })]
               })]
@@ -11793,7 +11744,7 @@ function InventarioForzado(_ref) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("th", {
                   className: "cell05",
                   children: [e.cantidad, " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                    className: "btn btn-outline-success",
+                    className: "btn btn-outline-success btn-sm",
                     "data-id": e.id,
                     onClick: setCtxBulto,
                     children: ["CtxBulto.", e.bulto]
@@ -11807,15 +11758,15 @@ function InventarioForzado(_ref) {
                     className: "text-success",
                     children: getPorGanacia(!e.precio ? 0 : e.precio, !e.precio_base ? 0 : e.precio_base)
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                    className: "btn-group",
+                    className: "btn-group w-100",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                      className: "btn btn-outline-success",
+                      className: "btn btn-outline-success btn-sm",
                       "data-id": e.id,
                       "data-type": "p1",
                       onClick: setPrecioAlterno,
                       children: ["P1.", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), e.precio1]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                      className: "btn btn-outline-success",
+                      className: "btn btn-outline-success btn-sm",
                       "data-id": e.id,
                       "data-type": "p2",
                       onClick: setPrecioAlterno,

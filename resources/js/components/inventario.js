@@ -338,17 +338,17 @@ dropprintprice,
                       Precio
                     </button>
                     <ul className={("dropdown-menu ")+(dropprintprice?"show":"")} aria-labelledby="preciosbtn">
-                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(1)}>$ con Bs</a></li>
-                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(2)}>Bs con $</a></li>
                       <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(3)}>$</a></li>
-                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(4)}>Bs</a></li>
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(7)}>Mayor en $</a></li>
 
+                      {/*<li><a className="dropdown-item" href="#" onClick={()=>printPrecios(1)}>$ con Bs</a></li>
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(2)}>Bs con $</a></li>
+                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(4)}>Bs</a></li>
                       <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(5)}>Mayor en $ con Bs</a></li>
                       <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(6)}>Mayor en Bs con $</a></li>
 
-                      <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(7)}>Mayor en $</a></li>
                       <li><a className="dropdown-item" href="#" onClick={()=>printPrecios(8)}>Mayor en Bs</a></li>
-
+                    */}
                     </ul>
                   </div>
                   
