@@ -18,6 +18,13 @@ class CreatePedidosTable extends Migration
 
             $table->boolean("estado");
 
+            $table->date("fecha_inicio")->nullable();
+            $table->date("fecha_vence")->nullable();
+            $table->boolean("formato_pago")->nullable();
+            //Parcial o completo
+            //0 Parcial
+            //1 Completo
+
 
             $table->integer("id_cliente")->unsigned();
             $table->foreign('id_cliente')->references('id')->on('clientes');

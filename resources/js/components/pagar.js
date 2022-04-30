@@ -2,9 +2,24 @@ import {useEffect,useState} from 'react';
 
 import Modaladdproductocarrito from '../components/Modaladdproductocarrito';
 import ModaladdPersona from '../components/ModaladdPersona';
+import Modalconfigcredito from '../components/Modalconfigcredito';
+
 
 
 export default function Pagar({
+setPagoPedido,
+viewconfigcredito,
+setviewconfigcredito,
+fechainiciocredito,
+setfechainiciocredito,
+fechavencecredito,
+setfechavencecredito,
+formatopagocredito,
+setformatopagocredito,
+datadeudacredito,
+setdatadeudacredito,
+setconfigcredito,
+
 setPrecioAlternoCarrito,
 setCtxBultoCarrito,
 
@@ -254,6 +269,23 @@ qProductosMain,
   }
     return (
       <>
+        {viewconfigcredito?
+          <Modalconfigcredito
+            pedidoData={pedidoData}
+            setPagoPedido={setPagoPedido}
+            viewconfigcredito={viewconfigcredito}
+            setviewconfigcredito={setviewconfigcredito}
+            fechainiciocredito={fechainiciocredito}
+            setfechainiciocredito={setfechainiciocredito}
+            fechavencecredito={fechavencecredito}
+            setfechavencecredito={setfechavencecredito}
+            formatopagocredito={formatopagocredito}
+            setformatopagocredito={setformatopagocredito}
+            datadeudacredito={datadeudacredito}
+            setdatadeudacredito={setdatadeudacredito}
+            setconfigcredito={setconfigcredito}
+          />
+        :null}
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-auto p-0">

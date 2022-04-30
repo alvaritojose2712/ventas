@@ -65,6 +65,8 @@ Route::group(['middleware' => ['login']], function () {
 		Route::post('getpersona', [ClientesController::class,"getpersona"]);
 		
 		Route::post('setPagoPedido', [PagoPedidosController::class,"setPagoPedido"]);
+		Route::post('setconfigcredito', [PagoPedidosController::class,"setconfigcredito"]);
+		
 
 		Route::post('addRefPago', [PagosReferenciasController::class,"addRefPago"]);
 		Route::post('delRefPago', [PagosReferenciasController::class,"delRefPago"]);

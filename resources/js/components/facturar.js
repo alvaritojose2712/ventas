@@ -126,7 +126,11 @@ export default function Facturar({user,notificar,setLoading}) {
   const [transferencia,setTransferencia] = useState("")
   const [credito, setCredito] = useState("")
 
-  
+  const [viewconfigcredito,setviewconfigcredito] = useState(false)
+  const [fechainiciocredito,setfechainiciocredito] = useState("")
+  const [fechavencecredito,setfechavencecredito] = useState("")
+  const [formatopagocredito,setformatopagocredito] = useState(1)
+  const [datadeudacredito,setdatadeudacredito] = useState({})
   
   const [vuelto,setVuelto] = useState("")
   
@@ -175,6 +179,10 @@ export default function Facturar({user,notificar,setLoading}) {
   const [notaCierre,setNotaCierre] = useState("")
   
   const [qDeudores,setQDeudores] = useState("")
+  const [orderbycolumdeudores,setorderbycolumdeudores] = useState("vence")
+  const [orderbyorderdeudores,setorderbyorderdeudores] = useState("asc")
+
+
   const [deudoresList,setDeudoresList] = useState([])
   const [cierres,setCierres] = useState({})
 
@@ -622,25 +630,30 @@ useHotkeys("tab",()=>{
 
   }, [view, counterListProductos, countListInter, countListPersoInter, subViewInventario, modViewInventario]);
   useHotkeys('enter', event => {
+    if(!productos.length){
+      addCarrito(0)
+      // console.log("set 0")
+    }
     if(typeof(selectItem)!="number"&&view=="seleccionar"){
       try{
         if (tbodyproductosref.current) {
           let tr = tbodyproductosref.current.rows[counterListProductos]
           let index = tr.attributes["data-index"].value
-          if (permisoExecuteEnter) {
+          //if (permisoExecuteEnter) {
             if (productos[index]) {
               if (!productos[index].lotes.length) {
                 addCarrito(index)
               }
             }
+
             // console.log("Execute Enter")
-          }
+          //}
           //wait
         }
 
       }catch(err){}
       
-    }else if(typeof(selectItem)=="number"&&view=="seleccionar"){
+    }else if(typeof(selectItem)=="number"&&view=="seleccionar"&&productos[selectItem]){
       addCarritoRequest("agregar")
     }else if(view=="pagar"){
       if (ModaladdproductocarritoToggle) {
@@ -962,7 +975,15 @@ useHotkeys("tab",()=>{
       }else if (subViewInventario=="pedidosCentral") {
         getPedidosCentral()
       }
+    }
 
+    if (view=="seleccionar") {
+      if (inputbusquedaProductosref) {
+        if (inputbusquedaProductosref.current) {
+          inputbusquedaProductosref.current.value = ""
+          inputbusquedaProductosref.current.focus()
+        }
+      }
     }
   },[view,subViewInventario])  
 
@@ -971,7 +992,7 @@ useHotkeys("tab",()=>{
       getDeudores()
       getDeudor()
     }
-  }, [view,qDeudores]);
+  }, [view,qDeudores,orderbycolumdeudores,orderbyorderdeudores]);
 
   useEffect(()=>{
     getProductos()
@@ -1271,6 +1292,7 @@ const getToday = () =>{
     setfechaventas(today)
     setqgastosfecha1(today)
     setqgastosfecha2(today)
+    setfechainiciocredito(today)
 
   })
 }
@@ -1566,6 +1588,8 @@ const getPedidosList = (callback=null)=>{
     setLoading(false)
     if (res.data) {
       setPedidoData(res.data)
+      setdatadeudacredito({})
+      setviewconfigcredito(false)
       
       if (clearPagosPedido) {
         setTransferencia("")
@@ -1929,26 +1953,41 @@ const setPagoPedido = () => {
       getProductos()
 
       setSelectItem(null)
+      setviewconfigcredito(false)
 
     }
   })
+}
+
+
+
+const setconfigcredito = e => {
+  e.preventDefault()
+
+  if (pedidoData.id) {
+    setLoading(true)
+    db.setconfigcredito({
+      fechainiciocredito,
+      fechavencecredito,
+      formatopagocredito,
+      id_pedido: pedidoData.id,
+    }).then(res=>{
+      notificar(res)
+      setLoading(false)
+    })
+  }
 }
 const facturar_pedido = () => {
   if (refinputaddcarritofast.current !== document.activeElement) {
     if (pedidoData.id) {
       if (credito) {
+        
         db.checkDeuda({id_cliente:pedidoData.id_cliente}).then(res=>{
           if (res.data) {
             let p = res.data.pedido_total
-            if (p.check) {
-              setPagoPedido()
-            }else{
-              alert("Cliente presenta deuda ("+p.diferencia+"), Por favor revisar.")
-
-              if (window.confirm("¿Desea proceder con DEUDA PENDIENTE ("+p.diferencia+")?")) {
-                setPagoPedido()
-              }
-            }
+            setdatadeudacredito(p)
+            setviewconfigcredito(true)
+            
           }
         })
       }else{
@@ -2057,7 +2096,12 @@ const setPagoCredito = e =>{
 }
 const getDeudores = e =>{
   setLoading(true)
-  db.getDeudores({qDeudores,view}).then(res=>{
+  db.getDeudores({
+    qDeudores,
+    view,
+    orderbycolumdeudores,
+    orderbyorderdeudores,
+  }).then(res=>{
     if (res.data) {
       if (res.data.length) {
         setDeudoresList(res.data)
@@ -3721,6 +3765,19 @@ const auth = permiso => {
         
         />:null}
         {view=="pagar"?<Pagar 
+          setPagoPedido={setPagoPedido}
+          viewconfigcredito={viewconfigcredito}
+          setviewconfigcredito={setviewconfigcredito}
+          fechainiciocredito={fechainiciocredito}
+          setfechainiciocredito={setfechainiciocredito}
+          fechavencecredito={fechavencecredito}
+          setfechavencecredito={setfechavencecredito}
+          formatopagocredito={formatopagocredito}
+          setformatopagocredito={setformatopagocredito}
+          datadeudacredito={datadeudacredito}
+          setdatadeudacredito={setdatadeudacredito}
+          setconfigcredito={setconfigcredito}
+
           setCtxBultoCarrito={setCtxBultoCarrito}
           setPrecioAlternoCarrito={setPrecioAlternoCarrito}
           addRefPago={addRefPago}
@@ -3824,6 +3881,10 @@ const auth = permiso => {
           />
         :null}
         {view=="credito"?<Credito
+          orderbycolumdeudores={orderbycolumdeudores}
+          setorderbycolumdeudores={setorderbycolumdeudores}
+          orderbyorderdeudores={orderbyorderdeudores}
+          setorderbyorderdeudores={setorderbyorderdeudores}
           printCreditos={printCreditos}
           onchangecaja={onchangecaja}
           qDeudores={qDeudores}

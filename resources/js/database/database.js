@@ -139,6 +139,9 @@ const db = {
   setCtxBulto: data=>axios.post(host+"setCtxBulto",data),
   setPrecioAlterno: data=>axios.post(host+"setPrecioAlterno",data),
   printPrecios: data=>axios.post(host+"printPrecios",data),
+
+  setconfigcredito: data=>axios.post(host+"setconfigcredito",data),
+  
   
   
   
