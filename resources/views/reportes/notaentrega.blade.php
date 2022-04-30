@@ -87,7 +87,7 @@
 					@foreach ($pedido->items as $val)
 						<tr class="tr-secondary">
 							<td>
-								{{$val->producto->codigo_proveedor}}
+								{{$val->producto->codigo_barras}}
 							</td>
 							<td>
 								{{$val->producto->descripcion}}

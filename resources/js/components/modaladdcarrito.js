@@ -1,23 +1,38 @@
-export default function ModalAddCarrito({number,inputCantidadCarritoref,producto,pedidoList,setSelectItem,addCarritoRequest,cantidad,numero_factura,setCantidad,setNumero_factura,setFalla}) {
-
+export default function ModalAddCarrito({moneda,number,inputCantidadCarritoref,producto,pedidoList,setSelectItem,addCarritoRequest,cantidad,numero_factura,setCantidad,setNumero_factura,setFalla}) {
+  const setbultocarrito = bulto => {
+    let insert = window.prompt("Cantidad por bulto")
+    if (insert) {
+      let num = number(insert*bulto)
+      if (typeof(num)=="number") {
+        setCantidad(num)
+      }
+    }
+  }
   return (
     <>
       <section className="modal-custom"> 
         <div className="text-danger" onClick={setSelectItem}><span className="closeModal">&#10006;</span></div>
         <div className="modal-content-sm modal-cantidad">
           <div className="d-flex justify-content-between">
-            <div>
-            <h5>{producto.codigo_proveedor}</h5>
-            <h4>{producto.descripcion}</h4>
+            <span className="text-success fs-2">
+              ${producto.precio}<br/>
+              {producto.bulto?<span className="pointer" onClick={()=>setbultocarrito(producto.bulto)}>x{producto.bulto}</span>:null}
+            </span>
+            <div className="text-right">
+              <h5>{producto.codigo_proveedor}</h5>
+              <h4>{producto.descripcion}</h4>
             </div>
-            <h5 className="text-success">${producto.precio}</h5>
           </div>
           <form onSubmit={e=>e.preventDefault()} className="d-flex justify-content-center flex-column p-3">
-            <div className="input-group m-3">
-              <input type="text" ref={inputCantidadCarritoref} className="form-control" placeholder="Cantidad" onChange={(e)=>setCantidad(number(e.target.value))} value={cantidad}/>
+            <div className="input-group mb-3">
+              <input type="text" ref={inputCantidadCarritoref} className="form-control fs-2" placeholder="Cantidad" onChange={(e)=>setCantidad(number(e.target.value))} value={cantidad?cantidad:""}/>
 
-              <div className="input-group-append">
-                <span className="input-group-text">Total. {cantidad*producto.precio?(cantidad*producto.precio).toFixed(2):null}</span>
+              <div className="input-group-append text-right">
+                <span className="input-group-text h-100 fs-3 text-right">
+                  Detal. {cantidad*producto.precio?moneda(cantidad*producto.precio):null}<br/>
+                  Mayor. {cantidad*producto.precio1?<>{moneda(cantidad*producto.precio1)}</>:null}
+
+                </span>
               </div>
             </div>
             <div className="input-group mb-3">

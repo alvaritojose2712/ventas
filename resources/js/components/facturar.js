@@ -630,24 +630,20 @@ useHotkeys("tab",()=>{
 
   }, [view, counterListProductos, countListInter, countListPersoInter, subViewInventario, modViewInventario]);
   useHotkeys('enter', event => {
-    if(!productos.length){
-      addCarrito(0)
-      // console.log("set 0")
-    }
+    
     if(typeof(selectItem)!="number"&&view=="seleccionar"){
       try{
         if (tbodyproductosref.current) {
           let tr = tbodyproductosref.current.rows[counterListProductos]
           let index = tr.attributes["data-index"].value
-          //if (permisoExecuteEnter) {
+          if (permisoExecuteEnter) {
             if (productos[index]) {
               if (!productos[index].lotes.length) {
                 addCarrito(index)
               }
             }
-
             // console.log("Execute Enter")
-          //}
+          }
           //wait
         }
 
@@ -3303,6 +3299,8 @@ const auth = permiso => {
               pedidoList={pedidoList}
               setFalla={setFalla}
               number={number}
+              moneda={moneda}
+
               inputCantidadCarritoref={inputCantidadCarritoref}
               addCarritoRequest={addCarritoRequest}/>:null:null}
 

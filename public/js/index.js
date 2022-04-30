@@ -6582,23 +6582,20 @@ function Facturar(_ref) {
     enableOnTags: ["INPUT", "SELECT"]
   }, [view, counterListProductos, countListInter, countListPersoInter, subViewInventario, modViewInventario]);
   (0,react_hotkeys_hook__WEBPACK_IMPORTED_MODULE_1__.useHotkeys)('enter', function (event) {
-    if (!productos.length) {
-      addCarrito(0); // console.log("set 0")
-    }
-
     if (typeof selectItem != "number" && view == "seleccionar") {
       try {
         if (tbodyproductosref.current) {
           var tr = tbodyproductosref.current.rows[counterListProductos];
-          var index = tr.attributes["data-index"].value; //if (permisoExecuteEnter) {
+          var index = tr.attributes["data-index"].value;
 
-          if (productos[index]) {
-            if (!productos[index].lotes.length) {
-              addCarrito(index);
-            }
-          } // console.log("Execute Enter")
-          //}
-          //wait
+          if (permisoExecuteEnter) {
+            if (productos[index]) {
+              if (!productos[index].lotes.length) {
+                addCarrito(index);
+              }
+            } // console.log("Execute Enter")
+
+          } //wait
 
         }
       } catch (err) {}
@@ -9475,6 +9472,7 @@ function Facturar(_ref) {
         pedidoList: pedidoList,
         setFalla: setFalla,
         number: _assets__WEBPACK_IMPORTED_MODULE_5__.number,
+        moneda: _assets__WEBPACK_IMPORTED_MODULE_5__.moneda,
         inputCantidadCarritoref: inputCantidadCarritoref,
         addCarritoRequest: addCarritoRequest
       }) : null : null, showModalMovimientos && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_ModalMovimientos__WEBPACK_IMPORTED_MODULE_8__["default"], {
@@ -13216,7 +13214,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ModalAddCarrito(_ref) {
-  var number = _ref.number,
+  var moneda = _ref.moneda,
+      number = _ref.number,
       inputCantidadCarritoref = _ref.inputCantidadCarritoref,
       producto = _ref.producto,
       pedidoList = _ref.pedidoList,
@@ -13227,6 +13226,19 @@ function ModalAddCarrito(_ref) {
       setCantidad = _ref.setCantidad,
       setNumero_factura = _ref.setNumero_factura,
       setFalla = _ref.setFalla;
+
+  var setbultocarrito = function setbultocarrito(bulto) {
+    var insert = window.prompt("Cantidad por bulto");
+
+    if (insert) {
+      var num = number(insert * bulto);
+
+      if (typeof num == "number") {
+        setCantidad(num);
+      }
+    }
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
       className: "modal-custom",
@@ -13241,15 +13253,22 @@ function ModalAddCarrito(_ref) {
         className: "modal-content-sm modal-cantidad",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
           className: "d-flex justify-content-between",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+            className: "text-success fs-2",
+            children: ["$", producto.precio, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), producto.bulto ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+              className: "pointer",
+              onClick: function onClick() {
+                return setbultocarrito(producto.bulto);
+              },
+              children: ["x", producto.bulto]
+            }) : null]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+            className: "text-right",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h5", {
               children: producto.codigo_proveedor
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
               children: producto.descripcion
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h5", {
-            className: "text-success",
-            children: ["$", producto.precio]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
           onSubmit: function onSubmit(e) {
@@ -13257,21 +13276,23 @@ function ModalAddCarrito(_ref) {
           },
           className: "d-flex justify-content-center flex-column p-3",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-            className: "input-group m-3",
+            className: "input-group mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
               type: "text",
               ref: inputCantidadCarritoref,
-              className: "form-control",
+              className: "form-control fs-2",
               placeholder: "Cantidad",
               onChange: function onChange(e) {
                 return setCantidad(number(e.target.value));
               },
-              value: cantidad
+              value: cantidad ? cantidad : ""
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-              className: "input-group-append",
+              className: "input-group-append text-right",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
-                className: "input-group-text",
-                children: ["Total. ", cantidad * producto.precio ? (cantidad * producto.precio).toFixed(2) : null]
+                className: "input-group-text h-100 fs-3 text-right",
+                children: ["Detal. ", cantidad * producto.precio ? moneda(cantidad * producto.precio) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), "Mayor. ", cantidad * producto.precio1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+                  children: moneda(cantidad * producto.precio1)
+                }) : null]
               })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {

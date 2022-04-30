@@ -216,8 +216,14 @@ class tickera extends Controller
                 $printer->setEmphasis(true);
 
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
-                $printer->text($pedido->created_at);
+                $printer->text("Emitida: ".$pedido->created_at);
                 $printer->text("\n");
+                if ($pedido->fecha_vence) {
+                    
+                    $printer->text("Vence: ".$pedido->fecha_vence);
+                    $printer->text("\n");
+                    // code...
+                }
 
                 $printer->text("¡Muchas gracias por su compra! :D");
                 $printer->text("\n");
