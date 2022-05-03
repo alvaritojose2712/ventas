@@ -2537,14 +2537,7 @@ function Modaladdproductocarrito(_ref) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "input-group",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-              className: "",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-                onClick: function onClick() {
-                  return setshowinputaddCarritoFast(!showinputaddCarritoFast);
-                },
-                className: "btn btn-outline-" + (showinputaddCarritoFast ? "success" : "sinapsis"),
-                children: "Agg. r\xE1pido"
-              })
+              className: ""
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
               type: "text",
               className: "form-control",
@@ -2630,14 +2623,14 @@ function Modaladdproductocarrito(_ref) {
                       children: e.precio
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
                       type: "button",
-                      className: "m-0 btn btn-secondary",
+                      className: "m-0 btn btn-secondary text-light",
                       children: ["BsS. ", e.bs]
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
                     className: "btn-group w-75",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
                       type: "button",
-                      className: "m-0 btn btn-secondary",
+                      className: "m-0 btn btn-secondary text-light",
                       children: ["Cop. ", e.cop]
                     })
                   })]
@@ -4867,7 +4860,8 @@ function Credito(_ref) {
       sumPedidos = _ref.sumPedidos,
       sumPedidosArr = _ref.sumPedidosArr,
       setsumPedidosArr = _ref.setsumPedidosArr,
-      printCreditos = _ref.printCreditos;
+      printCreditos = _ref.printCreditos,
+      moneda = _ref.moneda;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -4875,7 +4869,7 @@ function Credito(_ref) {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "col",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-          children: "Cr\xE9ditos"
+          children: "Cuentas por cobrar"
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: "col text-right",
@@ -4920,6 +4914,11 @@ function Credito(_ref) {
           children: deudoresList.length ? deudoresList.map(function (e, i) {
             return e ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("tr", {
               className: "text-center pointer",
+              onClick: function onClick() {
+                setOnlyVueltos(0);
+                setSelectDeudor(i);
+                setsumPedidosArr([]);
+              },
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("td", {
                 children: [e.id, " - ", e.nombre, " - ", e.identificacion]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("td", {
@@ -4928,12 +4927,7 @@ function Credito(_ref) {
                 className: (e.saldo > 0 ? "text-success" : "text-danger") + " h2 text-right",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                   className: "btn " + (e.saldo < 0 ? "btn-outline-danger" : "btn-outline-success"),
-                  onClick: function onClick() {
-                    setOnlyVueltos(0);
-                    setSelectDeudor(i);
-                    setsumPedidosArr([]);
-                  },
-                  children: e.saldo
+                  children: moneda(e.saldo)
                 })
               })]
             }, e.id) : null;
@@ -5001,10 +4995,10 @@ function Credito(_ref) {
                     })]
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
                     className: "text-right h3 text-danger",
-                    children: detallesDeudor["pedido_total"][1]
+                    children: moneda(detallesDeudor["pedido_total"][1])
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
                     className: "text-right h3 text-success",
-                    children: detallesDeudor["pedido_total"][0]
+                    children: moneda(detallesDeudor["pedido_total"][0])
                   })]
                 }) : null]
               }) : null
@@ -5139,12 +5133,12 @@ function Credito(_ref) {
                 }), e.saldoDebe ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("th", {
                     className: "text-danger h2 text-right align-middle",
-                    children: e.saldoDebe
+                    children: moneda(e.saldoDebe)
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {})]
                 }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("th", {
                     className: "text-success h2 text-right align-middle",
-                    children: e.saldoAbono
+                    children: moneda(e.saldoAbono)
                   })]
                 })]
               }, e.id);
@@ -5823,7 +5817,7 @@ function Facturar(_ref) {
       qDeudores = _useState176[0],
       setQDeudores = _useState176[1];
 
-  var _useState177 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("vence"),
+  var _useState177 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("saldo"),
       _useState178 = _slicedToArray(_useState177, 2),
       orderbycolumdeudores = _useState178[0],
       setorderbycolumdeudores = _useState178[1];
@@ -6238,7 +6232,7 @@ function Facturar(_ref) {
       toggleClientesBtn = _useState338[0],
       settoggleClientesBtn = _useState338[1];
 
-  var _useState339 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("unique"),
+  var _useState339 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)("list"),
       _useState340 = _slicedToArray(_useState339, 2),
       modViewInventario = _useState340[0],
       setmodViewInventario = _useState340[1];
@@ -7432,6 +7426,7 @@ function Facturar(_ref) {
 
   var getPedidos = function getPedidos(e) {
     setLoading(true);
+    setPedidos([]);
     _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getPedidos({
       vendedor: showMisPedido ? [user.id_usuario] : [],
       busquedaPedido: busquedaPedido,
@@ -7441,7 +7436,12 @@ function Facturar(_ref) {
       tipoestadopedido: tipoestadopedido,
       filterMetodoPagoToggle: filterMetodoPagoToggle
     }).then(function (res) {
-      setPedidos(res.data);
+      if (res.data) {
+        setPedidos(res.data);
+      } else {
+        setPedidos([]);
+      }
+
       setLoading(false);
     });
   };
@@ -7556,7 +7556,7 @@ function Facturar(_ref) {
   };
 
   var printCreditos = function printCreditos() {
-    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].openPrintCreditos("");
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].openPrintCreditos("qDeudores=" + qDeudores + "&orderbycolumdeudores=" + orderbycolumdeudores + "&orderbyorderdeudores=" + orderbyorderdeudores + "");
   };
 
   var getPedidosList = function getPedidosList() {
@@ -7612,8 +7612,10 @@ function Facturar(_ref) {
         setrefPago([]);
         getPedidosFast();
 
-        if (res.data.referencias.length) {
-          setrefPago(res.data.referencias);
+        if (res.data.referencias) {
+          if (res.data.referencias.length) {
+            setrefPago(res.data.referencias);
+          }
         } else {
           setrefPago([]);
         }
@@ -8158,14 +8160,12 @@ function Facturar(_ref) {
 
   var verCierreReq = function verCierreReq(fechaCierre) {
     var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "ver";
-
     // console.log(fecha)
-    if (window.confirm("Confirme envio")) {
-      _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].openVerCierre({
-        fechaCierre: fechaCierre,
-        type: type
-      });
-    }
+    // if (window.confirm("Confirme envio")) {
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].openVerCierre({
+      fechaCierre: fechaCierre,
+      type: type
+    }); // }
   };
 
   var setPagoCredito = function setPagoCredito(e) {
@@ -9502,12 +9502,6 @@ function Facturar(_ref) {
           onChange: function onChange(e) {
             return getProductos(e.target.value);
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("button", {
-          onClick: function onClick() {
-            return setshowinputaddCarritoFast(!showinputaddCarritoFast);
-          },
-          className: "btn btn-outline-" + (showinputaddCarritoFast ? "success" : "sinapsis"),
-          children: "Agg. r\xE1pido"
         }), showOptionQMain ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.Fragment, {
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)("span", {
             className: "input-group-text pointer",
@@ -9989,6 +9983,7 @@ function Facturar(_ref) {
       getTransferencia: getTransferencia,
       getEfectivo: getEfectivo
     }) : null, view == "credito" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_credito__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      moneda: _assets__WEBPACK_IMPORTED_MODULE_5__.moneda,
       orderbycolumdeudores: orderbycolumdeudores,
       setorderbycolumdeudores: setorderbycolumdeudores,
       orderbyorderdeudores: orderbyorderdeudores,
@@ -10653,7 +10648,7 @@ function Header(_ref) {
                     setView("credito");
                     settoggleClientesBtn(false);
                   },
-                  children: "Cr\xE9dito"
+                  children: "Cuentas por cobrar"
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
@@ -13252,10 +13247,10 @@ function ModalAddCarrito(_ref) {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "modal-content-sm modal-cantidad",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          className: "d-flex justify-content-between",
+          className: "d-flex justify-content-between p-3",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
             className: "text-success fs-2",
-            children: ["$", producto.precio, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), producto.bulto ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+            children: [producto.precio, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), producto.bulto ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
               className: "pointer",
               onClick: function onClick() {
                 return setbultocarrito(producto.bulto);
@@ -13337,7 +13332,7 @@ function ModalAddCarrito(_ref) {
               "data-type": "agregar_procesar",
               children: "Procesar(TAB)"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-              className: "btn btn-outline-secondary",
+              className: "btn btn-outline-secondary btn-sm",
               type: "button",
               onClick: setFalla,
               "data-id": producto.id,
@@ -15104,11 +15099,11 @@ function ProductosList(_ref) {
                       className: "btn-group-vertical w-100 h-100",
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
                         type: "button",
-                        className: "m-0 btn-sm btn btn-secondary fs-6",
+                        className: "m-0 btn-sm btn btn-secondary text-light fw-bold fs-6",
                         children: ["Bs. ", e.bs, " "]
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
                         type: "button",
-                        className: "m-0 btn-sm btn btn-secondary",
+                        className: "m-0 btn-sm btn btn-secondary text-light fw-bold",
                         children: ["Cop. ", e.cop]
                       })]
                     })
@@ -15118,7 +15113,7 @@ function ProductosList(_ref) {
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                     className: "col m-0 p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
-                      className: "btn btn-success w-100",
+                      className: "btn btn-success w-100 fst-bold text-light",
                       children: ["MAYOR. 1 x ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("b", {
                         children: e.bulto
                       }), " = ", moneda(e.precio1 * e.bulto), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), "P/U. ", moneda(e.precio1)]
@@ -15718,16 +15713,16 @@ function VentasComponet(_ref) {
             className: "btn-group",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
               className: "btn btn-outline-success fs-1",
-              children: ["Tot. ", ventasData["total"]]
+              children: ["Tot. ", moneda(ventasData["total"])]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
               className: "btn btn-outline-sinapsis fs-4",
-              children: ["Efec. ", ventasData[3]]
+              children: ["Efec. ", moneda(ventasData[3])]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
               className: "btn btn-outline-sinapsis fs-4",
-              children: ["Deb. ", ventasData[2]]
+              children: ["Deb. ", moneda(ventasData[2])]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("button", {
               className: "btn btn-outline-sinapsis fs-4",
-              children: ["Trans. ", ventasData[1]]
+              children: ["Trans. ", moneda(ventasData[1])]
             })]
           }) : null
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -15784,7 +15779,7 @@ function VentasComponet(_ref) {
                   children: e.id_pedido
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
-                children: e.monto
+                children: moneda(e.monto)
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                 children: e.hora
               })]
@@ -16357,7 +16352,7 @@ var db = {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "setconfigcredito", data);
   },
   openPrintCreditos: function openPrintCreditos(param) {
-    return window.open(host + "verCreditos", "targed=blank");
+    return window.open(host + "verCreditos?" + param, "targed=blank");
   },
   openVerCierre: function openVerCierre(_ref) {
     var type = _ref.type,

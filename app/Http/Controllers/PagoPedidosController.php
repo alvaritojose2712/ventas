@@ -228,29 +228,16 @@ class PagoPedidosController extends Controller
     public function verCreditos(Request $req)
     {
         $sucursal = sucursal::all()->first();
+        $today = (new PedidosController)->today();
 
-        $busqueda = $req->qDeudores;
-        $data = clientes::with(["pedidos"=>function($q){
-            $q->with(["pagos"]);
-            $q->orderBy("created_at","desc");
-        }])
-        ->where("id","<>",1)->where(function($q) use ($busqueda){
-            $q->orWhere("identificacion","LIKE","%".$busqueda."%")
-            ->orWhere("nombre","LIKE","%".$busqueda."%");
-        })
-        ->get()
-        ->map(function($q){
 
-            $q->totalVuelto = 0; 
-            $q->saldo = 0;
-            
-            $q->saldo = $q->pedidos->map(function($q){
-                return $q->pagos->where("cuenta",0)->sum("monto")-$q->pagos->where("tipo",4)->sum("monto");
-            })->sum();
+        $qDeudores = $req->qDeudores;
+        $orderbycolumdeudores = $req->orderbycolumdeudores;
+        $orderbyorderdeudores = $req->orderbyorderdeudores;
 
-            return $q;
-        })->sortBy("saldo");
-        return view("reportes.creditos",["data" => $data,"sucursal" => $sucursal]);
+        $data = $this->getDeudoresFun($qDeudores,$orderbycolumdeudores,$orderbyorderdeudores,$today);
+        
+        return view("reportes.creditos",["data" => $data,"sucursal" => $sucursal,"today"=>$today]);
     }
     public function getDeudores(Request $req)
     {   
@@ -289,84 +276,30 @@ class PagoPedidosController extends Controller
 
                         return $q->pagos->where("tipo",6)->sum("monto")-$sum_entregado;
                     })->sum();
-                }else if($view==="credito"){
-                    $s = $q->pedidos->map(function($q){
-                        return $q->pagos->where("cuenta",0)->sum("monto")-$q->pagos->where("tipo",4)->sum("monto");
-                    })->sum();
-                    $q->saldo = number_format($s,2);
-
-                    $prox = $q->pedidos->where("fecha_vence",">",$today)->first();
-
-                    $f_v = null;
-                    $dias = 0;
-                    if ($prox) {
-                        $f_v = $prox->fecha_vence;
-                        $diff = strtotime($prox->fecha_vence) - strtotime($today);
-                        $diff_ = abs(round($diff/86400));
-                        $dias = $diff_;
-                    }
-                    $q->vence = $f_v;
-                    $q->dias = $dias;
-
                 }
-
-                
-                    
-
-
-
                 return $q;
             });
         }else{
-            return clientes::with(["pedidos"=>function($q){
-                $q->with(["pagos"]);
+            return $this->getDeudoresFun($busqueda,$orderbycolumdeudores,$orderbyorderdeudores,$today);
+        }
+
+
+    }
+    public function getDeudoresFun($busqueda,$orderbycolumdeudores,$orderbyorderdeudores,$today)
+    {   
+        return clientes::with(["pedidos"=>function($q){
+                // $q->with(["pagos"]);
                 $q->orderBy("created_at","desc");
             }])
+            ->selectRaw("*,@credito := (SELECT COALESCE(sum(monto),0) FROM pago_pedidos WHERE id_pedido IN (SELECT id FROM pedidos WHERE id_cliente=clientes.id) AND tipo=4) as credito, @abono := (SELECT COALESCE(sum(monto),0) FROM pago_pedidos WHERE id_pedido IN (SELECT id FROM pedidos WHERE id_cliente=clientes.id) AND cuenta=0) as abono, (@abono-@credito) as saldo, @vence := (SELECT fecha_vence FROM pedidos WHERE id_cliente=clientes.id AND fecha_vence > $today ORDER BY pedidos.fecha_vence ASC LIMIT 1) as vence , (COALESCE(DATEDIFF(@vence,'$today 00:00:00'),0)) as dias")
+            // ->where("saldo","<",0)
             ->where("id","<>",1)->where(function($q) use ($busqueda){
                 $q->orWhere("identificacion","LIKE","%".$busqueda."%")
                 ->orWhere("nombre","LIKE","%".$busqueda."%");
             })
-            ->selectRaw("*,@credito := (SELECT COALESCE(sum(monto),0) FROM pago_pedidos WHERE id_pedido IN (SELECT id FROM pedidos WHERE id_cliente=clientes.id) AND tipo=4) as credito, @abono := (SELECT COALESCE(sum(monto),0) FROM pago_pedidos WHERE id_pedido IN (SELECT id FROM pedidos WHERE id_cliente=clientes.id) AND cuenta=0) as abono, (@abono-@credito) as saldo, @vence := (SELECT fecha_vence FROM pedidos WHERE id_cliente=clientes.id AND fecha_vence > $today ORDER BY pedidos.fecha_vence ASC LIMIT 1) as vence , (COALESCE(DATEDIFF(@vence,'$today 00:00:00'),0)) as dias")
+            // ->having("saldo","<",0)
             ->orderBy($orderbycolumdeudores,$orderbyorderdeudores)
             ->get();
-            // , (DATEDIFF('2010-01-01 00:00:00','2010-01-05 00:00:00') as dias
-            // ->map(function($q) use ($view,$today) {
-
-            //     $q->totalVuelto = 0; 
-            //     $q->saldo = 0;
-            //     if($view==="credito"){
-            //         $s = $q->pedidos->map(function($q){
-            //             return $q->pagos->where("cuenta",0)->sum("monto")-$q->pagos->where("tipo",4)->sum("monto");
-            //         })->sum();
-
-
-            //         $q->saldo = number_format($s,2);
-
-            //         $prox = $q->pedidos->where("fecha_vence",">",$today)->first();
-
-            //         $f_v = null;
-            //         $dias = 0;
-            //         if ($prox) {
-            //             $f_v = $prox->fecha_vence;
-            //             $diff = strtotime($prox->fecha_vence) - strtotime($today);
-            //             $diff_ = abs(round($diff/86400));
-            //             $dias = $diff_;
-            //         }
-            //         $q->vence = $f_v;
-            //         $q->dias = $dias;
-
-            //     }
-
-                
-                    
-
-
-
-            //     return $q;
-            // });
-        }
-
-
     }
 
     public function setPagoCredito(Request $req)

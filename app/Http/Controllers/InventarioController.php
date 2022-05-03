@@ -577,7 +577,9 @@ class InventarioController extends Controller
             $q->bs = number_format($q->precio*$bs,2,".",",");
             $q->cop = number_format($q->precio*$cop,2,".",",");
             $q->precio = number_format($q->precio,2,".",",");
-            $q->precio1 = number_format($q->precio1,2,".",",");
+            if ($q->precio1) {
+                $q->precio1 = number_format($q->precio1,2,".",",");
+            }
             $q->lotes_ct = $q->lotes->sum("cantidad");
             return $q;
         });

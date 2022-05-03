@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Créditos</title>
+	<title>Cuentas por cobrar</title>
 	<style type="text/css">
 
 		body{
@@ -78,9 +78,6 @@
 		.d-flex div{
 			display: inline-block;
 		}
-		.img{
-			filter: sepia(100%);
-		}
 		
 
 	</style>
@@ -112,14 +109,15 @@
                     </td>
 				</tr>
                 <tr>
-                    <td colSpan="3">
-                        <h2>Créditos</h2>
+                    <td colSpan="4">
+                        <h2>Cuentas por cobrar {{$today}}</h2>
                     </td>
                 </tr>
                 <tr>
                     <th>Nombres y Apellidos (Identificación)</th>
                     <th>Contacto</th>
-                    <th>Balance</th>
+                    <th>Vence</th>
+                    <th>Saldo</th>
                 </tr>
                 @foreach ($data as $e)
                     <tr>
@@ -129,8 +127,9 @@
                             ({{$e->identificacion}})
                         </td>
                         <td>{{$e->telefono}}</td>
+                        <td>{{$e->vence}} ({{$e->dias}} días)</td>
                         <td>
-                            {{$e->saldo}}
+                            {{number_format($e->saldo,2)}}
 
                         </td>
                     </tr>

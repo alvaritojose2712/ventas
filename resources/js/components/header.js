@@ -52,7 +52,7 @@ function Header({
                   <span className={(view == "vueltos" ? "btn btn-dark" : null) + (" p-3 pointer dropdown-item")} onClick={() => {setView("vueltos");settoggleClientesBtn(false)}}>Vueltos</span>
                 </li>
                 <li>
-                  <span className={(view=="credito"?"btn btn-dark":null)+(" p-3 pointer dropdown-item")} onClick={()=>{setView("credito");settoggleClientesBtn(false)}}>Crédito</span>
+                  <span className={(view=="credito"?"btn btn-dark":null)+(" p-3 pointer dropdown-item")} onClick={()=>{setView("credito");settoggleClientesBtn(false)}}>Cuentas por cobrar</span>
                 </li>
                 <li>
                   <span className={(view == "clientes_crud" ? "btn btn-dark" : null) + (" p-3 pointer dropdown-item")} onClick={() => {setView("clientes_crud");settoggleClientesBtn(false)}}>Administrar Clientes</span>

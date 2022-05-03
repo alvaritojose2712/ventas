@@ -99,15 +99,15 @@ function ProductosList({
                       </div>
                       <div className="col m-0 p-0">
                         <div className='btn-group-vertical w-100 h-100'>
-                            <button type="button" className='m-0 btn-sm btn btn-secondary fs-6'>Bs. {e.bs} </button>
-                            <button type="button" className='m-0 btn-sm btn btn-secondary'>Cop. {e.cop}</button>
+                            <button type="button" className='m-0 btn-sm btn btn-secondary text-light fw-bold fs-6'>Bs. {e.bs} </button>
+                            <button type="button" className='m-0 btn-sm btn btn-secondary text-light fw-bold'>Cop. {e.cop}</button>
                         </div>
                       </div>
                       
                     </div>
                     {e.precio1?<div className="row">
                       <div className="col m-0 p-0">
-                        <span className="btn btn-success w-100">
+                        <span className="btn btn-success w-100 fst-bold text-light">
                           MAYOR. 1 x <b>{e.bulto}</b> = {moneda(e.precio1*e.bulto)} <br/>
                           P/U. {moneda(e.precio1)}
                         </span>

@@ -29,10 +29,10 @@ export default function VentasComponet({
 					<div className="col p-0">
 						{ventasData?
 							<div className="btn-group">
-								<button className="btn btn-outline-success fs-1">Tot. {ventasData["total"]}</button>
-								<button className="btn btn-outline-sinapsis fs-4">Efec. {ventasData[3]}</button>
-								<button className="btn btn-outline-sinapsis fs-4">Deb. {ventasData[2]}</button>
-								<button className="btn btn-outline-sinapsis fs-4">Trans. {ventasData[1]}</button>
+								<button className="btn btn-outline-success fs-1">Tot. {moneda(ventasData["total"])}</button>
+								<button className="btn btn-outline-sinapsis fs-4">Efec. {moneda(ventasData[3])}</button>
+								<button className="btn btn-outline-sinapsis fs-4">Deb. {moneda(ventasData[2])}</button>
+								<button className="btn btn-outline-sinapsis fs-4">Trans. {moneda(ventasData[1])}</button>
 							</div>
 						:null}
 
@@ -71,7 +71,7 @@ export default function VentasComponet({
 						{ventas.map((e,i)=>
 								<tr key={e.id_pedido}>
 									<td><span className="btn btn-sinapsis" data-id={e.id_pedido} onClick={onClickEditPedido}>{e.id_pedido}</span></td>
-									<td>{e.monto}</td>
+									<td>{moneda(e.monto)}</td>
 									<td>{e.hora}</td>
 								</tr>
 							)}

@@ -27,6 +27,7 @@ function Credito({
   sumPedidosArr,
   setsumPedidosArr,
   printCreditos,
+  moneda,
 
 }) {
 
@@ -34,7 +35,7 @@ function Credito({
     <div className="container"> 
       <div className="row">
         <div className="col">
-          <h3>Créditos</h3> 
+          <h3>Cuentas por cobrar</h3> 
         </div>
         <div className="col text-right">
           <button className="btn btn-outline-success m-2" onClick={printCreditos}>
@@ -58,16 +59,16 @@ function Credito({
             <tbody>
               {deudoresList.length?deudoresList.map((e,i)=>
                 e?
-                <tr key={e.id} className="text-center pointer">
-                  <td>{e.id} - {e.nombre} - {e.identificacion}</td>
-                  <td>{e.vence} ({e.dias} días)</td>
-                  <td  className={(e.saldo>0?"text-success":"text-danger")+(" h2 text-right")}>
-                    <button className={("btn ")+(e.saldo<0?"btn-outline-danger":"btn-outline-success")} onClick={()=>{
+                <tr key={e.id} className="text-center pointer" onClick={()=>{
                       setOnlyVueltos(0)
                       setSelectDeudor(i)
                       setsumPedidosArr([])
 
-                    }}>{e.saldo}</button>
+                    }}>
+                  <td>{e.id} - {e.nombre} - {e.identificacion}</td>
+                  <td>{e.vence} ({e.dias} días)</td>
+                  <td  className={(e.saldo>0?"text-success":"text-danger")+(" h2 text-right")}>
+                    <button className={("btn ")+(e.saldo<0?"btn-outline-danger":"btn-outline-success")}>{moneda(e.saldo)}</button>
                   </td>
                 </tr>
                 :null
@@ -107,8 +108,8 @@ function Credito({
                       {!onlyVueltos?
                         <>
                             <td className="text-right">Balance: <h2 className={(detallesDeudor["pedido_total"]["diferencia"]>0?"text-success":"text-danger")}>{detallesDeudor["pedido_total"]["diferencia"]}</h2></td>
-                            <td className="text-right h3 text-danger">{detallesDeudor["pedido_total"][1]}</td>
-                            <td className="text-right h3 text-success">{detallesDeudor["pedido_total"][0]}</td>
+                            <td className="text-right h3 text-danger">{moneda(detallesDeudor["pedido_total"][1])}</td>
+                            <td className="text-right h3 text-success">{moneda(detallesDeudor["pedido_total"][0])}</td>
                         </>
                       :null}
                     </>
@@ -185,13 +186,13 @@ function Credito({
                         </td>
                         {e.saldoDebe?
                           <>
-                            <th className="text-danger h2 text-right align-middle">{e.saldoDebe}</th>
+                            <th className="text-danger h2 text-right align-middle">{moneda(e.saldoDebe)}</th>
                             <td></td>
                             
                           </>:
                           <>
                             <td></td>
-                            <th className="text-success h2 text-right align-middle">{e.saldoAbono}</th>
+                            <th className="text-success h2 text-right align-middle">{moneda(e.saldoAbono)}</th>
                           </>
                         }
                       </tr>

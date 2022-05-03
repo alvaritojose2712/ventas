@@ -146,7 +146,7 @@ const db = {
   
   
   
-  openPrintCreditos: (param) => window.open(host + "verCreditos","targed=blank"),
+  openPrintCreditos: (param) => window.open(host + "verCreditos?"+param,"targed=blank"),
   openVerCierre: ({ type,fechaCierre }) => window.open(host + "verCierre?type=" + type + "&fecha=" + fechaCierre,"targed=blank"),
   openNotaentregapedido: ({ id }) => window.open(host + "/notaentregapedido?id=" + id, "targed=blank"),
   openVerFactura: ({ id }) => window.open(host + "verFactura?id=" + id, "targed=blank"),

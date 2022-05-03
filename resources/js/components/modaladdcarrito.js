@@ -13,9 +13,9 @@ export default function ModalAddCarrito({moneda,number,inputCantidadCarritoref,p
       <section className="modal-custom"> 
         <div className="text-danger" onClick={setSelectItem}><span className="closeModal">&#10006;</span></div>
         <div className="modal-content-sm modal-cantidad">
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between p-3">
             <span className="text-success fs-2">
-              ${producto.precio}<br/>
+              {producto.precio}<br/>
               {producto.bulto?<span className="pointer" onClick={()=>setbultocarrito(producto.bulto)}>x{producto.bulto}</span>:null}
             </span>
             <div className="text-right">
@@ -53,7 +53,7 @@ export default function ModalAddCarrito({moneda,number,inputCantidadCarritoref,p
             <div className="btn-group">
               <button className="btn btn-sinapsis agregar_carrito" type="button" onClick={addCarritoRequest} data-type="agregar">Agregar(enter)</button>
               <button className="btn btn-outline-success" type="button" onClick={addCarritoRequest} data-type="agregar_procesar">Procesar(TAB)</button>
-              <button className="btn btn-outline-secondary" type="button" onClick={setFalla} data-id={producto.id}>Falla</button>
+              <button className="btn btn-outline-secondary btn-sm" type="button" onClick={setFalla} data-id={producto.id}>Falla</button>
               
             </div>
           </form>

@@ -82,26 +82,33 @@
 								{{$val->producto->descripcion}}
 							</td>
 							<td>
-								{{$val->ct}}
+								{{number_format($val->ct,2)}}
 							</td>
 							<td>
-								{{$val->producto->precio}}
+								{{number_format($val->producto->precio,2)}}
 							</td>
 							
 							<td class="text-right">
-								{{$val->ct*$val->producto->precio}}
+								{{number_format($val->ct*$val->producto->precio,2)}}
 							</td>
 						</tr>
 					@endforeach
 
+
 					<tr>
-						<td class="text-right" colspan="4">Sub-total</td>
-						<th class="text-right" colspan="">{{$subtotal}}</th>
+						<td class="text-right" colspan="4">Sub-total:</td>
+						<th class="text-right" colspan="">{{number_format($subtotal)}}</th>
 					</tr>
+
+					<tr>
+						<td class="text-right" colspan="4">Descuento:</td>
+						<th class="text-right" colspan="">{{number_format($total_des)}}</th>
+					</tr>
+					
 					
 					<tr>
 						<td class="text-right" colspan="4">Total:</td>
-						<th class="text-right" colspan="">{{$total}}</th>
+						<th class="text-right" colspan="">{{number_format($total)}}</th>
 					</tr>
 				</tbody>
 

@@ -80,10 +80,6 @@
 		.d-flex div{
 			display: inline-block;
 		}
-		.img{
-			filter: sepia(100%);
-		}
-		
 
 	</style>
 </head>
