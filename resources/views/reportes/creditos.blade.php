@@ -87,11 +87,11 @@
 		<table class="table">
 			<tbody>
 				<tr>
-					<td colspan="2">
+					<td colspan="3">
 						@if (isset($message))
-							<img src="{{$message->embed('images/logo.png')}}" width="200px" class="img">
+							<img src="{{$message->embed('images/logo-small.jpg')}}" width="200px" >
 						@else
-							<img src="{{asset('images/logo.png')}}" width="200px" class="img">
+							<img src="{{asset('images/logo-small.jpg')}}" width="200px" >
 						@endif
 						
 
@@ -120,19 +120,21 @@
                     <th>Saldo</th>
                 </tr>
                 @foreach ($data as $e)
-                    <tr>
-                        <td>
-                            {{$e->nombre}}
-                            {{$e->apellido}}
-                            ({{$e->identificacion}})
-                        </td>
-                        <td>{{$e->telefono}}</td>
-                        <td>{{$e->vence}} ({{$e->dias}} días)</td>
-                        <td>
-                            {{number_format($e->saldo,2)}}
+                	@if ($e->saldo)
+	                    <tr>
+	                        <td>
+	                            {{$e->nombre}}
+	                            {{$e->apellido}}
+	                            ({{$e->identificacion}})
+	                        </td>
+	                        <td>{{$e->telefono}}</td>
+	                        <td>{{$e->vence}} ({{$e->dias}} días)</td>
+	                        <td>
+	                            {{number_format($e->saldo,2)}}
 
-                        </td>
-                    </tr>
+	                        </td>
+	                    </tr>
+                	@endif
                 @endforeach
                 <tr></tr>
 			</tbody>

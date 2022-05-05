@@ -121,6 +121,7 @@ const db = {
   delUsuario: data => axios.post(host + "delUsuario", data),
   getUsuarios: data => axios.get(host + "getUsuarios", { params: data }),
   getCierres: data=>axios.get(host+"getCierres",{params:data}),
+  sendCuentasporCobrar: data=>axios.get(host+"sendCuentasporCobrar",{params:data}),
   
   
   removeLote: data=>axios.post(host+"removeLote",data),

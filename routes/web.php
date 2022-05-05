@@ -101,6 +101,7 @@ Route::group(['middleware' => ['login']], function () {
 		Route::get('verCierre', [PedidosController::class,"verCierre"]);
 		Route::post('cerrar', [PedidosController::class,"cerrar"]);
 		Route::get('getCierres', [PedidosController::class,"getCierres"]);
+		Route::get('sendCuentasporCobrar', [PedidosController::class,"sendCuentasporCobrar"]);
 
 		
 	});

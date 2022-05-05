@@ -24,11 +24,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 use App\Mail\enviarCierre;
+use App\Mail\enviarCuentaspagar;
 
 use Response;
 
 class PedidosController extends Controller
-{  
+{   
+
+    protected $sends = [
+        "alvaroospino79@gmail.com"            
+    ];
     protected  $letras = [
                 1=>"L",
                 2=>"R",
@@ -1144,12 +1149,10 @@ class PedidosController extends Controller
 
             $from1 = $sucursal->correo;
             $from = $sucursal->sucursal;
-            $subject = $sucursal->sucursal." ".$req->fecha;
-            $sends = [
-                
-            ];
+            $subject = "CIERRE DIARIO ".$sucursal->sucursal." ".$req->fecha;
             try {
-                Mail::to($sends)->send(new enviarCierre($arr_send,$from1,$from,$subject));    
+                
+                Mail::to($this->sends)->send(new enviarCierre($arr_send,$from1,$from,$subject));    
                 
                 return Response::json(["msj"=>"Cierre enviado con Éxito","estado"=>true]);
             
@@ -1159,6 +1162,32 @@ class PedidosController extends Controller
                 
             }
 
+        }
+    }
+
+    public function sendCuentasporCobrar()
+    {   
+        $today = $this->today();
+        $sucursal = sucursal::all()->first();
+
+        $from1 = $sucursal->correo;
+        $from = $sucursal->sucursal;
+        $subject = "CUENTAS POR COBRAR ".$sucursal->sucursal." ".$today;
+        $data = (new PagoPedidosController)->getDeudoresFun("","saldo","asc",$today);
+        try {
+            
+            Mail::to($this->sends)->send(new enviarCuentaspagar([
+                "data" => $data,
+                "sucursal" => $sucursal,
+                "today"=>$today
+            ],$from1,$from,$subject));    
+            
+            return Response::json(["msj"=>"Cuentas enviadas con Éxito","estado"=>true]);
+        
+        } catch (\Exception $e) {
+
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+            
         }
     }
 

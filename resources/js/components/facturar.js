@@ -1129,6 +1129,11 @@ const focusInputSibli = (tar, mov) => {
     }
   }
 }
+const sendCuentasporCobrar = () => {
+  db.sendCuentasporCobrar({}).then(res=>{
+    notificar(res)
+  })
+}
 const getCierres = () => {
   db.getCierres({fechaGetCierre,fechaGetCierre2}).then(res=>{
     if (res.data) {
@@ -3475,6 +3480,7 @@ const auth = permiso => {
         :null}
 
         {view=="cierres"?<Cierres
+          sendCuentasporCobrar={sendCuentasporCobrar}
           fechaGetCierre2={fechaGetCierre2}
           setfechaGetCierre2={setfechaGetCierre2}
           verCierreReq={verCierreReq}

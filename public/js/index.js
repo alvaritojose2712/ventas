@@ -3906,6 +3906,7 @@ function Cierre(_ref) {
       toggleDetallesCierre = _ref.toggleDetallesCierre,
       setToggleDetallesCierre = _ref.setToggleDetallesCierre,
       guardar_cierre = _ref.guardar_cierre,
+      sendCuentasporCobrar = _ref.sendCuentasporCobrar,
       total_dejar_caja_neto = _ref.total_dejar_caja_neto,
       guardar_usd = _ref.guardar_usd,
       setguardar_usd = _ref.setguardar_usd,
@@ -4016,7 +4017,13 @@ function Cierre(_ref) {
             onClick: guardar_cierre,
             type: "button",
             "data-type": "enviar",
-            children: "Enviar"
+            children: "Enviar Cierre"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+            className: "btn btn-warning",
+            onClick: sendCuentasporCobrar,
+            type: "button",
+            "data-type": "enviar",
+            children: "Enviar Cuentas por Cobrar"
           })]
         }) : null]
       }), cierre["fecha"] ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("form", {
@@ -7065,6 +7072,12 @@ function Facturar(_ref) {
     }
   };
 
+  var sendCuentasporCobrar = function sendCuentasporCobrar() {
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].sendCuentasporCobrar({}).then(function (res) {
+      notificar(res);
+    });
+  };
+
   var getCierres = function getCierres() {
     _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getCierres({
       fechaGetCierre: fechaGetCierre,
@@ -9640,6 +9653,7 @@ function Facturar(_ref) {
       clienteInpciudad: clienteInpciudad,
       setclienteInpciudad: setclienteInpciudad
     }) : null, view == "cierres" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_21__.jsx)(_components_cierre__WEBPACK_IMPORTED_MODULE_16__["default"], {
+      sendCuentasporCobrar: sendCuentasporCobrar,
       fechaGetCierre2: fechaGetCierre2,
       setfechaGetCierre2: setfechaGetCierre2,
       verCierreReq: verCierreReq,
@@ -16306,6 +16320,11 @@ var db = {
   },
   getCierres: function getCierres(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "getCierres", {
+      params: data
+    });
+  },
+  sendCuentasporCobrar: function sendCuentasporCobrar(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "sendCuentasporCobrar", {
       params: data
     });
   },

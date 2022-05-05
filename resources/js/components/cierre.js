@@ -29,6 +29,7 @@ function Cierre({
 	toggleDetallesCierre,
 	setToggleDetallesCierre,
 	guardar_cierre,
+	sendCuentasporCobrar,
 	total_dejar_caja_neto,
 
 	guardar_usd,
@@ -114,7 +115,9 @@ function Cierre({
 
 							<button className="btn btn-sinapsis" onClick={guardar_cierre} type="button" data-type="ver">Ver</button>
 
-							<button className="btn btn-warning" onClick={guardar_cierre} type="button" data-type="enviar">Enviar</button>
+							<button className="btn btn-warning" onClick={guardar_cierre} type="button" data-type="enviar">Enviar Cierre</button>
+							<button className="btn btn-warning" onClick={sendCuentasporCobrar} type="button" data-type="enviar">Enviar Cuentas por Cobrar</button>
+							
 						</>
 					:null}
 				</div>

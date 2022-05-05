@@ -270,7 +270,6 @@ class tickera extends Controller
 
         try {
 
-            // $printer -> setTextSize(1,1);
             // $tux = EscposImage::load(resource_path() . "/images/small.jpg", false);
             // $printer -> bitImage($tux);
             // $printer->setEmphasis(false);
@@ -280,10 +279,11 @@ class tickera extends Controller
             //smb://DESKTOP-MRKSKRE/pos-80
             $printer = new Printer($connector);
 
-                $printer->setJustification(Printer::JUSTIFY_CENTER);
                 foreach ($inv as $val) {
+                    $printer->setJustification(Printer::JUSTIFY_CENTER);
+                    $printer -> setTextSize(1,1);
 
-                   $printer->setEmphasis(true);
+                    $printer->setEmphasis(true);
                     $printer->text($sucursal->nombre_registro);
                     $printer->text("\n");
                     $printer->text($sucursal->rif);
@@ -406,6 +406,8 @@ class tickera extends Controller
                         //     $printer -> setTextSize(2,2);
                         //     break;
                     }
+                    $printer->text("\n");
+                    $printer->text("\n");
 
                     $printer->feed();
                 }
