@@ -10,8 +10,13 @@ class CategoriasController extends Controller
 {
     public function getCategorias(Request $req)
     {
-        $q = $req->q;
-        return categorias::where("descripcion","LIKE",$q."%")->orderBy("descripcion","asc")->get(["id","descripcion"]);
+        try {
+            $q = $req->q;
+            return categorias::where("descripcion","LIKE",$q."%")->orderBy("descripcion","asc")->get(["id","descripcion"]);
+            
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     public function delCategoria(Request $req)

@@ -1,6 +1,7 @@
 import Historicocierre from '../components/historicocierre';
 
 function Cierre({
+	moneda,
 	caja_usd,
 	caja_cop,
 	caja_bs,
@@ -116,7 +117,7 @@ function Cierre({
 							<button className="btn btn-sinapsis" onClick={guardar_cierre} type="button" data-type="ver">Ver</button>
 
 							<button className="btn btn-warning" onClick={guardar_cierre} type="button" data-type="enviar">Enviar Cierre</button>
-							<button className="btn btn-warning" onClick={sendCuentasporCobrar} type="button" data-type="enviar">Enviar Cuentas por Cobrar</button>
+							{/*<button className="btn btn-warning" onClick={sendCuentasporCobrar} type="button" data-type="enviar">Enviar Cuentas por Cobrar</button>*/}
 							
 						</>
 					:null}
@@ -312,10 +313,10 @@ function Cierre({
 								<tr>
 									<th className="text-right align-middle">Transferencia</th>
 									<td>
-										{cierre[1]?cierre[1]:null}
+										{cierre[1]?cierre[1].toFixed(2):null}
 									</td>
 									<td>
-										{cierre[1]?cierre[1]:null}
+										{cierre[1]?cierre[1].toFixed(2):null}
 									</td>
 								</tr>
 								<tr>

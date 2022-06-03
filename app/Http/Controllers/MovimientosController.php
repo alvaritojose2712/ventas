@@ -76,10 +76,40 @@ class MovimientosController extends Controller
     public function getMovimientos(Request $req)
     {
         $today = $req->fechaMovimientos;
+        $val = $req->val;
         return movimientos::with(["items"=>function($q)
         {
             $q->with("producto");
-        }])->where("created_at","LIKE",$today."%")->orderBy("created_at","desc")->get();
+        }])
+
+        // ->selectRaw("*, @summov := (SELECT sum(precio) FROM inventarios WHERE id = items.id_producto) as summov")
+        ->where("tipo",NULL)
+        ->where("id","LIKE",$val."%")
+        ->where("created_at","LIKE",$today."%")
+        ->orderBy("id","desc")
+        ->limit(20)
+        ->get()
+        ->map(function($q){
+            $items = $q->items->map(function($q){
+                if ($q->producto) {
+                    $q->total = number_format($q->cantidad*$q->producto->precio,2);
+                    $q->total_clean = $q->cantidad*$q->producto->precio;
+                }
+                return $q;
+            });
+            $tot1 = $items->where("tipo",1)->sum("total_clean");
+            $tot0 = $items->where("tipo",0)->sum("total_clean");
+            $q->tot1 = number_format($tot1,2); 
+            $q->tot0 = number_format($tot0,2);
+
+            $q->diff = number_format($tot1-$tot0,2);
+
+
+
+
+            // $q->summov;
+            return $q;
+        });
     }
     public function setDevolucion(Request $req)
     {
@@ -107,12 +137,12 @@ class MovimientosController extends Controller
             if ($tipoMovMovimientos==0) {
                 //Salida de Producto
 
-                if ($restar_cantidad->cantidad<$cantidad) {
-                    return Response::json(["msj"=>"Error: No hay las cantidades solicitadas.","estado"=>false]);
+                // if ($restar_cantidad->cantidad<$cantidad) {
+                //     return Response::json(["msj"=>"Error: No hay las cantidades solicitadas.","estado"=>false]);
 
-                }else{
+                // }else{
                     $restar_cantidad->cantidad = $restar_cantidad->cantidad - $cantidad;
-                }
+                // }
 
 
             }elseif ($tipoMovMovimientos==1) {

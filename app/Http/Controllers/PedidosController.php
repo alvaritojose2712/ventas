@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\cierres;
 use App\Models\pedidos;
 use App\Models\moneda;
@@ -32,7 +33,8 @@ class PedidosController extends Controller
 {   
 
     protected $sends = [
-        "alvaroospino79@gmail.com"            
+        // "arabitoferreteria@gmail.com"           
+        "alvaroospino79@gmail.com",           
     ];
     protected  $letras = [
                 1=>"L",
@@ -171,20 +173,20 @@ class PedidosController extends Controller
 
             // foreach ($this->letras as $key => $value) {
                 if (isset($arr["total"])) {
-                    $arr["total"] = ($arr["total"]);
+                    $arr["total"] = toLetras(number_format($arr["total"],2));
                     // code...
                 }
                 if (isset($arr["3"])) {
                     // code...
-                    $arr["3"] = ($arr["3"]);
+                    $arr["3"] = toLetras(number_format($arr["3"],2));
                 }
                 if (isset($arr["2"])) {
-                    $arr["2"] = ($arr["2"]);
+                    $arr["2"] = toLetras(number_format($arr["2"],2));
                     // code...
                 }
 
                 if (isset($arr["1"])) {
-                    $arr["1"] = ($arr["1"]);
+                    $arr["1"] = toLetras(number_format($arr["1"],2));
                     // code...
                 }
             // }
@@ -214,6 +216,8 @@ class PedidosController extends Controller
 
 
         $tipoestadopedido = $req->tipoestadopedido;
+        $orderbycolumpedidos = $req->orderbycolumpedidos;
+        $orderbyorderpedidos = $req->orderbyorderpedidos;
 
         $subtotal = 0;
         $desctotal = 0;
@@ -246,7 +250,8 @@ class PedidosController extends Controller
             ->where(function($q) use ($busquedaPedido)
             {
                 $q->orWhere("descripcion","LIKE","%$busquedaPedido%")
-                ->orWhere("codigo_proveedor","LIKE","%$busquedaPedido%");
+                ->orWhere("codigo_proveedor","LIKE","%$busquedaPedido%")
+                ->orWhere("codigo_barras","LIKE","%$busquedaPedido%");
                 
             })
             ->whereIn("id",function($q) use ($vendedor,$fecha1pedido,$fecha2pedido,$tipoestadopedido){
@@ -287,98 +292,72 @@ class PedidosController extends Controller
 
 
             // code...
-        }else if ($tipobusquedapedido=="fact") {
-            $fact = pedidos::where("id","LIKE","$busquedaPedido%")
-            ->where(function($q) use ( $tipoestadopedido){
+        }else if ($tipobusquedapedido=="fact"||$tipobusquedapedido=="cliente") {
+           
+            $fact = pedidos::with(["pagos"=>function($q){
 
-                if (!$tipoestadopedido) {
-                    $q->where("estado",false);
-                }
-                if($tipoestadopedido==1){
-                    $q->where("estado",true);
-                }
-
-                if($tipoestadopedido=="todos"){
-
-                    // $q->where("estado",true);
-                }
-            })
-            ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"]);
-            if (count($vendedor)) {
-                # code...
-                $fact->whereIn("id_vendedor",$vendedor);
-            }
-            $fact = $fact->orderBy("created_at","desc")
-            ->limit($limit)
-            ->get()
-            ->map(function($q) use (&$subtotal, &$desctotal, &$totaltotal,&$porctotal,&$itemstotal,&$totalventas,$filterMetodoPagoToggle){
-                // global ;
-
-                $fun = $this->getPedidoFun($q->id,$filterMetodoPagoToggle,1,1,1,true);
-                $q->pedido = $fun;
-
-                // $istrue = false; 
-                if ($filterMetodoPagoToggle=="todos"||count($q->pagos->where("tipo",$filterMetodoPagoToggle)->where("monto","<>",0))) {
-                    $totalventas++;
-                    $itemstotal += count($fun->items);
-
-                    $subtotal += $fun->clean_subtotal;
-                    $desctotal += $fun->clean_total_des;
-                    $totaltotal += $fun->clean_total;
-                    $porctotal += $fun->clean_total_porciento;
-                    return $q;
-                }else{
-                    
-                }
-            });  
-        }else if($tipobusquedapedido=="cliente"){
-            $fact = pedidos::whereIn("id_cliente",function($q) use ($busquedaPedido)
+            },"items"=>function($q)
             {
-                $q->from("clientes")->orWhere("nombre","LIKE","%$busquedaPedido%")->orWhere("identificacion","LIKE","%$busquedaPedido%")->select("id");
-
-            })
-            ->where(function($q) use ( $tipoestadopedido){
-
-                if (!$tipoestadopedido) {
-                    $q->where("estado",false);
-                }
-                if($tipoestadopedido==1){
-                    $q->where("estado",true);
-                }
-
-                if($tipoestadopedido=="todos"){
-
-                    // $q->where("estado",true);
-                }
-            })
+                
+            },"vendedor","cliente"])
             ->whereBetween("created_at",["$fecha1pedido 00:00:01","$fecha2pedido 23:59:59"]);
+            
+            if ($tipobusquedapedido=="fact") {
+                $fact->where("id","LIKE","$busquedaPedido%");
+            }
 
+            if ($tipobusquedapedido=="cliente") {
+                $fact->whereIn("id_cliente",function($q) use ($busquedaPedido){
+                    $q->from("clientes")->orWhere("nombre","LIKE","%$busquedaPedido%")->orWhere("identificacion","LIKE","%$busquedaPedido%")->select("id");
+
+                });
+            }
             if (count($vendedor)) {
                 $fact->whereIn("id_vendedor",$vendedor);
             }
-            $fact = $fact->orderBy("created_at","desc")
+            if (!$tipoestadopedido) {
+                $fact->where("estado",false);
+            }
+            if($tipoestadopedido==1){
+                $fact->where("estado",true);
+            }
+
+
+            if ($filterMetodoPagoToggle!="todos") {
+                $fact->whereIn("id",function($q) use ($filterMetodoPagoToggle){
+                    $q->select('id_pedido')
+                    ->from("pago_pedidos")
+                    ->where("tipo",$filterMetodoPagoToggle)
+                    ->where("monto","<>",0);
+                });
+            }
+            
+            $fact = $fact->selectRaw("*, (SELECT ROUND(sum(monto-(monto*(descuento/100))),2) FROM items_pedidos WHERE id_pedido=pedidos.id) as totales")
+            ->orderBy($orderbycolumpedidos, $orderbyorderpedidos)
             ->limit($limit)
-            ->get()
-            ->map(function($q) use (&$subtotal, &$desctotal, &$totaltotal,&$porctotal,&$itemstotal,&$totalventas,$filterMetodoPagoToggle){
-                // global ;
+            ->get();
+            $totaltotal = $fact->sum("totales");
 
-                $fun = $this->getPedidoFun($q->id,$filterMetodoPagoToggle);
-                $q->pedido = $fun;
+            // ->map(function($q) use (&$subtotal, &$desctotal, &$totaltotal,&$porctotal,&$itemstotal,&$totalventas,$filterMetodoPagoToggle){
+            //     // global ;
 
-                // $istrue = false; 
-                if ($filterMetodoPagoToggle=="todos"||count($q->pagos->where("tipo",$filterMetodoPagoToggle)->where("monto","<>",0))) {
-                    $totalventas++;
-                    $itemstotal += count($fun->items);
+            //     $fun = $this->getPedidoFun($q->id,$filterMetodoPagoToggle,1,1,1,true);
+            //     $q->pedido = $fun;
 
-                    $subtotal += $fun->clean_subtotal;
-                    $desctotal += $fun->clean_total_des;
-                    $totaltotal += $fun->clean_total;
-                    $porctotal += $fun->clean_total_porciento;
-                    return $q;
-                }else{
+            //     // $istrue = false; 
+            //     if ($filterMetodoPagoToggle=="todos"||count($q->pagos->where("tipo",$filterMetodoPagoToggle)->where("monto","<>",0))) {
+            //         $totalventas++;
+            //         $itemstotal += count($fun->items);
+
+            //         $subtotal += $fun->clean_subtotal;
+            //         $desctotal += $fun->clean_total_des;
+            //         $totaltotal += $fun->clean_total;
+            //         $porctotal += $fun->clean_total_porciento;
+            //         return $q;
+            //     }else{
                     
-                }
-            });
+            //     }
+            // });  
         }
         return [
             "fact"=>$fact, 
@@ -514,6 +493,7 @@ class PedidosController extends Controller
                 "cantidad",
                 "descuento",
                 "monto",
+                "entregado",
             ]);
             $q->with(["producto"=>function($q){
                 $q->select([
@@ -1023,7 +1003,8 @@ class PedidosController extends Controller
             return "No hay cierre guardado para esta fecha";
         }
 
-        $total_inventario = inventario::sum("precio");
+        $total_inventario = DB::table("inventarios")
+        ->select(DB::raw("sum(precio*cantidad) as suma"))->first()->suma;
         $vueltos = pago_pedidos::where("tipo",6)->where("monto","<>",0);
         $vueltos_totales = $vueltos->sum("monto");
         
@@ -1149,7 +1130,7 @@ class PedidosController extends Controller
 
             $from1 = $sucursal->correo;
             $from = $sucursal->sucursal;
-            $subject = "CIERRE DIARIO ".$sucursal->sucursal." ".$req->fecha;
+            $subject = $sucursal->sucursal." | CIERRE DIARIO | ".$req->fecha;
             try {
                 
                 Mail::to($this->sends)->send(new enviarCierre($arr_send,$from1,$from,$subject));    
@@ -1172,7 +1153,7 @@ class PedidosController extends Controller
 
         $from1 = $sucursal->correo;
         $from = $sucursal->sucursal;
-        $subject = "CUENTAS POR COBRAR ".$sucursal->sucursal." ".$today;
+        $subject = $sucursal->sucursal." | CUENTAS POR COBRAR | ".$today;
         $data = (new PagoPedidosController)->getDeudoresFun("","saldo","asc",$today);
         try {
             

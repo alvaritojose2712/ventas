@@ -48,7 +48,7 @@ function ProductosList({
           </tr>
         </thead>
         <tbody ref={tbodyproductosref}>
-          {productos?productos.map((e,i)=>
+          {productos?productos.length?productos.map((e,i)=>
             
               <tr data-index={i} tabIndex="-1" className={(counterListProductos == i ?"bg-sinapsis-light":null)+(' tr-producto hover')} key={e.id}>
                 <td data-index={i} onClick={event=>{
@@ -105,19 +105,19 @@ function ProductosList({
                       </div>
                       
                     </div>
-                    {e.precio1?<div className="row">
+                   {/* {e.precio1?<div className="row">
                       <div className="col m-0 p-0">
                         <span className="btn btn-success w-100 fst-bold text-light">
                           MAYOR. 1 x <b>{e.bulto}</b> = {moneda(e.precio1*e.bulto)} <br/>
                           P/U. {moneda(e.precio1)}
                         </span>
                       </div>
-                    </div>:null}
+                    </div>:null}*/}
                   </div>
                 </td>
               </tr>
               
-            ):null}
+            ):null:null}
         </tbody>
       </table>
 

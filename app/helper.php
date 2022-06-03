@@ -11,7 +11,6 @@ if (! function_exists('zero_fill')) {
 if (! function_exists('toLetras')) {
     function toLetras($val)
     {
-        return $val;
         $letras = [
             "1"=>"L",
             "2"=>"R",

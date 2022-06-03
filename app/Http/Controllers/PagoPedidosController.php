@@ -235,7 +235,7 @@ class PagoPedidosController extends Controller
         $orderbycolumdeudores = $req->orderbycolumdeudores;
         $orderbyorderdeudores = $req->orderbyorderdeudores;
 
-        $data = $this->getDeudoresFun($qDeudores,$orderbycolumdeudores,$orderbyorderdeudores,$today);
+        $data = $this->getDeudoresFun($qDeudores,$orderbycolumdeudores,$orderbyorderdeudores,$today,200);
         
         return view("reportes.creditos",["data" => $data,"sucursal" => $sucursal,"today"=>$today]);
     }
@@ -247,6 +247,7 @@ class PagoPedidosController extends Controller
 
         $orderbycolumdeudores = $req->orderbycolumdeudores;
         $orderbyorderdeudores = $req->orderbyorderdeudores;
+        $limitdeudores = $req->limitdeudores;
 
 
         if ($view==="vueltos") {
@@ -258,6 +259,8 @@ class PagoPedidosController extends Controller
                 $q->orWhere("identificacion","LIKE","%".$busqueda."%")
                 ->orWhere("nombre","LIKE","%".$busqueda."%");
             })
+
+            ->limit($limitdeudores)
             ->get()
             ->map(function($q) use ($view,$today) {
 
@@ -280,12 +283,12 @@ class PagoPedidosController extends Controller
                 return $q;
             });
         }else{
-            return $this->getDeudoresFun($busqueda,$orderbycolumdeudores,$orderbyorderdeudores,$today);
+            return $this->getDeudoresFun($busqueda,$orderbycolumdeudores,$orderbyorderdeudores,$today,$limitdeudores);
         }
 
 
     }
-    public function getDeudoresFun($busqueda,$orderbycolumdeudores,$orderbyorderdeudores,$today)
+    public function getDeudoresFun($busqueda,$orderbycolumdeudores,$orderbyorderdeudores,$today,$limitdeudores)
     {   
         return clientes::with(["pedidos"=>function($q){
                 // $q->with(["pagos"]);
@@ -299,6 +302,7 @@ class PagoPedidosController extends Controller
             })
             // ->having("saldo","<",0)
             ->orderBy($orderbycolumdeudores,$orderbyorderdeudores)
+            ->limit($limitdeudores)
             ->get();
     }
 

@@ -120,6 +120,10 @@ export default function Facturar({user,notificar,setLoading}) {
   const [pedidoList,setPedidoList] = useState([])
   const [showMisPedido,setshowMisPedido] = useState(true)
 
+  const [orderbycolumpedidos,setorderbycolumpedidos] = useState("id")
+  const [orderbyorderpedidos,setorderbyorderpedidos] = useState("desc")
+
+
 
   const [debito,setDebito] = useState("")
   const [efectivo,setEfectivo] = useState("")
@@ -181,6 +185,8 @@ export default function Facturar({user,notificar,setLoading}) {
   const [qDeudores,setQDeudores] = useState("")
   const [orderbycolumdeudores,setorderbycolumdeudores] = useState("saldo")
   const [orderbyorderdeudores,setorderbyorderdeudores] = useState("asc")
+  const [limitdeudores,setlimitdeudores] = useState(25)
+
 
 
   const [deudoresList,setDeudoresList] = useState([])
@@ -388,6 +394,7 @@ useHotkeys("tab",()=>{
       toggleModalProductos(true,()=>{
         inputaddcarritointernoref.current.focus()
         setQProductosMain("")
+        setCountListInter(0)
 
       })
       
@@ -738,6 +745,16 @@ useHotkeys("tab",()=>{
 
 
   }
+  const changeEntregado = e => {
+    let id = e.currentTarget.attributes["data-id"].value
+    if(confirm("Confirme Entrega de producto")){
+      db.changeEntregado({id}).then(res=>{
+        getPedido()
+        notificar(res)
+      })
+
+    }
+  }
   const delRefPago = e => {
     let id = e.currentTarget.attributes["data-id"].value
     if(confirm("Confirme eliminación de referencia")){
@@ -924,7 +941,7 @@ useHotkeys("tab",()=>{
     if (view=="pedidos") {
       getPedidos()
     }
-  }, [busquedaPedido,fecha1pedido,fecha2pedido,tipobusquedapedido,tipoestadopedido,filterMetodoPagoToggle]);
+  }, [fecha1pedido,fecha2pedido,tipobusquedapedido,tipoestadopedido,filterMetodoPagoToggle,orderbycolumpedidos,orderbyorderpedidos]);
   useEffect(()=>{
     if (selectDeudor==null) {
       getDeudores()
@@ -1134,6 +1151,9 @@ const sendCuentasporCobrar = () => {
     notificar(res)
   })
 }
+const setBackup = () => {
+  db.backup({})
+}
 const getCierres = () => {
   db.getCierres({fechaGetCierre,fechaGetCierre2}).then(res=>{
     if (res.data) {
@@ -1213,13 +1233,13 @@ const setToggleAddPersonaFun = (prop,callback=null)=> {
   setToggleAddPersona(prop)
   if (callback) {callback()}
 }
-const getMovimientos = () =>{
+const getMovimientos = (val="") =>{
   setLoading(true)
-  db.getMovimientos({fechaMovimientos}).then(res=>{
+  db.getMovimientos({val,fechaMovimientos}).then(res=>{
     setMovimientos(res.data)
 
     // if (!res.data.length) {
-      setIdMovSelect("nuevo")
+      // setIdMovSelect("nuevo")
     // }else{
     //   if (res.data[0]) {
     //     setIdMovSelect(res.data[0].id)
@@ -1422,7 +1442,7 @@ const toggleModalProductos = (prop,callback=null) => {
 }
 const toggleImprimirTicket = () => {
   if (pedidoData) {
-    let moneda = window.prompt("Moneda: $ | bs | cop","$")
+    let moneda = window.prompt("Moneda: $ | bs | cop","bs")
     let identificacion = window.prompt("Identificación", pedidoData.cliente.identificacion)
 
     if (identificacion) {
@@ -1460,17 +1480,36 @@ const onChangePedidos = e =>{
   }
 }
 const getPedidos = e => {
+  if (e) {
+    e.preventDefault()
+  }
   setLoading(true)
   setPedidos([])
 
-  db.getPedidos({vendedor:showMisPedido?[user.id_usuario]:[],busquedaPedido,fecha1pedido,fecha2pedido,tipobusquedapedido,tipoestadopedido,filterMetodoPagoToggle}).then(res=>{
-    if (res.data) {
-      setPedidos(res.data)
-    }else{
-      setPedidos([])
-    }
-    setLoading(false)
-  })
+  if (time!=0) {
+    clearTimeout(typingTimeout)
+  }
+  let time = window.setTimeout(()=>{
+    db.getPedidos({
+      vendedor:showMisPedido?[user.id_usuario]:[],
+      busquedaPedido,
+      fecha1pedido,
+      fecha2pedido,
+      tipobusquedapedido,
+      tipoestadopedido,
+      filterMetodoPagoToggle,
+      orderbycolumpedidos,
+      orderbyorderpedidos}).then(res=>{
+      if (res.data) {
+        setPedidos(res.data)
+      }else{
+        setPedidos([])
+      }
+      setLoading(false)
+    })
+  },150)
+  setTypingTimeout(time)
+
 }
 const getProductos = (valmain=null) => {
 
@@ -1479,6 +1518,12 @@ const getProductos = (valmain=null) => {
 
   if (time!=0) {
     clearTimeout(typingTimeout)
+  }
+
+  if(view=="seleccionar"){
+    if (inputbusquedaProductosref.current) {
+      valmain = inputbusquedaProductosref.current.value
+    }
   }
 
   let time = window.setTimeout(()=>{
@@ -1583,7 +1628,13 @@ const getPedidosList = (callback=null)=>{
     }
     if(callback){callback()}
   })
-}
+} 
+  const [showModalPedidoFast, setshowModalPedidoFast] = useState(false)
+  const getPedidoFast = (e) => {
+    let id = e.currentTarget.attributes["data-id"].value
+    setshowModalPedidoFast(true)
+    getPedido(id)
+  }
   const getPedido = (id, callback = null, clearPagosPedido=true) => {
   setLoading(true)
   if (!id) {
@@ -1844,29 +1895,31 @@ const setDescuentoTotal = (e) => {
 
   let descuento = window.prompt("Descuento Total *0 para eliminar*")
   let index = e.currentTarget.attributes["data-index"].value
-  if (descuento=="0") {
-    db.setDescuentoTotal({index,descuento:0}).then(res=>{
-      getPedido()
-      setLoading(false)
-      notificar(res)
-
-    })
-  }else{
-    if (typeof parseFloat(descuento) == "number" && pedidoData.clean_subtotal) {
-
-      let total = parseFloat(pedidoData.clean_subtotal)
-
-      descuento = (100-((parseFloat(descuento)*100)/total).toFixed(3))
-
-
-      db.setDescuentoTotal({index,descuento}).then(res=>{
+  
+  if (descuento) {
+    if (descuento=="0") {
+      db.setDescuentoTotal({index,descuento:0}).then(res=>{
         getPedido()
         setLoading(false)
         notificar(res)
 
       })
-    }
+    }else{
+      if (typeof parseFloat(descuento) == "number" && pedidoData.clean_subtotal) {
 
+        let total = parseFloat(pedidoData.clean_subtotal)
+
+        descuento = (100-((parseFloat(descuento)*100)/total).toFixed(3))
+
+
+        db.setDescuentoTotal({index,descuento}).then(res=>{
+          getPedido()
+          setLoading(false)
+          notificar(res)
+
+        })
+      }
+    }
   }
 
 }
@@ -2072,7 +2125,15 @@ const guardar_cierre = (e,callback=null) => {
         
         db.sendCierre({type,fecha:fechaCierre}).then(res=>{
           notificar(res,false)
-          setLoading(false)
+
+          notificar({data:{msj:"Respaldando Base de Datos",estado:true}})
+          setLoading(true)
+          db.backup({}).then(res=>{
+            notificar(res)
+            setLoading(false)
+          })
+          
+
         })
         
       }
@@ -2106,21 +2167,33 @@ const setPagoCredito = e =>{
 }
 const getDeudores = e =>{
   setLoading(true)
-  db.getDeudores({
-    qDeudores,
-    view,
-    orderbycolumdeudores,
-    orderbyorderdeudores,
-  }).then(res=>{
-    if (res.data) {
-      if (res.data.length) {
-        setDeudoresList(res.data)
-      }else{
-        setDeudoresList([])
+
+  if (time!=0) {
+    clearTimeout(typingTimeout)
+  }
+
+  let time = window.setTimeout(()=>{
+    
+    db.getDeudores({
+      qDeudores,
+      view,
+      orderbycolumdeudores,
+      orderbyorderdeudores,
+      limitdeudores,
+    }).then(res=>{
+      if (res.data) {
+        if (res.data.length) {
+          setDeudoresList(res.data)
+        }else{
+          setDeudoresList([])
+        }
       }
-    }
-    setLoading(false)
-  })
+      setLoading(false)
+    })
+  },150)
+  setTypingTimeout(time)
+
+
 }
 const clickSetOrderColumn = e => {
   let valor = e.currentTarget.attributes["data-valor"].value
@@ -2135,6 +2208,25 @@ const clickSetOrderColumn = e => {
   }else{
     setOrderColumn(valor)
   }
+
+}
+
+const clickSetOrderColumnPedidos = e => {
+  let valor = e.currentTarget.attributes["data-valor"].value
+
+  if (valor==orderbycolumpedidos) {
+    if (orderbyorderpedidos=="desc") {
+      setorderbyorderpedidos("asc")
+    }else{
+      setorderbyorderpedidos("desc")
+
+    }
+  }else{
+    setorderbycolumpedidos(valor)
+  }
+
+
+
 
 }
 const onchangeinputmain = e => {
@@ -2173,6 +2265,7 @@ const delMov = e =>{
 const setDevolucion = e => {
   setLoading(true)
   let id = e.currentTarget.attributes["data-id"].value
+  let type = e.currentTarget.attributes["data-type"].value
 
   let cantidad = window.prompt("Cantidad")
 
@@ -2181,7 +2274,7 @@ const setDevolucion = e => {
       id,
       idMovSelect,
       cantidad,
-      tipoMovMovimientos,
+      tipoMovMovimientos:type,
       tipoCatMovimientos,
       fechaMovimientos,
     }).then(res=>{
@@ -2422,6 +2515,9 @@ const setSameGanancia = () => {
     setProductosInventario(obj)    
   }
 }
+const [sameCatValue, setsameCatValue] = useState("")
+const [sameProValue, setsameProValue] = useState("")
+
 const setSameCat = (val) => {
   if (confirm("¿Confirma Generalizar categoría?")) {
     let obj = cloneDeep(productosInventario)
@@ -2432,6 +2528,7 @@ const setSameCat = (val) => {
       return e
     })
     setProductosInventario(obj)
+    setsameCatValue(val)
   }
 
 }
@@ -2445,6 +2542,7 @@ const setSamePro = (val) => {
       return e
     })
     setProductosInventario(obj)
+    setsameProValue(val)
   }
 }
 
@@ -3216,13 +3314,17 @@ const changeInventario = (val, i, id, type, name = null) => {
 
       if (facturas[factSelectIndex]) {
         pro = facturas[factSelectIndex].proveedor.id
+      }else{
+        pro = sameProValue
       }
+      
+      
       let newObj = [{
         id:null,
         codigo_proveedor: "",
         codigo_barras: "",
         descripcion: "",
-        id_categoria: "",
+        id_categoria: sameCatValue,
         id_marca: "",
         unidad: "UND",
         id_proveedor: pro,
@@ -3319,6 +3421,7 @@ const auth = permiso => {
               addCarritoRequest={addCarritoRequest}/>:null:null}
 
             {showModalMovimientos&&<ModalMovimientos 
+              getMovimientos={getMovimientos}
               setShowModalMovimientos={setShowModalMovimientos}
               showModalMovimientos={showModalMovimientos}
 
@@ -3480,6 +3583,7 @@ const auth = permiso => {
         :null}
 
         {view=="cierres"?<Cierres
+          moneda={moneda}
           sendCuentasporCobrar={sendCuentasporCobrar}
           fechaGetCierre2={fechaGetCierre2}
           setfechaGetCierre2={setfechaGetCierre2}
@@ -3543,6 +3647,16 @@ const auth = permiso => {
           peso={peso} 
         />:null}
         {view=="pedidos"?<Pedidos
+          pedidoData={pedidoData}
+          showModalPedidoFast={showModalPedidoFast}
+          setshowModalPedidoFast={setshowModalPedidoFast}
+          getPedidoFast={getPedidoFast}
+          clickSetOrderColumnPedidos={clickSetOrderColumnPedidos}
+          orderbycolumpedidos={orderbycolumpedidos}
+          setorderbycolumpedidos={setorderbycolumpedidos}
+          orderbyorderpedidos={orderbyorderpedidos}
+          setorderbyorderpedidos={setorderbyorderpedidos}
+          moneda={moneda}
           setshowMisPedido={setshowMisPedido}
           showMisPedido={showMisPedido}
           tipobusquedapedido={tipobusquedapedido}
@@ -3567,6 +3681,8 @@ const auth = permiso => {
 
         
         {view=="inventario"?<Inventario
+          sameCatValue={sameCatValue}
+          sameProValue={sameProValue}
           setdropprintprice={setdropprintprice}
           dropprintprice={dropprintprice}
           printPrecios={printPrecios}
@@ -3778,6 +3894,7 @@ const auth = permiso => {
         
         />:null}
         {view=="pagar"?<Pagar 
+          changeEntregado={changeEntregado}
           setPagoPedido={setPagoPedido}
           viewconfigcredito={viewconfigcredito}
           setviewconfigcredito={setviewconfigcredito}
@@ -3894,6 +4011,9 @@ const auth = permiso => {
           />
         :null}
         {view=="credito"?<Credito
+          limitdeudores={limitdeudores}
+          setlimitdeudores={setlimitdeudores}
+
           moneda={moneda}
           orderbycolumdeudores={orderbycolumdeudores}
           setorderbycolumdeudores={setorderbycolumdeudores}

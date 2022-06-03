@@ -223,6 +223,9 @@ dropprintprice,
   delGastos,
   getGastos,
   setGasto,
+
+  sameCatValue,
+  sameProValue,
 }) {
 
   const type = type => {
@@ -449,6 +452,8 @@ dropprintprice,
               
             />
             : <InventarioForzado
+                sameCatValue={sameCatValue}
+                sameProValue={sameProValue}
                 setCtxBulto={setCtxBulto}
                 setPrecioAlterno={setPrecioAlterno}
                 busqAvanzInputsFun={busqAvanzInputsFun}

@@ -2,6 +2,9 @@
 import Clientes from '../components/clientes';
 
 function Credito({
+  limitdeudores,
+  setlimitdeudores,
+
   orderbycolumdeudores,
   setorderbycolumdeudores,
   orderbyorderdeudores,
@@ -41,6 +44,13 @@ function Credito({
           <button className="btn btn-outline-success m-2" onClick={printCreditos}>
             <i className="fa fa-print"></i>
           </button>
+          <button className="btn btn-outline-success" onClick={()=>{
+            let num = window.prompt("num")
+
+            if (num) {
+              setlimitdeudores(num)
+            }
+          }}>Resultados. {limitdeudores}</button>
         </div>
       </div> 
 

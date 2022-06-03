@@ -51,11 +51,21 @@ setclienteInpciudad
       }
     }
 	}
+  const setNuevoCliente = () => {
+    setclienteInpidentificacion("")
+    setclienteInpnombre("")
+    setclienteInpcorreo("")
+    setclienteInpdireccion("")
+    setclienteInptelefono("")
+    setclienteInpestado("")
+    setclienteInpciudad("")
+    setindexSelectCliente(null)
+  }
 	return (
     <div className="container">
       <div className="row">
         <div className="col">
-          <h1>Administrar Clientes</h1> 
+          <h1>Administrar Clientes <button className="btn btn-sm btn-success" onClick={setNuevoCliente}>Nuevo</button></h1> 
         </div>
       </div> 
       <div className="row">

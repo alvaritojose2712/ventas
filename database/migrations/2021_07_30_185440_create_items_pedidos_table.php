@@ -29,6 +29,7 @@ class CreateItemsPedidosTable extends Migration
             $table->decimal("cantidad",8,2);
             $table->decimal("descuento",6,2)->default(0);
             $table->decimal("monto",8,2);
+            $table->boolean("entregado")->default(false)->nullable(true);
             $table->timestamps();
 
             $table->unique(["id_producto","id_pedido","lote"]);

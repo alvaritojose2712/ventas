@@ -10,7 +10,27 @@ class ItemsPedidosController extends Controller
 {
     
 
-   
+    public function changeEntregado(Request $req)
+    {
+       try {
+            $id = $req->id;
+            $item = items_pedidos::find($id);
+            if ($item) {
+                if ($item->entregado) {
+                    $item->entregado = false;
+                }else{
+                    $item->entregado = true;
+                }
+                $item->save();
+                
+
+            }
+
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+        } 
+    }
     public function delItemPedido(Request $req)
     {   
         return (new InventarioController)->hacer_pedido($req->index,null,99,"del");

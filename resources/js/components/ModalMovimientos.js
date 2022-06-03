@@ -1,4 +1,5 @@
 export default function ModalMovimientos({
+  getMovimientos,
   setShowModalMovimientos,
   showModalMovimientos,
 
@@ -25,23 +26,21 @@ export default function ModalMovimientos({
   fechaMovimientos,
 }) {
 
-  const retTipoMov = () => (
-   
-    movimientos.length?movimientos.map((e,i)=>
-      !e.items.length||e.items.filter(e=>e.tipo==2||!e.id_producto).length?null
-      :<tr key={e.id}>
-        <td className="align-middle">
-            <h2>{e.id}</h2>
-            
-        </td>
-        <td className="w-50">
-          {retTipoSubMov(e.items,1)}
-        </td>
-        <td className="w-50">
-          {retTipoSubMov(e.items,0)}
-        </td>
-      </tr>):null
+  const retTipoMov = (type) => (
+    <table className="table">
+      
+      <tbody>
+        {productosDevulucionSelect?.length?productosDevulucionSelect.map(e=>
+          <tr key={e.id} onClick={setDevolucion} data-id={e.id} data-type={type} className="hover">
+            <td>{e.codigo_proveedor}</td>
+            <td>{e.descripcion}</td>
+            <td>Ct. {e.cantidad}</td>
+            <td>P/U. {e.precio}</td>
+          </tr>
+        ):null}
+      </tbody>
     
+    </table>
          
   )
   const retCat = cat => {
@@ -60,19 +59,23 @@ export default function ModalMovimientos({
         <table className="table table-sm">
           <thead>
             <tr>
-              <th>Prod.</th>
-              <th>Ct.</th>
               <th>Cat.</th>
+              <th>Prod.</th>
+              <th>Precio</th>
+              <th>Ct.</th>
+              <th>Total</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {items.filter(e=>e.tipo==tipo).map(ee=>
               <tr key={ee.id}>
-                <td>{ee.producto.codigo_proveedor} {ee.producto.descripcion}</td>
-                <td>{ee.cantidad}</td>
                 <td>{retCat(ee.categoria)}</td>
-                <td><i className="fa fa-times tex-danger" data-id={ee.id} onClick={delMov}></i></td>
+                <th>{ee.producto.codigo_proveedor} {ee.producto.descripcion}</th>
+                <td>{ee.producto.precio}</td>
+                <td>{ee.cantidad}</td>
+                <td className="">{ee.total}</td>
+                <td><i className="fa fa-times text-danger" data-id={ee.id} onClick={delMov}></i></td>
               </tr>)
             }
           </tbody>
@@ -86,8 +89,7 @@ export default function ModalMovimientos({
       <section className="modal-custom"> 
         <div className="text-danger" onClick={()=>setShowModalMovimientos(!showModalMovimientos)}><span className="closeModal">&#10006;</span></div>
         <div className="modal-content">
-          <h4>Movimientos del día</h4>
-          <input type="date" value={fechaMovimientos} onChange={e=>setFechaMovimientos(e.target.value)} />
+          {/*<input type="date" value={fechaMovimientos} onChange={e=>setFechaMovimientos(e.target.value)} />
           <table className="table">
             <thead>
               <tr>
@@ -114,16 +116,7 @@ export default function ModalMovimientos({
                     </select>
 
 
-                    <select 
-                    onChange={e=>setIdMovSelect(e.target.value)}
-                    className="form-control" 
-                    value={idMovSelect}>
-                      {movimientos.length?movimientos.map(e=>
-                        <option key={e.id} value={e.id}>{e.id}</option>
-
-                      ):null}
-                      <option value="nuevo">Nuevo</option>
-                    </select>
+                   
 
                   </div>
                 </td>
@@ -141,21 +134,95 @@ export default function ModalMovimientos({
               :<tr>
                 <td>
                   <table className="table">
-                    <tbody>
-                      {productosDevulucionSelect?.length?productosDevulucionSelect.map(e=>
-                        <tr key={e.id} onClick={setDevolucion} data-id={e.id}>
-                          <td>{e.codigo_proveedor}</td>
-                          <td>{e.descripcion}</td>
-                          <td>Ct. {e.cantidad}</td>
-                          <td>P/U. {e.precio}</td>
-                        </tr>
-                      ):null}
-                    </tbody>
+                    
                   </table>
                 </td>
               </tr>}
             </tbody>
-          </table>
+          </table>*/}
+
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-2">
+                <h4>Devoluciones <button className="btn btn-success" onClick={()=>setIdMovSelect("nuevo")}>Nuevo</button></h4>
+                <input type="text" className="form-control mb-1" placeholder="Buscar..." onChange={e=>getMovimientos(e.target.value)}/>
+                <div className="list-items">
+                  {movimientos.length?movimientos.map(e=>
+                    <div className={("card-pedidos pointer ")+(e.id==idMovSelect?"bg-sinapsis-light":null)} key={e.id} onClick={()=>setIdMovSelect(e.id)}>Mov. {e.id}</div>
+
+                  ):null}
+                </div>
+              </div>
+              <div className="col">
+                <div className="d-flex justify-content-between">
+                  <div className="h1">Seleccionado: Mov. {idMovSelect}</div>
+
+                  {
+                    movimientos.length&&movimientos.filter(e=>e.id==idMovSelect).length?
+                      movimientos.filter(e=>e.id==idMovSelect).map(e=>
+                        <div className="h1" key={e.id}>Diff. {e.diff}</div>
+                      )
+                    :null
+                  }
+                  
+                </div>
+
+                <div className="container-fluid">
+                  <div className="row">
+                    <div className="col">
+                      <div className="header text-center bg-success-super">
+                        <h1 onClick={()=>setTipoMovMovimientos(1)}><span className="pointer">Entrada</span> {tipoMovMovimientos==1?<input type="text" className="form-control" placeholder="Buscar..." 
+                        onChange={e=>setBuscarDevolucion(e.target.value)}
+                        value={buscarDevolucion}
+                        />:null}
+                        </h1>
+                        {buscarDevolucion==""?
+                          movimientos.length&&movimientos.filter(e=>e.id==idMovSelect).length?
+                            movimientos.filter(e=>e.id==idMovSelect).map(e=>
+                              <div key={e.id}>
+                                {retTipoSubMov(e.items,1)}
+                                <div className="h3">Tot. {e.tot1}</div>
+
+                              </div>
+                            )
+                          :null
+                        :
+                          tipoMovMovimientos==1?retTipoMov(1):null
+                        }
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col">
+                      <div className="header text-center bg-danger-super">
+                        <h1 onClick={()=>setTipoMovMovimientos(0)}><span className="pointer">Salida</span> {tipoMovMovimientos==0?<input type="text" className="form-control" placeholder="Buscar..." 
+                        onChange={e=>setBuscarDevolucion(e.target.value)}
+                        value={buscarDevolucion}
+                        />
+                        :null}
+                        </h1>
+                        
+                        {buscarDevolucion==""?
+                          movimientos.length&&movimientos.filter(e=>e.id==idMovSelect).length?
+                            movimientos.filter(e=>e.id==idMovSelect).map(e=>
+                              <div key={e.id}>
+                                {retTipoSubMov(e.items,0)}
+                                <div className="h3">Tot. {e.tot0}</div>
+                              </div>
+                            )
+                          :null
+                        :
+                          tipoMovMovimientos==0?retTipoMov(0):null
+                        }
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       <div className="overlay"></div>
