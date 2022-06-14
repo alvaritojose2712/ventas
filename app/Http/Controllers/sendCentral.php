@@ -60,7 +60,7 @@ class sendCentral extends Controller
     public function reqinventario(Request $req)
     {
         
-        $response = Http::get("http://".$req->path."/resinventario");
+        $response = Http::post("http://".$req->path."/resinventario");
         
         if ($response->ok()) {
             $res = $response->json();
@@ -114,7 +114,7 @@ class sendCentral extends Controller
             
         }else{
             
-            return $response;
+            return "Error: ".$response->body();
         }   
     }
     public function reqpedidos(Request $req)
@@ -122,9 +122,7 @@ class sendCentral extends Controller
         try {
             $sucursal = sucursal::all()->first();
 
-            $response = Http::post($req->path.'/respedidos', [
-                "sucursal_code"=>$sucursal->codigo,
-            ]);
+            $response = Http::post("https://".$req->path.'/respedidos');
 
             if ($response->ok()) {
                 $res = $response->json();
@@ -132,7 +130,7 @@ class sendCentral extends Controller
                     return $res["pedido"];
                 }
             }else{
-                return $response->serverError();
+                return "Error: ".$response->body();
 
             }
             
@@ -147,8 +145,8 @@ class sendCentral extends Controller
         $ped = pedidos::with(["sucursal","items"=>function($q){
             $q->with("producto");
         }])
-        ->where("estado",1)
-        ->where("export",1)
+        /* ->where("estado",1)
+        ->where("export",1) */
         ->orderBy("id","desc")
         ->get()
         ->map(function($q){

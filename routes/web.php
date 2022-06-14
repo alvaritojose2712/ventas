@@ -232,7 +232,7 @@ Route::group(['middleware' => ['login']], function () {
 	Route::post('reqinventario', [sendCentral::class,"reqinventario"]);
 	
 	//res
-	Route::get('resinventario', [sendCentral::class,"resinventario"]);
+	Route::post('resinventario', [sendCentral::class,"resinventario"]);
 	Route::post('respedidos', [sendCentral::class,"respedidos"]);
 
 	
