@@ -36,7 +36,7 @@ export default function PedidosCentralComponent({
 					</div>
 					<div>
 						{ 
-							pedidosCentral?pedidosCentral.length
+							pedidosCentral? pedidosCentral.length
 							? pedidosCentral.map( (e,i) =>
 								e?
 									<div 
@@ -55,7 +55,7 @@ export default function PedidosCentralComponent({
 									
 									</div>
 								:null
-							)
+							  )
 							: <div className='h3 text-center text-dark mt-2'><i>¡Sin resultados!</i></div>
 							:null
 						}

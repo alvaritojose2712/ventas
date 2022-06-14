@@ -9392,6 +9392,7 @@ function Facturar(_ref) {
       if (res.data) {
         if (res.data.length) {
           setpedidoCentral(res.data);
+          console.log(res.data);
         } else {
           setpedidoCentral([]);
         }

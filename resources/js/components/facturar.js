@@ -2876,10 +2876,13 @@ const getPedidosCentral = () => {
     setLoading(false)
     if (res.data) {
       if (res.data.length) {
+        
         setpedidoCentral(res.data)
+        console.log(res.data)
       }else{
         setpedidoCentral([])
       }
+
       if (res.data.msj) {
         notificar(res)
       }
