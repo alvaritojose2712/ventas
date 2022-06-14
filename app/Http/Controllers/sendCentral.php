@@ -9,6 +9,12 @@ use App\Models\sucursal;
 use App\Models\moneda;
 use App\Models\factura;
 
+use App\Models\inventario;
+use App\Models\categorias;
+use App\Models\proveedores;
+use App\Models\pedidos;
+
+
 use Http;
 use Response;
 
@@ -16,9 +22,12 @@ ini_set('max_execution_time', 300);
 class sendCentral extends Controller
 {
     // public $path = "sinapsisnline.com";
-    public $path = "192.168.0.113";
+    //public $path = "192.168.0.113";
     // public $path = "http://127.0.0.1:3000";
-
+    public function path()
+    {
+        return "http://192.168.0.100:8001";
+    }
     public function index()
     {
         return view("central.index");
@@ -45,6 +54,138 @@ class sendCentral extends Controller
 
     //     }
     // }
+
+
+    //req
+    public function reqinventario()
+    {
+        $response = Http::get($this->path()."/exportinventario");
+
+        if ($response->ok()) {
+            $res = $response->json();
+
+            if ($res["categorias"]) {
+                foreach ($res["categorias"] as $e) {
+                    categorias::updateOrCreate(
+                    [
+                        "id"=>$e->id
+                    ],[
+                        "descripcion"=>$e->descripcion,
+                    ]);
+                }
+
+            }
+            if ($res["proveedores"]) {
+                foreach ($res["proveedores"] as $e) {
+                    proveedores::updateOrCreate(
+                        [
+                            "id" => $e->id,
+                        ],[
+                            "descripcion" => $e->descripcion,
+                            "rif" => $e->rif,
+                            "direccion" => $e->direccion,
+                            "telefono" => $e->telefono,
+                        ]
+                    );
+                }
+            }
+
+            if ($res["inventario"]) {
+                foreach ($res["inventario"] as $e) {
+                    $insertOrUpdateInv = inventario::updateOrCreate([
+                        "id" => $e->id
+                    ],[
+                        "codigo_barras" => $e->codigo_barras,
+                        "codigo_proveedor" => $e->codigo_proveedor,
+                        "unidad" => $e->unidad,
+                        "id_categoria" => $e->id_categoria,
+                        "descripcion" => $e->descripcion,
+                        "precio_base" => $e->precio_base,
+                        "precio" => $e->precio,
+                        "iva" => $e->iva,
+                        "id_proveedor" => $e->id_proveedor,
+                        "id_marca" => $e->id_marca,
+                        "id_deposito" => $e->id_deposito,
+                        "porcentaje_ganancia" => $e->porcentaje_ganancia
+                    ]);    
+                }
+            }
+            
+            
+        }else{
+            
+            return $response;
+        }   
+    }
+    public function reqpedidos()
+    {   
+        try {
+            $sucursal = sucursal::all()->first();
+
+            $response = Http::post($this->path.'/getPedidoPend', [
+                "sucursal_code"=>$sucursal->codigo,
+            ]);
+
+            if ($response->ok()) {
+                $res = $response->json();
+                if ($res["pedido"]) {
+                    return $res["pedido"];
+                }
+            }else{
+                return $response->body();
+
+            }
+            
+        } catch (\Exception $e) {
+            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: ".$e->getMessage()]);
+        }
+    }
+
+    //res
+    public function respedidos(Request $req)
+    {
+        $ped = pedidos::with(["sucursal","items"=>function($q){
+            $q->with("producto");
+        }])
+        ->where("estado",1)
+        ->where("export",1)
+        ->orderBy("id","desc")
+        ->get()
+        ->map(function($q){
+            $q->base = $q->items->map(function($q){
+                return $q->producto->precio_base*$q->cantidad;
+            })->sum();
+            $q->venta = $q->items->sum("monto");
+            return $q;
+
+        });
+
+        if ($ped) {
+            return Response::json([
+                "msj"=>"Tenemos algo :D",
+                "pedido"=>$ped,
+                "estado"=>true
+            ]);
+        }else{
+            return Response::json([
+                "msj"=>"No hay pedidos pendientes :(",
+                "estado"=>false
+            ]);
+        }
+    }
+    public function resinventario(Request $req)
+    {
+        //return "exportinventario";
+        return [
+            "inventario"=>inventario::all(),
+            "categorias" => categorias::all(),
+            "proveedores" => proveedores::all(), 
+        ];
+    }
+
+
+    
+
     public function updateApp()
     {   
         try {
@@ -247,29 +388,7 @@ class sendCentral extends Controller
         }
 
     }
-    public function getPedidosCentral()
-    {   
-        try {
-            $sucursal = sucursal::all()->first();
-
-            $response = Http::post($this->path.'/getPedidoPendSucursal', [
-                "sucursal_code"=>$sucursal->codigo,
-            ]);
-
-            if ($response->ok()) {
-                $res = $response->json();
-                if ($res["pedido"]) {
-                    return $res["pedido"];
-                }
-            }else{
-                return $response->body();
-
-            }
-            
-        } catch (\Exception $e) {
-            return Response::json(["estado"=>false,"msj"=>"Error de sucursal: ".$e->getMessage()]);
-        }
-    }
+   
 
     public function getMonedaCentral()
     {   

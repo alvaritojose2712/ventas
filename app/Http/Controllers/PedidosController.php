@@ -48,6 +48,20 @@ class PedidosController extends Controller
                 9=>"P",
                 0=>"X",
             ];
+
+    public function setexportpedido(Request $req)
+    {
+        $p = pedidos::find($req->id);
+
+        if ($p) {
+            if ($p->export) {
+                $p->export = 0;
+            }else {
+                $p->export = 1;
+            }
+            $p->save();
+        }
+    }
     public function getPedidosFast(Request $req)
     {
         $fecha = $req->fecha1pedido;

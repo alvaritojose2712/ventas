@@ -8,6 +8,7 @@ use DateTimeInterface;
 
 class pedidos extends Model
 {
+    protected $fillable= ["export"];
     // use HasFactory;
 
     /**

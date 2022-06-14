@@ -1,4 +1,5 @@
 export default function PedidosCentralComponent({
+	updateinventario,
 	getPedidosCentral,
 	selectPedidosCentral,
 	checkPedidosCentral,
@@ -16,15 +17,22 @@ export default function PedidosCentralComponent({
 	setvalbodypedidocentral,
 	procesarImportPedidoCentral,
 
+	pathcentral,
+	setpathcentral,
+
 }){
 	return (
 		<div className="container">
 			<div className="row">
 				
 				<div className="col-3">
+					<div>
+						<input type="text" value={pathcentral} onChange={e => setpathcentral(e.target.value)} className="form-control" placeholder="Dirección de Central" />
+					</div>
 					<div className="text-center">
-						<button className="btn btn-outline-sinapsis" onClick={getPedidosCentral}>Actualizar Pedidos</button>
-						<button className="btn btn-outline-success" onClick={()=>setshowaddpedidocentral(!showaddpedidocentral)}><i className="fa fa-plus"></i></button>
+						<button className="btn btn-outline-sinapsis" onClick={updateinventario}>Actualizar Inventario</button>
+						<button className="btn btn-outline-sinapsis" onClick={getPedidosCentral}>Importar Inventario</button>
+						{/* <button className="btn btn-outline-success" onClick={()=>setshowaddpedidocentral(!showaddpedidocentral)}><i className="fa fa-plus"></i></button> */}
 					</div>
 					<div>
 						{ 

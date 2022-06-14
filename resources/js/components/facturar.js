@@ -26,6 +26,7 @@ import Credito from '../components/credito';
 import Vueltos from '../components/vueltos';
 import Clientes from '../components/clientes';
 
+import PedidosCentralComponent from '../components/pedidosCentral';
 
 
 import Cierres from '../components/cierre';
@@ -1828,6 +1829,12 @@ const onClickEditPedido = e =>{
     setView("pagar")
   })
 }
+const setexportpedido = e => {
+  const id = e.currentTarget.attributes["data-id"].value
+  db.setexportpedido({id}).then(res=>{
+    getPedidos()
+  })
+}
 const onCLickDelPedido = e => {
   if (confirm("¿Seguro de eliminar?")) {
     const current = e.currentTarget.attributes
@@ -2856,6 +2863,13 @@ const viewReportPedido = () =>{
   db.openNotaentregapedido({ id: pedidoData.id})
   
 }
+  updateinventario
+
+const [pathcentral,setpathcentral] = useState("")
+
+function updateinventario() {
+  
+}
 const getPedidosCentral = () => {
   setLoading(true)
   db.getPedidosCentral({}).then(res=>{
@@ -3508,6 +3522,29 @@ const auth = permiso => {
         </div>
         :null
         }
+        {view == "pedidosCentral" ?
+        <PedidosCentralComponent
+          updateinventario={updateinventario}
+          pathcentral={pathcentral}
+          setpathcentral={setpathcentral}
+          getPedidosCentral={getPedidosCentral}
+          selectPedidosCentral={selectPedidosCentral}
+          checkPedidosCentral={checkPedidosCentral}
+
+          pedidosCentral={pedidosCentral}
+          setIndexPedidoCentral={setIndexPedidoCentral}
+          indexPedidoCentral={indexPedidoCentral}
+          moneda={moneda}
+
+          showaddpedidocentral={showaddpedidocentral}
+          setshowaddpedidocentral={setshowaddpedidocentral}
+          valheaderpedidocentral={valheaderpedidocentral}
+          setvalheaderpedidocentral={setvalheaderpedidocentral}
+          valbodypedidocentral={valbodypedidocentral}
+          setvalbodypedidocentral={setvalbodypedidocentral}
+          procesarImportPedidoCentral={procesarImportPedidoCentral}
+        />
+        : null}
         {view=="ventas"?<Ventas
           ventasData={ventasData}
           getVentasClick={getVentasClick}
@@ -3647,6 +3684,7 @@ const auth = permiso => {
           peso={peso} 
         />:null}
         {view=="pedidos"?<Pedidos
+          setexportpedido={setexportpedido}
           pedidoData={pedidoData}
           showModalPedidoFast={showModalPedidoFast}
           setshowModalPedidoFast={setshowModalPedidoFast}

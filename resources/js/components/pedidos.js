@@ -5,6 +5,7 @@ import ModalShowPedidoFast from '../components/ModalShowPedidoFast';
 function Pedidos({
 pedidoData,
 getPedidoFast,
+setexportpedido,
 showModalPedidoFast,
 setshowModalPedidoFast,
 
@@ -214,6 +215,9 @@ clickSetOrderColumnPedidos,
 					    				<div className="text-center">
 					    					Cliente: <b>{e.cliente?e.cliente.nombre:null}</b>
 					    				</div>
+											{e.export?<div className="text-center">
+												<b>Exportado</b>
+											</div>:null}
 					    			</div>
 					    			<div className="cell4">
 										  <table className="table table-sm">
@@ -226,6 +230,7 @@ clickSetOrderColumnPedidos,
 											    	<td className="cell3">
 															<div className="btn-options btn-group">
 																<button className="btn btn-outline-success" data-id={e.id} onClick={getPedidoFast}><i className="fa fa-eye"></i></button>
+																<button className="btn btn-outline-secondary" data-id={e.id} onClick={setexportpedido}><i className="fa fa-paper-plane"></i></button>
 																<button className="btn btn-outline-danger" data-id={e.id} data-type="getPedidos" onClick={onCLickDelPedido}><i className="fa fa-times"></i></button>
 															</div>
 											    	</td>

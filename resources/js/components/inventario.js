@@ -3,7 +3,6 @@ import Proveedores from '../components/proveedores';
 import CargarProducto from '../components/cargarproducto';
 import Facturas from '../components/facturas';
 import Fallas from '../components/fallas';
-import PedidosCentralComponent from '../components/pedidosCentral';
 
 import InventarioForzado from '../components/inventarioForzado';
 import EstadisticaInventario from '../components/estadisticainventario';
@@ -24,13 +23,13 @@ dropprintprice,
   setporcenganancia,
   changeInventario,
   
-  showaddpedidocentral,
+  /* showaddpedidocentral,
   setshowaddpedidocentral,
   valheaderpedidocentral,
   setvalheaderpedidocentral,
   valbodypedidocentral,
   setvalbodypedidocentral,
-  procesarImportPedidoCentral,
+  procesarImportPedidoCentral, */
 
   productosInventario,
   qBuscarInventario,
@@ -250,9 +249,7 @@ dropprintprice,
               <button className={("btn ") + (subViewInventario == "gastos" ? "btn-success" : "btn-outline-success")} onClick={() => setsubViewInventario("gastos")}>Gastos</button>
               <button className={("btn ") + (subViewInventario=="estadisticas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("estadisticas")}>Estadísticas</button> 
           </div>
-          <div className="btn-group">
-              <button className={("btn ")+(subViewInventario=="pedidosCentral"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("pedidosCentral")}>Pedidos Central</button> 
-          </div>
+          
         </div>
           
         </div>
@@ -573,26 +570,7 @@ dropprintprice,
         moneda={moneda}
       />:null}
 
-      {subViewInventario=="pedidosCentral"?
-        <PedidosCentralComponent
-          getPedidosCentral={getPedidosCentral}
-          selectPedidosCentral={selectPedidosCentral}
-          checkPedidosCentral={checkPedidosCentral}
-
-          pedidosCentral={pedidosCentral}
-          setIndexPedidoCentral={setIndexPedidoCentral}
-          indexPedidoCentral={indexPedidoCentral}
-          moneda={moneda}
-
-          showaddpedidocentral={showaddpedidocentral}
-          setshowaddpedidocentral={setshowaddpedidocentral}
-          valheaderpedidocentral={valheaderpedidocentral}
-          setvalheaderpedidocentral={setvalheaderpedidocentral}
-          valbodypedidocentral={valbodypedidocentral}
-          setvalbodypedidocentral={setvalbodypedidocentral}
-          procesarImportPedidoCentral={procesarImportPedidoCentral}
-        />
-      :null}
+      
 
     </>
   )

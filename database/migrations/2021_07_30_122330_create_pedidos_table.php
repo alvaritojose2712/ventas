@@ -17,6 +17,7 @@ class CreatePedidosTable extends Migration
             $table->increments('id');
 
             $table->boolean("estado");
+            $table->boolean("export")->nullable(true)->default(0);
 
             $table->date("fecha_inicio")->nullable();
             $table->date("fecha_vence")->nullable();
