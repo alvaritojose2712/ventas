@@ -60,7 +60,7 @@ class sendCentral extends Controller
     public function reqinventario(Request $req)
     {
 
-        $response = Http::get($req->path()."/resinventario");
+        $response = Http::get($req->path."/resinventario");
 
         if ($response->ok()) {
             $res = $response->json();
