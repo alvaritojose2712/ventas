@@ -2876,9 +2876,12 @@ const getPedidosCentral = () => {
     setLoading(false)
     if (res.data) {
       if (res.data.length) {
-        
-        setpedidoCentral(res.data)
-        console.log(res.data)
+        if (res.data[0]){
+          if (res.data[0].id) {
+            setpedidoCentral(res.data)
+            console.log(res.data)
+          }
+        }
       }else{
         setpedidoCentral([])
       }

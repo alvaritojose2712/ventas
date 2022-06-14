@@ -132,7 +132,7 @@ class sendCentral extends Controller
                     return $res["pedido"];
                 }
             }else{
-                return $response->body();
+                return $response->serverError();
 
             }
             
