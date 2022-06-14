@@ -9369,18 +9369,24 @@ function Facturar(_ref) {
     });
   };
 
-  updateinventario;
-
   var _useState415 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(""),
       _useState416 = _slicedToArray(_useState415, 2),
       pathcentral = _useState416[0],
       setpathcentral = _useState416[1];
 
-  function updateinventario() {}
+  function updateinventario() {
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].reqinventario({
+      path: pathcentral
+    }).then(function (res) {
+      console.log(res.data);
+    });
+  }
 
   var getPedidosCentral = function getPedidosCentral() {
     setLoading(true);
-    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getPedidosCentral({}).then(function (res) {
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getPedidosCentral({
+      path: pathcentral
+    }).then(function (res) {
       setLoading(false);
 
       if (res.data) {
@@ -15279,9 +15285,9 @@ function PedidosCentralComponent(_ref) {
             placeholder: "Direcci\xF3n de Central"
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          className: "text-center",
+          className: "btn-group",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-            className: "btn btn-outline-sinapsis",
+            className: "btn btn-outline-success",
             onClick: updateinventario,
             children: "Actualizar Inventario"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {

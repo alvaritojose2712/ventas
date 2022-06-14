@@ -2863,16 +2863,16 @@ const viewReportPedido = () =>{
   db.openNotaentregapedido({ id: pedidoData.id})
   
 }
-  updateinventario
-
 const [pathcentral,setpathcentral] = useState("")
 
 function updateinventario() {
-  
+  db.reqinventario({ path: pathcentral }).then(res=>{
+    console.log(res.data)
+  })
 }
 const getPedidosCentral = () => {
   setLoading(true)
-  db.getPedidosCentral({}).then(res=>{
+  db.getPedidosCentral({ path: pathcentral }).then(res=>{
     setLoading(false)
     if (res.data) {
       if (res.data.length) {
