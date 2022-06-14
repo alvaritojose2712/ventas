@@ -59,20 +59,18 @@ class sendCentral extends Controller
     //req
     public function reqinventario(Request $req)
     {
-        return "rqinve";
-
+        
         $response = Http::get("http://".$req->path."/resinventario");
-
+        
         if ($response->ok()) {
             $res = $response->json();
-            return $res;
             if (isset($res["categorias"])) {
                 foreach ($res["categorias"] as $e) {
                     categorias::updateOrCreate(
                     [
-                        "id"=>$e->id
+                        "id"=>$e["id"]
                     ],[
-                        "descripcion"=>$e->descripcion,
+                        "descripcion"=>$e["descripcion"],
                     ]);
                 }
 
@@ -81,12 +79,12 @@ class sendCentral extends Controller
                 foreach ($res["proveedores"] as $e) {
                     proveedores::updateOrCreate(
                         [
-                            "id" => $e->id,
+                            "id" => $e["id"],
                         ],[
-                            "descripcion" => $e->descripcion,
-                            "rif" => $e->rif,
-                            "direccion" => $e->direccion,
-                            "telefono" => $e->telefono,
+                            "descripcion" => $e["descripcion"],
+                            "rif" => $e["rif"],
+                            "direccion" => $e["direccion"],
+                            "telefono" => $e["telefono"],
                         ]
                     );
                 }
@@ -95,20 +93,20 @@ class sendCentral extends Controller
             if (isset($res["inventario"])) {
                 foreach ($res["inventario"] as $e) {
                     $insertOrUpdateInv = inventario::updateOrCreate([
-                        "id" => $e->id
+                        "id" => $e["id"]
                     ],[
-                        "codigo_barras" => $e->codigo_barras,
-                        "codigo_proveedor" => $e->codigo_proveedor,
-                        "unidad" => $e->unidad,
-                        "id_categoria" => $e->id_categoria,
-                        "descripcion" => $e->descripcion,
-                        "precio_base" => $e->precio_base,
-                        "precio" => $e->precio,
-                        "iva" => $e->iva,
-                        "id_proveedor" => $e->id_proveedor,
-                        "id_marca" => $e->id_marca,
-                        "id_deposito" => $e->id_deposito,
-                        "porcentaje_ganancia" => $e->porcentaje_ganancia
+                        "codigo_barras" => $e["codigo_barras"],
+                        "codigo_proveedor" => $e["codigo_proveedor"],
+                        "unidad" => $e["unidad"],
+                        "id_categoria" => $e["id_categoria"],
+                        "descripcion" => $e["descripcion"],
+                        "precio_base" => $e["precio_base"],
+                        "precio" => $e["precio"],
+                        "iva" => $e["iva"],
+                        "id_proveedor" => $e["id_proveedor"],
+                        "id_marca" => $e["id_marca"],
+                        "id_deposito" => $e["id_deposito"],
+                        "porcentaje_ganancia" => $e["porcentaje_ganancia"]
                     ]);    
                 }
             }
