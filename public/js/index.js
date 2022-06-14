@@ -9384,7 +9384,7 @@ function Facturar(_ref) {
 
   var getPedidosCentral = function getPedidosCentral() {
     setLoading(true);
-    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getPedidosCentral({
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].reqpedidos({
       path: pathcentral
     }).then(function (res) {
       setLoading(false);

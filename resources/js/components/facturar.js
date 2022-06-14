@@ -2872,7 +2872,7 @@ function updateinventario() {
 }
 const getPedidosCentral = () => {
   setLoading(true)
-  db.getPedidosCentral({ path: pathcentral }).then(res=>{
+  db.reqpedidos({ path: pathcentral }).then(res=>{
     setLoading(false)
     if (res.data) {
       if (res.data.length) {
