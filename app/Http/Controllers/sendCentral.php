@@ -59,13 +59,14 @@ class sendCentral extends Controller
     //req
     public function reqinventario(Request $req)
     {
+        return "rqinve";
 
-        $response = Http::get($req->path."/resinventario");
+        $response = Http::get("http://".$req->path."/resinventario");
 
         if ($response->ok()) {
             $res = $response->json();
-
-            if ($res["categorias"]) {
+            return $res;
+            if (isset($res["categorias"])) {
                 foreach ($res["categorias"] as $e) {
                     categorias::updateOrCreate(
                     [
@@ -76,7 +77,7 @@ class sendCentral extends Controller
                 }
 
             }
-            if ($res["proveedores"]) {
+            if (isset($res["proveedores"])) {
                 foreach ($res["proveedores"] as $e) {
                     proveedores::updateOrCreate(
                         [
@@ -91,7 +92,7 @@ class sendCentral extends Controller
                 }
             }
 
-            if ($res["inventario"]) {
+            if (isset($res["inventario"])) {
                 foreach ($res["inventario"] as $e) {
                     $insertOrUpdateInv = inventario::updateOrCreate([
                         "id" => $e->id

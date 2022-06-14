@@ -222,18 +222,18 @@ Route::group(['middleware' => ['login']], function () {
 		Route::get('setFacturasCentral', [sendCentral::class,"setFacturasCentral"]);
 		
 
-		//req
-		Route::post('reqpedidos', [sendCentral::class,"reqpedidos"]);
-		Route::post('reqinventario', [sendCentral::class,"reqinventario"]);
 		
-		//res
-		Route::get('resinventario', [sendCentral::class,"resinventario"]);
-		Route::get('respedidos', [sendCentral::class,"respedidos"]);
-	
-
 		
-	
+		
+		
 });
+	//req
+	Route::post('reqpedidos', [sendCentral::class,"reqpedidos"]);
+	Route::post('reqinventario', [sendCentral::class,"reqinventario"]);
+	
+	//res
+	Route::get('resinventario', [sendCentral::class,"resinventario"]);
+	Route::get('respedidos', [sendCentral::class,"respedidos"]);
 
 	
 	
