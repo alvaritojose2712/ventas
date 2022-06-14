@@ -15296,7 +15296,7 @@ function PedidosCentralComponent(_ref) {
             children: "Importar Inventario"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-          children: pedidosCentral.length ? pedidosCentral.map(function (e, i) {
+          children: pedidosCentral ? pedidosCentral.length ? pedidosCentral.map(function (e, i) {
             return e ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
               onClick: function onClick() {
                 return setIndexPedidoCentral(i);
@@ -15330,7 +15330,7 @@ function PedidosCentralComponent(_ref) {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
               children: "\xA1Sin resultados!"
             })
-          })
+          }) : null
         })]
       }), !showaddpedidocentral ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "col",

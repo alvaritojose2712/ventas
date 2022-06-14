@@ -36,28 +36,29 @@ export default function PedidosCentralComponent({
 					</div>
 					<div>
 						{ 
-		          pedidosCentral.length
-		          ? pedidosCentral.map( (e,i) =>
-		          	e?
-			            <div 
-			            onClick={()=>setIndexPedidoCentral(i)} 
-			            data-index={i}
-			            key={e.id}
-			            className={(indexPedidoCentral==i?"":"bg-light text-secondary")+" card mt-2 pointer"}>
-			              <div className="card-body flex-row justify-content-between">
-			                <div>
-			                  <h4>ID Central <button className="btn btn-secondary">{e.id}</button> </h4>
-			                  <small className="text-muted fst-italic">Productos <b>{e.items.length}</b> </small>
-			                  <br/>
-			                  <small className="text-muted fst-italic text-center"><b>{e.created_at}</b> </small>
-			                </div>
-			              </div>
-			              
-			            </div>
-			          :null
-		           )
-		          : <div className='h3 text-center text-dark mt-2'><i>¡Sin resultados!</i></div>
-		        }
+							pedidosCentral?pedidosCentral.length
+							? pedidosCentral.map( (e,i) =>
+								e?
+									<div 
+									onClick={()=>setIndexPedidoCentral(i)} 
+									data-index={i}
+									key={e.id}
+									className={(indexPedidoCentral==i?"":"bg-light text-secondary")+" card mt-2 pointer"}>
+									<div className="card-body flex-row justify-content-between">
+										<div>
+										<h4>ID Central <button className="btn btn-secondary">{e.id}</button> </h4>
+										<small className="text-muted fst-italic">Productos <b>{e.items.length}</b> </small>
+										<br/>
+										<small className="text-muted fst-italic text-center"><b>{e.created_at}</b> </small>
+										</div>
+									</div>
+									
+									</div>
+								:null
+							)
+							: <div className='h3 text-center text-dark mt-2'><i>¡Sin resultados!</i></div>
+							:null
+						}
 					</div>
 				</div>
 				{!showaddpedidocentral?
