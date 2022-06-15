@@ -310,6 +310,9 @@ export default function Facturar({user,notificar,setLoading}) {
   const [billete50,setbillete50] = useState("") 
   const [billete100,setbillete100] = useState("")
 
+  const [pathcentral, setpathcentral] = useState("")
+  const [mastermachines, setmastermachines] = useState([])
+
   const [usuariosData, setusuariosData] = useState([])
   const [usuarioNombre, setusuarioNombre] = useState("")
   const [usuarioUsuario, setusuarioUsuario] = useState("")
@@ -986,9 +989,9 @@ useHotkeys("tab",()=>{
         getProductos()
       }else if (subViewInventario=="proveedores") {
         getProveedores()
-      }else if (subViewInventario=="pedidosCentral") {
-        getPedidosCentral()
       }
+    } else if (view =="pedidosCentral"){
+      getmastermachine()
     }
 
     if (view=="seleccionar") {
@@ -2863,11 +2866,28 @@ const viewReportPedido = () =>{
   db.openNotaentregapedido({ id: pedidoData.id})
   
 }
-const [pathcentral,setpathcentral] = useState("")
+
 
 function updateinventario() {
+  setLoading(true)
   db.reqinventario({ path: pathcentral }).then(res=>{
     console.log(res.data)
+    setLoading(false)
+  })
+}
+const getmastermachine = () => {
+  setLoading(true)
+  setpathcentral("")
+
+  db.getmastermachine({}).then(res=>{
+    if (res.data) {
+      if (!res.data.length) {
+        setmastermachines([])
+      }else{
+        setmastermachines(res.data)
+      }
+      setLoading(false)
+    }
   })
 }
 const getPedidosCentral = () => {
@@ -3073,7 +3093,7 @@ const checkPedidosCentral = () => {
   if (indexPedidoCentral!==null&&pedidosCentral) {
     if (pedidosCentral[indexPedidoCentral]) {
       setLoading(true)
-      db.checkPedidosCentral({pedido:pedidosCentral[indexPedidoCentral]}).then(res=>{
+      db.checkPedidosCentral({pathcentral,pedido:pedidosCentral[indexPedidoCentral]}).then(res=>{
         setLoading(false)
         
         notificar(res)
@@ -3530,6 +3550,8 @@ const auth = permiso => {
         }
         {view == "pedidosCentral" ?
         <PedidosCentralComponent
+          mastermachines={mastermachines}
+          getmastermachine={getmastermachine}
           updateinventario={updateinventario}
           pathcentral={pathcentral}
           setpathcentral={setpathcentral}

@@ -221,6 +221,7 @@ Route::group(['middleware' => ['login']], function () {
 		
 		Route::get('setFacturasCentral', [sendCentral::class,"setFacturasCentral"]);
 		
+		Route::post('getmastermachine', [sendCentral::class,"getmastermachine"]);
 
 		
 		

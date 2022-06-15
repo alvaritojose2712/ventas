@@ -107,8 +107,9 @@ const db = {
 
   reqpedidos: data => axios.post(host + "reqpedidos", data),
   reqinventario: data => axios.post(host + "reqinventario", data),
-  setexportpedido: data=>axios.post(host+"setexportpedido",data),
+  setexportpedido: data => axios.post(host + "setexportpedido", data),
   
+  getmastermachine: data=>axios.post(host+"getmastermachine",data),
   
 
   getSucursal: data=>axios.get(host+"getSucursal",{params:data}),

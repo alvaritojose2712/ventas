@@ -19,28 +19,34 @@ export default function PedidosCentralComponent({
 
 	pathcentral,
 	setpathcentral,
-
+	mastermachines,
+	getmastermachine,
 }){
 	return (
 		<div className="container">
 			<div className="row">
 				
 				<div className="col-3">
-					<div>
-						<input type="text" value={pathcentral} onChange={e => setpathcentral(e.target.value)} className="form-control" placeholder="Dirección de Central" />
+					<div className="mb-2">
+						<button className="btn btn-success w-100" onClick={getmastermachine}>Buscar a Master</button>
+						<ul className="list-group">
+							{mastermachines ? mastermachines.map((e,i)=>
+								<li key={i} onClick={() => setpathcentral(e)} className={(pathcentral==e?"active":null)+(" list-group-item-action list-group-item")}>{e}</li>
+							):null}
+						</ul>
 					</div>
 					<div className="btn-group">
 						{pathcentral?
 						<>
 							<button className="btn btn-outline-success" onClick={updateinventario}>Actualizar Inventario</button>
-							<button className="btn btn-outline-sinapsis" onClick={getPedidosCentral}>Importar Inventario</button>
+							<button className="btn btn-outline-sinapsis" onClick={getPedidosCentral}>Importar Pedidos</button>
 						</>
 						:null}
 						{/* <button className="btn btn-outline-success" onClick={()=>setshowaddpedidocentral(!showaddpedidocentral)}><i className="fa fa-plus"></i></button> */}
 					</div>
 					<div>
 						{ 
-							pedidosCentral? pedidosCentral.length
+							pathcentral? pedidosCentral.length
 							? pedidosCentral.map( (e,i) =>
 								e?
 									<div 

@@ -310,6 +310,8 @@ class InventarioController extends Controller
     public function checkPedidosCentral(Request $req)
     {   
         $pedido = $req->pedido;
+        $pathcentral = $req->pathcentral;
+        
         try {
             //Check Items
             foreach ($pedido["items"] as $i => $item) {
@@ -403,12 +405,14 @@ class InventarioController extends Controller
                                 $num++;
                             }
                         }
+                        
                         (new sendCentral)->setFacturasCentral();
+                        (new sendCentral)->changeExportStatus($pathcentral,$id);
                         return Response::json(["msj"=>"¡Éxito.".$num." productos procesados!","estado"=>true]);
+
                     }
                 }else{
                     throw new \Exception("¡Factura ya existe!", 1);
-
                 }
             
             

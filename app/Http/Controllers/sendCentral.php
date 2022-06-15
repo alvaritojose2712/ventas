@@ -57,6 +57,14 @@ class sendCentral extends Controller
 
 
     //req
+    public function getmastermachine()
+    {
+        return ["192.168.0.103:8001","192.168.0.102:8001"];
+    }
+    public function changeExportStatus($pathcentral,$id)
+    {
+        $response = Http::post("http://".$pathcentral."/setexportpedido",["id"=>$id]);
+    }
     public function reqinventario(Request $req)
     {
         
