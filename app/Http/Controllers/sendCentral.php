@@ -122,7 +122,7 @@ class sendCentral extends Controller
         try {
             $sucursal = sucursal::all()->first();
 
-            $response = Http::post("https://".$req->path.'/respedidos');
+            $response = Http::post("http://".$req->path.'/respedidos');
 
             if ($response->ok()) {
                 $res = $response->json();
@@ -142,7 +142,7 @@ class sendCentral extends Controller
     //res
     public function respedidos(Request $req)
     {
-        $ped = pedidos::with(["sucursal","items"=>function($q){
+        $ped = pedidos::with(["items"=>function($q){
             $q->with("producto");
         }])
         /* ->where("estado",1)

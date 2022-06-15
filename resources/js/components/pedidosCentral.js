@@ -71,7 +71,7 @@ export default function PedidosCentralComponent({
 					          		<small className="text-muted fst-italic">{pedidosCentral[indexPedidoCentral].created_at}</small>
 					          	</div>
 					          	<div className="d-flex align-items-center">
-					            	<span className="fs-3 fw-bold">{pedidosCentral[indexPedidoCentral].sucursal.nombre}</span>
+					            	<span className="fs-3 fw-bold"></span>
 					            	<span className="btn btn-secondary m-1">{pedidosCentral[indexPedidoCentral].id}</span>
 					          		
 					          	</div>

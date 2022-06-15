@@ -15351,8 +15351,7 @@ function PedidosCentralComponent(_ref) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
               className: "d-flex align-items-center",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "fs-3 fw-bold",
-                children: pedidosCentral[indexPedidoCentral].sucursal.nombre
+                className: "fs-3 fw-bold"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
                 className: "btn btn-secondary m-1",
                 children: pedidosCentral[indexPedidoCentral].id
