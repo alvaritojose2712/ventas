@@ -30,8 +30,12 @@ export default function PedidosCentralComponent({
 						<input type="text" value={pathcentral} onChange={e => setpathcentral(e.target.value)} className="form-control" placeholder="Dirección de Central" />
 					</div>
 					<div className="btn-group">
-						<button className="btn btn-outline-success" onClick={updateinventario}>Actualizar Inventario</button>
-						<button className="btn btn-outline-sinapsis" onClick={getPedidosCentral}>Importar Inventario</button>
+						{pathcentral?
+						<>
+							<button className="btn btn-outline-success" onClick={updateinventario}>Actualizar Inventario</button>
+							<button className="btn btn-outline-sinapsis" onClick={getPedidosCentral}>Importar Inventario</button>
+						</>
+						:null}
 						{/* <button className="btn btn-outline-success" onClick={()=>setshowaddpedidocentral(!showaddpedidocentral)}><i className="fa fa-plus"></i></button> */}
 					</div>
 					<div>

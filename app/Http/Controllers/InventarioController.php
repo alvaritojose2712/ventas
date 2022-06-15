@@ -369,20 +369,29 @@ class InventarioController extends Controller
 
                             
                             $insertOrUpdateInv = inventario::find($id_pro);
-                            
-                            $insertOrUpdateInv->cantidad = $insertOrUpdateInv->cantidad + $ctNew;
-                            $insertOrUpdateInv->precio_base = $precio_base;
-                            $insertOrUpdateInv->precio = $precio;
-                            
-                            
-                            $insertOrUpdateInv->codigo_proveedor = $codigo_proveedor;
-                            $insertOrUpdateInv->codigo_barras = $codigo_barras;
-                            $insertOrUpdateInv->descripcion = $descripcion;
-                            
-                            $insertOrUpdateInv->id_categoria = $item["producto"]["id_categoria"];
-                            $insertOrUpdateInv->id_proveedor = $item["producto"]["id_proveedor"];
-                            
-                            if ($insertOrUpdateInv->save()) {
+                            $match_ct = 0;
+                            if ($insertOrUpdateInv) {
+                                 $match_ct = $insertOrUpdateInv->cantidad;
+                            }
+                            $insertOrUpdateInv = inventario::updateOrCreate([
+                                "id" => $id_pro
+                            ],[
+                                "codigo_barras" => $codigo_barras,
+                                "cantidad" => $match_ct + $ctNew,
+                                "codigo_proveedor" => $codigo_proveedor,
+                                "unidad" => $item["producto"]["unidad"],
+                                "id_categoria" =>  $item["producto"]["id_categoria"],
+                                "descripcion" => $descripcion,
+                                "precio_base" => $precio_base,
+                                "precio" => $precio,
+                                "iva" => $item["producto"]["iva"],
+                                "id_proveedor" => $item["producto"]["id_proveedor"],
+                                "id_marca" => $item["producto"]["id_marca"],
+                                "id_deposito" => $item["producto"]["id_deposito"],
+                                "porcentaje_ganancia" => $item["producto"]["porcentaje_ganancia"]
+                            ]);
+                            if ($insertOrUpdateInv) 
+                            {
                                 $this->checkFalla($id_pro,$ctNew);
                                 items_factura::updateOrCreate([
                                     "id_factura" => $id,
