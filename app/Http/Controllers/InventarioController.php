@@ -379,8 +379,8 @@ class InventarioController extends Controller
                             $insertOrUpdateInv->codigo_barras = $codigo_barras;
                             $insertOrUpdateInv->descripcion = $descripcion;
                             
-                            $insertOrUpdateInv->id_categoria = $pedido["producto"]["id_categoria"];
-                            $insertOrUpdateInv->id_proveedor = $pedido["producto"]["id_proveedor"];
+                            $insertOrUpdateInv->id_categoria = $item["producto"]["id_categoria"];
+                            $insertOrUpdateInv->id_proveedor = $item["producto"]["id_proveedor"];
                             
                             if ($insertOrUpdateInv->save()) {
                                 $this->checkFalla($id_pro,$ctNew);
