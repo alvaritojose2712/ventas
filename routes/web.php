@@ -196,7 +196,6 @@ Route::group(['middleware' => ['login']], function () {
 	Route::post('setPrecioAlternoCarrito', [ItemsPedidosController::class,"setPrecioAlternoCarrito"]);
 	Route::post('setCtxBultoCarrito', [ItemsPedidosController::class,"setCtxBultoCarrito"]);
 	
-	Route::post('setexportpedido', [PedidosController::class,"setexportpedido"]);
 	
 	
 	
@@ -235,6 +234,9 @@ Route::group(['middleware' => ['login']], function () {
 	//res
 	Route::post('resinventario', [sendCentral::class,"resinventario"]);
 	Route::post('respedidos', [sendCentral::class,"respedidos"]);
+
+	Route::post('setexportpedido', [PedidosController::class,"setexportpedido"]);
+
 
 	
 	
