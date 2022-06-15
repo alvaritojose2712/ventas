@@ -324,13 +324,12 @@ class InventarioController extends Controller
                 }
             }
             //Check Proveedor
-            $proveedor_name = "21628222-8";
-            $proveedor = proveedores::where("rif",$proveedor_name)->first();
-
-
-            if ($proveedor) {
+            
+            
+          
                 $id = $pedido["id"];
-                $factInpid_proveedor = $proveedor->id;
+                $factInpid_proveedor = $pedido["producto"]["id_proveedor"];
+                $factInpid_categoria = $pedido["producto"]["id_categoria"];
                 $factInpnumfact = $pedido["id"];
                 $factInpdescripcion = "De centro de acopio ".$pedido["created_at"];
                 $factInpmonto = $pedido["venta"];
@@ -374,10 +373,13 @@ class InventarioController extends Controller
                             $insertOrUpdateInv->precio_base = $precio_base;
                             $insertOrUpdateInv->precio = $precio;
                             
+                            
                             $insertOrUpdateInv->codigo_proveedor = $codigo_proveedor;
                             $insertOrUpdateInv->codigo_barras = $codigo_barras;
                             $insertOrUpdateInv->descripcion = $descripcion;
-
+                            
+                            $insertOrUpdateInv->id_categoria = $factInpid_categoria;
+                            $insertOrUpdateInv->id_proveedor = $factInpid_proveedor;
                             
                             if ($insertOrUpdateInv->save()) {
                                 $this->checkFalla($id_pro,$ctNew);
@@ -398,10 +400,7 @@ class InventarioController extends Controller
                     throw new \Exception("¡Factura ya existe!", 1);
 
                 }
-            }else{
-                throw new \Exception("¡No existe proveedor ".$proveedor_name."!", 1);
-
-            }
+            
             
 
             

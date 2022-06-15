@@ -145,8 +145,8 @@ class sendCentral extends Controller
         $ped = pedidos::with(["items"=>function($q){
             $q->with("producto");
         }])
-        /* ->where("estado",1)
-        ->where("export",1) */
+        ->where("estado",1)
+        ->where("export",1)
         ->orderBy("id","desc")
         ->get()
         ->map(function($q){
