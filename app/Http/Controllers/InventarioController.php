@@ -328,8 +328,7 @@ class InventarioController extends Controller
             
           
                 $id = $pedido["id"];
-                $factInpid_proveedor = $pedido["producto"]["id_proveedor"];
-                $factInpid_categoria = $pedido["producto"]["id_categoria"];
+                
                 $factInpnumfact = $pedido["id"];
                 $factInpdescripcion = "De centro de acopio ".$pedido["created_at"];
                 $factInpmonto = $pedido["venta"];
@@ -341,7 +340,7 @@ class InventarioController extends Controller
                 if (!$checkIfExitsFact) {
                     $fact = new factura;
                     $fact->id = $id;
-                    $fact->id_proveedor = $factInpid_proveedor;
+                    $fact->id_proveedor = 1;
                     $fact->numfact = $factInpnumfact;
                     $fact->descripcion = $factInpdescripcion;
                     $fact->monto = $factInpmonto;
@@ -361,6 +360,8 @@ class InventarioController extends Controller
                             $codigo_barras = $item["producto"]["codigo_barras"];
                             $descripcion = $item["producto"]["descripcion"];
 
+                            
+
 
                             if (isset($item["ct_real"])) {
                                 $ctNew = $item["ct_real"];
@@ -378,8 +379,8 @@ class InventarioController extends Controller
                             $insertOrUpdateInv->codigo_barras = $codigo_barras;
                             $insertOrUpdateInv->descripcion = $descripcion;
                             
-                            $insertOrUpdateInv->id_categoria = $factInpid_categoria;
-                            $insertOrUpdateInv->id_proveedor = $factInpid_proveedor;
+                            $insertOrUpdateInv->id_categoria = $pedido["producto"]["id_categoria"];
+                            $insertOrUpdateInv->id_proveedor = $pedido["producto"]["id_proveedor"];
                             
                             if ($insertOrUpdateInv->save()) {
                                 $this->checkFalla($id_pro,$ctNew);
