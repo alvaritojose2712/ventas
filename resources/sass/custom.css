@@ -21,6 +21,9 @@
 
   
 }
+.invalid{
+  border-color: #dc3545 !important;
+}
 body *::-webkit-scrollbar {
     width: 1em;
 }

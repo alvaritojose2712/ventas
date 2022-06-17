@@ -880,7 +880,12 @@ class InventarioController extends Controller
 
             return true;   
         } catch (\Exception $e) {
-            throw new \Exception("Error: ".$e->getMessage(), 1);
+            if ($e->errorInfo[1]=="1062") {
+                throw new \Exception("Código Duplicado. ".$e->errorInfo[2], 1);
+            }else{
+                throw new \Exception("Error: ".$e->getMessage(), 1);
+
+            }
         }
     }
     public function insertItemFact($id_factura,$insertOrUpdateInv,$ctInsert,$beforecantidad,$ctNew,$tipo)

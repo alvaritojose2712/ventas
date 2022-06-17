@@ -218,7 +218,7 @@ function ModalSelectFactura({
                       {factOrderBy == "created_at" ? (<i className={factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"}></i>) : null}
                     </span>
                   </div>
-                  {facturas?facturas.map((e,i)=>
+                  {facturas?facturas.length?facturas.map((e,i)=>
                     <div className="text-secondary mb-3 pointer shadow p-2" key={e.id}>
                       <div className="text-center">
                       <small className="text-muted">{e.created_at}</small>
@@ -247,7 +247,7 @@ function ModalSelectFactura({
 
                       </div>
                     </div>)
-                  :null}
+                  :null:null}
                 </>
               :null}
             </div>

@@ -267,7 +267,8 @@ export default function InventarioForzado({
                                     </td>
                                     <td className="cell1">
                                         <input type="text"
-                                            disabled={type(e.type)} className="form-control form-control-sm"
+                                            required={true}
+                                            disabled={type(e.type)} className={("form-control form-control-sm ")+(!e.codigo_barras?"invalid":null)}
                                             value={!e.codigo_barras?"":e.codigo_barras}
                                             onChange={e => changeInventario((e.target.value), i, e.id, "changeInput", "codigo_barras")}
                                             placeholder="codigo_barras..." />
@@ -276,7 +277,7 @@ export default function InventarioForzado({
                                     <td className="cell05">
                                         <select
                                             disabled={type(e.type)}
-                                            className="form-control form-control-sm"
+                                            className={("form-control form-control-sm ")+(!e.unidad?"invalid":null)}
                                             value={!e.unidad?"":e.unidad}
                                             onChange={e => changeInventario((e.target.value), i, e.id, "changeInput", "unidad")}
                                         >
@@ -294,7 +295,8 @@ export default function InventarioForzado({
                                     </td>
                                     <td className="cell2">
                                         <textarea type="text"
-                                            disabled={type(e.type)} className="form-control form-control-sm"
+                                            required={true}
+                                            disabled={type(e.type)} className={("form-control form-control-sm ")+(!e.descripcion?"invalid":null)}
                                             value={!e.descripcion?"":e.descripcion}
                                             onChange={e => changeInventario((e.target.value.replace("\n","")), i, e.id, "changeInput", "descripcion")}
                                             placeholder="descripcion..."></textarea>
@@ -302,7 +304,8 @@ export default function InventarioForzado({
                                     </td>
                                     <td className="cell05">
                                         <input type="text"
-                                            disabled={type(e.type)} className="form-control form-control-sm"
+                                            required={true}
+                                            disabled={type(e.type)} className={("form-control form-control-sm ")+(!e.cantidad?"invalid":null)}
                                             value={!e.cantidad?"":e.cantidad}
                                             onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad")}
                                             placeholder="cantidad..." />
@@ -310,7 +313,8 @@ export default function InventarioForzado({
                                     </td>
                                     <td className="cell1">
                                         <input type="text"
-                                            disabled={type(e.type)} className="form-control form-control-sm"
+                                            required={true}
+                                            disabled={type(e.type)} className={("form-control form-control-sm ")+(!e.precio_base?"invalid":null)}
                                             value={!e.precio_base?"":e.precio_base}
                                             onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio_base")}
                                             placeholder="Base..." />
@@ -321,7 +325,8 @@ export default function InventarioForzado({
                                     <td className="cell15">
                                         <div className="input-group">
                                             <input type="text"
-                                                disabled={type(e.type)} className="form-control form-control-sm"
+                                                required={true}
+                                                disabled={type(e.type)} className={("form-control form-control-sm ")+(!e.precio?"invalid":null)}
                                                 value={!e.precio?"":e.precio}
                                                 onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio")}
                                                 placeholder="Venta..." />
@@ -339,7 +344,7 @@ export default function InventarioForzado({
                                         <select
                                             required={true}
                                             disabled={type(e.type)} 
-                                            className="form-control form-control-sm"
+                                            className={("form-control form-control-sm ")+(!e.id_categoria?"invalid":null)}
                                             value={!e.id_categoria?"":e.id_categoria}
                                             onChange={e => changeInventario((e.target.value), i, e.id, "changeInput", "id_categoria")}
                                         >
@@ -351,7 +356,7 @@ export default function InventarioForzado({
                                         <select
                                             required={true}
                                             disabled={type(e.type)}
-                                            className="form-control form-control-sm"
+                                            className={("form-control form-control-sm ")+(!e.id_proveedor?"invalid":null)}
                                             value={!e.id_proveedor?"":e.id_proveedor}
                                             onChange={e => changeInventario((e.target.value), i, e.id, "changeInput", "id_proveedor")}
                                         >

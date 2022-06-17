@@ -29,6 +29,7 @@ use App\Http\Controllers\PagosReferenciasController;
 use App\Http\Controllers\GastosController;
 
 
+Route::get('getip', [sendCentral::class,"getip"]);
 Route::get('/backup', function () {
 
     \Illuminate\Support\Facades\Artisan::call('backup:run');

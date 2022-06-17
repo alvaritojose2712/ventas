@@ -2875,6 +2875,9 @@ function updateinventario() {
     setLoading(false)
   })
 }
+const getip = () => {
+  db.getip({}).then(res=>alert(res.data))
+}
 const getmastermachine = () => {
   setLoading(true)
   setpathcentral("")
@@ -2899,11 +2902,7 @@ const getPedidosCentral = () => {
         if (res.data[0]){
           if (res.data[0].id) {
             setpedidoCentral(res.data)
-          }else {
-            setpedidoCentral([])
           }
-        }else {
-          setpedidoCentral([])
         }
       }else{
         setpedidoCentral([])
@@ -2912,6 +2911,8 @@ const getPedidosCentral = () => {
       if (res.data.msj) {
         notificar(res)
       }
+    }else{
+      setpedidoCentral([])
     }
   })
 }
@@ -3235,7 +3236,9 @@ const changeModLote = (val, i, id, type, name = null) => {
 const reporteInventario = () => {
   db.openReporteInventario()
 }
-const guardarNuevoProductoLote = () => {
+
+const guardarNuevoProductoLote = e => {
+  // e.preventDefault()
   let id_factura = null
 
   if (factSelectIndex != null) {
@@ -3271,7 +3274,7 @@ const guardarNuevoProductoLote = () => {
       }catch(err){}
     })
   }else{
-    alert("¡Error con los campos! Algunos pueden estar vacíos"+JSON.stringify(checkempty))
+    alert("¡Error con los campos! Algunos pueden estar vacíos "+JSON.stringify(checkempty))
   }
 
 }
@@ -3427,7 +3430,8 @@ const auth = permiso => {
   return (
     <>
       
-        <Header 
+        <Header
+        getip={getip}
         auth={auth}
         logout={logout}
         user={user}

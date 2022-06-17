@@ -1013,7 +1013,7 @@ module.exports = function transformData(data, headers, fns) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 
 
 var utils = __webpack_require__(/*! ./utils */ "./node_modules/axios/lib/utils.js");
@@ -3120,7 +3120,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "moneda": () => (/* binding */ moneda),
 /* harmony export */   "number": () => (/* binding */ number)
 /* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 var moneda = function moneda(value) {
   var decimals = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
@@ -9389,6 +9389,12 @@ function Facturar(_ref) {
     });
   }
 
+  var getip = function getip() {
+    _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].getip({}).then(function (res) {
+      return alert(res.data);
+    });
+  };
+
   var getmastermachine = function getmastermachine() {
     setLoading(true);
     setpathcentral("");
@@ -9417,11 +9423,7 @@ function Facturar(_ref) {
           if (res.data[0]) {
             if (res.data[0].id) {
               setpedidoCentral(res.data);
-            } else {
-              setpedidoCentral([]);
             }
-          } else {
-            setpedidoCentral([]);
           }
         } else {
           setpedidoCentral([]);
@@ -9430,6 +9432,8 @@ function Facturar(_ref) {
         if (res.data.msj) {
           notificar(res);
         }
+      } else {
+        setpedidoCentral([]);
       }
     });
   };
@@ -9762,7 +9766,8 @@ function Facturar(_ref) {
     _database_database__WEBPACK_IMPORTED_MODULE_4__["default"].openReporteInventario();
   };
 
-  var guardarNuevoProductoLote = function guardarNuevoProductoLote() {
+  var guardarNuevoProductoLote = function guardarNuevoProductoLote(e) {
+    // e.preventDefault()
     var id_factura = null;
 
     if (factSelectIndex != null) {
@@ -9795,7 +9800,7 @@ function Facturar(_ref) {
         } catch (err) {}
       });
     } else {
-      alert("¡Error con los campos! Algunos pueden estar vacíos" + JSON.stringify(checkempty));
+      alert("¡Error con los campos! Algunos pueden estar vacíos " + JSON.stringify(checkempty));
     }
   };
 
@@ -9980,6 +9985,7 @@ function Facturar(_ref) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_components_header__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      getip: getip,
       auth: auth,
       logout: logout,
       user: user,
@@ -11105,6 +11111,7 @@ __webpack_require__.r(__webpack_exports__);
 function Header(_ref) {
   var user = _ref.user,
       logout = _ref.logout,
+      getip = _ref.getip,
       settoggleClientesBtn = _ref.settoggleClientesBtn,
       toggleClientesBtn = _ref.toggleClientesBtn,
       getVentasClick = _ref.getVentasClick,
@@ -11161,6 +11168,7 @@ function Header(_ref) {
               className: "fa fa-cogs"
             })
           }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+            onClick: getip,
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
               className: "fw-bold",
               children: user.nombre
@@ -12571,8 +12579,9 @@ function InventarioForzado(_ref) {
                   className: "cell1",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
                     type: "text",
+                    required: true,
                     disabled: type(e.type),
-                    className: "form-control form-control-sm",
+                    className: "form-control form-control-sm " + (!e.codigo_barras ? "invalid" : null),
                     value: !e.codigo_barras ? "" : e.codigo_barras,
                     onChange: function onChange(e) {
                       return changeInventario(e.target.value, i, e.id, "changeInput", "codigo_barras");
@@ -12583,7 +12592,7 @@ function InventarioForzado(_ref) {
                   className: "cell05",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
                     disabled: type(e.type),
-                    className: "form-control form-control-sm",
+                    className: "form-control form-control-sm " + (!e.unidad ? "invalid" : null),
                     value: !e.unidad ? "" : e.unidad,
                     onChange: function onChange(e) {
                       return changeInventario(e.target.value, i, e.id, "changeInput", "unidad");
@@ -12624,8 +12633,9 @@ function InventarioForzado(_ref) {
                   className: "cell2",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("textarea", {
                     type: "text",
+                    required: true,
                     disabled: type(e.type),
-                    className: "form-control form-control-sm",
+                    className: "form-control form-control-sm " + (!e.descripcion ? "invalid" : null),
                     value: !e.descripcion ? "" : e.descripcion,
                     onChange: function onChange(e) {
                       return changeInventario(e.target.value.replace("\n", ""), i, e.id, "changeInput", "descripcion");
@@ -12636,8 +12646,9 @@ function InventarioForzado(_ref) {
                   className: "cell05",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
                     type: "text",
+                    required: true,
                     disabled: type(e.type),
-                    className: "form-control form-control-sm",
+                    className: "form-control form-control-sm " + (!e.cantidad ? "invalid" : null),
                     value: !e.cantidad ? "" : e.cantidad,
                     onChange: function onChange(e) {
                       return changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad");
@@ -12648,8 +12659,9 @@ function InventarioForzado(_ref) {
                   className: "cell1",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
                     type: "text",
+                    required: true,
                     disabled: type(e.type),
-                    className: "form-control form-control-sm",
+                    className: "form-control form-control-sm " + (!e.precio_base ? "invalid" : null),
                     value: !e.precio_base ? "" : e.precio_base,
                     onChange: function onChange(e) {
                       return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio_base");
@@ -12662,8 +12674,9 @@ function InventarioForzado(_ref) {
                     className: "input-group",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
                       type: "text",
+                      required: true,
                       disabled: type(e.type),
-                      className: "form-control form-control-sm",
+                      className: "form-control form-control-sm " + (!e.precio ? "invalid" : null),
                       value: !e.precio ? "" : e.precio,
                       onChange: function onChange(e) {
                         return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio");
@@ -12687,7 +12700,7 @@ function InventarioForzado(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
                     required: true,
                     disabled: type(e.type),
-                    className: "form-control form-control-sm",
+                    className: "form-control form-control-sm " + (!e.id_categoria ? "invalid" : null),
                     value: !e.id_categoria ? "" : e.id_categoria,
                     onChange: function onChange(e) {
                       return changeInventario(e.target.value, i, e.id, "changeInput", "id_categoria");
@@ -12704,7 +12717,7 @@ function InventarioForzado(_ref) {
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
                     required: true,
                     disabled: type(e.type),
-                    className: "form-control form-control-sm",
+                    className: "form-control form-control-sm " + (!e.id_proveedor ? "invalid" : null),
                     value: !e.id_proveedor ? "" : e.id_proveedor,
                     onChange: function onChange(e) {
                       return changeInventario(e.target.value, i, e.id, "changeInput", "id_proveedor");
@@ -12811,7 +12824,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _cargando__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cargando */ "./resources/js/components/cargando.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -12819,11 +12832,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
@@ -12833,7 +12846,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
@@ -13284,7 +13297,7 @@ function ModalSelectFactura(_ref) {
                     className: factOrderDescAsc == "desc" ? "fa fa-arrow-up" : "fa fa-arrow-down"
                   }) : null]
                 })]
-              }), facturas ? facturas.map(function (e, i) {
+              }), facturas ? facturas.length ? facturas.map(function (e, i) {
                 return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                   className: "text-secondary mb-3 pointer shadow p-2",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
@@ -13334,7 +13347,7 @@ function ModalSelectFactura(_ref) {
                     })]
                   })]
                 }, e.id);
-              }) : null]
+              }) : null : null]
             }) : null]
           }), modFact == "proveedor" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
             className: "col",
@@ -15311,24 +15324,17 @@ function PedidosCentralComponent(_ref) {
       className: "row",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         className: "col-3",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
           className: "mb-2",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-            className: "btn btn-success w-100",
-            onClick: getmastermachine,
-            children: "Buscar a Master"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", {
-            className: "list-group",
-            children: mastermachines ? mastermachines.map(function (e, i) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
-                onClick: function onClick() {
-                  return setpathcentral(e);
-                },
-                className: (pathcentral == e ? "active" : null) + " list-group-item-action list-group-item",
-                children: e
-              }, i);
-            }) : null
-          })]
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+            placeholder: "C\xF3digo de master",
+            type: "text",
+            className: "form-control",
+            onChange: function onChange(e) {
+              return setpathcentral(e.target.value);
+            },
+            value: pathcentral
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
           className: "btn-group",
           children: pathcentral ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
@@ -16771,6 +16777,11 @@ var db = {
   getPedidosFast: function getPedidosFast(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "getPedidosFast", data);
   },
+  getip: function getip(data) {
+    return axios__WEBPACK_IMPORTED_MODULE_1___default().get(host + "getip", {
+      params: data
+    });
+  },
   setPagoCredito: function setPagoCredito(data) {
     return axios__WEBPACK_IMPORTED_MODULE_1___default().post(host + "setPagoCredito", data);
   },
@@ -17085,10 +17096,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./resources/css/modal.css":
-/*!********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./resources/css/modal.css ***!
-  \********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./resources/css/modal.css":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./resources/css/modal.css ***!
+  \*******************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -17349,9 +17360,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "bisectRight": () => (/* binding */ bisectRight),
-/* harmony export */   "bisectLeft": () => (/* binding */ bisectLeft),
 /* harmony export */   "bisectCenter": () => (/* binding */ bisectCenter),
+/* harmony export */   "bisectLeft": () => (/* binding */ bisectLeft),
+/* harmony export */   "bisectRight": () => (/* binding */ bisectRight),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _ascending_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ascending.js */ "./node_modules/d3-array/src/ascending.js");
@@ -17756,14 +17767,14 @@ function tickStep(start, stop, count) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Color": () => (/* binding */ Color),
-/* harmony export */   "darker": () => (/* binding */ darker),
-/* harmony export */   "brighter": () => (/* binding */ brighter),
-/* harmony export */   "default": () => (/* binding */ color),
-/* harmony export */   "rgbConvert": () => (/* binding */ rgbConvert),
-/* harmony export */   "rgb": () => (/* binding */ rgb),
 /* harmony export */   "Rgb": () => (/* binding */ Rgb),
+/* harmony export */   "brighter": () => (/* binding */ brighter),
+/* harmony export */   "darker": () => (/* binding */ darker),
+/* harmony export */   "default": () => (/* binding */ color),
+/* harmony export */   "hsl": () => (/* binding */ hsl),
 /* harmony export */   "hslConvert": () => (/* binding */ hslConvert),
-/* harmony export */   "hsl": () => (/* binding */ hsl)
+/* harmony export */   "rgb": () => (/* binding */ rgb),
+/* harmony export */   "rgbConvert": () => (/* binding */ rgbConvert)
 /* harmony export */ });
 /* harmony import */ var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./define.js */ "./node_modules/d3-color/src/define.js");
 
@@ -18176,9 +18187,9 @@ function extend(parent, definition) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ defaultLocale),
 /* harmony export */   "format": () => (/* binding */ format),
-/* harmony export */   "formatPrefix": () => (/* binding */ formatPrefix),
-/* harmony export */   "default": () => (/* binding */ defaultLocale)
+/* harmony export */   "formatPrefix": () => (/* binding */ formatPrefix)
 /* harmony export */ });
 /* harmony import */ var _locale_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./locale.js */ "./node_modules/d3-format/src/locale.js");
 
@@ -18324,8 +18335,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "prefixExponent": () => (/* binding */ prefixExponent),
-/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "prefixExponent": () => (/* binding */ prefixExponent)
 /* harmony export */ });
 /* harmony import */ var _formatDecimal_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./formatDecimal.js */ "./node_modules/d3-format/src/formatDecimal.js");
 
@@ -18384,8 +18395,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ formatSpecifier),
-/* harmony export */   "FormatSpecifier": () => (/* binding */ FormatSpecifier)
+/* harmony export */   "FormatSpecifier": () => (/* binding */ FormatSpecifier),
+/* harmony export */   "default": () => (/* binding */ formatSpecifier)
 /* harmony export */ });
 // [[fill]align][sign][symbol][0][width][,][.precision][~][type]
 var re = /^(?:(.)?([<>=^]))?([+\-( ])?([$#])?(0)?(\d+)?(,)?(\.\d+)?(~)?([a-z%])?$/i;
@@ -18867,9 +18878,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "hue": () => (/* binding */ hue),
+/* harmony export */   "default": () => (/* binding */ nogamma),
 /* harmony export */   "gamma": () => (/* binding */ gamma),
-/* harmony export */   "default": () => (/* binding */ nogamma)
+/* harmony export */   "hue": () => (/* binding */ hue)
 /* harmony export */ });
 /* harmony import */ var _constant_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constant.js */ "./node_modules/d3-interpolate/src/constant.js");
 
@@ -19574,10 +19585,10 @@ function constants(x) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "identity": () => (/* binding */ identity),
 /* harmony export */   "copy": () => (/* binding */ copy),
-/* harmony export */   "transformer": () => (/* binding */ transformer),
-/* harmony export */   "default": () => (/* binding */ continuous)
+/* harmony export */   "default": () => (/* binding */ continuous),
+/* harmony export */   "identity": () => (/* binding */ identity),
+/* harmony export */   "transformer": () => (/* binding */ transformer)
 /* harmony export */ });
 /* harmony import */ var d3_array__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! d3-array */ "./node_modules/d3-array/src/bisect.js");
 /* harmony import */ var d3_interpolate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! d3-interpolate */ "./node_modules/d3-interpolate/src/value.js");
@@ -19725,9 +19736,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ diverging),
 /* harmony export */   "divergingLog": () => (/* binding */ divergingLog),
-/* harmony export */   "divergingSymlog": () => (/* binding */ divergingSymlog),
 /* harmony export */   "divergingPow": () => (/* binding */ divergingPow),
-/* harmony export */   "divergingSqrt": () => (/* binding */ divergingSqrt)
+/* harmony export */   "divergingSqrt": () => (/* binding */ divergingSqrt),
+/* harmony export */   "divergingSymlog": () => (/* binding */ divergingSymlog)
 /* harmony export */ });
 /* harmony import */ var d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! d3-interpolate */ "./node_modules/d3-interpolate/src/piecewise.js");
 /* harmony import */ var d3_interpolate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! d3-interpolate */ "./node_modules/d3-interpolate/src/value.js");
@@ -19902,32 +19913,32 @@ function identity(domain) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "scaleBand": () => (/* reexport safe */ _band_js__WEBPACK_IMPORTED_MODULE_0__["default"]),
-/* harmony export */   "scalePoint": () => (/* reexport safe */ _band_js__WEBPACK_IMPORTED_MODULE_0__.point),
-/* harmony export */   "scaleIdentity": () => (/* reexport safe */ _identity_js__WEBPACK_IMPORTED_MODULE_1__["default"]),
-/* harmony export */   "scaleLinear": () => (/* reexport safe */ _linear_js__WEBPACK_IMPORTED_MODULE_2__["default"]),
-/* harmony export */   "scaleLog": () => (/* reexport safe */ _log_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
-/* harmony export */   "scaleSymlog": () => (/* reexport safe */ _symlog_js__WEBPACK_IMPORTED_MODULE_4__["default"]),
-/* harmony export */   "scaleOrdinal": () => (/* reexport safe */ _ordinal_js__WEBPACK_IMPORTED_MODULE_5__["default"]),
-/* harmony export */   "scaleImplicit": () => (/* reexport safe */ _ordinal_js__WEBPACK_IMPORTED_MODULE_5__.implicit),
-/* harmony export */   "scalePow": () => (/* reexport safe */ _pow_js__WEBPACK_IMPORTED_MODULE_6__["default"]),
-/* harmony export */   "scaleSqrt": () => (/* reexport safe */ _pow_js__WEBPACK_IMPORTED_MODULE_6__.sqrt),
-/* harmony export */   "scaleRadial": () => (/* reexport safe */ _radial_js__WEBPACK_IMPORTED_MODULE_7__["default"]),
-/* harmony export */   "scaleQuantile": () => (/* reexport safe */ _quantile_js__WEBPACK_IMPORTED_MODULE_8__["default"]),
-/* harmony export */   "scaleQuantize": () => (/* reexport safe */ _quantize_js__WEBPACK_IMPORTED_MODULE_9__["default"]),
-/* harmony export */   "scaleThreshold": () => (/* reexport safe */ _threshold_js__WEBPACK_IMPORTED_MODULE_10__["default"]),
-/* harmony export */   "scaleTime": () => (/* reexport safe */ _time_js__WEBPACK_IMPORTED_MODULE_11__["default"]),
-/* harmony export */   "scaleUtc": () => (/* reexport safe */ _utcTime_js__WEBPACK_IMPORTED_MODULE_12__["default"]),
-/* harmony export */   "scaleSequential": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__["default"]),
-/* harmony export */   "scaleSequentialLog": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__.sequentialLog),
-/* harmony export */   "scaleSequentialPow": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__.sequentialPow),
-/* harmony export */   "scaleSequentialSqrt": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__.sequentialSqrt),
-/* harmony export */   "scaleSequentialSymlog": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__.sequentialSymlog),
-/* harmony export */   "scaleSequentialQuantile": () => (/* reexport safe */ _sequentialQuantile_js__WEBPACK_IMPORTED_MODULE_14__["default"]),
 /* harmony export */   "scaleDiverging": () => (/* reexport safe */ _diverging_js__WEBPACK_IMPORTED_MODULE_15__["default"]),
 /* harmony export */   "scaleDivergingLog": () => (/* reexport safe */ _diverging_js__WEBPACK_IMPORTED_MODULE_15__.divergingLog),
 /* harmony export */   "scaleDivergingPow": () => (/* reexport safe */ _diverging_js__WEBPACK_IMPORTED_MODULE_15__.divergingPow),
 /* harmony export */   "scaleDivergingSqrt": () => (/* reexport safe */ _diverging_js__WEBPACK_IMPORTED_MODULE_15__.divergingSqrt),
 /* harmony export */   "scaleDivergingSymlog": () => (/* reexport safe */ _diverging_js__WEBPACK_IMPORTED_MODULE_15__.divergingSymlog),
+/* harmony export */   "scaleIdentity": () => (/* reexport safe */ _identity_js__WEBPACK_IMPORTED_MODULE_1__["default"]),
+/* harmony export */   "scaleImplicit": () => (/* reexport safe */ _ordinal_js__WEBPACK_IMPORTED_MODULE_5__.implicit),
+/* harmony export */   "scaleLinear": () => (/* reexport safe */ _linear_js__WEBPACK_IMPORTED_MODULE_2__["default"]),
+/* harmony export */   "scaleLog": () => (/* reexport safe */ _log_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
+/* harmony export */   "scaleOrdinal": () => (/* reexport safe */ _ordinal_js__WEBPACK_IMPORTED_MODULE_5__["default"]),
+/* harmony export */   "scalePoint": () => (/* reexport safe */ _band_js__WEBPACK_IMPORTED_MODULE_0__.point),
+/* harmony export */   "scalePow": () => (/* reexport safe */ _pow_js__WEBPACK_IMPORTED_MODULE_6__["default"]),
+/* harmony export */   "scaleQuantile": () => (/* reexport safe */ _quantile_js__WEBPACK_IMPORTED_MODULE_8__["default"]),
+/* harmony export */   "scaleQuantize": () => (/* reexport safe */ _quantize_js__WEBPACK_IMPORTED_MODULE_9__["default"]),
+/* harmony export */   "scaleRadial": () => (/* reexport safe */ _radial_js__WEBPACK_IMPORTED_MODULE_7__["default"]),
+/* harmony export */   "scaleSequential": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__["default"]),
+/* harmony export */   "scaleSequentialLog": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__.sequentialLog),
+/* harmony export */   "scaleSequentialPow": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__.sequentialPow),
+/* harmony export */   "scaleSequentialQuantile": () => (/* reexport safe */ _sequentialQuantile_js__WEBPACK_IMPORTED_MODULE_14__["default"]),
+/* harmony export */   "scaleSequentialSqrt": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__.sequentialSqrt),
+/* harmony export */   "scaleSequentialSymlog": () => (/* reexport safe */ _sequential_js__WEBPACK_IMPORTED_MODULE_13__.sequentialSymlog),
+/* harmony export */   "scaleSqrt": () => (/* reexport safe */ _pow_js__WEBPACK_IMPORTED_MODULE_6__.sqrt),
+/* harmony export */   "scaleSymlog": () => (/* reexport safe */ _symlog_js__WEBPACK_IMPORTED_MODULE_4__["default"]),
+/* harmony export */   "scaleThreshold": () => (/* reexport safe */ _threshold_js__WEBPACK_IMPORTED_MODULE_10__["default"]),
+/* harmony export */   "scaleTime": () => (/* reexport safe */ _time_js__WEBPACK_IMPORTED_MODULE_11__["default"]),
+/* harmony export */   "scaleUtc": () => (/* reexport safe */ _utcTime_js__WEBPACK_IMPORTED_MODULE_12__["default"]),
 /* harmony export */   "tickFormat": () => (/* reexport safe */ _tickFormat_js__WEBPACK_IMPORTED_MODULE_16__["default"])
 /* harmony export */ });
 /* harmony import */ var _band_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./band.js */ "./node_modules/d3-scale/src/band.js");
@@ -19993,8 +20004,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "initRange": () => (/* binding */ initRange),
-/* harmony export */   "initInterpolator": () => (/* binding */ initInterpolator)
+/* harmony export */   "initInterpolator": () => (/* binding */ initInterpolator),
+/* harmony export */   "initRange": () => (/* binding */ initRange)
 /* harmony export */ });
 function initRange(domain, range) {
   switch (arguments.length) {
@@ -20035,8 +20046,8 @@ function initInterpolator(domain, interpolator) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "linearish": () => (/* binding */ linearish),
-/* harmony export */   "default": () => (/* binding */ linear)
+/* harmony export */   "default": () => (/* binding */ linear),
+/* harmony export */   "linearish": () => (/* binding */ linearish)
 /* harmony export */ });
 /* harmony import */ var d3_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-array */ "./node_modules/d3-array/src/ticks.js");
 /* harmony import */ var _continuous_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./continuous.js */ "./node_modules/d3-scale/src/continuous.js");
@@ -20125,8 +20136,8 @@ function linear() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "loggish": () => (/* binding */ loggish),
-/* harmony export */   "default": () => (/* binding */ log)
+/* harmony export */   "default": () => (/* binding */ log),
+/* harmony export */   "loggish": () => (/* binding */ loggish)
 /* harmony export */ });
 /* harmony import */ var d3_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-array */ "./node_modules/d3-array/src/ticks.js");
 /* harmony import */ var d3_format__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! d3-format */ "./node_modules/d3-format/src/defaultLocale.js");
@@ -20343,8 +20354,8 @@ function number(x) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "implicit": () => (/* binding */ implicit),
-/* harmony export */   "default": () => (/* binding */ ordinal)
+/* harmony export */   "default": () => (/* binding */ ordinal),
+/* harmony export */   "implicit": () => (/* binding */ implicit)
 /* harmony export */ });
 /* harmony import */ var _init_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./init.js */ "./node_modules/d3-scale/src/init.js");
 
@@ -20406,8 +20417,8 @@ function ordinal() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "powish": () => (/* binding */ powish),
 /* harmony export */   "default": () => (/* binding */ pow),
+/* harmony export */   "powish": () => (/* binding */ powish),
 /* harmony export */   "sqrt": () => (/* binding */ sqrt)
 /* harmony export */ });
 /* harmony import */ var _linear_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./linear.js */ "./node_modules/d3-scale/src/linear.js");
@@ -20711,9 +20722,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "copy": () => (/* binding */ copy),
 /* harmony export */   "default": () => (/* binding */ sequential),
 /* harmony export */   "sequentialLog": () => (/* binding */ sequentialLog),
-/* harmony export */   "sequentialSymlog": () => (/* binding */ sequentialSymlog),
 /* harmony export */   "sequentialPow": () => (/* binding */ sequentialPow),
-/* harmony export */   "sequentialSqrt": () => (/* binding */ sequentialSqrt)
+/* harmony export */   "sequentialSqrt": () => (/* binding */ sequentialSqrt),
+/* harmony export */   "sequentialSymlog": () => (/* binding */ sequentialSymlog)
 /* harmony export */ });
 /* harmony import */ var d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! d3-interpolate */ "./node_modules/d3-interpolate/src/value.js");
 /* harmony import */ var d3_interpolate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! d3-interpolate */ "./node_modules/d3-interpolate/src/round.js");
@@ -20901,8 +20912,8 @@ function sequentialQuantile() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "symlogish": () => (/* binding */ symlogish),
-/* harmony export */   "default": () => (/* binding */ symlog)
+/* harmony export */   "default": () => (/* binding */ symlog),
+/* harmony export */   "symlogish": () => (/* binding */ symlogish)
 /* harmony export */ });
 /* harmony import */ var _linear_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./linear.js */ "./node_modules/d3-scale/src/linear.js");
 /* harmony import */ var _continuous_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./continuous.js */ "./node_modules/d3-scale/src/continuous.js");
@@ -21326,8 +21337,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "slice": () => (/* binding */ slice),
-/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "slice": () => (/* binding */ slice)
 /* harmony export */ });
 var slice = Array.prototype.slice;
 
@@ -21369,9 +21380,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "point": () => (/* binding */ point),
 /* harmony export */   "Basis": () => (/* binding */ Basis),
-/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "point": () => (/* binding */ point)
 /* harmony export */ });
 function point(that, x, y) {
   that._context.bezierCurveTo(
@@ -21849,8 +21860,8 @@ function controlPoints(x) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   "stepBefore": () => (/* binding */ stepBefore),
-/* harmony export */   "stepAfter": () => (/* binding */ stepAfter)
+/* harmony export */   "stepAfter": () => (/* binding */ stepAfter),
+/* harmony export */   "stepBefore": () => (/* binding */ stepBefore)
 /* harmony export */ });
 function Step(context, t) {
   this._context = context;
@@ -21996,18 +22007,18 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "abs": () => (/* binding */ abs),
+/* harmony export */   "acos": () => (/* binding */ acos),
+/* harmony export */   "asin": () => (/* binding */ asin),
 /* harmony export */   "atan2": () => (/* binding */ atan2),
 /* harmony export */   "cos": () => (/* binding */ cos),
+/* harmony export */   "epsilon": () => (/* binding */ epsilon),
+/* harmony export */   "halfPi": () => (/* binding */ halfPi),
 /* harmony export */   "max": () => (/* binding */ max),
 /* harmony export */   "min": () => (/* binding */ min),
+/* harmony export */   "pi": () => (/* binding */ pi),
 /* harmony export */   "sin": () => (/* binding */ sin),
 /* harmony export */   "sqrt": () => (/* binding */ sqrt),
-/* harmony export */   "epsilon": () => (/* binding */ epsilon),
-/* harmony export */   "pi": () => (/* binding */ pi),
-/* harmony export */   "halfPi": () => (/* binding */ halfPi),
-/* harmony export */   "tau": () => (/* binding */ tau),
-/* harmony export */   "acos": () => (/* binding */ acos),
-/* harmony export */   "asin": () => (/* binding */ asin)
+/* harmony export */   "tau": () => (/* binding */ tau)
 /* harmony export */ });
 var abs = Math.abs;
 var atan2 = Math.atan2;
@@ -22294,8 +22305,8 @@ function stackSeries(key) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "symbols": () => (/* binding */ symbols),
-/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "symbols": () => (/* binding */ symbols)
 /* harmony export */ });
 /* harmony import */ var d3_path__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! d3-path */ "./node_modules/d3-path/src/path.js");
 /* harmony import */ var _symbol_circle_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./symbol/circle.js */ "./node_modules/d3-shape/src/symbol/circle.js");
@@ -22581,11 +22592,11 @@ var c = -0.5,
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ defaultLocale),
 /* harmony export */   "timeFormat": () => (/* binding */ timeFormat),
 /* harmony export */   "timeParse": () => (/* binding */ timeParse),
 /* harmony export */   "utcFormat": () => (/* binding */ utcFormat),
-/* harmony export */   "utcParse": () => (/* binding */ utcParse),
-/* harmony export */   "default": () => (/* binding */ defaultLocale)
+/* harmony export */   "utcParse": () => (/* binding */ utcParse)
 /* harmony export */ });
 /* harmony import */ var _locale_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./locale.js */ "./node_modules/d3-time-format/src/locale.js");
 
@@ -23335,8 +23346,8 @@ function formatUnixTimestampSeconds(d) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   "days": () => (/* binding */ days)
+/* harmony export */   "days": () => (/* binding */ days),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _interval_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./interval.js */ "./node_modules/d3-time/src/interval.js");
 /* harmony import */ var _duration_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./duration.js */ "./node_modules/d3-time/src/duration.js");
@@ -23365,12 +23376,12 @@ var days = day.range;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "durationSecond": () => (/* binding */ durationSecond),
-/* harmony export */   "durationMinute": () => (/* binding */ durationMinute),
-/* harmony export */   "durationHour": () => (/* binding */ durationHour),
 /* harmony export */   "durationDay": () => (/* binding */ durationDay),
-/* harmony export */   "durationWeek": () => (/* binding */ durationWeek),
+/* harmony export */   "durationHour": () => (/* binding */ durationHour),
+/* harmony export */   "durationMinute": () => (/* binding */ durationMinute),
 /* harmony export */   "durationMonth": () => (/* binding */ durationMonth),
+/* harmony export */   "durationSecond": () => (/* binding */ durationSecond),
+/* harmony export */   "durationWeek": () => (/* binding */ durationWeek),
 /* harmony export */   "durationYear": () => (/* binding */ durationYear)
 /* harmony export */ });
 const durationSecond = 1000;
@@ -23652,10 +23663,10 @@ var seconds = second.range;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "utcTicks": () => (/* binding */ utcTicks),
-/* harmony export */   "utcTickInterval": () => (/* binding */ utcTickInterval),
+/* harmony export */   "timeTickInterval": () => (/* binding */ timeTickInterval),
 /* harmony export */   "timeTicks": () => (/* binding */ timeTicks),
-/* harmony export */   "timeTickInterval": () => (/* binding */ timeTickInterval)
+/* harmony export */   "utcTickInterval": () => (/* binding */ utcTickInterval),
+/* harmony export */   "utcTicks": () => (/* binding */ utcTicks)
 /* harmony export */ });
 /* harmony import */ var d3_array__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! d3-array */ "./node_modules/d3-array/src/bisector.js");
 /* harmony import */ var d3_array__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! d3-array */ "./node_modules/d3-array/src/ticks.js");
@@ -23882,20 +23893,20 @@ var utcMonths = utcMonth.range;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "utcSunday": () => (/* binding */ utcSunday),
-/* harmony export */   "utcMonday": () => (/* binding */ utcMonday),
-/* harmony export */   "utcTuesday": () => (/* binding */ utcTuesday),
-/* harmony export */   "utcWednesday": () => (/* binding */ utcWednesday),
-/* harmony export */   "utcThursday": () => (/* binding */ utcThursday),
 /* harmony export */   "utcFriday": () => (/* binding */ utcFriday),
-/* harmony export */   "utcSaturday": () => (/* binding */ utcSaturday),
-/* harmony export */   "utcSundays": () => (/* binding */ utcSundays),
-/* harmony export */   "utcMondays": () => (/* binding */ utcMondays),
-/* harmony export */   "utcTuesdays": () => (/* binding */ utcTuesdays),
-/* harmony export */   "utcWednesdays": () => (/* binding */ utcWednesdays),
-/* harmony export */   "utcThursdays": () => (/* binding */ utcThursdays),
 /* harmony export */   "utcFridays": () => (/* binding */ utcFridays),
-/* harmony export */   "utcSaturdays": () => (/* binding */ utcSaturdays)
+/* harmony export */   "utcMonday": () => (/* binding */ utcMonday),
+/* harmony export */   "utcMondays": () => (/* binding */ utcMondays),
+/* harmony export */   "utcSaturday": () => (/* binding */ utcSaturday),
+/* harmony export */   "utcSaturdays": () => (/* binding */ utcSaturdays),
+/* harmony export */   "utcSunday": () => (/* binding */ utcSunday),
+/* harmony export */   "utcSundays": () => (/* binding */ utcSundays),
+/* harmony export */   "utcThursday": () => (/* binding */ utcThursday),
+/* harmony export */   "utcThursdays": () => (/* binding */ utcThursdays),
+/* harmony export */   "utcTuesday": () => (/* binding */ utcTuesday),
+/* harmony export */   "utcTuesdays": () => (/* binding */ utcTuesdays),
+/* harmony export */   "utcWednesday": () => (/* binding */ utcWednesday),
+/* harmony export */   "utcWednesdays": () => (/* binding */ utcWednesdays)
 /* harmony export */ });
 /* harmony import */ var _interval_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./interval.js */ "./node_modules/d3-time/src/interval.js");
 /* harmony import */ var _duration_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./duration.js */ "./node_modules/d3-time/src/duration.js");
@@ -23984,20 +23995,20 @@ var utcYears = utcYear.range;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "sunday": () => (/* binding */ sunday),
-/* harmony export */   "monday": () => (/* binding */ monday),
-/* harmony export */   "tuesday": () => (/* binding */ tuesday),
-/* harmony export */   "wednesday": () => (/* binding */ wednesday),
-/* harmony export */   "thursday": () => (/* binding */ thursday),
 /* harmony export */   "friday": () => (/* binding */ friday),
-/* harmony export */   "saturday": () => (/* binding */ saturday),
-/* harmony export */   "sundays": () => (/* binding */ sundays),
-/* harmony export */   "mondays": () => (/* binding */ mondays),
-/* harmony export */   "tuesdays": () => (/* binding */ tuesdays),
-/* harmony export */   "wednesdays": () => (/* binding */ wednesdays),
-/* harmony export */   "thursdays": () => (/* binding */ thursdays),
 /* harmony export */   "fridays": () => (/* binding */ fridays),
-/* harmony export */   "saturdays": () => (/* binding */ saturdays)
+/* harmony export */   "monday": () => (/* binding */ monday),
+/* harmony export */   "mondays": () => (/* binding */ mondays),
+/* harmony export */   "saturday": () => (/* binding */ saturday),
+/* harmony export */   "saturdays": () => (/* binding */ saturdays),
+/* harmony export */   "sunday": () => (/* binding */ sunday),
+/* harmony export */   "sundays": () => (/* binding */ sundays),
+/* harmony export */   "thursday": () => (/* binding */ thursday),
+/* harmony export */   "thursdays": () => (/* binding */ thursdays),
+/* harmony export */   "tuesday": () => (/* binding */ tuesday),
+/* harmony export */   "tuesdays": () => (/* binding */ tuesdays),
+/* harmony export */   "wednesday": () => (/* binding */ wednesday),
+/* harmony export */   "wednesdays": () => (/* binding */ wednesdays)
 /* harmony export */ });
 /* harmony import */ var _interval_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./interval.js */ "./node_modules/d3-time/src/interval.js");
 /* harmony import */ var _duration_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./duration.js */ "./node_modules/d3-time/src/duration.js");
@@ -52072,7 +52083,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
   \*************************************************************/
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 // Generated by CoffeeScript 1.12.2
 (function() {
   var getNanoSeconds, hrtime, loadTime, moduleLoadTime, nodeLoadTime, upTime;
@@ -80919,8 +80930,8 @@ var calStepperVals = function calStepperVals(easing, preVals, steps) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "configBezier": () => (/* binding */ configBezier),
-/* harmony export */   "configSpring": () => (/* binding */ configSpring),
-/* harmony export */   "configEasing": () => (/* binding */ configEasing)
+/* harmony export */   "configEasing": () => (/* binding */ configEasing),
+/* harmony export */   "configSpring": () => (/* binding */ configSpring)
 /* harmony export */ });
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./node_modules/react-smooth/es6/util.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -81156,11 +81167,11 @@ var configEasing = function configEasing() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "configSpring": () => (/* reexport safe */ _easing__WEBPACK_IMPORTED_MODULE_1__.configSpring),
-/* harmony export */   "configBezier": () => (/* reexport safe */ _easing__WEBPACK_IMPORTED_MODULE_1__.configBezier),
 /* harmony export */   "AnimateGroup": () => (/* reexport safe */ _AnimateGroup__WEBPACK_IMPORTED_MODULE_3__["default"]),
-/* harmony export */   "translateStyle": () => (/* reexport safe */ _util__WEBPACK_IMPORTED_MODULE_2__.translateStyle),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "configBezier": () => (/* reexport safe */ _easing__WEBPACK_IMPORTED_MODULE_1__.configBezier),
+/* harmony export */   "configSpring": () => (/* reexport safe */ _easing__WEBPACK_IMPORTED_MODULE_1__.configSpring),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "translateStyle": () => (/* reexport safe */ _util__WEBPACK_IMPORTED_MODULE_2__.translateStyle)
 /* harmony export */ });
 /* harmony import */ var _Animate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Animate */ "./node_modules/react-smooth/es6/Animate.js");
 /* harmony import */ var _easing__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./easing */ "./node_modules/react-smooth/es6/easing.js");
@@ -81220,17 +81231,17 @@ function setRafTimeout(callback) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getIntersectionKeys": () => (/* binding */ getIntersectionKeys),
-/* harmony export */   "identity": () => (/* binding */ identity),
-/* harmony export */   "getDashCase": () => (/* binding */ getDashCase),
-/* harmony export */   "generatePrefixStyle": () => (/* binding */ generatePrefixStyle),
-/* harmony export */   "log": () => (/* binding */ log),
+/* harmony export */   "compose": () => (/* binding */ compose),
 /* harmony export */   "debug": () => (/* binding */ debug),
 /* harmony export */   "debugf": () => (/* binding */ debugf),
+/* harmony export */   "generatePrefixStyle": () => (/* binding */ generatePrefixStyle),
+/* harmony export */   "getDashCase": () => (/* binding */ getDashCase),
+/* harmony export */   "getIntersectionKeys": () => (/* binding */ getIntersectionKeys),
+/* harmony export */   "getTransitionVal": () => (/* binding */ getTransitionVal),
+/* harmony export */   "identity": () => (/* binding */ identity),
+/* harmony export */   "log": () => (/* binding */ log),
 /* harmony export */   "mapObject": () => (/* binding */ mapObject),
 /* harmony export */   "translateStyle": () => (/* binding */ translateStyle),
-/* harmony export */   "compose": () => (/* binding */ compose),
-/* harmony export */   "getTransitionVal": () => (/* binding */ getTransitionVal),
 /* harmony export */   "warn": () => (/* binding */ warn)
 /* harmony export */ });
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -86927,8 +86938,8 @@ var getTickValuesFixedDomain = (0,_util_utils__WEBPACK_IMPORTED_MODULE_1__.memoi
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getTickValues": () => (/* reexport safe */ _getNiceTickValues__WEBPACK_IMPORTED_MODULE_0__.getTickValues),
 /* harmony export */   "getNiceTickValues": () => (/* reexport safe */ _getNiceTickValues__WEBPACK_IMPORTED_MODULE_0__.getNiceTickValues),
+/* harmony export */   "getTickValues": () => (/* reexport safe */ _getNiceTickValues__WEBPACK_IMPORTED_MODULE_0__.getTickValues),
 /* harmony export */   "getTickValuesFixedDomain": () => (/* reexport safe */ _getNiceTickValues__WEBPACK_IMPORTED_MODULE_0__.getTickValuesFixedDomain)
 /* harmony export */ });
 /* harmony import */ var _getNiceTickValues__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNiceTickValues */ "./node_modules/recharts-scale/es6/getNiceTickValues.js");
@@ -87066,12 +87077,12 @@ var uninterpolateTruncation = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.curry)(func
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "PLACE_HOLDER": () => (/* binding */ PLACE_HOLDER),
-/* harmony export */   "curry": () => (/* binding */ curry),
-/* harmony export */   "range": () => (/* binding */ range),
-/* harmony export */   "map": () => (/* binding */ map),
 /* harmony export */   "compose": () => (/* binding */ compose),
-/* harmony export */   "reverse": () => (/* binding */ reverse),
-/* harmony export */   "memoize": () => (/* binding */ memoize)
+/* harmony export */   "curry": () => (/* binding */ curry),
+/* harmony export */   "map": () => (/* binding */ map),
+/* harmony export */   "memoize": () => (/* binding */ memoize),
+/* harmony export */   "range": () => (/* binding */ range),
+/* harmony export */   "reverse": () => (/* binding */ reverse)
 /* harmony export */ });
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -95098,8 +95109,8 @@ var Dot = /*#__PURE__*/function (_PureComponent) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "isInRectangle": () => (/* binding */ isInRectangle),
-/* harmony export */   "Rectangle": () => (/* binding */ Rectangle)
+/* harmony export */   "Rectangle": () => (/* binding */ Rectangle),
+/* harmony export */   "isInRectangle": () => (/* binding */ isInRectangle)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
@@ -95810,11 +95821,11 @@ Symbols.registerSymbol = function (key, factory) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "formatAxisMap": () => (/* binding */ formatAxisMap),
-/* harmony export */   "rectWithPoints": () => (/* binding */ rectWithPoints),
-/* harmony export */   "rectWithCoords": () => (/* binding */ rectWithCoords),
 /* harmony export */   "ScaleHelper": () => (/* binding */ ScaleHelper),
-/* harmony export */   "createLabeledScales": () => (/* binding */ createLabeledScales)
+/* harmony export */   "createLabeledScales": () => (/* binding */ createLabeledScales),
+/* harmony export */   "formatAxisMap": () => (/* binding */ formatAxisMap),
+/* harmony export */   "rectWithCoords": () => (/* binding */ rectWithCoords),
+/* harmony export */   "rectWithPoints": () => (/* binding */ rectWithPoints)
 /* harmony export */ });
 /* harmony import */ var lodash_every__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/every */ "./node_modules/lodash/every.js");
 /* harmony import */ var lodash_every__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_every__WEBPACK_IMPORTED_MODULE_0__);
@@ -96118,42 +96129,42 @@ var createLabeledScales = function createLabeledScales(options) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getValueByDataKey": () => (/* binding */ getValueByDataKey),
-/* harmony export */   "getDomainOfDataByKey": () => (/* binding */ getDomainOfDataByKey),
-/* harmony export */   "calculateActiveTickIndex": () => (/* binding */ calculateActiveTickIndex),
-/* harmony export */   "getMainColorOfGraphicItem": () => (/* binding */ getMainColorOfGraphicItem),
-/* harmony export */   "getLegendProps": () => (/* binding */ getLegendProps),
-/* harmony export */   "getBarSizeList": () => (/* binding */ getBarSizeList),
-/* harmony export */   "getBarPosition": () => (/* binding */ getBarPosition),
-/* harmony export */   "appendOffsetOfLegend": () => (/* binding */ appendOffsetOfLegend),
-/* harmony export */   "getDomainOfErrorBars": () => (/* binding */ getDomainOfErrorBars),
-/* harmony export */   "parseErrorBarsOfAxis": () => (/* binding */ parseErrorBarsOfAxis),
-/* harmony export */   "getDomainOfItemsWithSameAxis": () => (/* binding */ getDomainOfItemsWithSameAxis),
-/* harmony export */   "isCategoricalAxis": () => (/* binding */ isCategoricalAxis),
-/* harmony export */   "getCoordinatesOfGrid": () => (/* binding */ getCoordinatesOfGrid),
-/* harmony export */   "getTicksOfAxis": () => (/* binding */ getTicksOfAxis),
-/* harmony export */   "combineEventHandlers": () => (/* binding */ combineEventHandlers),
-/* harmony export */   "parseScale": () => (/* binding */ parseScale),
-/* harmony export */   "checkDomainOfScale": () => (/* binding */ checkDomainOfScale),
-/* harmony export */   "findPositionOfBar": () => (/* binding */ findPositionOfBar),
-/* harmony export */   "truncateByDomain": () => (/* binding */ truncateByDomain),
-/* harmony export */   "offsetSign": () => (/* binding */ offsetSign),
-/* harmony export */   "offsetPositive": () => (/* binding */ offsetPositive),
-/* harmony export */   "getStackedData": () => (/* binding */ getStackedData),
-/* harmony export */   "getStackGroupsByAxisId": () => (/* binding */ getStackGroupsByAxisId),
-/* harmony export */   "calculateDomainOfTicks": () => (/* binding */ calculateDomainOfTicks),
-/* harmony export */   "getTicksOfScale": () => (/* binding */ getTicksOfScale),
-/* harmony export */   "getCateCoordinateOfLine": () => (/* binding */ getCateCoordinateOfLine),
-/* harmony export */   "getCateCoordinateOfBar": () => (/* binding */ getCateCoordinateOfBar),
-/* harmony export */   "getBaseValueOfBar": () => (/* binding */ getBaseValueOfBar),
-/* harmony export */   "getStackedDataOfItem": () => (/* binding */ getStackedDataOfItem),
-/* harmony export */   "getDomainOfStackGroups": () => (/* binding */ getDomainOfStackGroups),
-/* harmony export */   "MIN_VALUE_REG": () => (/* binding */ MIN_VALUE_REG),
 /* harmony export */   "MAX_VALUE_REG": () => (/* binding */ MAX_VALUE_REG),
-/* harmony export */   "parseSpecifiedDomain": () => (/* binding */ parseSpecifiedDomain),
+/* harmony export */   "MIN_VALUE_REG": () => (/* binding */ MIN_VALUE_REG),
+/* harmony export */   "appendOffsetOfLegend": () => (/* binding */ appendOffsetOfLegend),
+/* harmony export */   "calculateActiveTickIndex": () => (/* binding */ calculateActiveTickIndex),
+/* harmony export */   "calculateDomainOfTicks": () => (/* binding */ calculateDomainOfTicks),
+/* harmony export */   "checkDomainOfScale": () => (/* binding */ checkDomainOfScale),
+/* harmony export */   "combineEventHandlers": () => (/* binding */ combineEventHandlers),
+/* harmony export */   "findPositionOfBar": () => (/* binding */ findPositionOfBar),
 /* harmony export */   "getBandSizeOfAxis": () => (/* binding */ getBandSizeOfAxis),
+/* harmony export */   "getBarPosition": () => (/* binding */ getBarPosition),
+/* harmony export */   "getBarSizeList": () => (/* binding */ getBarSizeList),
+/* harmony export */   "getBaseValueOfBar": () => (/* binding */ getBaseValueOfBar),
+/* harmony export */   "getCateCoordinateOfBar": () => (/* binding */ getCateCoordinateOfBar),
+/* harmony export */   "getCateCoordinateOfLine": () => (/* binding */ getCateCoordinateOfLine),
+/* harmony export */   "getCoordinatesOfGrid": () => (/* binding */ getCoordinatesOfGrid),
+/* harmony export */   "getDomainOfDataByKey": () => (/* binding */ getDomainOfDataByKey),
+/* harmony export */   "getDomainOfErrorBars": () => (/* binding */ getDomainOfErrorBars),
+/* harmony export */   "getDomainOfItemsWithSameAxis": () => (/* binding */ getDomainOfItemsWithSameAxis),
+/* harmony export */   "getDomainOfStackGroups": () => (/* binding */ getDomainOfStackGroups),
+/* harmony export */   "getLegendProps": () => (/* binding */ getLegendProps),
+/* harmony export */   "getMainColorOfGraphicItem": () => (/* binding */ getMainColorOfGraphicItem),
+/* harmony export */   "getStackGroupsByAxisId": () => (/* binding */ getStackGroupsByAxisId),
+/* harmony export */   "getStackedData": () => (/* binding */ getStackedData),
+/* harmony export */   "getStackedDataOfItem": () => (/* binding */ getStackedDataOfItem),
+/* harmony export */   "getTicksOfAxis": () => (/* binding */ getTicksOfAxis),
+/* harmony export */   "getTicksOfScale": () => (/* binding */ getTicksOfScale),
+/* harmony export */   "getTooltipItem": () => (/* binding */ getTooltipItem),
+/* harmony export */   "getValueByDataKey": () => (/* binding */ getValueByDataKey),
+/* harmony export */   "isCategoricalAxis": () => (/* binding */ isCategoricalAxis),
+/* harmony export */   "offsetPositive": () => (/* binding */ offsetPositive),
+/* harmony export */   "offsetSign": () => (/* binding */ offsetSign),
 /* harmony export */   "parseDomainOfCategoryAxis": () => (/* binding */ parseDomainOfCategoryAxis),
-/* harmony export */   "getTooltipItem": () => (/* binding */ getTooltipItem)
+/* harmony export */   "parseErrorBarsOfAxis": () => (/* binding */ parseErrorBarsOfAxis),
+/* harmony export */   "parseScale": () => (/* binding */ parseScale),
+/* harmony export */   "parseSpecifiedDomain": () => (/* binding */ parseSpecifiedDomain),
+/* harmony export */   "truncateByDomain": () => (/* binding */ truncateByDomain)
 /* harmony export */ });
 /* harmony import */ var lodash_isEqual__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isEqual */ "./node_modules/lodash/isEqual.js");
 /* harmony import */ var lodash_isEqual__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_isEqual__WEBPACK_IMPORTED_MODULE_0__);
@@ -97394,10 +97405,10 @@ var generatePrefixStyle = function generatePrefixStyle(name, value) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getStyleString": () => (/* binding */ getStyleString),
-/* harmony export */   "getStringSize": () => (/* binding */ getStringSize),
+/* harmony export */   "calculateChartCoordinate": () => (/* binding */ calculateChartCoordinate),
 /* harmony export */   "getOffset": () => (/* binding */ getOffset),
-/* harmony export */   "calculateChartCoordinate": () => (/* binding */ calculateChartCoordinate)
+/* harmony export */   "getStringSize": () => (/* binding */ getStringSize),
+/* harmony export */   "getStyleString": () => (/* binding */ getStyleString)
 /* harmony export */ });
 /* harmony import */ var _Global__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Global */ "./node_modules/recharts/es6/util/Global.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -97560,17 +97571,17 @@ var calculateChartCoordinate = function calculateChartCoordinate(event, offset) 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "mathSign": () => (/* binding */ mathSign),
-/* harmony export */   "isPercent": () => (/* binding */ isPercent),
-/* harmony export */   "isNumber": () => (/* binding */ isNumber),
-/* harmony export */   "isNumOrStr": () => (/* binding */ isNumOrStr),
-/* harmony export */   "uniqueId": () => (/* binding */ uniqueId),
-/* harmony export */   "getPercentValue": () => (/* binding */ getPercentValue),
+/* harmony export */   "findEntryInArray": () => (/* binding */ findEntryInArray),
 /* harmony export */   "getAnyElementOfObject": () => (/* binding */ getAnyElementOfObject),
+/* harmony export */   "getLinearRegression": () => (/* binding */ getLinearRegression),
+/* harmony export */   "getPercentValue": () => (/* binding */ getPercentValue),
 /* harmony export */   "hasDuplicate": () => (/* binding */ hasDuplicate),
 /* harmony export */   "interpolateNumber": () => (/* binding */ interpolateNumber),
-/* harmony export */   "findEntryInArray": () => (/* binding */ findEntryInArray),
-/* harmony export */   "getLinearRegression": () => (/* binding */ getLinearRegression)
+/* harmony export */   "isNumOrStr": () => (/* binding */ isNumOrStr),
+/* harmony export */   "isNumber": () => (/* binding */ isNumber),
+/* harmony export */   "isPercent": () => (/* binding */ isPercent),
+/* harmony export */   "mathSign": () => (/* binding */ mathSign),
+/* harmony export */   "uniqueId": () => (/* binding */ uniqueId)
 /* harmony export */ });
 /* harmony import */ var lodash_get__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/get */ "./node_modules/lodash/get.js");
 /* harmony import */ var lodash_get__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_get__WEBPACK_IMPORTED_MODULE_0__);
@@ -97819,8 +97830,8 @@ var detectReferenceElementsDomain = function detectReferenceElementsDomain(child
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "eventCenter": () => (/* binding */ eventCenter),
-/* harmony export */   "SYNC_EVENT": () => (/* binding */ SYNC_EVENT)
+/* harmony export */   "SYNC_EVENT": () => (/* binding */ SYNC_EVENT),
+/* harmony export */   "eventCenter": () => (/* binding */ eventCenter)
 /* harmony export */ });
 /* harmony import */ var eventemitter3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! eventemitter3 */ "./node_modules/eventemitter3/index.js");
 /* harmony import */ var eventemitter3__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(eventemitter3__WEBPACK_IMPORTED_MODULE_0__);
@@ -97946,14 +97957,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RADIAN": () => (/* binding */ RADIAN),
 /* harmony export */   "degreeToRadian": () => (/* binding */ degreeToRadian),
-/* harmony export */   "radianToDegree": () => (/* binding */ radianToDegree),
-/* harmony export */   "polarToCartesian": () => (/* binding */ polarToCartesian),
-/* harmony export */   "getMaxRadius": () => (/* binding */ getMaxRadius),
-/* harmony export */   "formatAxisMap": () => (/* binding */ formatAxisMap),
 /* harmony export */   "distanceBetweenPoints": () => (/* binding */ distanceBetweenPoints),
-/* harmony export */   "getAngleOfPoint": () => (/* binding */ getAngleOfPoint),
 /* harmony export */   "formatAngleOfSector": () => (/* binding */ formatAngleOfSector),
-/* harmony export */   "inRangeOfSector": () => (/* binding */ inRangeOfSector)
+/* harmony export */   "formatAxisMap": () => (/* binding */ formatAxisMap),
+/* harmony export */   "getAngleOfPoint": () => (/* binding */ getAngleOfPoint),
+/* harmony export */   "getMaxRadius": () => (/* binding */ getMaxRadius),
+/* harmony export */   "inRangeOfSector": () => (/* binding */ inRangeOfSector),
+/* harmony export */   "polarToCartesian": () => (/* binding */ polarToCartesian),
+/* harmony export */   "radianToDegree": () => (/* binding */ radianToDegree)
 /* harmony export */ });
 /* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isNil */ "./node_modules/lodash/isNil.js");
 /* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__);
@@ -98208,21 +98219,21 @@ var inRangeOfSector = function inRangeOfSector(_ref5, sector) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SCALE_TYPES": () => (/* binding */ SCALE_TYPES),
 /* harmony export */   "LEGEND_TYPES": () => (/* binding */ LEGEND_TYPES),
+/* harmony export */   "SCALE_TYPES": () => (/* binding */ SCALE_TYPES),
 /* harmony export */   "TOOLTIP_TYPES": () => (/* binding */ TOOLTIP_TYPES),
-/* harmony export */   "getDisplayName": () => (/* binding */ getDisplayName),
-/* harmony export */   "toArray": () => (/* binding */ toArray),
+/* harmony export */   "filterSvgElements": () => (/* binding */ filterSvgElements),
 /* harmony export */   "findAllByType": () => (/* binding */ findAllByType),
 /* harmony export */   "findChildByType": () => (/* binding */ findChildByType),
-/* harmony export */   "withoutType": () => (/* binding */ withoutType),
-/* harmony export */   "validateWidthHeight": () => (/* binding */ validateWidthHeight),
-/* harmony export */   "filterSvgElements": () => (/* binding */ filterSvgElements),
+/* harmony export */   "getDisplayName": () => (/* binding */ getDisplayName),
+/* harmony export */   "getReactEventByType": () => (/* binding */ getReactEventByType),
 /* harmony export */   "isChildrenEqual": () => (/* binding */ isChildrenEqual),
 /* harmony export */   "isSingleChildEqual": () => (/* binding */ isSingleChildEqual),
+/* harmony export */   "parseChildIndex": () => (/* binding */ parseChildIndex),
 /* harmony export */   "renderByOrder": () => (/* binding */ renderByOrder),
-/* harmony export */   "getReactEventByType": () => (/* binding */ getReactEventByType),
-/* harmony export */   "parseChildIndex": () => (/* binding */ parseChildIndex)
+/* harmony export */   "toArray": () => (/* binding */ toArray),
+/* harmony export */   "validateWidthHeight": () => (/* binding */ validateWidthHeight),
+/* harmony export */   "withoutType": () => (/* binding */ withoutType)
 /* harmony export */ });
 /* harmony import */ var lodash_isString__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isString */ "./node_modules/lodash/isString.js");
 /* harmony import */ var lodash_isString__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_isString__WEBPACK_IMPORTED_MODULE_0__);
@@ -98557,9 +98568,9 @@ function shallowEqual(a, b) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "filterProps": () => (/* binding */ filterProps),
 /* harmony export */   "adaptEventHandlers": () => (/* binding */ adaptEventHandlers),
-/* harmony export */   "adaptEventsOfChild": () => (/* binding */ adaptEventsOfChild)
+/* harmony export */   "adaptEventsOfChild": () => (/* binding */ adaptEventsOfChild),
+/* harmony export */   "filterProps": () => (/* binding */ filterProps)
 /* harmony export */ });
 /* harmony import */ var lodash_isObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isObject */ "./node_modules/lodash/isObject.js");
 /* harmony import */ var lodash_isObject__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_isObject__WEBPACK_IMPORTED_MODULE_0__);
@@ -104490,7 +104501,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_modal_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./modal.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./resources/css/modal.css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_modal_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./modal.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[7].oneOf[1].use[2]!./resources/css/modal.css");
 
             
 
@@ -104499,11 +104510,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_modal_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_modal_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_modal_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_7_oneOf_1_use_2_modal_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -104886,6 +104897,11 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			if (!module.children) module.children = [];
 /******/ 			return module;
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
 /******/ 	})();
 /******/ 	
 /************************************************************************/

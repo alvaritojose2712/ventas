@@ -1,7 +1,7 @@
 import logo from "../../images/logo.png"
 import carrito from "../../images/carrito1.png"
 function Header({
-  user, logout,
+  user, logout, getip,
   settoggleClientesBtn,toggleClientesBtn,getVentasClick,dolar,peso,view,setView,setMoneda,getPedidos,setViewCaja,viewCaja,setShowModalMovimientos,showModalMovimientos,auth}) {
   
     return (
@@ -27,7 +27,7 @@ function Header({
           <div className="col-5 d-flex header-justify-content-end align-items-center">
             {auth(1)?<span className={"btn m-1 text-success"} onClick={() => setView("configuracion")}><i className="fa fa-cogs"></i></span>:null}
             
-            <div>
+            <div onClick={getip}>
               <span className="fw-bold">{user.nombre}</span><br/>
               <span className="fst-italic">{user.role}</span>
             </div>

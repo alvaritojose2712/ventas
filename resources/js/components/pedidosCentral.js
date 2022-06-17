@@ -28,12 +28,13 @@ export default function PedidosCentralComponent({
 				
 				<div className="col-3">
 					<div className="mb-2">
-						<button className="btn btn-success w-100" onClick={getmastermachine}>Buscar a Master</button>
+						{/*<button className="btn btn-success w-100" onClick={getmastermachine}>Buscar a Master</button>
 						<ul className="list-group">
 							{mastermachines ? mastermachines.map((e,i)=>
 								<li key={i} onClick={() => setpathcentral(e)} className={(pathcentral==e?"active":null)+(" list-group-item-action list-group-item")}>{e}</li>
 							):null}
-						</ul>
+						</ul>*/}
+						<input placeholder="Código de master" type="text" className="form-control" onChange={e=>setpathcentral(e.target.value)} value={pathcentral}/>
 					</div>
 					<div className="btn-group">
 						{pathcentral?
