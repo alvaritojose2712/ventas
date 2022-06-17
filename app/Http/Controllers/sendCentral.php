@@ -65,12 +65,12 @@ class sendCentral extends Controller
     }
     public function changeExportStatus($pathcentral,$id)
     {
-        $response = Http::post("http://".$pathcentral.":8005/setexportpedido",["id"=>$id]);
+        $response = Http::post("http://".$pathcentral.":9090/setexportpedido",["id"=>$id]);
     }
     public function reqinventario(Request $req)
     {
         
-        $response = Http::post("http://".$req->path.":8005/resinventario");
+        $response = Http::post("http://".$req->path.":9090/resinventario");
         
         if ($response->ok()) {
             $res = $response->json();
@@ -132,7 +132,7 @@ class sendCentral extends Controller
         try {
             $sucursal = sucursal::all()->first();
 
-            $response = Http::post("http://".$req->path.':8005/respedidos');
+            $response = Http::post("http://".$req->path.':9090/respedidos');
 
             if ($response->ok()) {
                 $res = $response->json();
