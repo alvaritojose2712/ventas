@@ -684,7 +684,11 @@ useHotkeys("tab",()=>{
           }
         }
       }else{
-        facturar_pedido()
+        if (viewconfigcredito) {
+          setPagoPedido()
+        } else {
+          facturar_pedido()
+        }
       }
     } else if (view == "inventario" && subViewInventario == "inventario" && modViewInventario == "list") {
       focusInputSibli(event.target,1)
@@ -3452,7 +3456,8 @@ const auth = permiso => {
         view=="seleccionar"?
         <div className="container p-0">
           
-            {typeof(selectItem)=="number"?productos[selectItem]?<ModalAddCarrito 
+            {typeof(selectItem)=="number"?productos[selectItem]?<ModalAddCarrito
+              dolar={dolar} 
               producto={productos[selectItem]} 
               setSelectItem={setSelectItem}
               cantidad={cantidad}

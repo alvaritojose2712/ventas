@@ -1,4 +1,4 @@
-export default function ModalAddCarrito({moneda,number,inputCantidadCarritoref,producto,pedidoList,setSelectItem,addCarritoRequest,cantidad,numero_factura,setCantidad,setNumero_factura,setFalla}) {
+export default function ModalAddCarrito({dolar,moneda,number,inputCantidadCarritoref,producto,pedidoList,setSelectItem,addCarritoRequest,cantidad,numero_factura,setCantidad,setNumero_factura,setFalla}) {
   const setbultocarrito = bulto => {
     let insert = window.prompt("Cantidad por bulto")
     if (insert) {
@@ -29,8 +29,9 @@ export default function ModalAddCarrito({moneda,number,inputCantidadCarritoref,p
 
               <div className="input-group-append text-right">
                 <span className="input-group-text h-100 fs-3 text-right">
-                  Detal. {cantidad*producto.precio?moneda(cantidad*producto.precio):null}<br/>
+                  $. {cantidad*producto.precio?moneda(cantidad*producto.precio):null}<br/>
                   {/*Mayor. {cantidad*producto.precio1?<>{moneda(cantidad*producto.precio1)}</>:null}*/}
+                  Bs. {cantidad*producto.precio*dolar?<>{moneda(cantidad*producto.precio*dolar)}</>:null}
 
                 </span>
               </div>
