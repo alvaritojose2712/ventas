@@ -36,14 +36,14 @@ function Header({
         </div>
       </div>
       <div className="bg-sinapsis container-fluid">
-        <div className="row">
+        <div className="row row-header">
           <div className="col d-flex header-justify-content-end">
             
             {auth(3)?<span className={(view == "ventas" ? "btn btn-dark" : null) + (" p-3 pointer")} onClick={() => { setView("ventas"); getVentasClick()}}>Ventas</span>:null}
 
               {auth(3) ? <span className={(view == "seleccionar" ? "btn btn-dark" : null) + (" p-3 pointer")} onClick={() => setView("seleccionar")}>Facturar</span> : null}
 
-            {auth(2)?<div className="dropdown btn">
+            {auth(2)?<div className="dropdown">
               <button className={(toggleClientesBtn ? "btn btn-dark" : null)+(" btn dropdown-toggle text-light")} type="button" onClick={() => settoggleClientesBtn(!toggleClientesBtn)}>
                 Clientes
               </button>
@@ -72,7 +72,7 @@ function Header({
             :null}
             
           </div>
-          <div className="col-4 d-flex header-justify-content-end">
+            <div className="header-right d-flex header-justify-content-end">
 
             { 
               auth(2)?
@@ -80,7 +80,6 @@ function Header({
                 <>
                   <span className={(viewCaja?"btn btn-sinapsis":null)+(" p-3 pointer")} onClick={()=>setViewCaja(!viewCaja)}>Caja</span>
                   <span className={(showModalMovimientos?"btn btn-sinapsis":null)+(" p-3 pointer")} onClick={()=>setShowModalMovimientos(!showModalMovimientos)}>Movimientos</span>
-                  <span className={(view == "pedidosCentral" ? "btn btn-dark" : null) + (" p-3 pointer")} onClick={() => setView("pedidosCentral")}>Central</span>
 
                 </>:null
               :null

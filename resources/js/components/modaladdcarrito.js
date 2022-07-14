@@ -23,15 +23,14 @@ export default function ModalAddCarrito({dolar,moneda,number,inputCantidadCarrit
               <h4>{producto.descripcion}</h4>
             </div>
           </div>
-          <form onSubmit={e=>e.preventDefault()} className="d-flex justify-content-center flex-column p-3">
+          <form onSubmit={e=>e.preventDefault()} className="d-flex justify-content-center flex-column p-3 auto-colum">
             <div className="input-group mb-3">
-              <input type="text" ref={inputCantidadCarritoref} className="form-control fs-2" placeholder="Cantidad" onChange={(e)=>setCantidad(number(e.target.value))} value={cantidad?cantidad:""}/>
+              <input type="number" ref={inputCantidadCarritoref} className="form-control fs-2" placeholder="Cantidad" onChange={(e)=>setCantidad(number(e.target.value))} value={cantidad?cantidad:""}/>
 
               <div className="input-group-append text-right">
                 <span className="input-group-text h-100 fs-3 text-right">
-                  $. {cantidad*producto.precio?moneda(cantidad*producto.precio):null}<br/>
-                  {/*Mayor. {cantidad*producto.precio1?<>{moneda(cantidad*producto.precio1)}</>:null}*/}
-                  Bs. {cantidad*producto.precio*dolar?<>{moneda(cantidad*producto.precio*dolar)}</>:null}
+                  Detal. {cantidad*producto.precio?moneda(cantidad*producto.precio):null}<br/>
+                  Mayor. {cantidad*producto.precio1?<>{moneda(cantidad*producto.precio1)}</>:null}
 
                 </span>
               </div>

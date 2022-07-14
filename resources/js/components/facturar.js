@@ -3454,7 +3454,7 @@ const auth = permiso => {
         setView={setView}/>
         {
         view=="seleccionar"?
-        <div className="container p-0">
+        <div className="container-fluid p-2">
           
             {typeof(selectItem)=="number"?productos[selectItem]?<ModalAddCarrito
               dolar={dolar} 
@@ -3497,7 +3497,7 @@ const auth = permiso => {
             />}
             <div className="input-group mb-3">
                 <input type="text" 
-                className="form-control" 
+                className="form-control form-control-lg" 
                 ref={inputbusquedaProductosref}
                 placeholder="Buscar... Presiona (ESC)"
                 onChange={e=>getProductos(e.target.value)}/>

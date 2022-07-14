@@ -10007,7 +10007,7 @@ function Facturar(_ref) {
       settoggleClientesBtn: settoggleClientesBtn,
       setView: setView
     }), view == "seleccionar" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)("div", {
-      className: "container p-0",
+      className: "container-fluid p-2",
       children: [typeof selectItem == "number" ? productos[selectItem] ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_components_modaladdcarrito__WEBPACK_IMPORTED_MODULE_7__["default"], {
         dolar: dolar,
         producto: productos[selectItem],
@@ -10044,7 +10044,7 @@ function Facturar(_ref) {
         className: "input-group mb-3",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)("input", {
           type: "text",
-          className: "form-control",
+          className: "form-control form-control-lg",
           ref: inputbusquedaProductosref,
           placeholder: "Buscar... Presiona (ESC)",
           onChange: function onChange(e) {
@@ -11193,7 +11193,7 @@ function Header(_ref) {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "bg-sinapsis container-fluid",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "row",
+        className: "row row-header",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "col d-flex header-justify-content-end",
           children: [auth(3) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
@@ -11210,7 +11210,7 @@ function Header(_ref) {
             },
             children: "Facturar"
           }) : null, auth(2) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-            className: "dropdown btn",
+            className: "dropdown",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
               className: (toggleClientesBtn ? "btn btn-dark" : null) + " btn dropdown-toggle text-light",
               type: "button",
@@ -11269,7 +11269,7 @@ function Header(_ref) {
             })]
           }) : null]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-          className: "col-4 d-flex header-justify-content-end",
+          className: "header-right d-flex header-justify-content-end",
           children: [auth(2) ? view == "seleccionar" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
               className: (viewCaja ? "btn btn-sinapsis" : null) + " p-3 pointer",
@@ -11283,12 +11283,6 @@ function Header(_ref) {
                 return setShowModalMovimientos(!showModalMovimientos);
               },
               children: "Movimientos"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-              className: (view == "pedidosCentral" ? "btn btn-dark" : null) + " p-3 pointer",
-              onClick: function onClick() {
-                return setView("pedidosCentral");
-              },
-              children: "Central"
             })]
           }) : null : null, auth(1) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
             className: (view == "inventario" ? "btn btn-dark" : null) + " p-3 pointer",
@@ -11711,9 +11705,9 @@ function Inventario(_ref) {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "row",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "col mb-2 d-flex justify-content-between",
+          className: "col mb-2 d-flex justify-content-between auto-colum",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "btn-group",
+            className: "btn-group auto-colum",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn " + (subViewInventario == "inventario" ? "btn-success" : "btn-outline-success"),
               onClick: function onClick() {
@@ -11742,7 +11736,7 @@ function Inventario(_ref) {
               children: "Fallas"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "btn-group",
+            className: "btn-group auto-colum",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn " + (subViewInventario == "gastos" ? "btn-success" : "btn-outline-success"),
               onClick: function onClick() {
@@ -11813,9 +11807,9 @@ function Inventario(_ref) {
     }) : null, subViewInventario == "inventario" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "d-flex justify-content-between align-items-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "d-flex justify-content-start",
             children: [subViewInventario == "inventario" && modViewInventario != "unique" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
               className: "btn btn-success text-light",
@@ -11889,28 +11883,7 @@ function Inventario(_ref) {
                 })]
               })]
             })]
-          }), factSelectIndex == null ? null : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "input-group w-25",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-              className: "input-group-text",
-              children: facturas[factSelectIndex] ? facturas[factSelectIndex].proveedor.descripcion : null
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
-              className: "btn btn-outline-secondary",
-              onClick: function onClick() {
-                setshowModalFacturas(true);
-                setfactsubView("detalles");
-              },
-              children: facturas[factSelectIndex] ? facturas[factSelectIndex].numfact : null
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
-              className: "btn btn-outline-danger",
-              onClick: function onClick() {
-                return setfactSelectIndex(null);
-              },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
-                className: "fa fa-times"
-              })
-            })]
-          })]
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("hr", {})]
       }), modViewInventario == "unique" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_components_cargarproducto__WEBPACK_IMPORTED_MODULE_1__["default"], {
         categorias: categorias,
@@ -12156,209 +12129,215 @@ function InventarioForzado(_ref) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
     className: "container-fluid",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-      className: "d-flex justify-content-between",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-        className: "cell9 d-flex justify-content-between",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          className: "cell8",
-          children: [busquedaAvanazadaInv ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-              className: "input-group",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "codigo_barras"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                type: "text",
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "codigo_barras");
-                },
-                value: busqAvanzInputs["codigo_barras"],
-                placeholder: "codigo_barras"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "codigo_proveedor"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                type: "text",
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "codigo_proveedor");
-                },
-                value: busqAvanzInputs["codigo_proveedor"],
-                placeholder: "codigo_proveedor"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "id_proveedor"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "id_proveedor");
-                },
-                value: busqAvanzInputs["id_proveedor"],
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: "",
-                  children: "--Select--"
-                }), proveedoresList.map(function (e) {
-                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: e.id,
-                    children: e.descripcion
-                  }, e.id);
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "id_categoria"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "id_categoria");
-                },
-                value: busqAvanzInputs["id_categoria"],
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                  value: "",
-                  children: "--Select--"
-                }), categorias.map(function (e) {
-                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                    value: e.id,
-                    children: e.descripcion
-                  }, e.id);
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "unidad"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                type: "text",
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "unidad");
-                },
-                value: busqAvanzInputs["unidad"],
-                placeholder: "unidad"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-              className: "input-group",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "descripcion"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                type: "text",
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "descripcion");
-                },
-                value: busqAvanzInputs["descripcion"],
-                placeholder: "descripcion"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "iva"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                type: "text",
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "iva");
-                },
-                value: busqAvanzInputs["iva"],
-                placeholder: "iva"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "precio_base"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                type: "text",
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "precio_base");
-                },
-                value: busqAvanzInputs["precio_base"],
-                placeholder: "precio_base"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "precio"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                type: "text",
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "precio");
-                },
-                value: busqAvanzInputs["precio"],
-                placeholder: "precio"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                className: "input-group-text cell1",
-                children: "cantidad"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                type: "text",
-                className: "form-control cell1",
-                onChange: function onChange(e) {
-                  return busqAvanzInputsFun(e, "cantidad");
-                },
-                value: busqAvanzInputs["cantidad"],
-                placeholder: "cantidad"
-              })]
-            })]
-          }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-            className: "input-group",
-            children: busquedaAvanazadaInv ? null : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-              type: "text",
-              ref: inputBuscarInventario,
-              className: "form-control",
-              placeholder: "Buscar...(esc)",
-              onChange: function onChange(e) {
-                return setQBuscarInventario(e.target.value);
-              },
-              value: qBuscarInventario
-            })
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-          className: "cell2 ps-5",
+      className: "row auto-colum",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+        className: "col auto-colum",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+          className: "container-fluid p-0",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-            className: "input-group",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
-              value: Invnum,
-              onChange: function onChange(e) {
-                return setInvnum(e.target.value);
-              },
-              className: "form-control",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                value: "25",
-                children: "Num.25"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                value: "50",
-                children: "Num.50"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                value: "100",
-                children: "Num.100"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                value: "500",
-                children: "Num.500"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                value: "2000",
-                children: "Num.2000"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                value: "10000",
-                children: "Num.100000"
+            className: "row",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "col",
+              children: [busquedaAvanazadaInv ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                  className: "input-group",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "codigo_barras"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "codigo_barras");
+                    },
+                    value: busqAvanzInputs["codigo_barras"],
+                    placeholder: "codigo_barras"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "codigo_proveedor"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "codigo_proveedor");
+                    },
+                    value: busqAvanzInputs["codigo_proveedor"],
+                    placeholder: "codigo_proveedor"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "id_proveedor"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "id_proveedor");
+                    },
+                    value: busqAvanzInputs["id_proveedor"],
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                      value: "",
+                      children: "--Select--"
+                    }), proveedoresList.map(function (e) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                        value: e.id,
+                        children: e.descripcion
+                      }, e.id);
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "id_categoria"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "id_categoria");
+                    },
+                    value: busqAvanzInputs["id_categoria"],
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                      value: "",
+                      children: "--Select--"
+                    }), categorias.map(function (e) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                        value: e.id,
+                        children: e.descripcion
+                      }, e.id);
+                    })]
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "unidad"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "unidad");
+                    },
+                    value: busqAvanzInputs["unidad"],
+                    placeholder: "unidad"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                  className: "input-group",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "descripcion"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "descripcion");
+                    },
+                    value: busqAvanzInputs["descripcion"],
+                    placeholder: "descripcion"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "iva"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "iva");
+                    },
+                    value: busqAvanzInputs["iva"],
+                    placeholder: "iva"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "precio_base"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "precio_base");
+                    },
+                    value: busqAvanzInputs["precio_base"],
+                    placeholder: "precio_base"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "precio"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "precio");
+                    },
+                    value: busqAvanzInputs["precio"],
+                    placeholder: "precio"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                    className: "input-group-text cell1",
+                    children: "cantidad"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    className: "form-control cell1",
+                    onChange: function onChange(e) {
+                      return busqAvanzInputsFun(e, "cantidad");
+                    },
+                    value: busqAvanzInputs["cantidad"],
+                    placeholder: "cantidad"
+                  })]
+                })]
+              }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "input-group",
+                children: busquedaAvanazadaInv ? null : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                  type: "text",
+                  ref: inputBuscarInventario,
+                  className: "form-control form-control-lg",
+                  placeholder: "Buscar...(esc)",
+                  onChange: function onChange(e) {
+                    return setQBuscarInventario(e.target.value);
+                  },
+                  value: qBuscarInventario
+                })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
-              value: InvorderBy,
-              onChange: function onChange(e) {
-                return setInvorderBy(e.target.value);
-              },
-              className: "form-control",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                value: "asc",
-                children: "Orden Asc"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
-                value: "desc",
-                children: "Orden Desc"
-              })]
-            }), busquedaAvanazadaInv ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
-              className: "btn btn-success",
-              onClick: buscarInvAvanz,
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-                className: "fa fa-search"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+              className: "col-md-auto",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "input-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                  value: Invnum,
+                  onChange: function onChange(e) {
+                    return setInvnum(e.target.value);
+                  },
+                  className: "form-control",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "25",
+                    children: "Num.25"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "50",
+                    children: "Num.50"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "100",
+                    children: "Num.100"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "500",
+                    children: "Num.500"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "2000",
+                    children: "Num.2000"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "10000",
+                    children: "Num.100000"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                  value: InvorderBy,
+                  onChange: function onChange(e) {
+                    return setInvorderBy(e.target.value);
+                  },
+                  className: "form-control",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "asc",
+                    children: "Orden Asc"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "desc",
+                    children: "Orden Desc"
+                  })]
+                }), busquedaAvanazadaInv ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
+                  className: "btn btn-success",
+                  onClick: buscarInvAvanz,
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: "fa fa-search"
+                  })
+                }) : null]
               })
-            }) : null]
+            })]
           })
-        })]
+        })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-        className: "cell1 text-right",
+        className: "col-md-auto text-right",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button", {
           className: "btn btn-success text-light",
           onClick: guardarNuevoProductoLote,
@@ -12371,11 +12350,12 @@ function InventarioForzado(_ref) {
         return setbusquedaAvanazadaInv(!busquedaAvanazadaInv);
       },
       children: ["B\xFAsqueda ", busquedaAvanazadaInv ? "sencilla" : "avanazada"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("form", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("form", {
       ref: refsInpInvList,
       onSubmit: function onSubmit(e) {
         return e.preventDefault();
       },
+      className: "inventario-pc",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("table", {
         className: "table",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("thead", {
@@ -12650,7 +12630,7 @@ function InventarioForzado(_ref) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   className: "cell05",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                    type: "text",
+                    type: "number",
                     required: true,
                     disabled: type(e.type),
                     className: "form-control form-control-sm " + (!e.cantidad ? "invalid" : null),
@@ -12663,7 +12643,7 @@ function InventarioForzado(_ref) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("td", {
                   className: "cell1",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                    type: "text",
+                    type: "number",
                     required: true,
                     disabled: type(e.type),
                     className: "form-control form-control-sm " + (!e.precio_base ? "invalid" : null),
@@ -12678,7 +12658,7 @@ function InventarioForzado(_ref) {
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                     className: "input-group",
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                      type: "text",
+                      type: "number",
                       required: true,
                       disabled: type(e.type),
                       className: "form-control form-control-sm " + (!e.precio ? "invalid" : null),
@@ -12808,6 +12788,447 @@ function InventarioForzado(_ref) {
           })
         })]
       })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("form", {
+      onSubmit: function onSubmit(e) {
+        return e.preventDefault();
+      },
+      className: "inventario-telefono",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        className: "mb-4",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          className: "filtros-orden",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("id");
+            },
+            children: "ID"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("codigo_proveedor");
+            },
+            children: "Alterno"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("codigo_barras");
+            },
+            children: "Barras"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("unidad");
+            },
+            children: "Unidad"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("descripcion");
+            },
+            children: "Descripci\xF3n"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("cantidad");
+            },
+            children: "Ct"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("precio_base");
+            },
+            children: "Base"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("iva");
+            },
+            children: "IVA"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("precio");
+            },
+            children: "Venta"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("id_categoria");
+            },
+            children: "Categor\xEDa"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            className: "pointer p-1",
+            onClick: function onClick() {
+              return setInvorderColumn("id_proveedor");
+            },
+            children: "Proveedor"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+          className: "form-control",
+          value: sameCatValue,
+          onChange: function onChange(e) {
+            return setSameCat(e.target.value);
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+            value: "",
+            children: "--Select Categor\xEDa General--"
+          }), categorias.map(function (e) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+              value: e.id,
+              children: e.descripcion
+            }, e.id);
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+          className: "form-control",
+          value: sameProValue,
+          onChange: function onChange(e) {
+            return setSamePro(e.target.value);
+          },
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+            value: "",
+            children: "--Select Proveedor General--"
+          }), proveedoresList.map(function (e) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+              value: e.id,
+              children: e.descripcion
+            }, e.id);
+          })]
+        })]
+      }), productosInventario.length ? productosInventario.map(function (e, i) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          className: "card mb-3 shadow " + (type(e.type) ? "bg-ivory" : "bg-light-success"),
+          onDoubleClick: function onDoubleClick() {
+            return changeInventario(null, i, e.id, "update");
+          },
+          children: [type(e.type) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card-header d-flex justify-content-between",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  className: "fst-italic",
+                  children: e.codigo_proveedor
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                  className: "fst-italic",
+                  children: e.codigo_barras
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: " text-right",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "btn btn-outline-success btn-sm",
+                  "data-id": e.id,
+                  "data-type": "p1",
+                  onClick: setPrecioAlterno,
+                  children: ["P1. ", e.precio1]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "h6 text-muted font-italic",
+                  children: ["Base. ", e.precio_base]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "h3 text-success",
+                  children: e.precio
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "text-success",
+                  children: getPorGanacia(!e.precio ? 0 : e.precio, !e.precio_base ? 0 : e.precio_base)
+                })]
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card-body d-flex justify-content-between",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "card-title ",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
+                    children: e.descripcion
+                  })
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
+                className: "card-text p-1",
+                children: ["Ct. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("b", {
+                  className: "h3",
+                  children: e.cantidad
+                }), " / ", e.unidad, " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "btn btn-outline-success btn-sm",
+                  "data-id": e.id,
+                  onClick: setCtxBulto,
+                  children: ["CtxBulto.", e.bulto]
+                })]
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card-body",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("small", {
+                  children: [" ", e.categoria.descripcion, " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), " ", e.proveedor.descripcion]
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "",
+                children: ["IVA ", e.iva]
+              })]
+            })]
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card-header d-flex justify-content-between",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                  className: "fst-italic",
+                  children: ["Alterno ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    disabled: type(e.type),
+                    className: "form-control form-control-sm",
+                    value: !e.codigo_proveedor ? "" : e.codigo_proveedor,
+                    onChange: function onChange(e) {
+                      return changeInventario(e.target.value, i, e.id, "changeInput", "codigo_proveedor");
+                    },
+                    placeholder: "codigo_proveedor..."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                  className: "fst-italic",
+                  children: ["Barras ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "text",
+                    required: true,
+                    disabled: type(e.type),
+                    className: "form-control form-control-sm " + (!e.codigo_barras ? "invalid" : null),
+                    value: !e.codigo_barras ? "" : e.codigo_barras,
+                    onChange: function onChange(e) {
+                      return changeInventario(e.target.value, i, e.id, "changeInput", "codigo_barras");
+                    },
+                    placeholder: "codigo_barras..."
+                  })]
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: " text-right",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "btn btn-outline-success btn-sm",
+                  "data-id": e.id,
+                  "data-type": "p1",
+                  onClick: setPrecioAlterno,
+                  children: ["P1. ", e.precio1]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "h6 text-muted font-italic",
+                  children: ["Base. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "number",
+                    required: true,
+                    disabled: type(e.type),
+                    className: "form-control form-control-sm " + (!e.precio_base ? "invalid" : null),
+                    value: !e.precio_base ? "" : e.precio_base,
+                    onChange: function onChange(e) {
+                      return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio_base");
+                    },
+                    placeholder: "Base..."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "h3 text-success",
+                  children: ["Venta. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "number",
+                    required: true,
+                    disabled: type(e.type),
+                    className: "form-control form-control-sm " + (!e.precio ? "invalid" : null),
+                    value: !e.precio ? "" : e.precio,
+                    onChange: function onChange(e) {
+                      return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio");
+                    },
+                    placeholder: "Venta..."
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "text-success",
+                  onClick: function onClick() {
+                    return setporcenganancia("list", e.precio_base, function (precio) {
+                      changeInventario(precio, i, e.id, "changeInput", "precio");
+                    });
+                  },
+                  children: getPorGanacia(!e.precio ? 0 : e.precio, !e.precio_base ? 0 : e.precio_base)
+                })]
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card-body d-flex justify-content-between",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+                className: "",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "card-title ",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("textarea", {
+                    type: "text",
+                    required: true,
+                    disabled: type(e.type),
+                    className: "form-control form-control-sm " + (!e.descripcion ? "invalid" : null),
+                    value: !e.descripcion ? "" : e.descripcion,
+                    onChange: function onChange(e) {
+                      return changeInventario(e.target.value.replace("\n", ""), i, e.id, "changeInput", "descripcion");
+                    },
+                    placeholder: "descripcion..."
+                  })
+                })
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
+                className: "card-text",
+                children: ["Ct. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "h3",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                    type: "number",
+                    required: true,
+                    disabled: type(e.type),
+                    className: "form-control form-control-sm " + (!e.cantidad ? "invalid" : null),
+                    value: !e.cantidad ? "" : e.cantidad,
+                    onChange: function onChange(e) {
+                      return changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad");
+                    },
+                    placeholder: "cantidad..."
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                  disabled: type(e.type),
+                  className: "form-control form-control-sm " + (!e.unidad ? "invalid" : null),
+                  value: !e.unidad ? "" : e.unidad,
+                  onChange: function onChange(e) {
+                    return changeInventario(e.target.value, i, e.id, "changeInput", "unidad");
+                  },
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "",
+                    children: "--Select--"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "UND",
+                    children: "UND"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "PAR",
+                    children: "PAR"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "JUEGO",
+                    children: "JUEGO"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "PQT",
+                    children: "PQT"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "MTR",
+                    children: "MTR"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "KG",
+                    children: "KG"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "GRS",
+                    children: "GRS"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "LTR",
+                    children: "LTR"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "ML",
+                    children: "ML"
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                  className: "btn btn-outline-success btn-sm",
+                  "data-id": e.id,
+                  onClick: setCtxBulto,
+                  children: ["CtxBulto.", e.bulto]
+                })]
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "card-body",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "input-group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                  required: true,
+                  disabled: type(e.type),
+                  className: "form-control form-control-sm " + (!e.id_categoria ? "invalid" : null),
+                  value: !e.id_categoria ? "" : e.id_categoria,
+                  onChange: function onChange(e) {
+                    return changeInventario(e.target.value, i, e.id, "changeInput", "id_categoria");
+                  },
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "",
+                    children: "--Select Categor\xEDa--"
+                  }), categorias.map(function (e) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                      value: e.id,
+                      children: e.descripcion
+                    }, e.id);
+                  })]
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                  required: true,
+                  disabled: type(e.type),
+                  className: "form-control form-control-sm " + (!e.id_proveedor ? "invalid" : null),
+                  value: !e.id_proveedor ? "" : e.id_proveedor,
+                  onChange: function onChange(e) {
+                    return changeInventario(e.target.value, i, e.id, "changeInput", "id_proveedor");
+                  },
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                    value: "",
+                    children: "--Select Proveedor--"
+                  }), proveedoresList.map(function (e) {
+                    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("option", {
+                      value: e.id,
+                      children: e.descripcion
+                    }, e.id);
+                  })]
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+                className: "input-group mb-1",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "input-group-text",
+                  children: "IVA"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                  type: "text",
+                  disabled: type(e.type),
+                  className: "form-control form-control-sm",
+                  value: !e.iva ? "" : e.iva,
+                  onChange: function onChange(e) {
+                    return changeInventario(number(e.target.value, 2), i, e.id, "changeInput", "iva");
+                  },
+                  placeholder: "iva..."
+                })]
+              })]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+            className: "",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+              className: "d-flex justify-content-between",
+              children: [!e.type ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "btn btn btn-danger",
+                  onClick: function onClick() {
+                    return changeInventario(null, i, e.id, "delMode");
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: "fa fa-trash"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "btn-lg btn btn-warning",
+                  onClick: function onClick() {
+                    return changeInventario(null, i, e.id, "update");
+                  },
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                    className: "fa fa-pencil"
+                  })
+                })]
+              }) : null, e.type === "new" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                className: "btn-lg btn btn-danger",
+                onClick: function onClick() {
+                  return changeInventario(null, i, e.id, "delNew");
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                  className: "fa fa-times"
+                })
+              }) : null, e.type === "update" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                className: "btn-lg btn btn-warning",
+                onClick: function onClick() {
+                  return changeInventario(null, i, e.id, "delModeUpdateDelete");
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                  className: "fa fa-times"
+                })
+              }) : null, e.type === "delete" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                className: "btn-lg btn btn-danger",
+                onClick: function onClick() {
+                  return changeInventario(null, i, e.id, "delModeUpdateDelete");
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+                  className: "fa fa-arrow-left"
+                })
+              }) : null]
+            })
+          })]
+        }, i);
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+        colSpan: 7,
+        children: "Sin resultados"
+      })]
     })]
   });
 }
@@ -13840,11 +14261,11 @@ function ModalAddCarrito(_ref) {
           onSubmit: function onSubmit(e) {
             return e.preventDefault();
           },
-          className: "d-flex justify-content-center flex-column p-3",
+          className: "d-flex justify-content-center flex-column p-3 auto-colum",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
             className: "input-group mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-              type: "text",
+              type: "number",
               ref: inputCantidadCarritoref,
               className: "form-control fs-2",
               placeholder: "Cantidad",
@@ -13856,8 +14277,8 @@ function ModalAddCarrito(_ref) {
               className: "input-group-append text-right",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                 className: "input-group-text h-100 fs-3 text-right",
-                children: ["$. ", cantidad * producto.precio ? moneda(cantidad * producto.precio) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), "Bs. ", cantidad * producto.precio * dolar ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-                  children: moneda(cantidad * producto.precio * dolar)
+                children: ["Detal. ", cantidad * producto.precio ? moneda(cantidad * producto.precio) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), "Mayor. ", cantidad * producto.precio1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+                  children: moneda(cantidad * producto.precio1)
                 }) : null]
               })
             })]
@@ -14335,6 +14756,9 @@ function Pagar(_ref) {
                     className: "text-sinapsis cell1",
                     children: "Precio"
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                    className: "text-sinapsis",
+                    children: "Desc.%"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
                     className: "text-sinapsis cell2",
                     children: "Total"
                   }), editable ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
@@ -14359,6 +14783,11 @@ function Pagar(_ref) {
                       children: [e.cantidad, " "]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
                       children: e.monto
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                      onClick: setDescuentoUnitario,
+                      "data-index": e.id,
+                      className: "align-middle pointer clickme",
+                      children: e.descuento
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
                       className: "font-weight-bold",
                       children: e.total
@@ -14399,6 +14828,11 @@ function Pagar(_ref) {
                     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
                       className: "align-middle pointer",
                       children: e.producto.precio
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                      onClick: setDescuentoUnitario,
+                      "data-index": e.id,
+                      className: "align-middle pointer",
+                      children: e.descuento
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
                       className: "font-weight-bold align-middle",
                       children: e.total
@@ -15255,13 +15689,6 @@ function Pedidos(_ref) {
                               className: "fa fa-eye"
                             })
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-                            className: "btn btn-outline-secondary",
-                            "data-id": e.id,
-                            onClick: setexportpedido,
-                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-                              className: "fa fa-paper-plane"
-                            })
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
                             className: "btn btn-outline-danger",
                             "data-id": e.id,
                             "data-type": "getPedidos",
@@ -15664,7 +16091,7 @@ function ProductosList(_ref) {
               onClick: function onClick(event) {
                 if (!e.lotes.length) return addCarrito(event);
               },
-              className: "pointer text-left pl-5 cell3",
+              className: "pointer text-left pl-5 cell3 fs-4",
               children: [e.descripcion, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("table", {
                   className: "table-sm mr-1 text-success",
@@ -15707,17 +16134,17 @@ function ProductosList(_ref) {
               children: e.unidad
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
               className: "cell2",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                 className: "container-fluid",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
                   className: "row",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-                    className: "col-5 m-0 p-0",
+                    className: "col-6 m-0 p-0",
                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                       className: "btn-group w-100 h-100",
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                         type: "button",
-                        className: "m-0 btn-sm btn btn-success text-light fs-4 fw-bold",
+                        className: "m-0 btn-sm btn btn-success text-light fs-4em fw-bold",
                         children: e.precio
                       })
                     })
@@ -15727,16 +16154,27 @@ function ProductosList(_ref) {
                       className: "btn-group-vertical w-100 h-100",
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
                         type: "button",
-                        className: "m-0 btn-sm btn btn-secondary text-light fw-bold fs-6",
+                        className: "m-0 btn-sm btn btn-secondary text-light fw-bold fs-4",
                         children: ["Bs. ", e.bs, " "]
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
                         type: "button",
-                        className: "m-0 btn-sm btn btn-secondary text-light fw-bold",
+                        className: "m-0 btn-sm btn btn-secondary text-light fw-bold fs-6",
                         children: ["Cop. ", e.cop]
                       })]
                     })
                   })]
-                })
+                }), e.precio1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                  className: "row",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+                    className: "col m-0 p-0",
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+                      className: "btn btn-success w-100 fst-bold text-light fs-3",
+                      children: ["M. 1 x ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("b", {
+                        children: e.bulto
+                      }), " = ", moneda(e.precio1 * e.bulto), " ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), "P/U M. ", moneda(e.precio1)]
+                    })
+                  })
+                }) : null]
               })
             })]
           }, e.id);
@@ -17121,7 +17559,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".bg-dark{\r\n  background-color: #f2f2f2;\r\n  color:white;\r\n}\r\n/*.mov-caja{\r\n  position: fixed;\r\n  top: 30%;\r\n  right: 0%;\r\n}\r\n.mov-caja input{\r\n  border:none;\r\n  background: none;\r\n  outline: none;\r\n}*/\r\n.overlay{\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tposition: fixed;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tbackground: black;\r\n\topacity: .4;\r\n\tz-index: 999;\r\n}\r\n\r\n.modal-custom{\r\n\tz-index: 1000;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n\tposition: fixed !important;\r\n\tflex-direction: column;\r\n\tdisplay: flex;\r\n\r\n\r\n}\r\n.modal-content{\r\n  width: 90%;\r\n  height: 90%;\r\n\tborder-radius: 10px;\r\n\tbackground-color: white;\r\n\tpadding: 20px;\r\n\toverflow-y: auto;\r\n\tz-index: 1001;\r\n\r\n}\r\n\r\n.modal-content-sm{\r\n  width: 50%;\r\n  height: auto;\r\n\tborder-radius: 10px;\r\n\tbackground-color: white;\r\n\tpadding: 20px;\r\n\toverflow-y: auto;\r\n\tz-index: 1001;\r\n\r\n}\r\n.modal-content-lg{\r\n  border-radius: 10px;\r\n  background-color: white;\r\n  padding: 20px;\r\n  overflow-y: auto;\r\n  z-index: 1001;\r\n\r\n}\r\n.closeModal{\r\n\tmargin: 10px;\r\n\tcursor: pointer;\r\n}\r\n.container-cantidad{\r\n\tpadding: 20px;\r\n\tdisplay: flex;\r\n\talign-items: normal;\r\n\tjustify-content: space-between;\r\n\tflex-direction: column;\r\n\theight: 90%;\r\n\r\n}\r\n.cantidad{\r\n\tborder:none;\r\n\toutline: none;\r\n\tfont-size: 2em;\r\n\ttext-align: center;\r\n\tmargin-top:10px;\r\n\tz-index: 99999\r\n}\r\n.cantidad-agg{\r\n  background-color: rgba(242,109,10); \r\n  border: none;\r\n  color: white;\r\n  padding: 15px 32px;\r\n  text-align: center;\r\n  text-decoration: none;\r\n  display: inline-block;\r\n  font-size: 16px;\r\n  margin: 10px;\r\n}\r\n\r\n.cantidad-agg-send{\r\n  background-color: #3cff33; \r\n  border: none;\r\n  color: white;\r\n  padding: 15px 40px;\r\n  text-align: center;\r\n  text-decoration: none;\r\n  display: inline-block;\r\n  font-size: 18px;\r\n  margin: 10px;\r\n  flex-grow: 1\r\n}\r\n.btn-adds{\r\n  display: flex;\r\n  flex-direction: row;\r\n\r\n}\r\n.header-modal-cantidad{\r\n\tdisplay: flex;\r\n\tflex-direction: row;\r\n\tjustify-content: space-between;\r\n}\r\n\r\n\r\n\r\n/* Table */\r\n.tabla_datos {\r\n\tborder-collapse: collapse;\r\n\tfont-size: 12px;\r\n\ttext-align: center;\r\n}\r\n\r\n.tabla_datos th, \r\n.tabla_datos td {\r\n\tborder: 1px solid #e1edff;\r\n\tpadding: 7px 10px;\r\n}\r\n.tabla_datos caption {\r\n\tmargin: 7px;\r\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".bg-dark{\r\n  background-color: #f2f2f2;\r\n  color:white;\r\n}\r\n/*.mov-caja{\r\n  position: fixed;\r\n  top: 30%;\r\n  right: 0%;\r\n}\r\n.mov-caja input{\r\n  border:none;\r\n  background: none;\r\n  outline: none;\r\n}*/\r\n.overlay{\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tposition: fixed;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tbackground: black;\r\n\topacity: .4;\r\n\tz-index: 999;\r\n}\r\n\r\n.modal-custom{\r\n\tz-index: 1000;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n\tposition: fixed !important;\r\n\tflex-direction: column;\r\n\tdisplay: flex;\r\n\r\n\r\n}\r\n.modal-content{\r\n  width: 90%;\r\n  height: 90%;\r\n\tborder-radius: 10px;\r\n\tbackground-color: white;\r\n\tpadding: 20px;\r\n\toverflow-y: auto;\r\n\tz-index: 1001;\r\n\r\n}\r\n\r\n.modal-content-sm{\r\n  width: 50%;\r\n  height: auto;\r\n\tborder-radius: 10px;\r\n\tbackground-color: white;\r\n\tpadding: 20px;\r\n\toverflow-y: auto;\r\n\tz-index: 1001;\r\n\r\n}\r\n.modal-content-lg{\r\n  border-radius: 10px;\r\n  background-color: white;\r\n  padding: 20px;\r\n  overflow-y: auto;\r\n  z-index: 1001;\r\n\r\n}\r\n.closeModal{\r\n\tmargin: 10px;\r\n\tcursor: pointer;\r\n}\r\n.container-cantidad{\r\n\tpadding: 20px;\r\n\tdisplay: flex;\r\n\talign-items: normal;\r\n\tjustify-content: space-between;\r\n\tflex-direction: column;\r\n\theight: 90%;\r\n\r\n}\r\n.cantidad{\r\n\tborder:none;\r\n\toutline: none;\r\n\tfont-size: 2em;\r\n\ttext-align: center;\r\n\tmargin-top:10px;\r\n\tz-index: 99999\r\n}\r\n.cantidad-agg{\r\n  background-color: rgba(242,109,10); \r\n  border: none;\r\n  color: white;\r\n  padding: 15px 32px;\r\n  text-align: center;\r\n  text-decoration: none;\r\n  display: inline-block;\r\n  font-size: 16px;\r\n  margin: 10px;\r\n}\r\n\r\n.cantidad-agg-send{\r\n  background-color: #3cff33; \r\n  border: none;\r\n  color: white;\r\n  padding: 15px 40px;\r\n  text-align: center;\r\n  text-decoration: none;\r\n  display: inline-block;\r\n  font-size: 18px;\r\n  margin: 10px;\r\n  flex-grow: 1\r\n}\r\n.btn-adds{\r\n  display: flex;\r\n  flex-direction: row;\r\n\r\n}\r\n.header-modal-cantidad{\r\n\tdisplay: flex;\r\n\tflex-direction: row;\r\n\tjustify-content: space-between;\r\n}\r\n\r\n\r\n\r\n/* Table */\r\n.tabla_datos {\r\n\tborder-collapse: collapse;\r\n\tfont-size: 12px;\r\n\ttext-align: center;\r\n}\r\n\r\n.tabla_datos th, \r\n.tabla_datos td {\r\n\tborder: 1px solid #e1edff;\r\n\tpadding: 7px 10px;\r\n}\r\n.tabla_datos caption {\r\n\tmargin: 7px;\r\n}\r\n\r\n\r\n@media (max-width: 800px) {\r\n\r\n\t.modal-content-sm {\r\n\t\twidth: 100%;\r\n\t\theight: auto;\r\n\t\tborder-radius: 10px;\r\n\t\tbackground-color: white;\r\n\t\tpadding: 20px;\r\n\t\toverflow-y: auto;\r\n\t\tz-index: 1001;\r\n\r\n\t}\r\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -26879,7 +27317,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.png?3c8fe6e98339e0d0a0bd6a0d822c4005");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/logo.png?3f0c1f3b46812ebc5c2201e09e31045e");
 
 /***/ }),
 
@@ -104812,7 +105250,7 @@ module.exports = function (list, options) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\ventas"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/","/localtunnel"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\ventas","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 
