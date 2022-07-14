@@ -12897,7 +12897,7 @@ function InventarioForzado(_ref) {
         })]
       }), productosInventario.length ? productosInventario.map(function (e, i) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          className: "card mb-3 shadow " + (type(e.type) ? "bg-ivory" : "bg-light-success"),
+          className: "card mb-3 shadow p-1 " + (type(e.type) ? "bg-ivory" : "bg-light-success"),
           onDoubleClick: function onDoubleClick() {
             return changeInventario(null, i, e.id, "update");
           },
@@ -12968,7 +12968,7 @@ function InventarioForzado(_ref) {
             })]
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-              className: "card-header d-flex justify-content-between",
+              className: " d-flex justify-content-between",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: "",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
@@ -12998,7 +12998,7 @@ function InventarioForzado(_ref) {
                   })]
                 })]
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-                className: " text-right",
+                className: " text-right p-2",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                   className: "btn btn-outline-success btn-sm",
                   "data-id": e.id,
@@ -13024,7 +13024,7 @@ function InventarioForzado(_ref) {
                     type: "number",
                     required: true,
                     disabled: type(e.type),
-                    className: "form-control form-control-sm " + (!e.precio ? "invalid" : null),
+                    className: "text-right form-control form-control-sm " + (!e.precio ? "invalid" : null),
                     value: !e.precio ? "" : e.precio,
                     onChange: function onChange(e) {
                       return changeInventario(number(e.target.value), i, e.id, "changeInput", "precio");
@@ -13042,39 +13042,36 @@ function InventarioForzado(_ref) {
                 })]
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-              className: "card-body d-flex justify-content-between",
+              className: " d-flex justify-content-between",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-                className: "",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                  className: "card-title ",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("textarea", {
-                    type: "text",
-                    required: true,
-                    disabled: type(e.type),
-                    className: "form-control form-control-sm " + (!e.descripcion ? "invalid" : null),
-                    value: !e.descripcion ? "" : e.descripcion,
-                    onChange: function onChange(e) {
-                      return changeInventario(e.target.value.replace("\n", ""), i, e.id, "changeInput", "descripcion");
-                    },
-                    placeholder: "descripcion..."
-                  })
+                className: "p-2",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("textarea", {
+                  type: "text",
+                  required: true,
+                  disabled: type(e.type),
+                  className: "form-control form-control " + (!e.descripcion ? "invalid" : null),
+                  value: !e.descripcion ? "" : e.descripcion,
+                  onChange: function onChange(e) {
+                    return changeInventario(e.target.value.replace("\n", ""), i, e.id, "changeInput", "descripcion");
+                  },
+                  placeholder: "descripcion..."
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("p", {
-                className: "card-text",
-                children: ["Ct. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-                  className: "h3",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-                    type: "number",
-                    required: true,
-                    disabled: type(e.type),
-                    className: "form-control form-control-sm " + (!e.cantidad ? "invalid" : null),
-                    value: !e.cantidad ? "" : e.cantidad,
-                    onChange: function onChange(e) {
-                      return changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad");
-                    },
-                    placeholder: "cantidad..."
-                  })
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
+                className: "card-text text-right",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+                  className: "h3 text-success",
+                  children: "Ct."
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+                  type: "number",
+                  required: true,
+                  disabled: type(e.type),
+                  className: "text-right form-control form-control-sm " + (!e.cantidad ? "invalid" : null),
+                  value: !e.cantidad ? "" : e.cantidad,
+                  onChange: function onChange(e) {
+                    return changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad");
+                  },
+                  placeholder: "cantidad..."
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {
                   disabled: type(e.type),
                   className: "form-control form-control-sm " + (!e.unidad ? "invalid" : null),
                   value: !e.unidad ? "" : e.unidad,
@@ -13112,7 +13109,7 @@ function InventarioForzado(_ref) {
                     value: "ML",
                     children: "ML"
                   })]
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
                   className: "btn btn-outline-success btn-sm",
                   "data-id": e.id,
                   onClick: setCtxBulto,
@@ -13120,7 +13117,7 @@ function InventarioForzado(_ref) {
                 })]
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-              className: "card-body",
+              className: "",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
                 className: "input-group",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("select", {

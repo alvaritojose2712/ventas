@@ -446,7 +446,7 @@ export default function InventarioForzado({
                 </div>
 
                 {productosInventario.length ? productosInventario.map((e, i) =>
-                    <div key={i} className={("card mb-3 shadow ") + (type(e.type) ? "bg-ivory" :"bg-light-success")} onDoubleClick={() => changeInventario(null, i, e.id, "update")}>
+                    <div key={i} className={("card mb-3 shadow p-1 ") + (type(e.type) ? "bg-ivory" :"bg-light-success")} onDoubleClick={() => changeInventario(null, i, e.id, "update")}>
                         {type(e.type) ?
                             <>  
                                 <div className="card-header d-flex justify-content-between">
@@ -491,7 +491,7 @@ export default function InventarioForzado({
                             <>
                                 
 
-                                <div className="card-header d-flex justify-content-between">
+                                <div className=" d-flex justify-content-between">
                                     <div className="">
                                         <div className="fst-italic">
                                             Alterno <input type="text"
@@ -509,7 +509,7 @@ export default function InventarioForzado({
                                                 placeholder="codigo_barras..." />
                                         </div>
                                     </div>
-                                    <div className=" text-right">
+                                    <div className=" text-right p-2">
                                         <span className="btn btn-outline-success btn-sm"
                                             data-id={e.id}
                                             data-type="p1"
@@ -525,7 +525,7 @@ export default function InventarioForzado({
                                         <span className="h3 text-success">
                                             Venta. <input type="number"
                                                 required={true}
-                                                disabled={type(e.type)} className={("form-control form-control-sm ") + (!e.precio ? "invalid" : null)}
+                                                disabled={type(e.type)} className={("text-right form-control form-control-sm ") + (!e.precio ? "invalid" : null)}
                                                 value={!e.precio ? "" : e.precio}
                                                 onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "precio")}
                                                 placeholder="Venta..." />
@@ -538,28 +538,25 @@ export default function InventarioForzado({
                                         </span>
                                     </div>
                                 </div>
-                                <div className="card-body d-flex justify-content-between">
-                                    <div className="">
-                                        <span
-                                            className="card-title "
-                                        >
-                                            <textarea type="text"
-                                                required={true}
-                                                disabled={type(e.type)} className={("form-control form-control-sm ") + (!e.descripcion ? "invalid" : null)}
-                                                value={!e.descripcion ? "" : e.descripcion}
-                                                onChange={e => changeInventario((e.target.value.replace("\n", "")), i, e.id, "changeInput", "descripcion")}
-                                                placeholder="descripcion..."></textarea>
-                                        </span>
+                                <div className=" d-flex justify-content-between">
+                                    <div className="p-2">
+                                        <textarea type="text"
+                                            required={true}
+                                            disabled={type(e.type)} className={("form-control form-control ") + (!e.descripcion ? "invalid" : null)}
+                                            value={!e.descripcion ? "" : e.descripcion}
+                                            onChange={e => changeInventario((e.target.value.replace("\n", "")), i, e.id, "changeInput", "descripcion")}
+                                            placeholder="descripcion..."></textarea>
                                     </div>
-                                    <p className="card-text">
-                                        Ct. <span className="h3">
-                                            <input type="number"
+                                    <p className="card-text text-right">
+                                        <span className="h3 text-success">Ct.</span> 
+                                        <input type="number"
                                                 required={true}
-                                                disabled={type(e.type)} className={("form-control form-control-sm ") + (!e.cantidad ? "invalid" : null)}
+                                                disabled={type(e.type)} className={("text-right form-control form-control-sm ") + (!e.cantidad ? "invalid" : null)}
                                                 value={!e.cantidad ? "" : e.cantidad}
                                                 onChange={e => changeInventario(number(e.target.value), i, e.id, "changeInput", "cantidad")}
                                                 placeholder="cantidad..." />
-                                        </span>
+                                        
+                                        <br />
                                         <select
                                             disabled={type(e.type)}
                                             className={("form-control form-control-sm ") + (!e.unidad ? "invalid" : null)}
@@ -577,13 +574,13 @@ export default function InventarioForzado({
                                             <option value="LTR">LTR</option>
                                             <option value="ML">ML</option>
                                         </select> 
-                                        <br />
+                                        
                                         <span className="btn btn-outline-success btn-sm"
                                             data-id={e.id}
                                             onClick={setCtxBulto}>CtxBulto.{e.bulto}</span>
                                     </p>
                                 </div>
-                                <div className="card-body">
+                                <div className="">
                                     <div className="input-group">
                                         <select
                                             required={true}
