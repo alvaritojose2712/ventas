@@ -449,7 +449,7 @@ export default function InventarioForzado({
                     <div key={i} className={("card mb-3 shadow p-1 ") + (type(e.type) ? "bg-ivory" :"bg-light-success")} onDoubleClick={() => changeInventario(null, i, e.id, "update")}>
                         {type(e.type) ?
                             <>  
-                                <div className="card-header d-flex justify-content-between">
+                                <div className=" d-flex justify-content-between">
                                     <div className="">
                                         <div className="fst-italic">{e.codigo_proveedor}</div>
                                         <div className="fst-italic">{e.codigo_barras}</div>
@@ -467,7 +467,7 @@ export default function InventarioForzado({
                                         </span>
                                     </div>
                                 </div>
-                                <div className="card-body d-flex justify-content-between">
+                                <div className=" d-flex justify-content-between">
                                     <div className="">
                                         <span
                                             className="card-title "
@@ -480,7 +480,7 @@ export default function InventarioForzado({
                                             onClick={setCtxBulto}>CtxBulto.{e.bulto}</span>
                                     </p>
                                 </div>
-                                <div className="card-body">
+                                <div className="">
                                     <div className=""><small> {e.categoria.descripcion} <br /> {e.proveedor.descripcion}</small></div>
                                     <div className="">IVA {e.iva}</div>
                                 </div>
