@@ -235,8 +235,8 @@ dropprintprice,
     <>
       <div className="container">
         <div className="row">
-        <div className="col mb-2 d-flex justify-content-between">
-          <div className="btn-group">              
+        <div className="col mb-2 d-flex justify-content-between auto-colum">
+          <div className="btn-group auto-colum">              
               <button className={("btn ")+(subViewInventario=="inventario"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("inventario")}>Inventario</button>
               
               <button className={("btn ")+(subViewInventario=="proveedores"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("proveedores")}>Proveedores</button>
@@ -245,7 +245,7 @@ dropprintprice,
               </>
               <button className={("btn ") + (subViewInventario=="fallas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("fallas")}>Fallas</button>
           </div>
-          <div className="btn-group">
+          <div className="btn-group auto-colum">
               <button className={("btn ") + (subViewInventario == "gastos" ? "btn-success" : "btn-outline-success")} onClick={() => setsubViewInventario("gastos")}>Gastos</button>
               <button className={("btn ") + (subViewInventario=="estadisticas"?"btn-success":"btn-outline-success")} onClick={()=>setsubViewInventario("estadisticas")}>Estadísticas</button> 
           </div>
@@ -355,7 +355,7 @@ dropprintprice,
                 
                 </div>
 
-                {factSelectIndex == null ? null
+                {/* {factSelectIndex == null ? null
                   :
                   <div className="input-group w-25">
                     <span className="input-group-text" >{facturas[factSelectIndex] ? facturas[factSelectIndex].proveedor.descripcion : null}</span>
@@ -366,7 +366,7 @@ dropprintprice,
                       <i className="fa fa-times"></i>
                     </button>
                   </div>
-                }
+                } */}
               </div>
               <hr/>
             </div>

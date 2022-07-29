@@ -21,6 +21,9 @@
 
   
 }
+.fs-4em{
+  font-size: 4em !important;
+}
 .invalid{
   border-color: #dc3545 !important;
 }
@@ -818,7 +821,40 @@ body{
 
 .header-justify-content-end{
   justify-content: flex-end !important;
+}
+.header-right{
+  flex: 0 0 auto;
+  width: 33.33333333% !important;
+}
+
+.inventario-telefono{
+  display: none;
+}
+.filtros-orden{
+  display: flex;
+  flex-wrap: wrap;
+}
+.bg-ivory{
+  background-color: ivory !important;
+}
+.bg-light-success {
+  background-color: #f4fff1 !important;
   
+}
+@media (max-width: 800px) {
+  .header-justify-content-end,.row-header,.auto-colum {
+    flex-direction: column;
+  }
+  .header-right {
+    flex: 0 0 auto;
+    width: auto !important;
+  }
+  .inventario-pc {
+    display: none;
+  }
+  .inventario-telefono {
+    display: initial;
+  }
 }
 
 .hover:hover{

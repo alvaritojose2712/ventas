@@ -358,9 +358,9 @@ qProductosMain,
                     <th className="text-sinapsis cell3">Producto</th>
                     <th className="text-sinapsis cell1">Cant.</th>
                     <th className="text-sinapsis cell1">Precio</th>
+                    <th className="text-sinapsis">Desc.%</th>
                     {/*
                     <th className="text-sinapsis">Sub-total</th>
-                    <th className="text-sinapsis">Desc.%</th>
                     <th className="text-sinapsis">Tot.Desc.</th>
                     */}
                     <th className="text-sinapsis cell2">Total</th>
@@ -377,8 +377,8 @@ qProductosMain,
                       <td>{e.abono}</td>
                       <td>{e.cantidad} </td>
                       <td>{e.monto}</td>
-                      {/*<td onClick={setDescuentoUnitario} data-index={e.id} className="align-middle pointer clickme">{e.descuento}</td>
-                      <td>{e.subtotal}</td>
+                      <td onClick={setDescuentoUnitario} data-index={e.id} className="align-middle pointer clickme">{e.descuento}</td>
+                      {/*<td>{e.subtotal}</td>
                       {/*<td>{e.total_des}</td>*/}
 
                       <th className="font-weight-bold">{e.total}</th>
@@ -402,8 +402,8 @@ qProductosMain,
                         :
                       <td className="align-middle pointer">{e.producto.precio}</td>
                       }
-                      {/* <td onClick={setDescuentoUnitario} data-index={e.id} className="align-middle pointer">{e.descuento}</td>
-                      <td onClick={setDescuentoUnitario} data-index={e.id} className="align-middle pointer clickme">{e.descuento}</td>*/}
+                       <td onClick={setDescuentoUnitario} data-index={e.id} className="align-middle pointer">{e.descuento}</td>
+                      {/*<td onClick={setDescuentoUnitario} data-index={e.id} className="align-middle pointer clickme">{e.descuento}</td>*/}
                       
 
 
