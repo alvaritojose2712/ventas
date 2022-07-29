@@ -4,20 +4,20 @@
   --sinapsis-color-select : #f9bcfb;*/
 
   
-    /*Sinapsis Azul*/
+    /*Sinapsis Azul
      --sinapsis-color : #118bec;
     --sinapsis-color-light : #deedfd;
-    --sinapsis-color-select : #84bcf3;
+    --sinapsis-color-select : #84bcf3;*/
     
     /*Naranja
   --sinapsis-color : rgba(242,109,10);
   --sinapsis-color-light : rgba(255,177,113,0.75);
   --sinapsis-color-select : rgba(221,143,79,0.75); */
 
-  /*Verde
+  /*Verde*/
   --sinapsis-color : #216234;
   --sinapsis-color-light : #e4ffe5;
-  --sinapsis-color-select : #9cd6b1; */
+  --sinapsis-color-select : #9cd6b1; 
 
   
 }

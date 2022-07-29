@@ -5,20 +5,20 @@
   --sinapsis-color-select : #f9bcfb;*/
 
   
-    /*Sinapsis Azul*/
+    /*Sinapsis Azul
      --sinapsis-color : #118bec;
     --sinapsis-color-light : #deedfd;
-    --sinapsis-color-select : #84bcf3;
+    --sinapsis-color-select : #84bcf3;*/
     
     /*Naranja
   --sinapsis-color : rgba(242,109,10);
   --sinapsis-color-light : rgba(255,177,113,0.75);
   --sinapsis-color-select : rgba(221,143,79,0.75); */
 
-  /*Verde
+  /*Verde*/
   --sinapsis-color : #216234;
   --sinapsis-color-light : #e4ffe5;
-  --sinapsis-color-select : #9cd6b1; */
+  --sinapsis-color-select : #9cd6b1; 
 
   
 }
@@ -7320,6 +7320,7 @@ textarea.form-control-lg {
 }
 
 .sticky-top {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 1020;
@@ -7327,6 +7328,7 @@ textarea.form-control-lg {
 
 @media (min-width: 576px) {
   .sticky-sm-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -7334,6 +7336,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 768px) {
   .sticky-md-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -7341,6 +7344,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 992px) {
   .sticky-lg-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -7348,6 +7352,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 1200px) {
   .sticky-xl-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -7355,6 +7360,7 @@ textarea.form-control-lg {
 }
 @media (min-width: 1400px) {
   .sticky-xxl-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -7557,6 +7563,7 @@ textarea.form-control-lg {
 }
 
 .position-sticky {
+  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
