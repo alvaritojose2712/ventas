@@ -21,6 +21,9 @@ function Credito({
 
 }) {
 
+  try{
+    let d = deudoresList.filter(e=>e.id==selectDeudor)[0]
+
   return (
     <div className="container"> 
       <div className="row">
@@ -45,7 +48,7 @@ function Credito({
                 e?
                 <tr key={e.id} className="text-center pointer" onClick={()=>{
                       setOnlyVueltos(1)
-                      setSelectDeudor(i)
+                      setSelectDeudor(e.id)
                     }}>
                   <td>{e.id} - {e.nombre} - {e.identificacion}</td>
                   <td className="text-right">
@@ -72,10 +75,10 @@ function Credito({
                     {detallesDeudor["pedido_total"]?
                     <>
                       <th className="" colSpan="2">
-                        {deudoresList[selectDeudor]?
+                        {d?
                         <div className="">
-                          <span className="">{deudoresList[selectDeudor].identificacion}</span>
-                          <h1 className="">{deudoresList[selectDeudor].nombre}</h1>
+                          <span className="">{d.identificacion}</span>
+                          <h1 className="">{d.nombre}</h1>
                         </div>:null}
                       </th>
                       {!onlyVueltos?
@@ -173,5 +176,9 @@ function Credito({
       
     </div>
   )
+  }catch(err){
+    return <></>
+  }
+  
 }
 export default Credito

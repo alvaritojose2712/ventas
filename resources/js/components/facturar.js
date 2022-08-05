@@ -1258,9 +1258,10 @@ const getMovimientos = (val="") =>{
 }
 const getDeudor = () => {
   try{
-    if (deudoresList[selectDeudor]) {
+    let id_p = deudoresList.filter(e=>e.id==selectDeudor)[0] 
+    if (id_p) {
         setLoading(true)
-      db.getDeudor({onlyVueltos,id:deudoresList[selectDeudor].id}).then(res=>{
+      db.getDeudor({onlyVueltos,id:id_p.id}).then(res=>{
         // detallesDeudor
         setDetallesDeudor(res.data)
         setLoading(false)
@@ -2164,19 +2165,24 @@ const verCierreReq = (fechaCierre,type="ver") => {
 }
 const setPagoCredito = e =>{
   e.preventDefault()
+  try{
+    let id_p = deudoresList.filter(e=>e.id==selectDeudor)[0] 
 
-  if (deudoresList[selectDeudor]) {
-    let id_cliente = deudoresList[selectDeudor].id
-    setLoading(true)
-    db.setPagoCredito({
-      id_cliente,
-      tipo_pago_deudor,
-      monto_pago_deudor,
-    }).then(res=>{
-      notificar(res)
-      setLoading(false)
-      getDeudor(id_cliente)
-    })
+    if (id_p) {
+      let id_cliente = id_p.id
+      setLoading(true)
+      db.setPagoCredito({
+        id_cliente,
+        tipo_pago_deudor,
+        monto_pago_deudor,
+      }).then(res=>{
+        notificar(res)
+        setLoading(false)
+        getDeudor(id_cliente)
+      })
+    }
+  }catch(err){
+    
   }
 }
 const getDeudores = e =>{

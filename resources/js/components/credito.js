@@ -33,7 +33,8 @@ function Credito({
   moneda,
 
 }) {
-
+  try{
+    let d = deudoresList.filter(e=>e.id==selectDeudor)[0]
   return (
     <div className="container"> 
       <div className="row">
@@ -71,7 +72,7 @@ function Credito({
                 e?
                 <tr key={e.id} className="text-center pointer" onClick={()=>{
                       setOnlyVueltos(0)
-                      setSelectDeudor(i)
+                      setSelectDeudor(e.id)
                       setsumPedidosArr([])
 
                     }}>
@@ -101,10 +102,10 @@ function Credito({
                     {detallesDeudor["pedido_total"]?
                     <>
                       <th className="" colSpan="2">
-                        {deudoresList[selectDeudor]?
+                        {d?
                         <div className="">
-                          <span className="">{deudoresList[selectDeudor].identificacion}</span>
-                          <h1 className="">{deudoresList[selectDeudor].nombre}</h1>
+                          <span className="">{d.identificacion}</span>
+                          <h1 className="">{d.nombre}</h1>
                         </div>:null}
                         {sumPedidosArr?
                           sumPedidosArr.map(e=><button key={e} className="btn btn-outline-success" data-id={e} data-tipo="del" onClick={sumPedidos}>{e}</button>)
@@ -217,5 +218,9 @@ function Credito({
       
     </div>
   )
+  }catch(err){
+    return <></>
+  }
+  
 }
 export default Credito

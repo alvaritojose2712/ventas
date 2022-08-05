@@ -43,7 +43,7 @@ function Header({
 
               {auth(3) ? <span className={(view == "seleccionar" ? "btn btn-dark" : null) + (" p-3 pointer")} onClick={() => setView("seleccionar")}>Facturar</span> : null}
 
-            {auth(2)?<div className="dropdown">
+            {auth(2)?<div className="dropdown align-self-center">
               <button className={(toggleClientesBtn ? "btn btn-dark" : null)+(" btn dropdown-toggle text-light")} type="button" onClick={() => settoggleClientesBtn(!toggleClientesBtn)}>
                 Clientes
               </button>

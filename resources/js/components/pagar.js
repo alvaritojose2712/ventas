@@ -415,7 +415,7 @@ qProductosMain,
                   ):null}
                   <tr>
                     <td><button className="btn btn-outline-success fs-5">{items?items.length:null}</button></td>
-                    <th colSpan="5" className="p-2 align-middle">{cliente?cliente.nombre:null} <b>{cliente?cliente.identificacion:null}</b></th>
+                    <th colSpan="6" className="p-2 align-middle">{cliente?cliente.nombre:null} <b>{cliente?cliente.identificacion:null}</b></th>
                   </tr>
                 </tbody>
               </table>
