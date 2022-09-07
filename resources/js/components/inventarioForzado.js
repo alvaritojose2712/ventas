@@ -34,6 +34,7 @@ export default function InventarioForzado({
     buscarInvAvanz,
 
     setCtxBulto,
+    setVenceLote,
     setPrecioAlterno,
 }){
     const getPorGanacia = (precio,base) => {
@@ -71,9 +72,9 @@ export default function InventarioForzado({
                                         </span>
                                         <input type="text" className="form-control cell1" onChange={e => busqAvanzInputsFun(e, "codigo_barras")} value={busqAvanzInputs["codigo_barras"]} placeholder="codigo_barras" />
                                         <span className="input-group-text cell1">
-                                            codigo_proveedor
+                                            Lote
                                         </span>
-                                        <input type="text" className="form-control cell1" onChange={e => busqAvanzInputsFun(e, "codigo_proveedor")} value={busqAvanzInputs["codigo_proveedor"]} placeholder="codigo_proveedor" />
+                                        <input type="text" className="form-control cell1" onChange={e => busqAvanzInputsFun(e, "codigo_proveedor")} value={busqAvanzInputs["codigo_proveedor"]} placeholder="Lote" />
 
                                         <span className="input-group-text cell1">
                                             id_proveedor
@@ -173,7 +174,11 @@ export default function InventarioForzado({
                     <thead>
                         <tr>
                             <th className="cell05 pointer"><span onClick={() => setInvorderColumn("id")}>ID</span></th>
-                            <th className="cell1 pointer"><span onClick={() => setInvorderColumn("codigo_proveedor")}>C. Alterno</span></th>
+                            <th className="cell1">
+                                <span className="pointer hover" onClick={() => setInvorderColumn("codigo_proveedor")}>Lote /</span>
+                                <span className="pointer hover" onClick={() => setInvorderColumn("created_at")}> Vence</span>
+
+                            </th>
                             <th className="cell1 pointer"><span onClick={() => setInvorderColumn("codigo_barras")}>C. Barras</span></th>
                             <th className="cell05 pointer"><span onClick={() => setInvorderColumn("unidad")}>Unidad</span></th>
                             <th className="cell2 pointer"><span onClick={() => setInvorderColumn("descripcion")}>Descripción</span></th>
@@ -225,7 +230,12 @@ export default function InventarioForzado({
                                 </td>
                                 {type(e.type)?
                                 <>
-                                    <td className="cell1">{e.codigo_proveedor}</td>
+                                    <td className="cell1">
+                                    <span className="">L.{e.codigo_proveedor} </span>
+                                    <br/><span className="text-danger fs-5" 
+                                        data-id={e.id} 
+                                        onClick={setVenceLote}>V.{e.created_at.replace("00:00:00","")}</span>
+                                    </td>
                                     <td className="cell1">{e.codigo_barras}</td>
                                     <td className="cell05">{e.unidad}</td>
                                     <td className="cell2">{e.descripcion}</td>
@@ -267,7 +277,13 @@ export default function InventarioForzado({
                                             disabled={type(e.type)} className="form-control form-control-sm"
                                             value={!e.codigo_proveedor?"":e.codigo_proveedor}
                                             onChange={e => changeInventario((e.target.value), i, e.id, "changeInput", "codigo_proveedor")}
-                                            placeholder="codigo_proveedor..." />
+                                            placeholder="Lote..." />
+                                        <br/>
+                                        <input type="date"
+                                            disabled={type(e.type)} className="form-control form-control-sm"
+                                            value={!e.created_at?"":e.created_at.replace(" 00:00:00","")}
+                                            onChange={e => changeInventario((e.target.value), i, e.id, "changeInput", "created_at")}
+                                            />
 
                                     </td>
                                     <td className="cell1">
@@ -296,6 +312,11 @@ export default function InventarioForzado({
                                             <option value="GRS">GRS</option>
                                             <option value="LTR">LTR</option>
                                             <option value="ML">ML</option>
+                                            <option value="BLISTER">BLISTER</option>
+                                            <option value="SOBRE">SOBRE</option>
+                                            <option value="CAJA">CAJA</option>
+                                            <option value="AMPOLLA">AMPOLLA</option>
+                                            <option value="GOTAS">GOTAS</option>
                                         </select>
                                     </td>
                                     <td className="cell2">

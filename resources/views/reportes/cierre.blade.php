@@ -139,8 +139,8 @@
 					</th>
 					<td class="">{{$total_inventario_format}}</td>
 					<td>
-						<b>VUELTOS TOTALES</b> <hr>
-						{{($vueltos_totales)}}
+						<!-- <b>VUELTOS TOTALES</b> <hr>
+						{{($vueltos_totales)}} -->
 					</td>
 				</tr>
 				

@@ -47,6 +47,25 @@ class InventarioController extends Controller
             
         }
     }
+    
+
+    public function setVenceLote(Request $req)
+    {
+
+        try {
+            $id = $req->id;
+            $fecha = $req->fecha;
+            if ($id) {
+                inventario::find($id)->update(["created_at"=>$fecha." 00:00:00"]);
+                // code...
+            }
+            return Response::json(["msj"=>"Éxito. ID. $id. Fecha de Venc. ".$fecha,"estado"=>true]);
+            
+        } catch (\Exception $e) {
+            return Response::json(["msj"=>"Error: ".$e->getMessage(),"estado"=>false]);
+            
+        }
+    }
     public function setPrecioAlterno(Request $req)
     {
         
@@ -746,7 +765,8 @@ class InventarioController extends Controller
                         $ee["id_marca"],
                         /*$req->inpInvid_deposito*/"",
                         0,
-                        /*$req->inpInvLotes*/[]);
+                        /*$req->inpInvLotes*/[],
+                        $ee["created_at"]);
                 }else if ($ee["type"]==="delete") {
                     $this->delProductoFun($ee["id"]);
                 }
@@ -803,7 +823,8 @@ class InventarioController extends Controller
         $req_inpInvid_marca,
         $req_inpInvid_deposito,
         $req_inpInvporcentaje_ganancia,
-        $req_inpInvLotes
+        $req_inpInvLotes,
+        $req_inpCreatedAt=""
     ){
         $id_factura = $req_id_factura;
 
@@ -842,7 +863,8 @@ class InventarioController extends Controller
                 "id_proveedor" => $req_inpInvid_proveedor,
                 "id_marca" => $req_inpInvid_marca,
                 "id_deposito" => $req_inpInvid_deposito,
-                "porcentaje_ganancia" => $req_inpInvporcentaje_ganancia
+                "porcentaje_ganancia" => $req_inpInvporcentaje_ganancia,
+                "created_at" => $req_inpCreatedAt,
             ]);
 
             foreach ($req_inpInvLotes as $ee) {

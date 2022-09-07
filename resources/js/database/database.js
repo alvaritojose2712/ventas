@@ -31,6 +31,7 @@ const db = {
   setCantidad: data=>axios.post(host+"setCantidad",data),
   setPrecioAlternoCarrito: data=>axios.post(host+"setPrecioAlternoCarrito",data),
   setCtxBultoCarrito: data=>axios.post(host+"setCtxBultoCarrito",data),
+  setVenceLote: data=>axios.post(host+"setVenceLote",data),
   
 
   

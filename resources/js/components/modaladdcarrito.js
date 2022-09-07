@@ -19,7 +19,7 @@ export default function ModalAddCarrito({dolar,moneda,number,inputCantidadCarrit
               {producto.bulto?<span className="pointer" onClick={()=>setbultocarrito(producto.bulto)}>x{producto.bulto}</span>:null}
             </span>
             <div className="text-right">
-              <h5>{producto.codigo_proveedor}</h5>
+              <h5>{producto.codigo_barras}</h5>
               <h4>{producto.descripcion}</h4>
             </div>
           </div>
@@ -29,8 +29,8 @@ export default function ModalAddCarrito({dolar,moneda,number,inputCantidadCarrit
 
               <div className="input-group-append text-right">
                 <span className="input-group-text h-100 fs-3 text-right">
-                  Detal. {cantidad*producto.precio?moneda(cantidad*producto.precio):null}<br/>
-                  Mayor. {cantidad*producto.precio1?<>{moneda(cantidad*producto.precio1)}</>:null}
+                  $. {cantidad*producto.precio?moneda(cantidad*producto.precio):null}<br/>
+                  BS. {cantidad*producto.precio?<>{moneda(cantidad*producto.precio*dolar)}</>:null}
 
                 </span>
               </div>

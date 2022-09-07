@@ -50,6 +50,7 @@ class inventario extends Model
         "precio1",
         "precio2",
         "precio3",
+        "created_at",
     ];
     
 

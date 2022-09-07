@@ -17,6 +17,7 @@ function Inventario({
 dropprintprice,
   printPrecios,
   setCtxBulto,
+  setVenceLote,
   setPrecioAlterno,
 
   openReporteFalla,
@@ -452,6 +453,7 @@ dropprintprice,
                 sameCatValue={sameCatValue}
                 sameProValue={sameProValue}
                 setCtxBulto={setCtxBulto}
+                setVenceLote={setVenceLote}
                 setPrecioAlterno={setPrecioAlterno}
                 busqAvanzInputsFun={busqAvanzInputsFun}
                 busqAvanzInputs={busqAvanzInputs}

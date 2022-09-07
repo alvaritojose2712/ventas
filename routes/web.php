@@ -127,6 +127,8 @@ Route::group(['middleware' => ['login']], function () {
 		Route::post('guardarNuevoProductoLote', [InventarioController::class,"guardarNuevoProductoLote"]);
 
 		Route::post('setCtxBulto', [InventarioController::class,"setCtxBulto"]);
+		Route::post('setVenceLote', [InventarioController::class,"setVenceLote"]);
+		
 		Route::post('setPrecioAlterno', [InventarioController::class,"setPrecioAlterno"]);
 		
 		Route::post('getProveedores', [ProveedoresController::class,"getProveedores"]);

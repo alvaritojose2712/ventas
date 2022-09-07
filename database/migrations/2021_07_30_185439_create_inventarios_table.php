@@ -1,4 +1,4 @@
-<?php
+.<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -55,8 +55,10 @@ class CreateInventariosTable extends Migration
             $table->boolean("push")->nullable()->default(0);
 
 
+            $table->date("created_at")->nullable();
+            $table->date("updated_at")->nullable();
 
-            $table->timestamps();
+
         });
 
       

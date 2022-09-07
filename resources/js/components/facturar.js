@@ -649,9 +649,9 @@ useHotkeys("tab",()=>{
           let index = tr.attributes["data-index"].value
           if (permisoExecuteEnter) {
             if (productos[index]) {
-              if (!productos[index].lotes.length) {
+              //if (!productos[index].lotes.length) {
                 addCarrito(index)
-              }
+              //}
             }
             // console.log("Execute Enter")
           }
@@ -1758,9 +1758,7 @@ const addCarrito = (e,callback=null) => {
   }
   setLoteIdCarrito(loteid)
 
-  if (index != counterListProductos && productos[index].lotes.length) {
     setCounterListProductos(index)
-  }else{
     if (pedidoList[0]) {
       setNumero_factura(pedidoList[0].id)
     }else{
@@ -1768,8 +1766,10 @@ const addCarrito = (e,callback=null) => {
     }
     setSelectItem(parseInt(index))
     if (callback) {callback()}
+  // if (index != counterListProductos && productos[index].lotes.length) {
+  // }else{
 
-  }
+  // }
   
 
 }
@@ -3335,6 +3335,20 @@ const setCtxBulto = e => {
     }
 
 }
+
+const setVenceLote = e => {
+    let id = e.currentTarget.attributes["data-id"].value
+    let fecha = window.prompt("Fecha de vencimiento")
+    if (fecha) {
+      db.setVenceLote({id,fecha}).then(res=>{
+        buscarInventario()
+        notificar(res)
+      })
+    }
+
+}
+
+
 const setPrecioAlterno = e => {
     let id = e.currentTarget.attributes["data-id"].value
     let type = e.currentTarget.attributes["data-type"].value
@@ -3388,6 +3402,7 @@ const changeInventario = (val, i, id, type, name = null) => {
         precio_base: "",
         precio: "",
         iva: "0",
+        created_at: "",
         type: "new",
 
       }] 
@@ -3765,6 +3780,7 @@ const auth = permiso => {
 
         
         {view=="inventario"?<Inventario
+          setVenceLote={setVenceLote}
           sameCatValue={sameCatValue}
           sameProValue={sameProValue}
           setdropprintprice={setdropprintprice}
